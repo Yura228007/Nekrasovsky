@@ -6,7 +6,10 @@ namespace PasswordManagerV1.Models
     public class PartRequest
     {
         public int Id { get; set; }
-        public int EmployeeId { get; set; }
+        public int FromUserId { get; set; }
+        public int ToUserId { get; set; }
+        public int FromWarehouseId { get; set; }
+        public int ToWarehouseId { get; set; }
         public int MaterialId { get; set; }
         public int Quantity { get; set; } = 0;
         public string? MeasuringType { get; set; }

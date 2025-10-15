@@ -6,10 +6,10 @@ namespace PasswordManagerV1.Models
     public class WorkReport
     {
         public int Id { get; set; }
-        public int EmployeeId { get; set; }
+        public int UserId { get; set; }
         public DateTime Date { get; set; }
-        public double Hours { get; set; }
-        public List<PartRequest> partRequests { get; set; } = new List<PartRequest> ();
-        public string Note { get; set; }
+        public DateTime StartWork { get; set; } = DateTime.Now;
+        public DateTime? FinishWork { get; set; }
+        public string? Note { get; set; } 
     }
 }

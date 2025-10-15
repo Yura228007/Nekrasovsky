@@ -1,2 +1,4 @@
 \NekrasovskyAPP\.vs
 *.cache
+.vs/
+/NekrasovskyAPP/.vs

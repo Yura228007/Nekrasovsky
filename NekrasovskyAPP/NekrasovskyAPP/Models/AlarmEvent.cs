@@ -10,7 +10,7 @@ namespace PasswordManagerV1.Models
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }
-        public DateTime Time { get; set; }
+        public DateTime CreatedAt { get; set; }
         public string? Message { get; set; }
         public string Location { get; set; }
     }

@@ -9,6 +9,5 @@ namespace NekrasovskyAPP.Models
 {
     public class Product : Material
     {
-        public string? Recipe { get; set; }
     }
 }

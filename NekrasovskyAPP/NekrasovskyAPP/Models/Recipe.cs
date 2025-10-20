@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace NekrasovskyAPP.Models
 {
-    public class AccessibleMovement
+    public class Recipe
     {
-        public int FromWarehouseId { get; set; }
-        public int ToWarehouseId { get;set; }
+        public int ProductId { get; set; }
         public int MaterialId { get; set; }
+        public int Quantity { get; set; }
+        public string? MeasuringType { get; set; }
     }
 }

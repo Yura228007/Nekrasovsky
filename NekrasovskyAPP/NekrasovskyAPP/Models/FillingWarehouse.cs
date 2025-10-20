@@ -9,24 +9,26 @@ using PasswordManagerV1.Models;
 
 namespace NekrasovskyAPP.Models
 {
-    [Table("AccessibleMovement")]
-    public class AccessibleMovement
+    [Table("FillingWarehouse")]
+    public class FillingWarehouse
     {
         [Required]
-        [ForeignKey(nameof(FromWarehouse))]
-        public int FromWarehouseId { get; set; }
-
-        [Required]
-        [ForeignKey(nameof(ToWarehouse))]
-        public int ToWarehouseId { get; set; }
+        [ForeignKey(nameof(Warehouse))]
+        public int WarehouseId { get; set; }
 
         [Required]
         [ForeignKey(nameof(Material))]
         public int MaterialId { get; set; }
 
+        [Required]
+        [Column(TypeName = "integer")]
+        public int Quantity { get; set; } = 0;
+
+        [Column(TypeName = "varchar(20)")]
+        public string? MeasuringType { get; set; }
+
         // 🔗 Навигационные свойства
-        public virtual Warehouse FromWarehouse { get; set; } = null!;
-        public virtual Warehouse ToWarehouse { get; set; } = null!;
+        public virtual Warehouse Warehouse { get; set; } = null!;
         public virtual Material Material { get; set; } = null!;
     }
 }

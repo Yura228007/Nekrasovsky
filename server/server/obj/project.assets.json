@@ -3176,11 +3176,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Nekrasovsky\\server\\server\\server.csproj",
+      "projectUniqueName": "C:\\Nekrasovsky\\Nekrasovsky\\server\\server\\server.csproj",
       "projectName": "server",
-      "projectPath": "C:\\Nekrasovsky\\server\\server\\server.csproj",
+      "projectPath": "C:\\Nekrasovsky\\Nekrasovsky\\server\\server\\server.csproj",
       "packagesPath": "C:\\Users\\iurii\\.nuget\\packages\\",
-      "outputPath": "C:\\Nekrasovsky\\server\\server\\obj\\",
+      "outputPath": "C:\\Nekrasovsky\\Nekrasovsky\\server\\server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

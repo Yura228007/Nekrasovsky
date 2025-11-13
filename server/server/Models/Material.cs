@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PasswordManagerV1.Models
+namespace server.Models
 {
     [Table("Material")]
     public class Material
@@ -22,7 +22,7 @@ namespace PasswordManagerV1.Models
 
         [Required]
         [Column(TypeName = "varchar(20)")]
-        public string MeasuringUnit { get; set; } = "шт";
+        public string MeasuringUnit { get; set; } = "??";
     }
 
 }

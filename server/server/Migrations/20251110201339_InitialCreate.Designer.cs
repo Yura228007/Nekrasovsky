@@ -12,7 +12,7 @@ using server.Data;
 namespace server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251106213459_InitialCreate")]
+    [Migration("20251110201339_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -360,7 +360,7 @@ namespace server.Migrations
                     b.ToTable("WorkReport");
                 });
 
-            modelBuilder.Entity("server.Models.UploadedFile", b =>
+            modelBuilder.Entity("server.Models.RequestLog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -368,23 +368,49 @@ namespace server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<string>("Action")
+                        .HasColumnType("varchar(100)");
 
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<string>("ClientIp")
+                        .HasColumnType("varchar(50)");
 
-                    b.Property<long>("FileSize")
+                    b.Property<string>("Controller")
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<long>("DurationMs")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("UploadDate")
+                    b.Property<string>("HttpMethod")
+                        .IsRequired()
+                        .HasColumnType("varchar(10)");
+
+                    b.Property<string>("RequestBody")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("RequestTime")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ResponseBody")
+                        .HasColumnType("text");
+
+                    b.Property<int>("StatusCode")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("UserAgent")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("UploadedFiles");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RequestLogs");
                 });
 
             modelBuilder.Entity("NekrasovskyAPP.Models.Product", b =>
@@ -558,6 +584,16 @@ namespace server.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("server.Models.RequestLog", b =>
+                {
+                    b.HasOne("PasswordManagerV1.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("User");
                 });

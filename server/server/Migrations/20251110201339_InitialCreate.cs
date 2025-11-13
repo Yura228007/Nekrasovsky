@@ -44,22 +44,6 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UploadedFiles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FileName = table.Column<string>(type: "text", nullable: false),
-                    FilePath = table.Column<string>(type: "text", nullable: false),
-                    FileSize = table.Column<long>(type: "bigint", nullable: false),
-                    UploadDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UploadedFiles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
                 {
@@ -129,6 +113,36 @@ namespace server.Migrations
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RequestLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    HttpMethod = table.Column<string>(type: "varchar(10)", nullable: false),
+                    Url = table.Column<string>(type: "varchar(500)", nullable: false),
+                    Controller = table.Column<string>(type: "varchar(100)", nullable: true),
+                    Action = table.Column<string>(type: "varchar(100)", nullable: true),
+                    RequestBody = table.Column<string>(type: "text", nullable: true),
+                    ResponseBody = table.Column<string>(type: "text", nullable: true),
+                    StatusCode = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: true),
+                    ClientIp = table.Column<string>(type: "varchar(50)", nullable: true),
+                    UserAgent = table.Column<string>(type: "varchar(255)", nullable: true),
+                    RequestTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DurationMs = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestLogs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RequestLogs_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -391,6 +405,11 @@ namespace server.Migrations
                 column: "MaterialId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RequestLogs_UserId",
+                table: "RequestLogs",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ShiftTransfer_FromUserId",
                 table: "ShiftTransfer",
                 column: "FromUserId");
@@ -442,10 +461,10 @@ namespace server.Migrations
                 name: "Recipe");
 
             migrationBuilder.DropTable(
-                name: "ShiftTransfer");
+                name: "RequestLogs");
 
             migrationBuilder.DropTable(
-                name: "UploadedFiles");
+                name: "ShiftTransfer");
 
             migrationBuilder.DropTable(
                 name: "UserPermissions");

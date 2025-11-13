@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PasswordManagerV1.Models
+namespace server.Models
 {
     [Table("ShiftTransfer")]
     public class ShiftTransfer
@@ -31,7 +31,7 @@ namespace PasswordManagerV1.Models
         [Column(TypeName = "boolean")]
         public bool IsConfirmed { get; set; } = false;
 
-        // 🔗 Навигационные свойства
+        // ?? ????????????? ????????
         public virtual User FromUser { get; set; } = null!;
         public virtual User ToUser { get; set; } = null!;
     }

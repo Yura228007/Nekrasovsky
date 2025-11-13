@@ -1,13 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PasswordManagerV1.Models;
 
-namespace NekrasovskyAPP.Models
+namespace server.Models
 {
     [Table("FillingWarehouse")]
     public class FillingWarehouse
@@ -27,7 +26,7 @@ namespace NekrasovskyAPP.Models
         [Column(TypeName = "varchar(20)")]
         public string? MeasuringType { get; set; }
 
-        // 🔗 Навигационные свойства
+        // ?? ????????????? ????????
         public virtual Warehouse Warehouse { get; set; } = null!;
         public virtual Material Material { get; set; } = null!;
     }

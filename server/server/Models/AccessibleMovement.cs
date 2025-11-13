@@ -1,13 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PasswordManagerV1.Models;
 
-namespace NekrasovskyAPP.Models
+namespace server.Models
 {
     [Table("AccessibleMovement")]
     public class AccessibleMovement
@@ -24,7 +23,7 @@ namespace NekrasovskyAPP.Models
         [ForeignKey(nameof(Material))]
         public int MaterialId { get; set; }
 
-        // 🔗 Навигационные свойства
+        // ?? ????????????? ????????
         public virtual Warehouse FromWarehouse { get; set; } = null!;
         public virtual Warehouse ToWarehouse { get; set; } = null!;
         public virtual Material Material { get; set; } = null!;

@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PasswordManagerV1.Models
+namespace server.Models
 {
     [Table("WorkReport")]
     public class WorkReport
@@ -28,7 +28,7 @@ namespace PasswordManagerV1.Models
         [Column(TypeName = "text")]
         public string? Note { get; set; }
 
-        // 🔗 Навигационное свойство
+        // ?? ????????????? ????????
         public virtual User User { get; set; } = null!;
     }
 }

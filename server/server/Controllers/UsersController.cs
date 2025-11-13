@@ -1,10 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PasswordManagerV1.Models;
-using server.Data;
+using server.Models;
+using server.Services;
 
 namespace server.Controllers
 {
@@ -12,84 +8,91 @@ namespace server.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IUserService _userService;
 
-        public UsersController(AppDbContext context)
+        public UsersController(IUserService userService)
         {
-            _context = context;
+            _userService = userService;
         }
 
-        // ? GET: api/users
+        // GET: api/users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAll()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _userService.GetAllUsersAsync();
             return Ok(users);
         }
 
-        // ? GET: api/users/search?name=Alex&surname=Smith
-        // ???? ?? ?????????? ????? ???? ??????
+        // GET: api/users/search?name=Alex&surname=Smith
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<User>>> GetByNameOrSurname(
             [FromQuery] string? name,
             [FromQuery] string? surname)
         {
-            var query = _context.Users.AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(name))
-                query = query.Where(u => EF.Functions.ILike(u.Name, $"%{name}%")); // PostgreSQL-friendly
-
-            if (!string.IsNullOrWhiteSpace(surname))
-                query = query.Where(u => EF.Functions.ILike(u.Surname, $"%{surname}%"));
-
-            var users = await query.ToListAsync();
+            var users = await _userService.SearchUsersAsync(name, surname);
             return Ok(users);
         }
 
-        // ? POST: api/users/add
+        // GET: api/users/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetById(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+                return NotFound($"User with ID {id} not found");
+
+            return Ok(user);
+        }
+
+        // POST: api/users/add
         [HttpPost("add")]
         public async Task<IActionResult> AddUser([FromBody] User user)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { message = "???????????? ????????", user.Id });
+            try
+            {
+                var createdUser = await _userService.CreateUserAsync(user);
+                return Ok(new { message = "User created successfully", user = createdUser });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
-        // ? POST: api/users/edit/5
+        // POST: api/users/edit/5
         [HttpPost("edit/{id}")]
         public async Task<IActionResult> EditUser(int id, [FromBody] User updated)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-                return NotFound("???????????? ?? ??????");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            user.Login = updated.Login;
-            user.EncryptedPassword = updated.EncryptedPassword;
-            user.Name = updated.Name;
-            user.Surname = updated.Surname;
-            user.Email = updated.Email;
-            user.Phone = updated.Phone;
-
-            await _context.SaveChangesAsync();
-            return Ok(new { message = "???????????? ????????", user });
+            try
+            {
+                var user = await _userService.UpdateUserAsync(id, updated);
+                return Ok(new { message = "User updated successfully", user });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
-        // ? POST: api/users/delete/5
+        // POST: api/users/delete/5
         [HttpPost("delete/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-                return NotFound("???????????? ?? ??????");
+            var deleted = await _userService.DeleteUserAsync(id);
+            if (!deleted)
+                return NotFound($"User with ID {id} not found");
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { message = "???????????? ??????" });
+            return Ok(new { message = "User deleted successfully" });
         }
     }
 }

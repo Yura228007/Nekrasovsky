@@ -1,8 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using NekrasovskyAPP.Models;
 
-namespace PasswordManagerV1.Models
+namespace server.Models
 {
     [Table("PartRequest")]
     public class PartRequest
@@ -46,7 +45,7 @@ namespace PasswordManagerV1.Models
         [Column(TypeName = "integer")]
         public PartRequestStatus Status { get; set; } = PartRequestStatus.Pending;
 
-        // 🔗 Навигационные свойства
+        // ?? ????????????? ????????
         public virtual User FromUser { get; set; } = null!;
         public virtual User ToUser { get; set; } = null!;
         public virtual Warehouse FromWarehouse { get; set; } = null!;

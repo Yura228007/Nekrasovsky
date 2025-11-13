@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PasswordManagerV1.Models
+namespace server.Models
 {
     [Table("AlarmEvent")]
     public class AlarmEvent
@@ -30,7 +30,7 @@ namespace PasswordManagerV1.Models
         [Column(TypeName = "varchar(255)")]
         public string Location { get; set; } = string.Empty;
 
-        // Навигационное свойство (к пользователю)
+        // ????????????? ???????? (? ????????????)
         public virtual User User { get; set; } = null!;
     }
 }

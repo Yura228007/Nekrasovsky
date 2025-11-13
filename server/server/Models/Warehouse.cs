@@ -1,13 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PasswordManagerV1.Models;
 
-namespace NekrasovskyAPP.Models
+namespace server.Models
 {
     [Table("Warehouse")]
     public class Warehouse
@@ -22,9 +21,9 @@ namespace NekrasovskyAPP.Models
 
         [Required]
         [Column(TypeName = "varchar(50)")]
-        public string Type { get; set; } = "Цех";
+        public string Type { get; set; } = "???";
 
-        // 🔗 Навигационные свойства (пригодятся для связей)
+        // ?? ????????????? ???????? (?????????? ??? ??????)
         public virtual ICollection<AccessibleMovement> FromMovements { get; set; } = new List<AccessibleMovement>();
         public virtual ICollection<AccessibleMovement> ToMovements { get; set; } = new List<AccessibleMovement>();
         public virtual ICollection<PartRequest> FromRequests { get; set; } = new List<PartRequest>();

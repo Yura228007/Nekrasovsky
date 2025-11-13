@@ -1,6 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using NekrasovskyAPP.Models;
-using PasswordManagerV1.Models;
 using server.Models;
 
 namespace server.Data;
@@ -9,7 +7,6 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    // ?? ??????? (DbSet)
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Permission> Permissions { get; set; } = null!;
     public DbSet<UserPermissions> UserPermissions { get; set; } = null!;
@@ -23,7 +20,7 @@ public class AppDbContext : DbContext
     public DbSet<ShiftTransfer> ShiftTransfers { get; set; } = null!;
     public DbSet<FillingWarehouse> FillingWarehouses { get; set; } = null!;
     public DbSet<WorkReport> WorkReports { get; set; } = null!;
-    public DbSet<UploadedFile> UploadedFiles { get; set; }
+    public DbSet<RequestLog> RequestLogs { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -186,5 +183,15 @@ public class AppDbContext : DbContext
             .WithMany()
             .HasForeignKey(wr => wr.UserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // =============================
+        // ?? RequestLogs
+        // ============================
+
+        modelBuilder.Entity<RequestLog>()
+            .HasOne(rl => rl.User)
+            .WithMany()
+            .HasForeignKey(rl => rl.UserId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

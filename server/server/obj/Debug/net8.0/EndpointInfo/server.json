@@ -41,6 +41,35 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "AccessibleMovements"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccessibleMovement"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccessibleMovement"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccessibleMovement"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/AccessibleMovements/{fromWarehouseId}/{toWarehouseId}/{materialId}": {
@@ -248,37 +277,6 @@
         }
       }
     },
-    "/api/AccessibleMovements/add": {
-      "post": {
-        "tags": [
-          "AccessibleMovements"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AccessibleMovement"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AccessibleMovement"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AccessibleMovement"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/AccessibleMovements/edit/{fromWarehouseId}/{toWarehouseId}/{materialId}": {
       "post": {
         "tags": [
@@ -471,6 +469,35 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "AlarmEvents"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlarmEvent"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlarmEvent"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlarmEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/AlarmEvents/{id}": {
@@ -509,6 +536,67 @@
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AlarmEvents"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlarmEvent"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlarmEvent"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlarmEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AlarmEvents"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -572,16 +660,14 @@
             "name": "startDate",
             "in": "query",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "type": "string"
             }
           },
           {
             "name": "endDate",
             "in": "query",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "type": "string"
             }
           }
         ],
@@ -666,102 +752,6 @@
         }
       }
     },
-    "/api/AlarmEvents/add": {
-      "post": {
-        "tags": [
-          "AlarmEvents"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AlarmEvent"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AlarmEvent"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AlarmEvent"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AlarmEvents/edit/{id}": {
-      "post": {
-        "tags": [
-          "AlarmEvents"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AlarmEvent"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AlarmEvent"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AlarmEvent"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/AlarmEvents/delete/{id}": {
-      "post": {
-        "tags": [
-          "AlarmEvents"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/FillingWarehouses": {
       "get": {
         "tags": [
@@ -796,6 +786,35 @@
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "FillingWarehouses"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FillingWarehouse"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FillingWarehouse"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FillingWarehouse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -943,37 +962,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/FillingWarehouses/add": {
-      "post": {
-        "tags": [
-          "FillingWarehouses"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FillingWarehouse"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FillingWarehouse"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/FillingWarehouse"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -1177,6 +1165,35 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Materials"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Material"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Material"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Material"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/Materials/{id}": {
@@ -1215,6 +1232,67 @@
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Materials"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Material"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Material"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Material"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Materials"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -1317,102 +1395,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/Materials/add": {
-      "post": {
-        "tags": [
-          "Materials"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Material"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Material"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Material"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Materials/edit/{id}": {
-      "post": {
-        "tags": [
-          "Materials"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Material"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Material"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Material"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Materials/delete/{id}": {
-      "post": {
-        "tags": [
-          "Materials"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -1525,6 +1507,35 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "PartRequests"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/PartRequests/{id}": {
@@ -1563,6 +1574,67 @@
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PartRequests"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PartRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PartRequests"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -1778,79 +1850,6 @@
         }
       }
     },
-    "/api/PartRequests/add": {
-      "post": {
-        "tags": [
-          "PartRequests"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PartRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PartRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PartRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/PartRequests/edit/{id}": {
-      "post": {
-        "tags": [
-          "PartRequests"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PartRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PartRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PartRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/PartRequests/{id}/approve": {
       "post": {
         "tags": [
@@ -1916,29 +1915,6 @@
         }
       }
     },
-    "/api/PartRequests/delete/{id}": {
-      "post": {
-        "tags": [
-          "PartRequests"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/Permissions": {
       "get": {
         "tags": [
@@ -1973,6 +1949,35 @@
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Permissions"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -2013,6 +2018,67 @@
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Permissions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Permission"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Permissions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -2056,102 +2122,6 @@
         }
       }
     },
-    "/api/Permissions/add": {
-      "post": {
-        "tags": [
-          "Permissions"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Permission"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Permission"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Permission"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Permissions/edit/{id}": {
-      "post": {
-        "tags": [
-          "Permissions"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Permission"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Permission"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Permission"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Permissions/delete/{id}": {
-      "post": {
-        "tags": [
-          "Permissions"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/Products": {
       "get": {
         "tags": [
@@ -2186,6 +2156,35 @@
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -2226,6 +2225,67 @@
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -2280,102 +2340,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/Products/add": {
-      "post": {
-        "tags": [
-          "Products"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Product"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Product"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Product"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Products/edit/{id}": {
-      "post": {
-        "tags": [
-          "Products"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Product"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Product"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Product"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Products/delete/{id}": {
-      "post": {
-        "tags": [
-          "Products"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -2512,6 +2476,35 @@
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Recipes"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Recipe"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Recipe"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Recipe"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -2659,37 +2652,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/Recipes/add": {
-      "post": {
-        "tags": [
-          "Recipes"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Recipe"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Recipe"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Recipe"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -2976,16 +2938,14 @@
             "name": "startDate",
             "in": "query",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "type": "string"
             }
           },
           {
             "name": "endDate",
             "in": "query",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "type": "string"
             }
           }
         ],
@@ -3207,16 +3167,14 @@
             "name": "startDate",
             "in": "query",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "type": "string"
             }
           },
           {
             "name": "endDate",
             "in": "query",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "type": "string"
             }
           }
         ],
@@ -3262,20 +3220,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "string",
-                "format": "date-time"
+                "type": "string"
               }
             },
             "text/json": {
               "schema": {
-                "type": "string",
-                "format": "date-time"
+                "type": "string"
               }
             },
             "application/*+json": {
               "schema": {
-                "type": "string",
-                "format": "date-time"
+                "type": "string"
               }
             }
           }
@@ -3323,6 +3278,35 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "ShiftTransfers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShiftTransfer"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShiftTransfer"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShiftTransfer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/ShiftTransfers/{id}": {
@@ -3361,6 +3345,67 @@
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ShiftTransfers"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShiftTransfer"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShiftTransfer"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShiftTransfer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ShiftTransfers"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -3433,8 +3478,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "type": "string"
             }
           }
         ],
@@ -3520,103 +3564,7 @@
         }
       }
     },
-    "/api/ShiftTransfers/add": {
-      "post": {
-        "tags": [
-          "ShiftTransfers"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ShiftTransfer"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ShiftTransfer"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ShiftTransfer"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/ShiftTransfers/edit/{id}": {
-      "post": {
-        "tags": [
-          "ShiftTransfers"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ShiftTransfer"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ShiftTransfer"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ShiftTransfer"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/ShiftTransfers/{id}/confirm": {
-      "post": {
-        "tags": [
-          "ShiftTransfers"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/ShiftTransfers/delete/{id}": {
       "post": {
         "tags": [
           "ShiftTransfers"
@@ -3737,7 +3685,7 @@
         }
       }
     },
-    "/api/UserPermissions/add": {
+    "/api/UserPermissions": {
       "post": {
         "tags": [
           "UserPermissions"
@@ -3766,10 +3714,8 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/UserPermissions/remove": {
-      "post": {
+      },
+      "delete": {
         "tags": [
           "UserPermissions"
         ],
@@ -3845,8 +3791,8 @@
         }
       }
     },
-    "/api/UserPermissions/update/{userId}": {
-      "post": {
+    "/api/UserPermissions/{userId}": {
+      "put": {
         "tags": [
           "UserPermissions"
         ],
@@ -3933,6 +3879,67 @@
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Users/paged": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -4029,41 +4036,8 @@
             }
           }
         }
-      }
-    },
-    "/api/Users/add": {
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Users/edit/{id}": {
-      "post": {
+      },
+      "put": {
         "tags": [
           "Users"
         ],
@@ -4102,10 +4076,8 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/Users/delete/{id}": {
-      "post": {
+      },
+      "delete": {
         "tags": [
           "Users"
         ],
@@ -4163,6 +4135,35 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Warehouses"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warehouse"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warehouse"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warehouse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/Warehouses/{id}": {
@@ -4201,6 +4202,67 @@
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Warehouses"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warehouse"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warehouse"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warehouse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Warehouses"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -4303,102 +4365,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/Warehouses/add": {
-      "post": {
-        "tags": [
-          "Warehouses"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Warehouse"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Warehouse"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Warehouse"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Warehouses/edit/{id}": {
-      "post": {
-        "tags": [
-          "Warehouses"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Warehouse"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Warehouse"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Warehouse"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Warehouses/delete/{id}": {
-      "post": {
-        "tags": [
-          "Warehouses"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -4537,6 +4503,35 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "WorkReports"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkReport"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkReport"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkReport"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/WorkReports/{id}": {
@@ -4575,6 +4570,67 @@
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "WorkReports"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkReport"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkReport"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkReport"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "WorkReports"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -4639,8 +4695,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "type": "string"
             }
           }
         ],
@@ -4687,16 +4742,14 @@
             "name": "startDate",
             "in": "query",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "type": "string"
             }
           },
           {
             "name": "endDate",
             "in": "query",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "type": "string"
             }
           }
         ],
@@ -4782,79 +4835,6 @@
         }
       }
     },
-    "/api/WorkReports/add": {
-      "post": {
-        "tags": [
-          "WorkReports"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WorkReport"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WorkReport"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/WorkReport"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/WorkReports/edit/{id}": {
-      "post": {
-        "tags": [
-          "WorkReports"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WorkReport"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WorkReport"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/WorkReport"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/WorkReports/start": {
       "post": {
         "tags": [
@@ -4921,29 +4901,6 @@
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/WorkReports/delete/{id}": {
-      "post": {
-        "tags": [
-          "WorkReports"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -5058,7 +5015,6 @@
         "properties": {
           "finishTime": {
             "type": "string",
-            "format": "date-time",
             "nullable": true
           }
         },
@@ -5371,7 +5327,6 @@
           },
           "startTime": {
             "type": "string",
-            "format": "date-time",
             "nullable": true
           }
         },

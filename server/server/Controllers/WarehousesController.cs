@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
 
@@ -9,102 +10,232 @@ namespace server.Controllers
     public class WarehousesController : ControllerBase
     {
         private readonly IWarehouseService _warehouseService;
+        private readonly ILogger<WarehousesController> _logger;
 
-        public WarehousesController(IWarehouseService warehouseService)
+        public WarehousesController(IWarehouseService warehouseService, ILogger<WarehousesController> logger)
         {
             _warehouseService = warehouseService;
+            _logger = logger;
         }
 
         // GET: api/warehouses
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Warehouse>>> GetAll()
         {
-            var warehouses = await _warehouseService.GetAllWarehousesAsync();
-            return Ok(warehouses);
+            try
+            {
+                var warehouses = await _warehouseService.GetAllWarehousesAsync();
+                return Ok(warehouses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting all warehouses");
+                return StatusCode(500, new { message = "An error occurred while retrieving warehouses" });
+            }
         }
 
         // GET: api/warehouses/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Warehouse>> GetById(int id)
         {
-            var warehouse = await _warehouseService.GetWarehouseByIdAsync(id);
-            if (warehouse == null)
-                return NotFound($"Warehouse with ID {id} not found");
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest(new { message = "Id must be greater than 0" });
+                }
 
-            return Ok(warehouse);
+                var warehouse = await _warehouseService.GetWarehouseByIdAsync(id);
+                if (warehouse == null)
+                {
+                    _logger.LogWarning("Warehouse with ID {WarehouseId} not found", id);
+                    return NotFound(new { message = $"Warehouse with ID {id} not found" });
+                }
+
+                return Ok(warehouse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting warehouse with ID {WarehouseId}", id);
+                return StatusCode(500, new { message = "An error occurred while retrieving the warehouse" });
+            }
         }
 
         // GET: api/warehouses/type/{type}
         [HttpGet("type/{type}")]
         public async Task<ActionResult<IEnumerable<Warehouse>>> GetByType(string type)
         {
-            var warehouses = await _warehouseService.GetWarehousesByTypeAsync(type);
-            return Ok(warehouses);
+            try
+            {
+                if (string.IsNullOrWhiteSpace(type))
+                {
+                    return BadRequest(new { message = "Type cannot be empty" });
+                }
+
+                var warehouses = await _warehouseService.GetWarehousesByTypeAsync(type);
+                return Ok(warehouses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting warehouses by type '{Type}'", type);
+                return StatusCode(500, new { message = "An error occurred while retrieving warehouses" });
+            }
         }
 
         // GET: api/warehouses/search?name=&type=
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<Warehouse>>> Search([FromQuery] string? name, [FromQuery] string? type)
         {
-            var warehouses = await _warehouseService.SearchWarehousesAsync(name, type);
-            return Ok(warehouses);
+            try
+            {
+                var warehouses = await _warehouseService.SearchWarehousesAsync(name, type);
+                return Ok(warehouses);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while searching warehouses");
+                return StatusCode(500, new { message = "An error occurred while searching warehouses" });
+            }
         }
 
-        // POST: api/warehouses/add
-        [HttpPost("add")]
-        public async Task<IActionResult> AddWarehouse([FromBody] Warehouse warehouse)
+        // POST: api/warehouses
+        [HttpPost]
+        public async Task<IActionResult> CreateWarehouse([FromBody] Warehouse warehouse)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                return BadRequest(new { message = "Invalid model state", errors = ModelState });
+            }
 
-            var createdWarehouse = await _warehouseService.CreateWarehouseAsync(warehouse);
-            return Ok(new { message = "Warehouse created successfully", warehouse = createdWarehouse });
+            try
+            {
+                var createdWarehouse = await _warehouseService.CreateWarehouseAsync(warehouse);
+                _logger.LogInformation("Warehouse created successfully with ID: {WarehouseId}", createdWarehouse.Id);
+                return CreatedAtAction(nameof(GetById), new { id = createdWarehouse.Id },
+                    new { message = "Warehouse created successfully", warehouse = createdWarehouse });
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database error while creating warehouse");
+                return StatusCode(500, new { message = "An error occurred while saving the warehouse to the database" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while creating warehouse");
+                return StatusCode(500, new { message = "An unexpected error occurred while creating the warehouse" });
+            }
         }
 
-        // POST: api/warehouses/edit/{id}
-        [HttpPost("edit/{id}")]
-        public async Task<IActionResult> EditWarehouse(int id, [FromBody] Warehouse updated)
+        // PUT: api/warehouses/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateWarehouse(int id, [FromBody] Warehouse updated)
         {
+            if (id <= 0)
+            {
+                return BadRequest(new { message = "Id must be greater than 0" });
+            }
+
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                return BadRequest(new { message = "Invalid model state", errors = ModelState });
+            }
 
             try
             {
                 var warehouse = await _warehouseService.UpdateWarehouseAsync(id, updated);
+                _logger.LogInformation("Warehouse updated successfully with ID: {WarehouseId}", id);
                 return Ok(new { message = "Warehouse updated successfully", warehouse });
             }
             catch (KeyNotFoundException ex)
             {
+                _logger.LogWarning(ex, "Warehouse with ID {WarehouseId} not found for update", id);
                 return NotFound(new { message = ex.Message });
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database error while updating warehouse with ID {WarehouseId}", id);
+                return StatusCode(500, new { message = "An error occurred while updating the warehouse in the database" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while updating warehouse with ID {WarehouseId}", id);
+                return StatusCode(500, new { message = "An unexpected error occurred while updating the warehouse" });
             }
         }
 
-        // POST: api/warehouses/delete/{id}
-        [HttpPost("delete/{id}")]
+        // DELETE: api/warehouses/5
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWarehouse(int id)
         {
-            var deleted = await _warehouseService.DeleteWarehouseAsync(id);
-            if (!deleted)
-                return NotFound($"Warehouse with ID {id} not found");
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest(new { message = "Id must be greater than 0" });
+                }
 
-            return Ok(new { message = "Warehouse deleted successfully" });
+                var deleted = await _warehouseService.DeleteWarehouseAsync(id);
+                if (!deleted)
+                {
+                    _logger.LogWarning("Warehouse with ID {WarehouseId} not found for deletion", id);
+                    return NotFound(new { message = $"Warehouse with ID {id} not found" });
+                }
+
+                _logger.LogInformation("Warehouse deleted successfully with ID: {WarehouseId}", id);
+                return Ok(new { message = "Warehouse deleted successfully" });
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database error while deleting warehouse with ID {WarehouseId}", id);
+                return StatusCode(500, new { message = "An error occurred while deleting the warehouse from the database" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while deleting warehouse with ID {WarehouseId}", id);
+                return StatusCode(500, new { message = "An unexpected error occurred while deleting the warehouse" });
+            }
         }
 
         // GET: api/warehouses/{id}/movements
         [HttpGet("{id}/movements")]
         public async Task<ActionResult<IEnumerable<AccessibleMovement>>> GetMovements(int id)
         {
-            var movements = await _warehouseService.GetWarehouseMovementsAsync(id);
-            return Ok(movements);
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest(new { message = "Id must be greater than 0" });
+                }
+
+                var movements = await _warehouseService.GetWarehouseMovementsAsync(id);
+                return Ok(movements);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting movements for warehouse {WarehouseId}", id);
+                return StatusCode(500, new { message = "An error occurred while retrieving movements" });
+            }
         }
 
         // GET: api/warehouses/{id}/requests
         [HttpGet("{id}/requests")]
         public async Task<ActionResult<IEnumerable<PartRequest>>> GetRequests(int id)
         {
-            var requests = await _warehouseService.GetWarehouseRequestsAsync(id);
-            return Ok(requests);
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest(new { message = "Id must be greater than 0" });
+                }
+
+                var requests = await _warehouseService.GetWarehouseRequestsAsync(id);
+                return Ok(requests);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting requests for warehouse {WarehouseId}", id);
+                return StatusCode(500, new { message = "An error occurred while retrieving requests" });
+            }
         }
     }
 }
-

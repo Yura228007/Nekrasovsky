@@ -21,6 +21,22 @@
   },
   {
     "ContainingType": "server.Controllers.AccessibleMovementsController",
+    "Method": "CreateMovement",
+    "RelativePath": "api/AccessibleMovements",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "movement",
+        "Type": "server.Models.AccessibleMovement",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.AccessibleMovementsController",
     "Method": "GetMovement",
     "RelativePath": "api/AccessibleMovements/{fromWarehouseId}/{toWarehouseId}/{materialId}",
     "HttpMethod": "GET",
@@ -54,22 +70,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "server.Controllers.AccessibleMovementsController",
-    "Method": "AddMovement",
-    "RelativePath": "api/AccessibleMovements/add",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "movement",
-        "Type": "server.Models.AccessibleMovement",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "server.Controllers.AccessibleMovementsController",
@@ -135,7 +135,7 @@
   },
   {
     "ContainingType": "server.Controllers.AccessibleMovementsController",
-    "Method": "EditMovement",
+    "Method": "UpdateMovement",
     "RelativePath": "api/AccessibleMovements/edit/{fromWarehouseId}/{toWarehouseId}/{materialId}",
     "HttpMethod": "POST",
     "IsController": true,
@@ -264,6 +264,22 @@
   },
   {
     "ContainingType": "server.Controllers.AlarmEventsController",
+    "Method": "CreateAlarmEvent",
+    "RelativePath": "api/AlarmEvents",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "alarmEvent",
+        "Type": "server.Models.AlarmEvent",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.AlarmEventsController",
     "Method": "GetById",
     "RelativePath": "api/AlarmEvents/{id}",
     "HttpMethod": "GET",
@@ -290,72 +306,9 @@
   },
   {
     "ContainingType": "server.Controllers.AlarmEventsController",
-    "Method": "AddAlarmEvent",
-    "RelativePath": "api/AlarmEvents/add",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "alarmEvent",
-        "Type": "server.Models.AlarmEvent",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.AlarmEventsController",
-    "Method": "GetByDateRange",
-    "RelativePath": "api/AlarmEvents/date-range",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "startDate",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "endDate",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[server.Models.AlarmEvent, server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "server.Controllers.AlarmEventsController",
-    "Method": "DeleteAlarmEvent",
-    "RelativePath": "api/AlarmEvents/delete/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.AlarmEventsController",
-    "Method": "EditAlarmEvent",
-    "RelativePath": "api/AlarmEvents/edit/{id}",
-    "HttpMethod": "POST",
+    "Method": "UpdateAlarmEvent",
+    "RelativePath": "api/AlarmEvents/{id}",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -371,6 +324,53 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.AlarmEventsController",
+    "Method": "DeleteAlarmEvent",
+    "RelativePath": "api/AlarmEvents/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.AlarmEventsController",
+    "Method": "GetByDateRange",
+    "RelativePath": "api/AlarmEvents/date-range",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "startDate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[server.Models.AlarmEvent, server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "server.Controllers.AlarmEventsController",
@@ -446,6 +446,22 @@
   },
   {
     "ContainingType": "server.Controllers.FillingWarehousesController",
+    "Method": "CreateFilling",
+    "RelativePath": "api/FillingWarehouses",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filling",
+        "Type": "server.Models.FillingWarehouse",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.FillingWarehousesController",
     "Method": "GetFilling",
     "RelativePath": "api/FillingWarehouses/{warehouseId}/{materialId}",
     "HttpMethod": "GET",
@@ -477,22 +493,6 @@
   },
   {
     "ContainingType": "server.Controllers.FillingWarehousesController",
-    "Method": "AddFilling",
-    "RelativePath": "api/FillingWarehouses/add",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "filling",
-        "Type": "server.Models.FillingWarehouse",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.FillingWarehousesController",
     "Method": "DeleteFilling",
     "RelativePath": "api/FillingWarehouses/delete/{warehouseId}/{materialId}",
     "HttpMethod": "POST",
@@ -514,7 +514,7 @@
   },
   {
     "ContainingType": "server.Controllers.FillingWarehousesController",
-    "Method": "EditFilling",
+    "Method": "UpdateFilling",
     "RelativePath": "api/FillingWarehouses/edit/{warehouseId}/{materialId}",
     "HttpMethod": "POST",
     "IsController": true,
@@ -654,6 +654,22 @@
   },
   {
     "ContainingType": "server.Controllers.MaterialsController",
+    "Method": "CreateMaterial",
+    "RelativePath": "api/Materials",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "material",
+        "Type": "server.Models.Material",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.MaterialsController",
     "Method": "GetById",
     "RelativePath": "api/Materials/{id}",
     "HttpMethod": "GET",
@@ -677,6 +693,43 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "server.Controllers.MaterialsController",
+    "Method": "UpdateMaterial",
+    "RelativePath": "api/Materials/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updated",
+        "Type": "server.Models.Material",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.MaterialsController",
+    "Method": "DeleteMaterial",
+    "RelativePath": "api/Materials/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "server.Controllers.MaterialsController",
@@ -715,59 +768,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.MaterialsController",
-    "Method": "AddMaterial",
-    "RelativePath": "api/Materials/add",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "material",
-        "Type": "server.Models.Material",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.MaterialsController",
-    "Method": "DeleteMaterial",
-    "RelativePath": "api/Materials/delete/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.MaterialsController",
-    "Method": "EditMaterial",
-    "RelativePath": "api/Materials/edit/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "updated",
-        "Type": "server.Models.Material",
         "IsRequired": true
       }
     ],
@@ -852,6 +852,22 @@
   },
   {
     "ContainingType": "server.Controllers.PartRequestsController",
+    "Method": "CreatePartRequest",
+    "RelativePath": "api/PartRequests",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "server.Models.PartRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.PartRequestsController",
     "Method": "GetById",
     "RelativePath": "api/PartRequests/{id}",
     "HttpMethod": "GET",
@@ -875,6 +891,43 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "server.Controllers.PartRequestsController",
+    "Method": "UpdatePartRequest",
+    "RelativePath": "api/PartRequests/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updated",
+        "Type": "server.Models.PartRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.PartRequestsController",
+    "Method": "DeletePartRequest",
+    "RelativePath": "api/PartRequests/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "server.Controllers.PartRequestsController",
@@ -909,59 +962,6 @@
         "Name": "reason",
         "Type": "System.String",
         "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.PartRequestsController",
-    "Method": "AddPartRequest",
-    "RelativePath": "api/PartRequests/add",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "server.Models.PartRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.PartRequestsController",
-    "Method": "DeletePartRequest",
-    "RelativePath": "api/PartRequests/delete/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.PartRequestsController",
-    "Method": "EditPartRequest",
-    "RelativePath": "api/PartRequests/edit/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "updated",
-        "Type": "server.Models.PartRequest",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -1102,6 +1102,22 @@
   },
   {
     "ContainingType": "server.Controllers.PermissionsController",
+    "Method": "CreatePermission",
+    "RelativePath": "api/Permissions",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "permission",
+        "Type": "server.Models.Permission",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.PermissionsController",
     "Method": "GetById",
     "RelativePath": "api/Permissions/{id}",
     "HttpMethod": "GET",
@@ -1128,15 +1144,36 @@
   },
   {
     "ContainingType": "server.Controllers.PermissionsController",
-    "Method": "AddPermission",
-    "RelativePath": "api/Permissions/add",
-    "HttpMethod": "POST",
+    "Method": "UpdatePermission",
+    "RelativePath": "api/Permissions/{id}",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "permission",
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updated",
         "Type": "server.Models.Permission",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.PermissionsController",
+    "Method": "DeletePermission",
+    "RelativePath": "api/Permissions/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
@@ -1169,43 +1206,6 @@
     ]
   },
   {
-    "ContainingType": "server.Controllers.PermissionsController",
-    "Method": "DeletePermission",
-    "RelativePath": "api/Permissions/delete/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.PermissionsController",
-    "Method": "EditPermission",
-    "RelativePath": "api/Permissions/edit/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "updated",
-        "Type": "server.Models.Permission",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "server.Controllers.ProductsController",
     "Method": "GetAll",
     "RelativePath": "api/Products",
@@ -1224,6 +1224,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "server.Controllers.ProductsController",
+    "Method": "CreateProduct",
+    "RelativePath": "api/Products",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "product",
+        "Type": "server.Models.Product",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "server.Controllers.ProductsController",
@@ -1253,6 +1269,43 @@
   },
   {
     "ContainingType": "server.Controllers.ProductsController",
+    "Method": "UpdateProduct",
+    "RelativePath": "api/Products/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updated",
+        "Type": "server.Models.Product",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.ProductsController",
+    "Method": "DeleteProduct",
+    "RelativePath": "api/Products/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.ProductsController",
     "Method": "GetRecipe",
     "RelativePath": "api/Products/{id}/recipe",
     "HttpMethod": "GET",
@@ -1276,59 +1329,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "server.Controllers.ProductsController",
-    "Method": "AddProduct",
-    "RelativePath": "api/Products/add",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "product",
-        "Type": "server.Models.Product",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.ProductsController",
-    "Method": "DeleteProduct",
-    "RelativePath": "api/Products/delete/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.ProductsController",
-    "Method": "EditProduct",
-    "RelativePath": "api/Products/edit/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "updated",
-        "Type": "server.Models.Product",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "server.Controllers.ProductsController",
@@ -1409,6 +1409,22 @@
   },
   {
     "ContainingType": "server.Controllers.RecipesController",
+    "Method": "CreateRecipe",
+    "RelativePath": "api/Recipes",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "recipe",
+        "Type": "server.Models.Recipe",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.RecipesController",
     "Method": "GetRecipe",
     "RelativePath": "api/Recipes/{productId}/{materialId}",
     "HttpMethod": "GET",
@@ -1437,22 +1453,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "server.Controllers.RecipesController",
-    "Method": "AddRecipe",
-    "RelativePath": "api/Recipes/add",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "recipe",
-        "Type": "server.Models.Recipe",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "server.Controllers.RecipesController",
@@ -1493,7 +1493,7 @@
   },
   {
     "ContainingType": "server.Controllers.RecipesController",
-    "Method": "EditRecipe",
+    "Method": "UpdateRecipe",
     "RelativePath": "api/Recipes/edit/{productId}/{materialId}",
     "HttpMethod": "POST",
     "IsController": true,
@@ -1672,8 +1672,8 @@
     "Parameters": [
       {
         "Name": "beforeDate",
-        "Type": "System.DateTime",
-        "IsRequired": true
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -1714,12 +1714,12 @@
     "Parameters": [
       {
         "Name": "startDate",
-        "Type": "System.DateTime",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
         "Name": "endDate",
-        "Type": "System.DateTime",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -1760,12 +1760,12 @@
       },
       {
         "Name": "startDate",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
         "Name": "endDate",
-        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -1855,6 +1855,22 @@
   },
   {
     "ContainingType": "server.Controllers.ShiftTransfersController",
+    "Method": "CreateShiftTransfer",
+    "RelativePath": "api/ShiftTransfers",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transfer",
+        "Type": "server.Models.ShiftTransfer",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.ShiftTransfersController",
     "Method": "GetById",
     "RelativePath": "api/ShiftTransfers/{id}",
     "HttpMethod": "GET",
@@ -1881,6 +1897,43 @@
   },
   {
     "ContainingType": "server.Controllers.ShiftTransfersController",
+    "Method": "UpdateShiftTransfer",
+    "RelativePath": "api/ShiftTransfers/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updated",
+        "Type": "server.Models.ShiftTransfer",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.ShiftTransfersController",
+    "Method": "DeleteShiftTransfer",
+    "RelativePath": "api/ShiftTransfers/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.ShiftTransfersController",
     "Method": "Confirm",
     "RelativePath": "api/ShiftTransfers/{id}/confirm",
     "HttpMethod": "POST",
@@ -1897,22 +1950,6 @@
   },
   {
     "ContainingType": "server.Controllers.ShiftTransfersController",
-    "Method": "AddShiftTransfer",
-    "RelativePath": "api/ShiftTransfers/add",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "transfer",
-        "Type": "server.Models.ShiftTransfer",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.ShiftTransfersController",
     "Method": "GetByDate",
     "RelativePath": "api/ShiftTransfers/date/{date}",
     "HttpMethod": "GET",
@@ -1921,7 +1958,7 @@
     "Parameters": [
       {
         "Name": "date",
-        "Type": "System.DateTime",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],
@@ -1936,43 +1973,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "server.Controllers.ShiftTransfersController",
-    "Method": "DeleteShiftTransfer",
-    "RelativePath": "api/ShiftTransfers/delete/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.ShiftTransfersController",
-    "Method": "EditShiftTransfer",
-    "RelativePath": "api/ShiftTransfers/edit/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "updated",
-        "Type": "server.Models.ShiftTransfer",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "server.Controllers.ShiftTransfersController",
@@ -2034,7 +2034,7 @@
   {
     "ContainingType": "server.Controllers.UserPermissionsController",
     "Method": "AddPermissionToUser",
-    "RelativePath": "api/UserPermissions/add",
+    "RelativePath": "api/UserPermissions",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -2042,6 +2042,43 @@
       {
         "Name": "userPermission",
         "Type": "server.Models.UserPermissions",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.UserPermissionsController",
+    "Method": "RemovePermissionFromUser",
+    "RelativePath": "api/UserPermissions",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userPermission",
+        "Type": "server.Models.UserPermissions",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.UserPermissionsController",
+    "Method": "UpdateUserPermissions",
+    "RelativePath": "api/UserPermissions/{userId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "permissionIds",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": true
       }
     ],
@@ -2106,43 +2143,6 @@
   },
   {
     "ContainingType": "server.Controllers.UserPermissionsController",
-    "Method": "RemovePermissionFromUser",
-    "RelativePath": "api/UserPermissions/remove",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userPermission",
-        "Type": "server.Models.UserPermissions",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.UserPermissionsController",
-    "Method": "UpdateUserPermissions",
-    "RelativePath": "api/UserPermissions/update/{userId}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "permissionIds",
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.UserPermissionsController",
     "Method": "GetUserPermissions",
     "RelativePath": "api/UserPermissions/user/{userId}",
     "HttpMethod": "GET",
@@ -2189,6 +2189,22 @@
   },
   {
     "ContainingType": "server.Controllers.UsersController",
+    "Method": "CreateUser",
+    "RelativePath": "api/Users",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "server.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.UsersController",
     "Method": "GetById",
     "RelativePath": "api/Users/{id}",
     "HttpMethod": "GET",
@@ -2215,41 +2231,9 @@
   },
   {
     "ContainingType": "server.Controllers.UsersController",
-    "Method": "AddUser",
-    "RelativePath": "api/Users/add",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "user",
-        "Type": "server.Models.User",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.UsersController",
-    "Method": "DeleteUser",
-    "RelativePath": "api/Users/delete/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.UsersController",
-    "Method": "EditUser",
-    "RelativePath": "api/Users/edit/{id}",
-    "HttpMethod": "POST",
+    "Method": "UpdateUser",
+    "RelativePath": "api/Users/{id}",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -2262,6 +2246,43 @@
         "Name": "updated",
         "Type": "server.Models.User",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.UsersController",
+    "Method": "DeleteUser",
+    "RelativePath": "api/Users/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.UsersController",
+    "Method": "GetAllPaged",
+    "RelativePath": "api/Users/paged",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -2319,6 +2340,22 @@
   },
   {
     "ContainingType": "server.Controllers.WarehousesController",
+    "Method": "CreateWarehouse",
+    "RelativePath": "api/Warehouses",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "warehouse",
+        "Type": "server.Models.Warehouse",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.WarehousesController",
     "Method": "GetById",
     "RelativePath": "api/Warehouses/{id}",
     "HttpMethod": "GET",
@@ -2342,6 +2379,43 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "server.Controllers.WarehousesController",
+    "Method": "UpdateWarehouse",
+    "RelativePath": "api/Warehouses/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updated",
+        "Type": "server.Models.Warehouse",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.WarehousesController",
+    "Method": "DeleteWarehouse",
+    "RelativePath": "api/Warehouses/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "server.Controllers.WarehousesController",
@@ -2394,59 +2468,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "server.Controllers.WarehousesController",
-    "Method": "AddWarehouse",
-    "RelativePath": "api/Warehouses/add",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "warehouse",
-        "Type": "server.Models.Warehouse",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.WarehousesController",
-    "Method": "DeleteWarehouse",
-    "RelativePath": "api/Warehouses/delete/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.WarehousesController",
-    "Method": "EditWarehouse",
-    "RelativePath": "api/Warehouses/edit/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "updated",
-        "Type": "server.Models.Warehouse",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "server.Controllers.WarehousesController",
@@ -2527,6 +2548,22 @@
   },
   {
     "ContainingType": "server.Controllers.WorkReportsController",
+    "Method": "CreateWorkReport",
+    "RelativePath": "api/WorkReports",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "report",
+        "Type": "server.Models.WorkReport",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.WorkReportsController",
     "Method": "GetById",
     "RelativePath": "api/WorkReports/{id}",
     "HttpMethod": "GET",
@@ -2553,6 +2590,43 @@
   },
   {
     "ContainingType": "server.Controllers.WorkReportsController",
+    "Method": "UpdateWorkReport",
+    "RelativePath": "api/WorkReports/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updated",
+        "Type": "server.Models.WorkReport",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.WorkReportsController",
+    "Method": "DeleteWorkReport",
+    "RelativePath": "api/WorkReports/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.WorkReportsController",
     "Method": "FinishWork",
     "RelativePath": "api/WorkReports/{id}/finish",
     "HttpMethod": "POST",
@@ -2574,22 +2648,6 @@
   },
   {
     "ContainingType": "server.Controllers.WorkReportsController",
-    "Method": "AddWorkReport",
-    "RelativePath": "api/WorkReports/add",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "report",
-        "Type": "server.Models.WorkReport",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.WorkReportsController",
     "Method": "GetByDateRange",
     "RelativePath": "api/WorkReports/date-range",
     "HttpMethod": "GET",
@@ -2598,12 +2656,12 @@
     "Parameters": [
       {
         "Name": "startDate",
-        "Type": "System.DateTime",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
         "Name": "endDate",
-        "Type": "System.DateTime",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -2629,7 +2687,7 @@
     "Parameters": [
       {
         "Name": "date",
-        "Type": "System.DateTime",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],
@@ -2644,43 +2702,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "server.Controllers.WorkReportsController",
-    "Method": "DeleteWorkReport",
-    "RelativePath": "api/WorkReports/delete/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "server.Controllers.WorkReportsController",
-    "Method": "EditWorkReport",
-    "RelativePath": "api/WorkReports/edit/{id}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "updated",
-        "Type": "server.Models.WorkReport",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "server.Controllers.WorkReportsController",

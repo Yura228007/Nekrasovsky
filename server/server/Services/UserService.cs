@@ -33,6 +33,31 @@ namespace server.Services
             return users;
         }
 
+        public async Task<(IEnumerable<User> Users, int TotalCount)> GetAllUsersPagedAsync(int page, int pageSize)
+        {
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+            if (pageSize > 100) pageSize = 100; // Limit max page size
+
+            var totalCount = await _context.Users.CountAsync();
+            
+            var users = await _context.Users
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+            
+            // Decrypt passwords for all users
+            foreach (var user in users)
+            {
+                if (!string.IsNullOrEmpty(user.EncryptedPassword))
+                {
+                    user.EncryptedPassword = _passwordService.Decrypt(user.EncryptedPassword);
+                }
+            }
+            
+            return (Users: users, TotalCount: totalCount);
+        }
+
         public async Task<IEnumerable<User>> SearchUsersAsync(string? name, string? surname)
         {
             var query = _context.Users.AsQueryable();

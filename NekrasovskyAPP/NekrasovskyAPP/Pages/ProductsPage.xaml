@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NekrasovskyAPP.Pages.ProductsPage"
+             Title="Продукты">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
+    </ContentPage.ToolbarItems>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <!-- Search Bar -->
+        <Border Grid.Row="0" 
+                BackgroundColor="White"
+                Padding="10"
+                Margin="10,10,10,0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"/>
+            </Border.StrokeShape>
+            <Entry x:Name="SearchEntry"
+                   Placeholder="Поиск по названию или коду..."
+                   TextChanged="OnSearchTextChanged" />
+        </Border>
+        
+        <!-- Products List -->
+        <RefreshView Grid.Row="1" 
+                     IsRefreshing="{Binding IsLoading}"
+                     Refreshing="OnRefreshing">
+            <CollectionView x:Name="ProductsCollectionView"
+                          ItemsSource="{Binding Products}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="White"
+                                StrokeThickness="1"
+                                Stroke="#E0E0E0"
+                                Margin="10,5"
+                                Padding="15">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="{Binding Name}"
+                                       FontSize="18"
+                                       FontAttributes="Bold" />
+                                <Label Text="{Binding Code, StringFormat='Код: {0}'}"
+                                       FontSize="14"
+                                       TextColor="Gray" />
+                                <Label Text="{Binding MeasuringUnit, StringFormat='Ед. измерения: {0}'}"
+                                       FontSize="12"
+                                       TextColor="DarkGray" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        
+        <!-- Loading Indicator -->
+        <ActivityIndicator Grid.Row="1"
+                          IsRunning="{Binding IsLoading}"
+                          IsVisible="{Binding IsLoading}"
+                          Color="{StaticResource Primary}"
+                          VerticalOptions="Center"
+                          HorizontalOptions="Center" />
+    </Grid>
+    
+</ContentPage>
+

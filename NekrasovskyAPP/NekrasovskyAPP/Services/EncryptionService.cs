@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace PasswordManagerV1.Services
+namespace NekrasovskyAPP.Services
 {
     public static class EncryptionService
     {

@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using NekrasovskyAPP.Models;
 
-namespace PasswordManagerV1.Models
+namespace NekrasovskyAPP.Models
 {
     [Table("PartRequest")]
     public class PartRequest

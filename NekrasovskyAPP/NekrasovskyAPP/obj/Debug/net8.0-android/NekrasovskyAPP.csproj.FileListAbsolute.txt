@@ -1075,3 +1075,10 @@ C:\Nekrasovsky\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-androi
 C:\Nekrasovsky\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-android\app_shared_libraries\armeabi-v7a\libxamarin-app.so
 C:\Nekrasovsky\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-android\app_shared_libraries\arm64-v8a\libxamarin-app.so
 C:\Nekrasovsky\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-android\app_shared_libraries\x86\libxamarin-app.so
+C:\Users\Глеб\Desktop\Nekrasovsky-master\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-android\NekrasovskyAPP.dll
+C:\Users\Глеб\Desktop\Nekrasovsky-master\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-android\NekrasovskyAPP.pdb
+C:\Users\Глеб\Desktop\Nekrasovsky-master\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-android\NekrasovskyAPP.csproj.AssemblyReference.cache
+C:\Users\Глеб\Desktop\Nekrasovsky-master\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-android\NekrasovskyAPP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Глеб\Desktop\Nekrasovsky-master\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-android\NekrasovskyAPP.AssemblyInfoInputs.cache
+C:\Users\Глеб\Desktop\Nekrasovsky-master\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-android\NekrasovskyAPP.AssemblyInfo.cs
+C:\Users\Глеб\Desktop\Nekrasovsky-master\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-android\NekrasovskyAPP.csproj.CoreCompileInputs.cache

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:NekrasovskyAPP.Converters"
+             x:Class="NekrasovskyAPP.Pages.LoginPage"
+             Title="Вход в систему"
+             BackgroundColor="{StaticResource Primary}">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ScrollView>
+        <VerticalStackLayout 
+            Spacing="25" 
+            Padding="30,0"
+            VerticalOptions="Center"
+            HorizontalOptions="Center">
+            
+            <!-- Logo/Header -->
+            <Label Text="Nekrasovsky"
+                   FontSize="40"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"
+                   Margin="0,50,0,30" />
+            
+            <Label Text="Система управления складом"
+                   FontSize="18"
+                   TextColor="White"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,50" />
+            
+            <!-- Login Card -->
+            <Border BackgroundColor="White"
+                    StrokeThickness="0"
+                    Padding="30"
+                    Margin="0,0,0,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="20">
+                    
+                    <Label Text="Вход в систему"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,10" />
+                    
+                    <!-- Login Entry -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Логин"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="Gray" />
+                        <Border BackgroundColor="#F5F5F5"
+                                StrokeThickness="1"
+                                Stroke="#E0E0E0"
+                                Padding="15,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Entry x:Name="LoginEntry"
+                                   Placeholder="Введите логин"
+                                   Text="{Binding Login}"
+                                   Keyboard="Default"
+                                   BackgroundColor="Transparent" />
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <!-- Password Entry -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Пароль"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="Gray" />
+                        <Border BackgroundColor="#F5F5F5"
+                                StrokeThickness="1"
+                                Stroke="#E0E0E0"
+                                Padding="15,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Entry x:Name="PasswordEntry"
+                                   Placeholder="Введите пароль"
+                                   Text="{Binding Password}"
+                                   IsPassword="True"
+                                   Keyboard="Default"
+                                   BackgroundColor="Transparent" />
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <!-- Error Message -->
+                    <Label x:Name="ErrorMessageLabel"
+                           Text="{Binding ErrorMessage}"
+                           TextColor="Red"
+                           IsVisible="{Binding HasError}"
+                           HorizontalOptions="Center"
+                           FontSize="12" />
+                    
+                    <!-- Login Button -->
+                    <Button Text="Войти"
+                            Clicked="OnLoginClicked"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            CornerRadius="10"
+                            HeightRequest="50"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
+                    
+                    <!-- Loading Indicator -->
+                    <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                     IsVisible="{Binding IsLoading}"
+                                     Color="{StaticResource Primary}"
+                                     HorizontalOptions="Center"
+                                     Margin="0,10,0,0" />
+                    
+                </VerticalStackLayout>
+            </Border>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+    
+</ContentPage>
+

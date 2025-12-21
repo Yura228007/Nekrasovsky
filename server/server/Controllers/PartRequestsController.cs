@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
 
@@ -10,203 +9,96 @@ namespace server.Controllers
     public class PartRequestsController : ControllerBase
     {
         private readonly IPartRequestService _partRequestService;
-        private readonly ILogger<PartRequestsController> _logger;
 
-        public PartRequestsController(IPartRequestService partRequestService, ILogger<PartRequestsController> logger)
+        public PartRequestsController(IPartRequestService partRequestService)
         {
             _partRequestService = partRequestService;
-            _logger = logger;
         }
 
         // GET: api/part-requests
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PartRequest>>> GetAll()
         {
-            try
-            {
-                var requests = await _partRequestService.GetAllPartRequestsAsync();
-                return Ok(requests);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting all part requests");
-                return StatusCode(500, new { message = "An error occurred while retrieving part requests" });
-            }
+            var requests = await _partRequestService.GetAllPartRequestsAsync();
+            return Ok(requests);
         }
 
         // GET: api/part-requests/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PartRequest>> GetById(int id)
         {
-            try
-            {
-                if (id <= 0)
-                {
-                    return BadRequest(new { message = "Id must be greater than 0" });
-                }
+            var request = await _partRequestService.GetPartRequestByIdAsync(id);
+            if (request == null)
+                return NotFound($"PartRequest with ID {id} not found");
 
-                var request = await _partRequestService.GetPartRequestByIdAsync(id);
-                if (request == null)
-                {
-                    _logger.LogWarning("PartRequest with ID {PartRequestId} not found", id);
-                    return NotFound(new { message = $"PartRequest with ID {id} not found" });
-                }
-
-                return Ok(request);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting part request with ID {PartRequestId}", id);
-                return StatusCode(500, new { message = "An error occurred while retrieving the part request" });
-            }
+            return Ok(request);
         }
 
         // GET: api/part-requests/status/{status}
         [HttpGet("status/{status}")]
         public async Task<ActionResult<IEnumerable<PartRequest>>> GetByStatus(PartRequestStatus status)
         {
-            try
-            {
-                var requests = await _partRequestService.GetPartRequestsByStatusAsync(status);
-                return Ok(requests);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting part requests by status {Status}", status);
-                return StatusCode(500, new { message = "An error occurred while retrieving part requests" });
-            }
+            var requests = await _partRequestService.GetPartRequestsByStatusAsync(status);
+            return Ok(requests);
         }
 
         // GET: api/part-requests/user/{userId}?sent=true
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<PartRequest>>> GetByUser(int userId, [FromQuery] bool sent = true)
         {
-            try
-            {
-                if (userId <= 0)
-                {
-                    return BadRequest(new { message = "UserId must be greater than 0" });
-                }
-
-                var requests = await _partRequestService.GetPartRequestsByUserAsync(userId, sent);
-                return Ok(requests);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting part requests for user {UserId}", userId);
-                return StatusCode(500, new { message = "An error occurred while retrieving part requests" });
-            }
+            var requests = await _partRequestService.GetPartRequestsByUserAsync(userId, sent);
+            return Ok(requests);
         }
 
         // GET: api/part-requests/warehouse/{warehouseId}?from=true
         [HttpGet("warehouse/{warehouseId}")]
         public async Task<ActionResult<IEnumerable<PartRequest>>> GetByWarehouse(int warehouseId, [FromQuery] bool from = true)
         {
-            try
-            {
-                if (warehouseId <= 0)
-                {
-                    return BadRequest(new { message = "WarehouseId must be greater than 0" });
-                }
-
-                var requests = await _partRequestService.GetPartRequestsByWarehouseAsync(warehouseId, from);
-                return Ok(requests);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting part requests for warehouse {WarehouseId}", warehouseId);
-                return StatusCode(500, new { message = "An error occurred while retrieving part requests" });
-            }
+            var requests = await _partRequestService.GetPartRequestsByWarehouseAsync(warehouseId, from);
+            return Ok(requests);
         }
 
         // GET: api/part-requests/material/{materialId}
         [HttpGet("material/{materialId}")]
         public async Task<ActionResult<IEnumerable<PartRequest>>> GetByMaterial(int materialId)
         {
-            try
-            {
-                if (materialId <= 0)
-                {
-                    return BadRequest(new { message = "MaterialId must be greater than 0" });
-                }
-
-                var requests = await _partRequestService.GetPartRequestsByMaterialAsync(materialId);
-                return Ok(requests);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting part requests for material {MaterialId}", materialId);
-                return StatusCode(500, new { message = "An error occurred while retrieving part requests" });
-            }
+            var requests = await _partRequestService.GetPartRequestsByMaterialAsync(materialId);
+            return Ok(requests);
         }
 
-        // POST: api/part-requests
-        [HttpPost]
-        public async Task<IActionResult> CreatePartRequest([FromBody] PartRequest request)
+        // POST: api/part-requests/add
+        [HttpPost("add")]
+        public async Task<IActionResult> AddPartRequest([FromBody] PartRequest request)
         {
             if (!ModelState.IsValid)
-            {
-                return BadRequest(new { message = "Invalid model state", errors = ModelState });
-            }
+                return BadRequest(ModelState);
 
             try
             {
                 var createdRequest = await _partRequestService.CreatePartRequestAsync(request);
-                _logger.LogInformation("PartRequest created successfully with ID: {PartRequestId}", createdRequest.Id);
-                return CreatedAtAction(nameof(GetById), new { id = createdRequest.Id },
-                    new { message = "PartRequest created successfully", request = createdRequest });
+                return Ok(new { message = "PartRequest created successfully", request = createdRequest });
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogWarning(ex, "Key not found while creating part request");
                 return NotFound(new { message = ex.Message });
-            }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, "Database error while creating part request");
-                return StatusCode(500, new { message = "An error occurred while saving the part request to the database" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while creating part request");
-                return StatusCode(500, new { message = "An unexpected error occurred while creating the part request" });
             }
         }
 
-        // PUT: api/part-requests/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePartRequest(int id, [FromBody] PartRequest updated)
+        // POST: api/part-requests/edit/{id}
+        [HttpPost("edit/{id}")]
+        public async Task<IActionResult> EditPartRequest(int id, [FromBody] PartRequest updated)
         {
-            if (id <= 0)
-            {
-                return BadRequest(new { message = "Id must be greater than 0" });
-            }
-
             if (!ModelState.IsValid)
-            {
-                return BadRequest(new { message = "Invalid model state", errors = ModelState });
-            }
+                return BadRequest(ModelState);
 
             try
             {
                 var request = await _partRequestService.UpdatePartRequestAsync(id, updated);
-                _logger.LogInformation("PartRequest updated successfully with ID: {PartRequestId}", id);
                 return Ok(new { message = "PartRequest updated successfully", request });
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogWarning(ex, "PartRequest with ID {PartRequestId} not found for update", id);
                 return NotFound(new { message = ex.Message });
-            }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, "Database error while updating part request with ID {PartRequestId}", id);
-                return StatusCode(500, new { message = "An error occurred while updating the part request in the database" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while updating part request with ID {PartRequestId}", id);
-                return StatusCode(500, new { message = "An unexpected error occurred while updating the part request" });
             }
         }
 
@@ -216,24 +108,12 @@ namespace server.Controllers
         {
             try
             {
-                if (id <= 0)
-                {
-                    return BadRequest(new { message = "Id must be greater than 0" });
-                }
-
                 var request = await _partRequestService.ApprovePartRequestAsync(id);
-                _logger.LogInformation("PartRequest approved successfully with ID: {PartRequestId}", id);
                 return Ok(new { message = "PartRequest approved successfully", request });
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogWarning(ex, "PartRequest with ID {PartRequestId} not found for approval", id);
                 return NotFound(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while approving part request with ID {PartRequestId}", id);
-                return StatusCode(500, new { message = "An unexpected error occurred while approving the part request" });
             }
         }
 
@@ -243,58 +123,25 @@ namespace server.Controllers
         {
             try
             {
-                if (id <= 0)
-                {
-                    return BadRequest(new { message = "Id must be greater than 0" });
-                }
-
                 var request = await _partRequestService.RejectPartRequestAsync(id, reason);
-                _logger.LogInformation("PartRequest rejected successfully with ID: {PartRequestId}", id);
                 return Ok(new { message = "PartRequest rejected successfully", request });
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogWarning(ex, "PartRequest with ID {PartRequestId} not found for rejection", id);
                 return NotFound(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while rejecting part request with ID {PartRequestId}", id);
-                return StatusCode(500, new { message = "An unexpected error occurred while rejecting the part request" });
             }
         }
 
-        // DELETE: api/part-requests/5
-        [HttpDelete("{id}")]
+        // POST: api/part-requests/delete/{id}
+        [HttpPost("delete/{id}")]
         public async Task<IActionResult> DeletePartRequest(int id)
         {
-            try
-            {
-                if (id <= 0)
-                {
-                    return BadRequest(new { message = "Id must be greater than 0" });
-                }
+            var deleted = await _partRequestService.DeletePartRequestAsync(id);
+            if (!deleted)
+                return NotFound($"PartRequest with ID {id} not found");
 
-                var deleted = await _partRequestService.DeletePartRequestAsync(id);
-                if (!deleted)
-                {
-                    _logger.LogWarning("PartRequest with ID {PartRequestId} not found for deletion", id);
-                    return NotFound(new { message = $"PartRequest with ID {id} not found" });
-                }
-
-                _logger.LogInformation("PartRequest deleted successfully with ID: {PartRequestId}", id);
-                return Ok(new { message = "PartRequest deleted successfully" });
-            }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, "Database error while deleting part request with ID {PartRequestId}", id);
-                return StatusCode(500, new { message = "An error occurred while deleting the part request from the database" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while deleting part request with ID {PartRequestId}", id);
-                return StatusCode(500, new { message = "An unexpected error occurred while deleting the part request" });
-            }
+            return Ok(new { message = "PartRequest deleted successfully" });
         }
     }
 }
+

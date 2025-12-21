@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
 
@@ -10,204 +9,88 @@ namespace server.Controllers
     public class ShiftTransfersController : ControllerBase
     {
         private readonly IShiftTransferService _shiftTransferService;
-        private readonly ILogger<ShiftTransfersController> _logger;
 
-        public ShiftTransfersController(IShiftTransferService shiftTransferService, ILogger<ShiftTransfersController> logger)
+        public ShiftTransfersController(IShiftTransferService shiftTransferService)
         {
             _shiftTransferService = shiftTransferService;
-            _logger = logger;
         }
 
         // GET: api/shift-transfers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ShiftTransfer>>> GetAll()
         {
-            try
-            {
-                var transfers = await _shiftTransferService.GetAllShiftTransfersAsync();
-                return Ok(transfers);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting all shift transfers");
-                return StatusCode(500, new { message = "An error occurred while retrieving shift transfers" });
-            }
+            var transfers = await _shiftTransferService.GetAllShiftTransfersAsync();
+            return Ok(transfers);
         }
 
         // GET: api/shift-transfers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ShiftTransfer>> GetById(int id)
         {
-            try
-            {
-                if (id <= 0)
-                {
-                    return BadRequest(new { message = "Id must be greater than 0" });
-                }
+            var transfer = await _shiftTransferService.GetShiftTransferByIdAsync(id);
+            if (transfer == null)
+                return NotFound($"ShiftTransfer with ID {id} not found");
 
-                var transfer = await _shiftTransferService.GetShiftTransferByIdAsync(id);
-                if (transfer == null)
-                {
-                    _logger.LogWarning("ShiftTransfer with ID {ShiftTransferId} not found", id);
-                    return NotFound(new { message = $"ShiftTransfer with ID {id} not found" });
-                }
-
-                return Ok(transfer);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting shift transfer with ID {ShiftTransferId}", id);
-                return StatusCode(500, new { message = "An error occurred while retrieving the shift transfer" });
-            }
+            return Ok(transfer);
         }
 
         // GET: api/shift-transfers/user/{userId}?sent=true
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<ShiftTransfer>>> GetByUser(int userId, [FromQuery] bool sent = true)
         {
-            try
-            {
-                if (userId <= 0)
-                {
-                    return BadRequest(new { message = "UserId must be greater than 0" });
-                }
-
-                var transfers = await _shiftTransferService.GetShiftTransfersByUserAsync(userId, sent);
-                return Ok(transfers);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting shift transfers for user {UserId}", userId);
-                return StatusCode(500, new { message = "An error occurred while retrieving shift transfers" });
-            }
+            var transfers = await _shiftTransferService.GetShiftTransfersByUserAsync(userId, sent);
+            return Ok(transfers);
         }
 
         // GET: api/shift-transfers/date/{date}
         [HttpGet("date/{date}")]
-        public async Task<ActionResult<IEnumerable<ShiftTransfer>>> GetByDate(string date)
+        public async Task<ActionResult<IEnumerable<ShiftTransfer>>> GetByDate(DateTime date)
         {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(date))
-                {
-                    return BadRequest(new { message = "Date cannot be empty" });
-                }
-
-                if (!DateTime.TryParse(date, out DateTime parsedDate))
-                {
-                    return BadRequest(new { message = "Date must be a valid DateTime format" });
-                }
-
-                var transfers = await _shiftTransferService.GetShiftTransfersByDateAsync(parsedDate);
-                return Ok(transfers);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting shift transfers by date");
-                return StatusCode(500, new { message = "An error occurred while retrieving shift transfers" });
-            }
+            var transfers = await _shiftTransferService.GetShiftTransfersByDateAsync(date);
+            return Ok(transfers);
         }
 
         // GET: api/shift-transfers/pending/{userId}
         [HttpGet("pending/{userId}")]
         public async Task<ActionResult<IEnumerable<ShiftTransfer>>> GetPending(int userId)
         {
-            try
-            {
-                if (userId <= 0)
-                {
-                    return BadRequest(new { message = "UserId must be greater than 0" });
-                }
-
-                var transfers = await _shiftTransferService.GetPendingShiftTransfersAsync(userId);
-                return Ok(transfers);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting pending shift transfers for user {UserId}", userId);
-                return StatusCode(500, new { message = "An error occurred while retrieving shift transfers" });
-            }
+            var transfers = await _shiftTransferService.GetPendingShiftTransfersAsync(userId);
+            return Ok(transfers);
         }
 
-        // POST: api/shift-transfers
-        [HttpPost]
-        public async Task<IActionResult> CreateShiftTransfer([FromBody] ShiftTransfer transfer)
+        // POST: api/shift-transfers/add
+        [HttpPost("add")]
+        public async Task<IActionResult> AddShiftTransfer([FromBody] ShiftTransfer transfer)
         {
             if (!ModelState.IsValid)
-            {
-                return BadRequest(new { message = "Invalid model state", errors = ModelState });
-            }
+                return BadRequest(ModelState);
 
             try
             {
-                // Validate TransferDate - ensure it's not default
-                if (transfer.TransferDate == default(DateTime))
-                {
-                    return BadRequest(new { message = "TransferDate cannot be empty or default" });
-                }
-
                 var createdTransfer = await _shiftTransferService.CreateShiftTransferAsync(transfer);
-                _logger.LogInformation("ShiftTransfer created successfully with ID: {ShiftTransferId}", createdTransfer.Id);
-                return CreatedAtAction(nameof(GetById), new { id = createdTransfer.Id },
-                    new { message = "ShiftTransfer created successfully", transfer = createdTransfer });
+                return Ok(new { message = "ShiftTransfer created successfully", transfer = createdTransfer });
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogWarning(ex, "Key not found while creating shift transfer");
                 return NotFound(new { message = ex.Message });
-            }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, "Database error while creating shift transfer");
-                return StatusCode(500, new { message = "An error occurred while saving the shift transfer to the database" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while creating shift transfer");
-                return StatusCode(500, new { message = "An unexpected error occurred while creating the shift transfer" });
             }
         }
 
-        // PUT: api/shift-transfers/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateShiftTransfer(int id, [FromBody] ShiftTransfer updated)
+        // POST: api/shift-transfers/edit/{id}
+        [HttpPost("edit/{id}")]
+        public async Task<IActionResult> EditShiftTransfer(int id, [FromBody] ShiftTransfer updated)
         {
-            if (id <= 0)
-            {
-                return BadRequest(new { message = "Id must be greater than 0" });
-            }
-
             if (!ModelState.IsValid)
-            {
-                return BadRequest(new { message = "Invalid model state", errors = ModelState });
-            }
+                return BadRequest(ModelState);
 
             try
             {
-                // Validate TransferDate - ensure it's not default
-                if (updated.TransferDate == default(DateTime))
-                {
-                    return BadRequest(new { message = "TransferDate cannot be empty or default" });
-                }
-
                 var transfer = await _shiftTransferService.UpdateShiftTransferAsync(id, updated);
-                _logger.LogInformation("ShiftTransfer updated successfully with ID: {ShiftTransferId}", id);
                 return Ok(new { message = "ShiftTransfer updated successfully", transfer });
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogWarning(ex, "ShiftTransfer with ID {ShiftTransferId} not found for update", id);
                 return NotFound(new { message = ex.Message });
-            }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, "Database error while updating shift transfer with ID {ShiftTransferId}", id);
-                return StatusCode(500, new { message = "An error occurred while updating the shift transfer in the database" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while updating shift transfer with ID {ShiftTransferId}", id);
-                return StatusCode(500, new { message = "An unexpected error occurred while updating the shift transfer" });
             }
         }
 
@@ -217,58 +100,25 @@ namespace server.Controllers
         {
             try
             {
-                if (id <= 0)
-                {
-                    return BadRequest(new { message = "Id must be greater than 0" });
-                }
-
                 var transfer = await _shiftTransferService.ConfirmShiftTransferAsync(id);
-                _logger.LogInformation("ShiftTransfer confirmed successfully with ID: {ShiftTransferId}", id);
                 return Ok(new { message = "ShiftTransfer confirmed successfully", transfer });
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogWarning(ex, "ShiftTransfer with ID {ShiftTransferId} not found for confirmation", id);
                 return NotFound(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while confirming shift transfer with ID {ShiftTransferId}", id);
-                return StatusCode(500, new { message = "An unexpected error occurred while confirming the shift transfer" });
             }
         }
 
-        // DELETE: api/shift-transfers/5
-        [HttpDelete("{id}")]
+        // POST: api/shift-transfers/delete/{id}
+        [HttpPost("delete/{id}")]
         public async Task<IActionResult> DeleteShiftTransfer(int id)
         {
-            try
-            {
-                if (id <= 0)
-                {
-                    return BadRequest(new { message = "Id must be greater than 0" });
-                }
+            var deleted = await _shiftTransferService.DeleteShiftTransferAsync(id);
+            if (!deleted)
+                return NotFound($"ShiftTransfer with ID {id} not found");
 
-                var deleted = await _shiftTransferService.DeleteShiftTransferAsync(id);
-                if (!deleted)
-                {
-                    _logger.LogWarning("ShiftTransfer with ID {ShiftTransferId} not found for deletion", id);
-                    return NotFound(new { message = $"ShiftTransfer with ID {id} not found" });
-                }
-
-                _logger.LogInformation("ShiftTransfer deleted successfully with ID: {ShiftTransferId}", id);
-                return Ok(new { message = "ShiftTransfer deleted successfully" });
-            }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, "Database error while deleting shift transfer with ID {ShiftTransferId}", id);
-                return StatusCode(500, new { message = "An error occurred while deleting the shift transfer from the database" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while deleting shift transfer with ID {ShiftTransferId}", id);
-                return StatusCode(500, new { message = "An unexpected error occurred while deleting the shift transfer" });
-            }
+            return Ok(new { message = "ShiftTransfer deleted successfully" });
         }
     }
 }
+

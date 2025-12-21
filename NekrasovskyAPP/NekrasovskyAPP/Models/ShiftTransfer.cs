@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PasswordManagerV1.Models
+namespace NekrasovskyAPP.Models
 {
     [Table("ShiftTransfer")]
     public class ShiftTransfer

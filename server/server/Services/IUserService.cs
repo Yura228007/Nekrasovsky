@@ -5,7 +5,6 @@ namespace server.Services
     public interface IUserService
     {
         Task<IEnumerable<User>> GetAllUsersAsync();
-        Task<(IEnumerable<User> Users, int TotalCount)> GetAllUsersPagedAsync(int page, int pageSize);
         Task<IEnumerable<User>> SearchUsersAsync(string? name, string? surname);
         Task<User?> GetUserByIdAsync(int id);
         Task<User> CreateUserAsync(User user);

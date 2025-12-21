@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PasswordManagerV1.Models;
+using NekrasovskyAPP.Models;
 
 namespace NekrasovskyAPP.Models
 {

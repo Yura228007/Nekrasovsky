@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
 
@@ -10,243 +9,113 @@ namespace server.Controllers
     public class FillingWarehousesController : ControllerBase
     {
         private readonly IFillingWarehouseService _fillingWarehouseService;
-        private readonly ILogger<FillingWarehousesController> _logger;
 
-        public FillingWarehousesController(IFillingWarehouseService fillingWarehouseService, ILogger<FillingWarehousesController> logger)
+        public FillingWarehousesController(IFillingWarehouseService fillingWarehouseService)
         {
             _fillingWarehouseService = fillingWarehouseService;
-            _logger = logger;
         }
 
         // GET: api/filling-warehouses
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FillingWarehouse>>> GetAll()
         {
-            try
-            {
-                var fillings = await _fillingWarehouseService.GetAllFillingWarehousesAsync();
-                return Ok(fillings);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting all filling warehouses");
-                return StatusCode(500, new { message = "An error occurred while retrieving filling warehouses" });
-            }
+            var fillings = await _fillingWarehouseService.GetAllFillingWarehousesAsync();
+            return Ok(fillings);
         }
 
         // GET: api/filling-warehouses/{warehouseId}/{materialId}
         [HttpGet("{warehouseId}/{materialId}")]
         public async Task<ActionResult<FillingWarehouse>> GetFilling(int warehouseId, int materialId)
         {
-            try
-            {
-                if (warehouseId <= 0 || materialId <= 0)
-                {
-                    return BadRequest(new { message = "All IDs must be greater than 0" });
-                }
+            var filling = await _fillingWarehouseService.GetFillingWarehouseAsync(warehouseId, materialId);
+            if (filling == null)
+                return NotFound($"FillingWarehouse not found");
 
-                var filling = await _fillingWarehouseService.GetFillingWarehouseAsync(warehouseId, materialId);
-                if (filling == null)
-                {
-                    _logger.LogWarning("FillingWarehouse not found for WarehouseId {WarehouseId} and MaterialId {MaterialId}", warehouseId, materialId);
-                    return NotFound(new { message = "FillingWarehouse not found" });
-                }
-
-                return Ok(filling);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting filling warehouse");
-                return StatusCode(500, new { message = "An error occurred while retrieving the filling warehouse" });
-            }
+            return Ok(filling);
         }
 
         // GET: api/filling-warehouses/warehouse/{warehouseId}
         [HttpGet("warehouse/{warehouseId}")]
         public async Task<ActionResult<IEnumerable<FillingWarehouse>>> GetByWarehouse(int warehouseId)
         {
-            try
-            {
-                if (warehouseId <= 0)
-                {
-                    return BadRequest(new { message = "WarehouseId must be greater than 0" });
-                }
-
-                var fillings = await _fillingWarehouseService.GetFillingByWarehouseAsync(warehouseId);
-                return Ok(fillings);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting filling warehouses for warehouse {WarehouseId}", warehouseId);
-                return StatusCode(500, new { message = "An error occurred while retrieving filling warehouses" });
-            }
+            var fillings = await _fillingWarehouseService.GetFillingByWarehouseAsync(warehouseId);
+            return Ok(fillings);
         }
 
         // GET: api/filling-warehouses/material/{materialId}
         [HttpGet("material/{materialId}")]
         public async Task<ActionResult<IEnumerable<FillingWarehouse>>> GetByMaterial(int materialId)
         {
-            try
-            {
-                if (materialId <= 0)
-                {
-                    return BadRequest(new { message = "MaterialId must be greater than 0" });
-                }
-
-                var fillings = await _fillingWarehouseService.GetFillingByMaterialAsync(materialId);
-                return Ok(fillings);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting filling warehouses for material {MaterialId}", materialId);
-                return StatusCode(500, new { message = "An error occurred while retrieving filling warehouses" });
-            }
+            var fillings = await _fillingWarehouseService.GetFillingByMaterialAsync(materialId);
+            return Ok(fillings);
         }
 
-        // POST: api/filling-warehouses
-        [HttpPost]
-        public async Task<IActionResult> CreateFilling([FromBody] FillingWarehouse filling)
+        // POST: api/filling-warehouses/add
+        [HttpPost("add")]
+        public async Task<IActionResult> AddFilling([FromBody] FillingWarehouse filling)
         {
             if (!ModelState.IsValid)
-            {
-                return BadRequest(new { message = "Invalid model state", errors = ModelState });
-            }
+                return BadRequest(ModelState);
 
             try
             {
-                if (filling.WarehouseId <= 0 || filling.MaterialId <= 0)
-                {
-                    return BadRequest(new { message = "All IDs must be greater than 0" });
-                }
-
                 var createdFilling = await _fillingWarehouseService.CreateFillingWarehouseAsync(filling);
-                _logger.LogInformation("FillingWarehouse created successfully for WarehouseId {WarehouseId} and MaterialId {MaterialId}", filling.WarehouseId, filling.MaterialId);
                 return Ok(new { message = "FillingWarehouse created successfully", filling = createdFilling });
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogWarning(ex, "Key not found while creating filling warehouse");
                 return NotFound(new { message = ex.Message });
             }
             catch (InvalidOperationException ex)
             {
-                _logger.LogWarning(ex, "Invalid operation while creating filling warehouse");
                 return BadRequest(new { message = ex.Message });
-            }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, "Database error while creating filling warehouse");
-                return StatusCode(500, new { message = "An error occurred while saving the filling warehouse to the database" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while creating filling warehouse");
-                return StatusCode(500, new { message = "An unexpected error occurred while creating the filling warehouse" });
             }
         }
 
-        // POST: api/filling-warehouses/edit/{warehouseId}/{materialId} - POST because of composite key
+        // POST: api/filling-warehouses/edit/{warehouseId}/{materialId}
         [HttpPost("edit/{warehouseId}/{materialId}")]
-        public async Task<IActionResult> UpdateFilling(int warehouseId, int materialId, [FromBody] FillingWarehouse updated)
+        public async Task<IActionResult> EditFilling(int warehouseId, int materialId, [FromBody] FillingWarehouse updated)
         {
-            if (warehouseId <= 0 || materialId <= 0)
-            {
-                return BadRequest(new { message = "All IDs must be greater than 0" });
-            }
-
             if (!ModelState.IsValid)
-            {
-                return BadRequest(new { message = "Invalid model state", errors = ModelState });
-            }
+                return BadRequest(ModelState);
 
             try
             {
                 var filling = await _fillingWarehouseService.UpdateFillingWarehouseAsync(warehouseId, materialId, updated);
-                _logger.LogInformation("FillingWarehouse updated successfully for WarehouseId {WarehouseId} and MaterialId {MaterialId}", warehouseId, materialId);
                 return Ok(new { message = "FillingWarehouse updated successfully", filling });
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogWarning(ex, "FillingWarehouse not found for update with WarehouseId {WarehouseId} and MaterialId {MaterialId}", warehouseId, materialId);
                 return NotFound(new { message = ex.Message });
-            }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, "Database error while updating filling warehouse");
-                return StatusCode(500, new { message = "An error occurred while updating the filling warehouse in the database" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while updating filling warehouse");
-                return StatusCode(500, new { message = "An unexpected error occurred while updating the filling warehouse" });
             }
         }
 
-        // POST: api/filling-warehouses/delete/{warehouseId}/{materialId} - POST because of composite key
+        // POST: api/filling-warehouses/delete/{warehouseId}/{materialId}
         [HttpPost("delete/{warehouseId}/{materialId}")]
         public async Task<IActionResult> DeleteFilling(int warehouseId, int materialId)
         {
-            try
-            {
-                if (warehouseId <= 0 || materialId <= 0)
-                {
-                    return BadRequest(new { message = "All IDs must be greater than 0" });
-                }
+            var deleted = await _fillingWarehouseService.DeleteFillingWarehouseAsync(warehouseId, materialId);
+            if (!deleted)
+                return NotFound($"FillingWarehouse not found");
 
-                var deleted = await _fillingWarehouseService.DeleteFillingWarehouseAsync(warehouseId, materialId);
-                if (!deleted)
-                {
-                    _logger.LogWarning("FillingWarehouse not found for deletion with WarehouseId {WarehouseId} and MaterialId {MaterialId}", warehouseId, materialId);
-                    return NotFound(new { message = "FillingWarehouse not found" });
-                }
-
-                _logger.LogInformation("FillingWarehouse deleted successfully for WarehouseId {WarehouseId} and MaterialId {MaterialId}", warehouseId, materialId);
-                return Ok(new { message = "FillingWarehouse deleted successfully" });
-            }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError(ex, "Database error while deleting filling warehouse");
-                return StatusCode(500, new { message = "An error occurred while deleting the filling warehouse from the database" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while deleting filling warehouse");
-                return StatusCode(500, new { message = "An unexpected error occurred while deleting the filling warehouse" });
-            }
+            return Ok(new { message = "FillingWarehouse deleted successfully" });
         }
 
         // POST: api/filling-warehouses/update-quantity
         [HttpPost("update-quantity")]
         public async Task<IActionResult> UpdateQuantity([FromBody] FillingWarehouse filling)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(new { message = "Invalid model state", errors = ModelState });
-            }
-
             try
             {
-                if (filling.WarehouseId <= 0 || filling.MaterialId <= 0)
-                {
-                    return BadRequest(new { message = "All IDs must be greater than 0" });
-                }
-
                 var updatedFilling = await _fillingWarehouseService.UpdateQuantityAsync(
-                    filling.WarehouseId,
-                    filling.MaterialId,
+                    filling.WarehouseId, 
+                    filling.MaterialId, 
                     filling.Quantity);
-                _logger.LogInformation("Quantity updated successfully for WarehouseId {WarehouseId} and MaterialId {MaterialId}", filling.WarehouseId, filling.MaterialId);
                 return Ok(new { message = "Quantity updated successfully", filling = updatedFilling });
             }
             catch (KeyNotFoundException ex)
             {
-                _logger.LogWarning(ex, "FillingWarehouse not found for quantity update");
                 return NotFound(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error while updating quantity");
-                return StatusCode(500, new { message = "An unexpected error occurred" });
             }
         }
 
@@ -254,21 +123,9 @@ namespace server.Controllers
         [HttpGet("warehouse/{warehouseId}/stock")]
         public async Task<ActionResult<IEnumerable<FillingWarehouse>>> GetStock(int warehouseId)
         {
-            try
-            {
-                if (warehouseId <= 0)
-                {
-                    return BadRequest(new { message = "WarehouseId must be greater than 0" });
-                }
-
-                var stock = await _fillingWarehouseService.GetWarehouseStockAsync(warehouseId);
-                return Ok(stock);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting stock for warehouse {WarehouseId}", warehouseId);
-                return StatusCode(500, new { message = "An error occurred while retrieving stock" });
-            }
+            var stock = await _fillingWarehouseService.GetWarehouseStockAsync(warehouseId);
+            return Ok(stock);
         }
     }
 }
+

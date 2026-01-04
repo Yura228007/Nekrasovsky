@@ -138,6 +138,98 @@ namespace NekrasovskyAPP.ViewModels
             }
         }
 
+        public async Task SearchUsersAsync(string? name, string? surname)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var users = await _apiService.SearchUsersAsync(name, surname);
+                Users.Clear();
+                foreach (var user in users)
+                {
+                    Users.Add(user);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка поиска пользователей: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task SearchProductsAsync(string? name, string? code)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var products = await _apiService.SearchProductsAsync(name, code);
+                Products.Clear();
+                foreach (var product in products)
+                {
+                    Products.Add(product);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка поиска продуктов: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task SearchMaterialsAsync(string? name, string? code)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var materials = await _apiService.SearchMaterialsAsync(name, code);
+                Materials.Clear();
+                foreach (var material in materials)
+                {
+                    Materials.Add(material);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка поиска материалов: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task SearchWarehousesAsync(string? name, string? type)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var warehouses = await _apiService.SearchWarehousesAsync(name, type);
+                Warehouses.Clear();
+                foreach (var warehouse in warehouses)
+                {
+                    Warehouses.Add(warehouse);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка поиска складов: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

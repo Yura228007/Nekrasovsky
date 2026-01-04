@@ -33,18 +33,16 @@ namespace NekrasovskyAPP.Pages
 
         private async void OnAddClicked(object? sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//UserDetailPage");
+            await DisplayAlert("Информация", "Функция добавления пользователя будет реализована позже", "OK");
         }
 
         private async void OnUserSelected(object? sender, SelectionChangedEventArgs e)
         {
             if (e.CurrentSelection.FirstOrDefault() is User selectedUser)
             {
-                var navigationParameter = new Dictionary<string, object>
-                {
-                    { "User", selectedUser }
-                };
-                await Shell.Current.GoToAsync("//UserDetailPage", navigationParameter);
+                await DisplayAlert("Пользователь", 
+                    $"Имя: {selectedUser.Name}\nФамилия: {selectedUser.Surname}\nEmail: {selectedUser.Email}\nЛогин: {selectedUser.Login}", 
+                    "OK");
             }
         }
 
@@ -68,8 +66,7 @@ namespace NekrasovskyAPP.Pages
                 var name = parts.Length > 0 ? parts[0] : null;
                 var surname = parts.Length > 1 ? parts[1] : null;
                 
-                // Search will be implemented in ViewModel
-                await _viewModel.LoadUsersAsync();
+                await _viewModel.SearchUsersAsync(name, surname);
             }
         }
     }

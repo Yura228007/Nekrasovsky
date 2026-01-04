@@ -1,17 +1,90 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:NekrasovskyAPP.Converters"
              x:Class="NekrasovskyAPP.Pages.WorkReportsPage"
              Title="Отчеты о работе">
     
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IsStringNotEmptyConverter x:Key="IsStringNotEmpty" />
+            <converters:IsNullConverter x:Key="IsNullConverter" />
+            <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
+        <ToolbarItem Text="Начать работу" Clicked="OnStartWorkClicked" />
     </ContentPage.ToolbarItems>
     
-    <Label Text="Функционал отчетов в разработке"
-           FontSize="18"
-           HorizontalOptions="Center"
-           VerticalOptions="Center" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <!-- Work Reports List -->
+        <RefreshView Grid.Row="0" 
+                     IsRefreshing="{Binding IsLoading}"
+                     Refreshing="OnRefreshing">
+            <CollectionView x:Name="WorkReportsCollectionView"
+                          ItemsSource="{Binding WorkReports}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="White"
+                                StrokeThickness="1"
+                                Stroke="#E0E0E0"
+                                Margin="10,5"
+                                Padding="15">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="{Binding Date, StringFormat='Дата: {0:dd.MM.yyyy}'}"
+                                       FontSize="18"
+                                       FontAttributes="Bold" />
+                                <Label Text="{Binding StartWork, StringFormat='Начало: {0:HH:mm}'}"
+                                       FontSize="14"
+                                       TextColor="Gray" />
+                                <Label Text="{Binding FinishWork, StringFormat='Окончание: {0:HH:mm}'}"
+                                       FontSize="14"
+                                       TextColor="Gray"
+                                       IsVisible="{Binding FinishWork, Converter={StaticResource IsNotNullConverter}}" />
+                                <Label Text="{Binding Note, StringFormat='Примечание: {0}'}"
+                                       FontSize="12"
+                                       TextColor="DarkGray"
+                                       IsVisible="{Binding Note, Converter={StaticResource IsStringNotEmpty}}" />
+                                <Button Text="Завершить работу"
+                                        Clicked="OnFinishWorkClicked"
+                                        BackgroundColor="Orange"
+                                        TextColor="White"
+                                        CornerRadius="5"
+                                        Margin="0,10,0,0"
+                                        IsVisible="{Binding FinishWork, Converter={StaticResource IsNullConverter}}"
+                                        CommandParameter="{Binding .}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        
+        <!-- Loading Indicator -->
+        <ActivityIndicator Grid.Row="0"
+                          IsRunning="{Binding IsLoading}"
+                          IsVisible="{Binding IsLoading}"
+                          Color="{StaticResource Primary}"
+                          VerticalOptions="Center"
+                          HorizontalOptions="Center" />
+        
+        <!-- Error Message -->
+        <Label Grid.Row="1"
+               Text="{Binding ErrorMessage}"
+               TextColor="Red"
+               IsVisible="{Binding ErrorMessage, Converter={StaticResource IsStringNotEmpty}}"
+               Margin="10"
+               HorizontalOptions="Center" />
+    </Grid>
     
 </ContentPage>
-

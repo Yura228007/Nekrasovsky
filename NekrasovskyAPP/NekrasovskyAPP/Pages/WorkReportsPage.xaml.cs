@@ -1,16 +1,46 @@
+using NekrasovskyAPP.ViewModels;
+using NekrasovskyAPP.Models;
+
 namespace NekrasovskyAPP.Pages
 {
     public partial class WorkReportsPage : ContentPage
     {
-        public WorkReportsPage()
+        private readonly WorkReportsViewModel _viewModel;
+
+        public WorkReportsPage(WorkReportsViewModel viewModel)
         {
             InitializeComponent();
+            _viewModel = viewModel;
+            BindingContext = _viewModel;
         }
 
-        private void OnRefreshClicked(object? sender, EventArgs e)
+        protected override async void OnAppearing()
         {
-            // Implementation
+            base.OnAppearing();
+            await _viewModel.LoadWorkReportsAsync();
+        }
+
+        private async void OnRefreshing(object? sender, EventArgs e)
+        {
+            await _viewModel.LoadWorkReportsAsync();
+        }
+
+        private async void OnRefreshClicked(object? sender, EventArgs e)
+        {
+            await _viewModel.LoadWorkReportsAsync();
+        }
+
+        private async void OnStartWorkClicked(object? sender, EventArgs e)
+        {
+            await _viewModel.StartWorkAsync();
+        }
+
+        private async void OnFinishWorkClicked(object? sender, EventArgs e)
+        {
+            if (sender is Button button && button.CommandParameter is WorkReport report)
+            {
+                await _viewModel.FinishWorkAsync(report.Id);
+            }
         }
     }
 }
-

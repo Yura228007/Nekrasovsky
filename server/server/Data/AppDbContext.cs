@@ -27,7 +27,7 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // =============================
-        // ?? ????????? ?????
+        // Составные ключи
         // =============================
 
         modelBuilder.Entity<AccessibleMovement>()
@@ -43,7 +43,7 @@ public class AppDbContext : DbContext
             .HasKey(fw => new { fw.WarehouseId, fw.MaterialId });
 
         // =============================
-        // ?? User
+        // User
         // =============================
 
         modelBuilder.Entity<User>()
@@ -55,7 +55,7 @@ public class AppDbContext : DbContext
             .IsUnique();
 
         // =============================
-        // ?? ????? AccessibleMovement
+        // Связи AccessibleMovement
         // =============================
 
         modelBuilder.Entity<AccessibleMovement>()
@@ -77,7 +77,7 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         // =============================
-        // ?? Recipe
+        // Recipe
         // =============================
 
         modelBuilder.Entity<Recipe>()
@@ -93,7 +93,7 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         // =============================
-        // ?? UserPermissions
+        // UserPermissions
         // =============================
 
         modelBuilder.Entity<UserPermissions>()
@@ -109,7 +109,7 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         // =============================
-        // ?? PartRequest
+        // PartRequest
         // =============================
 
         modelBuilder.Entity<PartRequest>()
@@ -143,7 +143,7 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Restrict);
 
         // =============================
-        // ?? ShiftTransfer
+        // ShiftTransfer
         // =============================
 
         modelBuilder.Entity<ShiftTransfer>()
@@ -159,7 +159,7 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Restrict);
 
         // =============================
-        // ?? FillingWarehouse
+        // FillingWarehouse
         // =============================
 
         modelBuilder.Entity<FillingWarehouse>()
@@ -175,7 +175,7 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         // =============================
-        // ?? WorkReport
+        // WorkReport
         // =============================
 
         modelBuilder.Entity<WorkReport>()
@@ -185,8 +185,8 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Restrict);
 
         // =============================
-        // ?? RequestLogs
-        // ============================
+        // RequestLogs
+        // =============================
 
         modelBuilder.Entity<RequestLog>()
             .HasOne(rl => rl.User)

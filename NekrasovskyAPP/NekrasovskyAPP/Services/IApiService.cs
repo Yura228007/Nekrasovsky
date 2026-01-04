@@ -82,13 +82,12 @@ namespace NekrasovskyAPP.Services
     public class StartWorkRequest
     {
         public int UserId { get; set; }
-        public DateTime Date { get; set; }
-        public string? Note { get; set; }
+        public string? StartTime { get; set; }
     }
 
     public class FinishWorkRequest
     {
-        public string? Note { get; set; }
+        public string? FinishTime { get; set; }
     }
 }
 

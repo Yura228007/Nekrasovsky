@@ -4,6 +4,11 @@ public class MonoPackageManager_Resources {
 		/* We need to ensure that "NekrasovskyAPP.dll" comes first in this list. */
 		"NekrasovskyAPP.dll",
 		"GoogleGson.dll",
+		"Microsoft.EntityFrameworkCore.dll",
+		"Microsoft.EntityFrameworkCore.Abstractions.dll",
+		"Microsoft.EntityFrameworkCore.Relational.dll",
+		"Microsoft.Extensions.Caching.Abstractions.dll",
+		"Microsoft.Extensions.Caching.Memory.dll",
 		"Microsoft.Extensions.Configuration.dll",
 		"Microsoft.Extensions.Configuration.Abstractions.dll",
 		"Microsoft.Extensions.DependencyInjection.dll",
@@ -19,6 +24,8 @@ public class MonoPackageManager_Resources {
 		"Microsoft.Maui.dll",
 		"Microsoft.Maui.Essentials.dll",
 		"Microsoft.Maui.Graphics.dll",
+		"Npgsql.dll",
+		"Npgsql.EntityFrameworkCore.PostgreSQL.dll",
 		"Xamarin.Android.Glide.dll",
 		"Xamarin.Android.Glide.Annotations.dll",
 		"Xamarin.Android.Glide.DiskLruCache.dll",
@@ -136,6 +143,10 @@ public class MonoPackageManager_Resources {
 		"Microsoft.Maui.Controls.resources.dll",
 		"Microsoft.Maui.Controls.resources.dll",
 		"Microsoft.Maui.Controls.resources.dll",
+		"Microsoft.Maui.Controls.HotReload.Forms.dll",
+		"Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll",
+		"Microsoft.VisualStudio.DesignTools.TapContract.dll",
+		"Microsoft.VisualStudio.DesignTools.XamlTapContract.dll",
 		"_Microsoft.Android.Resource.Designer.dll",
 	};
 	public static String[] Dependencies = new String[]{

@@ -1,0 +1,891 @@
+﻿=======================================================
+Timestamp: 2026-01-08T20:06:59.7607192Z
+Method: GET
+URL: /
+Status: 404
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-08T20:07:17.0372829Z
+Method: GET
+URL: /api/Users
+Status: 200
+Duration: 1304 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-08T20:16:53.4134269Z
+Method: POST
+URL: /api/Users
+Status: 400
+Duration: 137 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0
+Controller: Users, Action: CreateUser
+Request Body: {
+  "id": 0,
+  "login": "admin",
+  "encryptedPassword": "admin",
+  "name": "admin",
+  "surname": "admin",
+  "email": "string",
+  "phone": "string",
+  "createdAt": "2026-01-08T20:15:44.497Z",
+  "alarmEvents": [
+    {
+      "id": 0,
+      "userId": 0,
+      "createdAt": "2026-01-08T20:15:44.497Z",
+      "message": "string",
+      "location": "string",
+      "user": "string"
+    }
+  ],
+  "sentPartRequests": [
+    {
+      "id": 0,
+      "fromUserId": 0,
+      "toUserId": 0,
+      "fromWarehouseId": 0,
+      "toWarehouseId": 0,
+      "materialId": 0,
+      "quantity": 0,
+      "measuringType": "string",
+      "createdAt": "2026-01-08T20:15:44.497Z",
+      "status": 0,
+      "fromUser": "string",
+      "toUser": "string",
+      "fromWarehouse": {
+        "id": 0,
+        "name": "string",
+        "type": "string",
+        "fromMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "toMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "fromRequests": [
+          "string"
+        ],
+        "toRequests": [
+          "string"
+        ]
+      },
+      "toWarehouse": {
+        "id": 0,
+        "name": "string",
+        "type": "string",
+        "fromMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "toMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "fromRequests": [
+          "string"
+        ],
+        "toRequests": [
+          "string"
+        ]
+      },
+      "material": {
+        "id": 0,
+        "name": "string",
+        "description": "string",
+        "code": "string",
+        "measuringUnit": "string"
+      }
+    }
+  ],
+  "receivedPartRequests": [
+    {
+      "id": 0,
+      "fromUserId": 0,
+      "toUserId": 0,
+      "fromWarehouseId": 0,
+      "toWarehouseId": 0,
+      "materialId": 0,
+      "quantity": 0,
+      "measuringType": "string",
+      "createdAt": "2026-01-08T20:15:44.497Z",
+      "status": 0,
+      "fromUser": "string",
+      "toUser": "string",
+      "fromWarehouse": {
+        "id": 0,
+        "name": "string",
+        "type": "string",
+        "fromMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "toMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "fromRequests": [
+          "string"
+        ],
+        "toRequests": [
+          "string"
+        ]
+      },
+      "toWarehouse": {
+        "id": 0,
+        "name": "string",
+        "type": "string",
+        "fromMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "toMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "fromRequests": [
+          "string"
+        ],
+        "toRequests": [
+          "string"
+        ]
+      },
+      "material": {
+        "id": 0,
+        "name": "string",
+        "description": "string",
+        "code": "string",
+        "measuringUnit": "string"
+      }
+    }
+  ],
+  "sentShiftTransfers": [
+    {
+      "id": 0,
+      "fromUserId": 0,
+      "toUserId": 0,
+      "transferDate": "2026-01-08T20:15:44.497Z",
+      "isConfirmed": true,
+      "fromUser": "string",
+      "toUser": "string"
+    }
+  ],
+  "receivedShiftTransfers": [
+    {
+      "id": 0,
+      "fromUserId": 0,
+      "toUserId": 0,
+      "transferDate": "2026-01-08T20:15:44.497Z",
+      "isConfirmed": true,
+      "fromUser": "string",
+      "toUser": "string"
+    }
+  ]
+}
+Response Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"user":["The user field is required."],"$.alarmEvents[0].user":["The JSON value could not be converted to server.Models.User. Path: $.alarmEvents[0].user | LineNumber: 16 | BytePositionInLine: 22."]},"traceId":"00-f97364a11acf4683737b258273265444-c3a15b04ab96c712-00"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-08T20:19:17.1593696Z
+Method: POST
+URL: /api/Users
+Status: 400
+Duration: 28 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0
+Controller: Users, Action: CreateUser
+Request Body: {
+  "id": 0,
+  "login": "admin",
+  "encryptedPassword": "admin",
+  "name": "admin",
+  "surname": "admin",
+  "email": "string@string.rt",
+  "phone": "+784596214",
+  "createdAt": "2026-01-08T20:15:44.497Z",
+  "alarmEvents": [
+    {
+      "id": 0,
+      "userId": 0,
+      "createdAt": "2026-01-08T20:15:44.497Z",
+      "message": "string",
+      "location": "string",
+      "user": "string"
+    }
+  ],
+  "sentPartRequests": [
+    {
+      "id": 0,
+      "fromUserId": 0,
+      "toUserId": 0,
+      "fromWarehouseId": 0,
+      "toWarehouseId": 0,
+      "materialId": 0,
+      "quantity": 0,
+      "measuringType": "string",
+      "createdAt": "2026-01-08T20:15:44.497Z",
+      "status": 0,
+      "fromUser": "string",
+      "toUser": "string",
+      "fromWarehouse": {
+        "id": 0,
+        "name": "string",
+        "type": "string",
+        "fromMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "toMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "fromRequests": [
+          "string"
+        ],
+        "toRequests": [
+          "string"
+        ]
+      },
+      "toWarehouse": {
+        "id": 0,
+        "name": "string",
+        "type": "string",
+        "fromMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "toMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "fromRequests": [
+          "string"
+        ],
+        "toRequests": [
+          "string"
+        ]
+      },
+      "material": {
+        "id": 0,
+        "name": "string",
+        "description": "string",
+        "code": "string",
+        "measuringUnit": "string"
+      }
+    }
+  ],
+  "receivedPartRequests": [
+    {
+      "id": 0,
+      "fromUserId": 0,
+      "toUserId": 0,
+      "fromWarehouseId": 0,
+      "toWarehouseId": 0,
+      "materialId": 0,
+      "quantity": 0,
+      "measuringType": "string",
+      "createdAt": "2026-01-08T20:15:44.497Z",
+      "status": 0,
+      "fromUser": "string",
+      "toUser": "string",
+      "fromWarehouse": {
+        "id": 0,
+        "name": "string",
+        "type": "string",
+        "fromMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "toMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "fromRequests": [
+          "string"
+        ],
+        "toRequests": [
+          "string"
+        ]
+      },
+      "toWarehouse": {
+        "id": 0,
+        "name": "string",
+        "type": "string",
+        "fromMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "toMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "fromRequests": [
+          "string"
+        ],
+        "toRequests": [
+          "string"
+        ]
+      },
+      "material": {
+        "id": 0,
+        "name": "string",
+        "description": "string",
+        "code": "string",
+        "measuringUnit": "string"
+      }
+    }
+  ],
+  "sentShiftTransfers": [
+    {
+      "id": 0,
+      "fromUserId": 0,
+      "toUserId": 0,
+      "transferDate": "2026-01-08T20:15:44.497Z",
+      "isConfirmed": true,
+      "fromUser": "string",
+      "toUser": "string"
+    }
+  ],
+  "receivedShiftTransfers": [
+    {
+      "id": 0,
+      "fromUserId": 0,
+      "toUserId": 0,
+      "transferDate": "2026-01-08T20:15:44.497Z",
+      "isConfirmed": true,
+      "fromUser": "string",
+      "toUser": "string"
+    }
+  ]
+}
+Response Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"user":["The user field is required."],"$.alarmEvents[0].user":["The JSON value could not be converted to server.Models.User. Path: $.alarmEvents[0].user | LineNumber: 16 | BytePositionInLine: 22."]},"traceId":"00-edb82cd0aab8ec7d0d067fedbe9d203a-38bdb51a83733b4b-00"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-08T20:20:21.0357852Z
+Method: GET
+URL: /
+Status: 404
+Duration: 34 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-08T20:21:52.2960686Z
+Method: POST
+URL: /api/Users
+Status: 400
+Duration: 307 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0
+Controller: Users, Action: CreateUser
+Request Body: {
+  "id": 0,
+  "login": "string",
+  "encryptedPassword": "string",
+  "name": "string",
+  "surname": "string",
+  "email": "string",
+  "phone": "string",
+  "createdAt": "2026-01-08T20:21:48.712Z",
+  "alarmEvents": [
+    {
+      "id": 0,
+      "userId": 0,
+      "createdAt": "2026-01-08T20:21:48.712Z",
+      "message": "string",
+      "location": "string",
+      "user": "string"
+    }
+  ],
+  "sentPartRequests": [
+    {
+      "id": 0,
+      "fromUserId": 0,
+      "toUserId": 0,
+      "fromWarehouseId": 0,
+      "toWarehouseId": 0,
+      "materialId": 0,
+      "quantity": 0,
+      "measuringType": "string",
+      "createdAt": "2026-01-08T20:21:48.712Z",
+      "status": 0,
+      "fromUser": "string",
+      "toUser": "string",
+      "fromWarehouse": {
+        "id": 0,
+        "name": "string",
+        "type": "string",
+        "fromMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "toMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "fromRequests": [
+          "string"
+        ],
+        "toRequests": [
+          "string"
+        ]
+      },
+      "toWarehouse": {
+        "id": 0,
+        "name": "string",
+        "type": "string",
+        "fromMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "toMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "fromRequests": [
+          "string"
+        ],
+        "toRequests": [
+          "string"
+        ]
+      },
+      "material": {
+        "id": 0,
+        "name": "string",
+        "description": "string",
+        "code": "string",
+        "measuringUnit": "string"
+      }
+    }
+  ],
+  "receivedPartRequests": [
+    {
+      "id": 0,
+      "fromUserId": 0,
+      "toUserId": 0,
+      "fromWarehouseId": 0,
+      "toWarehouseId": 0,
+      "materialId": 0,
+      "quantity": 0,
+      "measuringType": "string",
+      "createdAt": "2026-01-08T20:21:48.712Z",
+      "status": 0,
+      "fromUser": "string",
+      "toUser": "string",
+      "fromWarehouse": {
+        "id": 0,
+        "name": "string",
+        "type": "string",
+        "fromMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "toMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "fromRequests": [
+          "string"
+        ],
+        "toRequests": [
+          "string"
+        ]
+      },
+      "toWarehouse": {
+        "id": 0,
+        "name": "string",
+        "type": "string",
+        "fromMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "toMovements": [
+          {
+            "fromWarehouseId": 0,
+            "toWarehouseId": 0,
+            "materialId": 0,
+            "fromWarehouse": "string",
+            "toWarehouse": "string",
+            "material": {
+              "id": 0,
+              "name": "string",
+              "description": "string",
+              "code": "string",
+              "measuringUnit": "string"
+            }
+          }
+        ],
+        "fromRequests": [
+          "string"
+        ],
+        "toRequests": [
+          "string"
+        ]
+      },
+      "material": {
+        "id": 0,
+        "name": "string",
+        "description": "string",
+        "code": "string",
+        "measuringUnit": "string"
+      }
+    }
+  ],
+  "sentShiftTransfers": [
+    {
+      "id": 0,
+      "fromUserId": 0,
+      "toUserId": 0,
+      "transferDate": "2026-01-08T20:21:48.712Z",
+      "isConfirmed": true,
+      "fromUser": "string",
+      "toUser": "string"
+    }
+  ],
+  "receivedShiftTransfers": [
+    {
+      "id": 0,
+      "fromUserId": 0,
+      "toUserId": 0,
+      "transferDate": "2026-01-08T20:21:48.712Z",
+      "isConfirmed": true,
+      "fromUser": "string",
+      "toUser": "string"
+    }
+  ]
+}
+Response Body: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"user":["The user field is required."],"$.alarmEvents[0].user":["The JSON value could not be converted to server.Models.User. Path: $.alarmEvents[0].user | LineNumber: 16 | BytePositionInLine: 22."]},"traceId":"00-1dd617633ed4675740ed5dd782460359-09317def79a31a4a-00"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-08T20:25:13.2329879Z
+Method: GET
+URL: /
+Status: 404
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-08T20:26:19.5359699Z
+Method: GET
+URL: /api/Permissions
+Status: 200
+Duration: 1051 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0
+Controller: Permissions, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-08T20:45:26.1723679Z
+Method: GET
+URL: /api/Users
+Status: 200
+Duration: 3664 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-08T20:40:07.062676Z","alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+

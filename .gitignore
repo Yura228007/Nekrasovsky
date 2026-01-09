@@ -10,3 +10,11 @@ server/.vs
 server/server/backups/
 *.sql
 *.backup
+
+# SSL Certificates (never commit!)
+server/server/certs/
+*.pfx
+*.key
+*.crt
+*.pem
+*.csr

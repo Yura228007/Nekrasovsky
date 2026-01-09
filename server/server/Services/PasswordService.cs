@@ -66,6 +66,14 @@ namespace server.Services
             if (string.IsNullOrEmpty(cipherText))
                 return string.Empty;
 
+            // Проверяем, является ли строка валидным Base64
+            // Зашифрованные пароли всегда в формате Base64
+            if (!IsValidBase64(cipherText))
+            {
+                _logger.LogWarning("Password is not encrypted (not a valid Base64 string). Returning as plain text for backward compatibility.");
+                return cipherText; // Возвращаем как есть для обратной совместимости
+            }
+
             try
             {
                 using (Aes aes = Aes.Create())
@@ -87,10 +95,39 @@ namespace server.Services
                     }
                 }
             }
+            catch (FormatException)
+            {
+                // Если Base64 валиден, но расшифровка не удалась - возможно, пароль не зашифрован
+                _logger.LogWarning("Failed to decrypt password. Password may not be encrypted. Returning as plain text for backward compatibility.");
+                return cipherText;
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error decrypting password");
-                return string.Empty;
+                // В случае другой ошибки возвращаем исходную строку для обратной совместимости
+                return cipherText;
+            }
+        }
+
+        private static bool IsValidBase64(string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+                return false;
+
+            // Base64 строка должна содержать только символы A-Z, a-z, 0-9, +, /, = и пробелы
+            // Зашифрованные пароли обычно длиннее 20 символов
+            if (str.Length < 20)
+                return false;
+
+            try
+            {
+                // Пытаемся преобразовать в байты
+                Convert.FromBase64String(str);
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

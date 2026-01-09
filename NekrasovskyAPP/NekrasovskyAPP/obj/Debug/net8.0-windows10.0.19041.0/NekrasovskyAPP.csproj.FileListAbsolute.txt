@@ -331,3 +331,6 @@ C:\Users\Глеб\Desktop\Nekrasovsky-master\NekrasovskyAPP\NekrasovskyAPP\obj\D
 C:\Users\Глеб\Desktop\Nekrasovsky-master\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\qualifiers.txt
 C:\Users\Глеб\Desktop\Nekrasovsky-master\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\qualifiers.txt.intermediate
 C:\Users\Глеб\Desktop\Nekrasovsky-master\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\MultipleQualifiersPerDimensionFound.txt
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\NekrasovskyAPP.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\refint\NekrasovskyAPP.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\NekrasovskyAPP.pdb

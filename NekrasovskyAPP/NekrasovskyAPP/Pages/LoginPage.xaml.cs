@@ -1,4 +1,5 @@
 using NekrasovskyAPP.ViewModels;
+using Microsoft.Maui.Controls;
 
 namespace NekrasovskyAPP.Pages
 {
@@ -23,13 +24,17 @@ namespace NekrasovskyAPP.Pages
 
         private async void OnLoginSuccess(object? sender, bool isAdmin)
         {
+            // Используем ShellNavigationState для явного указания навигации к ShellContent
+            // ShellContent определены в AppShell.xaml и доступны через их Route
             if (isAdmin)
             {
-                await Shell.Current.GoToAsync("//AdminPage");
+                // Навигация к AdminPage (ShellContent)
+                await Shell.Current.GoToAsync(new ShellNavigationState("//AdminPage"));
             }
             else
             {
-                await Shell.Current.GoToAsync("//HomePage");
+                // Навигация к HomePage (ShellContent)
+                await Shell.Current.GoToAsync(new ShellNavigationState("//HomePage"));
             }
         }
 

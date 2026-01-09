@@ -8,10 +8,10 @@ namespace NekrasovskyAPP
         {
             InitializeComponent();
             
-            // Register routes
-            Routing.RegisterRoute("LoginPage", typeof(LoginPage));
-            Routing.RegisterRoute("HomePage", typeof(HomePage));
-            Routing.RegisterRoute("AdminPage", typeof(AdminPage));
+            // Register routes for pages that are NOT ShellContent
+            // LoginPage, HomePage, and AdminPage are defined as ShellContent in XAML,
+            // so they are automatically registered and should NOT be registered here
+            
             Routing.RegisterRoute("UsersPage", typeof(UsersPage));
             Routing.RegisterRoute("ProductsPage", typeof(ProductsPage));
             Routing.RegisterRoute("MaterialsPage", typeof(MaterialsPage));

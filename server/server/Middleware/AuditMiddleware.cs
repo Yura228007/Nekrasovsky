@@ -29,7 +29,7 @@ namespace server.Middleware
             }
 
             var startTime = DateTime.UtcNow;
-            RequestLog auditLog = null;
+            RequestLog? auditLog = null;
 
             try
             {

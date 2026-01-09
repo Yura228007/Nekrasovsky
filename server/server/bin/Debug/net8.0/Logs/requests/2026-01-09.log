@@ -1,0 +1,66 @@
+﻿=======================================================
+Timestamp: 2026-01-09T12:07:44.4839190Z
+Method: POST
+URL: /api/Users
+Status: 201
+Duration: 220 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36
+Controller: Users, Action: CreateUser
+Request Body: {
+  "login": "admin",
+  "encryptedPassword": "admin123",
+  "name": "Администратор",
+  "surname": "Системы",
+  "email": "admin@nekrasovsky.local",
+  "phone": "+7 (999) 123-45-67"
+}
+Response Body: {"message":"User created successfully","user":{"id":1,"login":"admin","encryptedPassword":"oFlFGGejvS0ZrBzkcaD+Ig==","name":"Администратор","surname":"Системы","email":"admin@nekrasovsky.local","phone":"+7 (999) 123-45-67","createdAt":"2026-01-09T12:07:44.383055Z","alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-09T12:16:12.9546140Z
+Method: GET
+URL: /api/Permissions/1
+Status: 404
+Duration: 53 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36
+Controller: Permissions, Action: GetById
+Response Body: {"message":"Permission with ID 1 not found"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-09T12:16:34.7850450Z
+Method: POST
+URL: /api/Permissions
+Status: 201
+Duration: 21 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36
+Controller: Permissions, Action: CreatePermission
+Request Body: {
+  "id": 1,
+  "code": "string",
+  "name": "string",
+  "description": "string"
+}
+Response Body: {"message":"Permission created successfully","permission":{"id":1,"code":"string","name":"string","description":"string"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-09T12:16:43.8104870Z
+Method: GET
+URL: /api/Permissions/1
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36
+Controller: Permissions, Action: GetById
+Response Body: {"id":1,"code":"string","name":"string","description":"string"}
+=======================================================
+

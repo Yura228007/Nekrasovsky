@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using server.Services;
+using System.IO;
 
 namespace server.Controllers
 {
@@ -44,8 +45,8 @@ namespace server.Controllers
                 {
                     path = file,
                     fileName = Path.GetFileName(file),
-                    created = File.GetCreationTime(file),
-                    size = new FileInfo(file).Length
+                    created = System.IO.File.GetCreationTime(file),
+                    size = new System.IO.FileInfo(file).Length
                 }).ToList();
 
                 return Ok(fileInfo);

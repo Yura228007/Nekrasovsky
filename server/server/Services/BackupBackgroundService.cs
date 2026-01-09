@@ -1,20 +1,23 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace server.Services
 {
     public class BackupBackgroundService : BackgroundService
     {
-        private readonly IBackupService _backupService;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly ILogger<BackupBackgroundService> _logger;
         private readonly TimeSpan _backupInterval;
+        private readonly IConfiguration _configuration;
 
         public BackupBackgroundService(
-            IBackupService backupService,
+            IServiceScopeFactory serviceScopeFactory,
             ILogger<BackupBackgroundService> logger,
             IConfiguration configuration)
         {
-            _backupService = backupService;
+            _serviceScopeFactory = serviceScopeFactory;
             _logger = logger;
+            _configuration = configuration;
             
             // Получаем интервал из конфигурации (по умолчанию 24 часа)
             var hours = configuration.GetValue<int>("BackupSettings:IntervalHours", 24);
@@ -35,11 +38,15 @@ namespace server.Services
                         break;
 
                     _logger.LogInformation("Starting scheduled backup...");
-                    var backupPath = await _backupService.CreateBackupAsync();
+                    
+                    using var scope = _serviceScopeFactory.CreateScope();
+                    var backupService = scope.ServiceProvider.GetRequiredService<IBackupService>();
+                    
+                    var backupPath = await backupService.CreateBackupAsync();
                     _logger.LogInformation("Scheduled backup completed: {BackupPath}", backupPath);
 
                     // Удаляем старые резервные копии (оставляем последние 10)
-                    await CleanupOldBackupsAsync();
+                    await CleanupOldBackupsAsync(backupService);
                 }
                 catch (Exception ex)
                 {
@@ -50,11 +57,11 @@ namespace server.Services
             _logger.LogInformation("Backup Background Service stopped");
         }
 
-        private async Task CleanupOldBackupsAsync()
+        private async Task CleanupOldBackupsAsync(IBackupService backupService)
         {
             try
             {
-                var backupFiles = await _backupService.GetBackupFilesAsync();
+                var backupFiles = await backupService.GetBackupFilesAsync();
                 const int maxBackups = 10;
 
                 if (backupFiles.Count > maxBackups)
@@ -62,7 +69,7 @@ namespace server.Services
                     var filesToDelete = backupFiles.Skip(maxBackups).ToList();
                     foreach (var file in filesToDelete)
                     {
-                        await _backupService.DeleteBackupAsync(file);
+                        await backupService.DeleteBackupAsync(file);
                         _logger.LogInformation("Deleted old backup: {FilePath}", file);
                     }
                 }

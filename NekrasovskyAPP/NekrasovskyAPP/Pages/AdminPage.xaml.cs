@@ -17,32 +17,34 @@ namespace NekrasovskyAPP.Pages
 
         private async void OnUsersClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//UsersPage");
+            // Относительная навигация к глобальному маршруту (без слешей)
+            await Shell.Current.GoToAsync("UsersPage");
         }
 
         private async void OnProductsClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//ProductsPage");
+            await Shell.Current.GoToAsync("ProductsPage");
         }
 
         private async void OnMaterialsClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//MaterialsPage");
+            await Shell.Current.GoToAsync("MaterialsPage");
         }
 
         private async void OnWarehousesClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//WarehousesPage");
+            await Shell.Current.GoToAsync("WarehousesPage");
         }
 
         private async void OnReportsClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//WorkReportsPage");
+            await Shell.Current.GoToAsync("WorkReportsPage");
         }
 
         private async void OnLogoutClicked(object sender, EventArgs e)
         {
             _authService.Logout();
+            // LoginPage - это ShellContent, можно использовать абсолютную навигацию
             await Shell.Current.GoToAsync("//LoginPage");
         }
     }

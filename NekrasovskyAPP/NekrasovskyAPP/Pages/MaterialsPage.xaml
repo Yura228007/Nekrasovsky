@@ -6,6 +6,7 @@
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
+        <ToolbarItem Text="Добавить" Clicked="OnAddClicked" />
     </ContentPage.ToolbarItems>
     
     <Grid>
@@ -32,7 +33,9 @@
                      IsRefreshing="{Binding IsLoading}"
                      Refreshing="OnRefreshing">
             <CollectionView x:Name="MaterialsCollectionView"
-                          ItemsSource="{Binding Materials}">
+                          ItemsSource="{Binding Materials}"
+                          SelectionMode="Single"
+                          SelectionChanged="OnMaterialSelected">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border BackgroundColor="White"

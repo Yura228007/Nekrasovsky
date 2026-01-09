@@ -230,6 +230,370 @@ namespace NekrasovskyAPP.ViewModels
             }
         }
 
+        // User management methods
+        public async Task<bool> CreateUserAsync(User user)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.AddUserAsync(user);
+                if (response.GetData() != null)
+                {
+                    await LoadUsersAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка создания пользователя";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка создания пользователя: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task<bool> UpdateUserAsync(int id, User user)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.EditUserAsync(id, user);
+                if (response.GetData() != null)
+                {
+                    await LoadUsersAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка обновления пользователя";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка обновления пользователя: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task<bool> DeleteUserAsync(int id)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.DeleteUserAsync(id);
+                if (response.GetData() != null || string.IsNullOrEmpty(response.Message))
+                {
+                    await LoadUsersAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка удаления пользователя";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка удаления пользователя: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        // Product management methods
+        public async Task<bool> CreateProductAsync(Product product)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.AddProductAsync(product);
+                if (response.GetData() != null)
+                {
+                    await LoadProductsAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка создания продукта";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка создания продукта: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task<bool> UpdateProductAsync(int id, Product product)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.EditProductAsync(id, product);
+                if (response.GetData() != null)
+                {
+                    await LoadProductsAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка обновления продукта";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка обновления продукта: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task<bool> DeleteProductAsync(int id)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.DeleteProductAsync(id);
+                if (response.GetData() != null || string.IsNullOrEmpty(response.Message))
+                {
+                    await LoadProductsAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка удаления продукта";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка удаления продукта: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        // Material management methods
+        public async Task<bool> CreateMaterialAsync(Material material)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.AddMaterialAsync(material);
+                if (response.GetData() != null)
+                {
+                    await LoadMaterialsAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка создания материала";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка создания материала: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task<bool> UpdateMaterialAsync(int id, Material material)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.EditMaterialAsync(id, material);
+                if (response.GetData() != null)
+                {
+                    await LoadMaterialsAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка обновления материала";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка обновления материала: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task<bool> DeleteMaterialAsync(int id)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.DeleteMaterialAsync(id);
+                if (response.GetData() != null || string.IsNullOrEmpty(response.Message))
+                {
+                    await LoadMaterialsAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка удаления материала";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка удаления материала: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        // Warehouse management methods
+        public async Task<bool> CreateWarehouseAsync(Warehouse warehouse)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.AddWarehouseAsync(warehouse);
+                if (response.GetData() != null)
+                {
+                    await LoadWarehousesAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка создания склада";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка создания склада: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task<bool> UpdateWarehouseAsync(int id, Warehouse warehouse)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.EditWarehouseAsync(id, warehouse);
+                if (response.GetData() != null)
+                {
+                    await LoadWarehousesAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка обновления склада";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка обновления склада: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task<bool> DeleteWarehouseAsync(int id)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.DeleteWarehouseAsync(id);
+                if (response.GetData() != null || string.IsNullOrEmpty(response.Message))
+                {
+                    await LoadWarehousesAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка удаления склада";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка удаления склада: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

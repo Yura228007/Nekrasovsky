@@ -33,16 +33,133 @@ namespace NekrasovskyAPP.Pages
 
         private async void OnAddClicked(object? sender, EventArgs e)
         {
-            await DisplayAlert("Информация", "Функция добавления пользователя будет реализована позже", "OK");
+            await ShowUserDialogAsync(null);
         }
 
         private async void OnUserSelected(object? sender, SelectionChangedEventArgs e)
         {
             if (e.CurrentSelection.FirstOrDefault() is User selectedUser)
             {
-                await DisplayAlert("Пользователь", 
-                    $"Имя: {selectedUser.Name}\nФамилия: {selectedUser.Surname}\nEmail: {selectedUser.Email}\nЛогин: {selectedUser.Login}", 
-                    "OK");
+                // Показываем меню действий при выборе пользователя
+                var action = await DisplayActionSheet(
+                    $"Пользователь: {selectedUser.Name} {selectedUser.Surname}",
+                    "Отмена",
+                    null,
+                    "Просмотр",
+                    "Редактировать",
+                    "Удалить");
+
+                switch (action)
+                {
+                    case "Просмотр":
+                        await DisplayAlert("Информация о пользователе",
+                            $"Имя: {selectedUser.Name}\n" +
+                            $"Фамилия: {selectedUser.Surname}\n" +
+                            $"Email: {selectedUser.Email}\n" +
+                            $"Логин: {selectedUser.Login}\n" +
+                            $"Телефон: {selectedUser.Phone ?? "Не указан"}\n" +
+                            $"Дата создания: {selectedUser.CreatedAt:dd.MM.yyyy HH:mm}",
+                            "OK");
+                        break;
+
+                    case "Редактировать":
+                        await ShowUserDialogAsync(selectedUser);
+                        break;
+
+                    case "Удалить":
+                        var confirm = await DisplayAlert(
+                            "Подтверждение удаления",
+                            $"Вы уверены, что хотите удалить пользователя {selectedUser.Name} {selectedUser.Surname}?",
+                            "Удалить",
+                            "Отмена");
+
+                        if (confirm)
+                        {
+                            var success = await _viewModel.DeleteUserAsync(selectedUser.Id);
+                            if (!success)
+                            {
+                                await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+                            }
+                            else
+                            {
+                                await DisplayAlert("Успех", "Пользователь успешно удален", "OK");
+                            }
+                        }
+                        break;
+                }
+
+                // Снимаем выделение
+                UsersCollectionView.SelectedItem = null;
+            }
+        }
+
+        private async Task ShowUserDialogAsync(User? existingUser)
+        {
+            bool isEdit = existingUser != null;
+            string title = isEdit ? "Редактирование пользователя" : "Создание пользователя";
+
+            // Запрашиваем данные
+            var login = await DisplayPromptAsync(title, "Логин:", "Сохранить", "Отмена", "Логин", -1, Keyboard.Default, existingUser?.Login ?? "");
+            if (string.IsNullOrWhiteSpace(login))
+                return;
+
+            var password = isEdit ? null : await DisplayPromptAsync(title, "Пароль:", "Далее", "Отмена", "Пароль", -1, Keyboard.Default);
+            if (!isEdit && string.IsNullOrWhiteSpace(password))
+                return;
+
+            var name = await DisplayPromptAsync(title, "Имя:", "Далее", "Отмена", "Имя", -1, Keyboard.Default, existingUser?.Name ?? "");
+            if (string.IsNullOrWhiteSpace(name))
+                return;
+
+            var surname = await DisplayPromptAsync(title, "Фамилия:", "Далее", "Отмена", "Фамилия", -1, Keyboard.Default, existingUser?.Surname ?? "");
+            if (string.IsNullOrWhiteSpace(surname))
+                return;
+
+            var email = await DisplayPromptAsync(title, "Email:", "Далее", "Отмена", "Email", -1, Keyboard.Email, existingUser?.Email ?? "");
+            if (string.IsNullOrWhiteSpace(email))
+                return;
+
+            var phone = await DisplayPromptAsync(title, "Телефон (необязательно):", "Сохранить", "Отмена", "Телефон", -1, Keyboard.Telephone, existingUser?.Phone ?? "");
+
+            // Создаем или обновляем пользователя
+            var user = existingUser ?? new User();
+            user.Login = login;
+            user.Name = name;
+            user.Surname = surname;
+            user.Email = email;
+            user.Phone = phone ?? string.Empty;
+
+            if (!isEdit && !string.IsNullOrWhiteSpace(password))
+            {
+                user.EncryptedPassword = password;
+            }
+            else if (isEdit)
+            {
+                // При редактировании пароль не меняем, если не указан новый
+                var newPassword = await DisplayPromptAsync(title, "Новый пароль (оставьте пустым, чтобы не менять):", "Сохранить", "Пропустить", "Пароль", -1, Keyboard.Default);
+                if (!string.IsNullOrWhiteSpace(newPassword))
+                {
+                    user.EncryptedPassword = newPassword;
+                }
+            }
+
+            bool success;
+            if (isEdit)
+            {
+                success = await _viewModel.UpdateUserAsync(existingUser!.Id, user);
+            }
+            else
+            {
+                success = await _viewModel.CreateUserAsync(user);
+            }
+
+            if (success)
+            {
+                await DisplayAlert("Успех", isEdit ? "Пользователь успешно обновлен" : "Пользователь успешно создан", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
             }
         }
 

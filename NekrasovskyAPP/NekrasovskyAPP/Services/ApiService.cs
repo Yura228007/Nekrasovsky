@@ -13,9 +13,22 @@ namespace NekrasovskyAPP.Services
         private static string GetBaseUrl()
         {
 #if ANDROID
-            // Для Android эмулятора используйте: "http://10.0.2.2:5000/"
-            // Для реального Android устройства используйте IP вашего компьютера: "http://192.168.1.100:5000/"
-            return "http://10.0.2.2:5000/";
+            // Для Android:
+            // - Эмулятор: "http://10.0.2.2:5000/"
+            // - Реальное устройство: используйте IP вашего компьютера в локальной сети
+            //   Например: "http://192.168.1.100:5000/"
+            //   Найдите IP через: ifconfig (Mac/Linux) или ipconfig (Windows)
+            //   Важно: устройство и компьютер должны быть в одной Wi-Fi сети
+            
+            // Попробуем определить, эмулятор это или реальное устройство
+            // Для реального устройства используйте IP вашего компьютера
+            // Замените на ваш IP адрес для тестирования на реальном устройстве
+            string androidUrl = "http://10.0.2.2:5000/"; // По умолчанию для эмулятора
+            
+            // Раскомментируйте и укажите IP вашего компьютера для реального устройства:
+            // androidUrl = "http://192.168.1.XXX:5000/"; // Замените XXX на ваш IP
+            
+            return androidUrl;
 #else
             // Для Windows/Desktop/iOS/Mac
             return "http://localhost:5000/";
@@ -635,6 +648,22 @@ namespace NekrasovskyAPP.Services
             catch
             {
                 return false;
+            }
+        }
+
+        // Database
+        public async Task<Dictionary<string, object>> CheckDatabaseAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/database/check");
+                response.EnsureSuccessStatusCode();
+                var result = await response.Content.ReadFromJsonAsync<Dictionary<string, object>>(_jsonOptions);
+                return result ?? new Dictionary<string, object>();
+            }
+            catch
+            {
+                return new Dictionary<string, object> { { "success", false }, { "message", "Ошибка подключения к серверу" } };
             }
         }
     }

@@ -41,11 +41,19 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("WorkReportsPage");
         }
 
+        private async void OnSettingsClicked(object sender, EventArgs e)
+        {
+            // Относительная навигация к глобальному маршруту (без слешей)
+            await Shell.Current.GoToAsync("SettingsPage");
+        }
+
         private async void OnLogoutClicked(object sender, EventArgs e)
         {
+            // Выполняем выход
             _authService.Logout();
-            // LoginPage - это ShellContent, можно использовать абсолютную навигацию
-            await Shell.Current.GoToAsync("//LoginPage");
+            
+            // Навигация к LoginPage и сброс стека навигации
+            await Shell.Current.GoToAsync("///LoginPage");
         }
     }
 }

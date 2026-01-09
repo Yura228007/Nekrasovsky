@@ -1,4 +1,5 @@
 using NekrasovskyAPP.ViewModels;
+using NekrasovskyAPP.Models;
 
 namespace NekrasovskyAPP.Pages
 {
@@ -51,6 +52,107 @@ namespace NekrasovskyAPP.Pages
                 var code = parts.Length > 1 ? parts[1] : null;
                 
                 await _viewModel.SearchProductsAsync(name, code);
+            }
+        }
+
+        private async void OnAddClicked(object? sender, EventArgs e)
+        {
+            await ShowProductDialogAsync(null);
+        }
+
+        private async void OnProductSelected(object? sender, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection.FirstOrDefault() is Product selectedProduct)
+            {
+                var action = await DisplayActionSheet(
+                    $"Продукт: {selectedProduct.Name}",
+                    "Отмена",
+                    null,
+                    "Просмотр",
+                    "Редактировать",
+                    "Удалить");
+
+                switch (action)
+                {
+                    case "Просмотр":
+                        await DisplayAlert("Информация о продукте",
+                            $"Название: {selectedProduct.Name}\n" +
+                            $"Код: {selectedProduct.Code ?? "Не указан"}\n" +
+                            $"Описание: {selectedProduct.Description ?? "Не указано"}\n" +
+                            $"Единица измерения: {selectedProduct.MeasuringUnit}",
+                            "OK");
+                        break;
+
+                    case "Редактировать":
+                        await ShowProductDialogAsync(selectedProduct);
+                        break;
+
+                    case "Удалить":
+                        var confirm = await DisplayAlert(
+                            "Подтверждение удаления",
+                            $"Вы уверены, что хотите удалить продукт {selectedProduct.Name}?",
+                            "Удалить",
+                            "Отмена");
+
+                        if (confirm)
+                        {
+                            var success = await _viewModel.DeleteProductAsync(selectedProduct.Id);
+                            if (!success)
+                            {
+                                await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+                            }
+                            else
+                            {
+                                await DisplayAlert("Успех", "Продукт успешно удален", "OK");
+                            }
+                        }
+                        break;
+                }
+
+                ProductsCollectionView.SelectedItem = null;
+            }
+        }
+
+        private async Task ShowProductDialogAsync(Product? existingProduct)
+        {
+            bool isEdit = existingProduct != null;
+            string title = isEdit ? "Редактирование продукта" : "Создание продукта";
+
+            var name = await DisplayPromptAsync(title, "Название:", "Далее", "Отмена", "Название", -1, Keyboard.Default, existingProduct?.Name ?? "");
+            if (string.IsNullOrWhiteSpace(name))
+                return;
+
+            var code = await DisplayPromptAsync(title, "Код (необязательно):", "Далее", "Отмена", "Код", -1, Keyboard.Default, existingProduct?.Code ?? "");
+            
+            var description = await DisplayPromptAsync(title, "Описание (необязательно):", "Далее", "Отмена", "Описание", -1, Keyboard.Default, existingProduct?.Description ?? "");
+            
+            var measuringUnit = await DisplayPromptAsync(title, "Единица измерения (шт, кг, л и т.д.):", "Сохранить", "Отмена", "Единица измерения", -1, Keyboard.Default, existingProduct?.MeasuringUnit ?? "шт");
+            if (string.IsNullOrWhiteSpace(measuringUnit))
+                measuringUnit = "шт";
+
+            var product = existingProduct ?? new Product();
+            product.Name = name;
+            product.Code = code;
+            product.Description = description;
+            product.MeasuringUnit = measuringUnit;
+
+            bool success;
+            if (isEdit)
+            {
+                success = await _viewModel.UpdateProductAsync(existingProduct!.Id, product);
+            }
+            else
+            {
+                success = await _viewModel.CreateProductAsync(product);
+            }
+
+            if (success)
+            {
+                await DisplayAlert("Успех", isEdit ? "Продукт успешно обновлен" : "Продукт успешно создан", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
             }
         }
     }

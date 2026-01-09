@@ -60,6 +60,9 @@ namespace NekrasovskyAPP.Services
         // User Permissions
         Task<List<Permission>> GetUserPermissionsAsync(int userId);
         Task<bool> CheckPermissionAsync(int userId, string permissionCode);
+
+        // Database
+        Task<Dictionary<string, object>> CheckDatabaseAsync();
     }
 
     public class ApiResponse<T>

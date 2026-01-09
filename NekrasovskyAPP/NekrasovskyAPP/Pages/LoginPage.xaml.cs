@@ -12,9 +12,24 @@ namespace NekrasovskyAPP.Pages
             InitializeComponent();
             _viewModel = viewModel;
             BindingContext = _viewModel;
-            
-            // Subscribe to login success event
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            // Подписываемся на событие каждый раз, когда страница появляется
+            // Это гарантирует, что событие работает даже после выхода и повторного входа
             _viewModel.LoginSuccess += OnLoginSuccess;
+            
+            // Очищаем состояние при возврате на страницу входа
+            _viewModel.ClearState();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            // Отписываемся от события, когда страница скрывается
+            _viewModel.LoginSuccess -= OnLoginSuccess;
         }
 
         private async void OnLoginClicked(object sender, EventArgs e)
@@ -24,6 +39,9 @@ namespace NekrasovskyAPP.Pages
 
         private async void OnLoginSuccess(object? sender, bool isAdmin)
         {
+            // Отписываемся перед навигацией, чтобы избежать проблем
+            _viewModel.LoginSuccess -= OnLoginSuccess;
+            
             // Используем ShellNavigationState для явного указания навигации к ShellContent
             // ShellContent определены в AppShell.xaml и доступны через их Route
             if (isAdmin)
@@ -36,12 +54,6 @@ namespace NekrasovskyAPP.Pages
                 // Навигация к HomePage (ShellContent)
                 await Shell.Current.GoToAsync(new ShellNavigationState("//HomePage"));
             }
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            _viewModel.LoginSuccess -= OnLoginSuccess;
         }
     }
 }

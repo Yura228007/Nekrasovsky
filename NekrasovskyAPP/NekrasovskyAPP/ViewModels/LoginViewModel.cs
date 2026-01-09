@@ -111,6 +111,18 @@ namespace NekrasovskyAPP.ViewModels
             }
         }
 
+        /// <summary>
+        /// Очищает состояние ViewModel (используется при выходе или возврате на страницу входа)
+        /// </summary>
+        public void ClearState()
+        {
+            Login = string.Empty;
+            Password = string.Empty;
+            ErrorMessage = string.Empty;
+            HasError = false;
+            IsLoading = false;
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

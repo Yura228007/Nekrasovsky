@@ -48,6 +48,8 @@ namespace NekrasovskyAPP
                 new WorkReportsPage(sp.GetRequiredService<ViewModels.WorkReportsViewModel>()));
             builder.Services.AddTransient<PartRequestsPage>(sp => 
                 new PartRequestsPage(sp.GetRequiredService<ViewModels.PartRequestsViewModel>()));
+            builder.Services.AddTransient<SettingsPage>(sp => 
+                new SettingsPage(sp.GetRequiredService<IApiService>()));
 
             return builder.Build();
         }

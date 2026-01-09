@@ -18,6 +18,7 @@ namespace NekrasovskyAPP
             Routing.RegisterRoute("WarehousesPage", typeof(WarehousesPage));
             Routing.RegisterRoute("WorkReportsPage", typeof(WorkReportsPage));
             Routing.RegisterRoute("PartRequestsPage", typeof(PartRequestsPage));
+            Routing.RegisterRoute("SettingsPage", typeof(SettingsPage));
         }
     }
 }

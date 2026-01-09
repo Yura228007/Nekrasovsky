@@ -16,9 +16,15 @@ namespace NekrasovskyAPP.ViewModels
         {
             _apiService = apiService;
             PartRequests = new ObservableCollection<PartRequest>();
+            Users = new ObservableCollection<User>();
+            Warehouses = new ObservableCollection<Warehouse>();
+            Materials = new ObservableCollection<Material>();
         }
 
         public ObservableCollection<PartRequest> PartRequests { get; }
+        public ObservableCollection<User> Users { get; }
+        public ObservableCollection<Warehouse> Warehouses { get; }
+        public ObservableCollection<Material> Materials { get; }
 
         public bool IsLoading
         {
@@ -110,6 +116,67 @@ namespace NekrasovskyAPP.ViewModels
             catch (Exception ex)
             {
                 ErrorMessage = $"Ошибка отклонения запроса: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task LoadDependenciesAsync()
+        {
+            try
+            {
+                var users = await _apiService.GetAllUsersAsync();
+                Users.Clear();
+                foreach (var user in users)
+                {
+                    Users.Add(user);
+                }
+
+                var warehouses = await _apiService.GetAllWarehousesAsync();
+                Warehouses.Clear();
+                foreach (var warehouse in warehouses)
+                {
+                    Warehouses.Add(warehouse);
+                }
+
+                var materials = await _apiService.GetAllMaterialsAsync();
+                Materials.Clear();
+                foreach (var material in materials)
+                {
+                    Materials.Add(material);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка загрузки данных: {ex.Message}";
+            }
+        }
+
+        public async Task<bool> CreatePartRequestAsync(PartRequest request)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.AddPartRequestAsync(request);
+                if (response.GetData() != null)
+                {
+                    await LoadPartRequestsAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка создания запроса";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка создания запроса: {ex.Message}";
+                return false;
             }
             finally
             {

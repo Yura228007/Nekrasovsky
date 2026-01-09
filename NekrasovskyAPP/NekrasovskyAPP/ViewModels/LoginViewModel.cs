@@ -87,22 +87,22 @@ namespace NekrasovskyAPP.ViewModels
                 ErrorMessage = string.Empty;
                 HasError = false;
 
-                var user = await _authService.LoginAsync(Login, Password);
+                var result = await _authService.LoginAsync(Login, Password);
 
-                if (user != null)
+                if (result.IsSuccess && result.User != null)
                 {
-                    var isAdmin = await _authService.IsAdminAsync(user.Id);
+                    var isAdmin = await _authService.IsAdminAsync(result.User.Id);
                     LoginSuccess?.Invoke(this, isAdmin);
                 }
                 else
                 {
-                    ErrorMessage = "Неверный логин или пароль";
+                    ErrorMessage = result.ErrorMessage;
                     HasError = true;
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Ошибка входа: {ex.Message}";
+                ErrorMessage = $"Неожиданная ошибка: {ex.Message}";
                 HasError = true;
             }
             finally

@@ -1,6 +1,7 @@
 using NekrasovskyAPP.Models;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Net.Http;
 
 namespace NekrasovskyAPP.Services
 {
@@ -23,7 +24,7 @@ namespace NekrasovskyAPP.Services
         public User? CurrentUser => _currentUser;
         public bool IsAuthenticated => _currentUser != null;
 
-        public async Task<User?> LoginAsync(string login, string password)
+        public async Task<LoginResult> LoginAsync(string login, string password)
         {
             try
             {
@@ -33,22 +34,60 @@ namespace NekrasovskyAPP.Services
 
                 if (user == null)
                 {
-                    return null;
+                    return new LoginResult
+                    {
+                        User = null,
+                        ErrorType = LoginErrorType.UserNotFound,
+                        ErrorMessage = "Пользователь с таким логином не найден"
+                    };
                 }
 
                 // API возвращает расшифрованный пароль в поле EncryptedPassword
                 // Сравниваем напрямую, так как сервер расшифровывает при получении
                 if (!user.EncryptedPassword.Equals(password, StringComparison.Ordinal))
                 {
-                    return null;
+                    return new LoginResult
+                    {
+                        User = null,
+                        ErrorType = LoginErrorType.InvalidPassword,
+                        ErrorMessage = "Неверный пароль"
+                    };
                 }
 
                 _currentUser = user;
-                return user;
+                return new LoginResult
+                {
+                    User = user,
+                    ErrorType = LoginErrorType.None,
+                    ErrorMessage = string.Empty
+                };
             }
-            catch
+            catch (HttpRequestException ex)
             {
-                return null;
+                return new LoginResult
+                {
+                    User = null,
+                    ErrorType = LoginErrorType.ConnectionError,
+                    ErrorMessage = "Не удалось подключиться к серверу. Проверьте подключение к интернету и убедитесь, что сервер запущен."
+                };
+            }
+            catch (TaskCanceledException)
+            {
+                return new LoginResult
+                {
+                    User = null,
+                    ErrorType = LoginErrorType.ConnectionError,
+                    ErrorMessage = "Превышено время ожидания ответа от сервера. Проверьте подключение к интернету."
+                };
+            }
+            catch (Exception ex)
+            {
+                return new LoginResult
+                {
+                    User = null,
+                    ErrorType = LoginErrorType.ServerError,
+                    ErrorMessage = $"Ошибка сервера: {ex.Message}"
+                };
             }
         }
 

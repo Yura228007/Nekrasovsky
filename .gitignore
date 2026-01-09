@@ -5,3 +5,8 @@
 *.cache
 /NekrasovskyAPP/.vs
 server/.vs
+
+# Backup files
+server/server/backups/
+*.sql
+*.backup

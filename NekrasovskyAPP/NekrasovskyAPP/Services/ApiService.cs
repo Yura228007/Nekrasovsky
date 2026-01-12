@@ -26,7 +26,7 @@ namespace NekrasovskyAPP.Services
             string androidUrl = "http://10.0.2.2:5000/"; // По умолчанию для эмулятора
             
             // Раскомментируйте и укажите IP вашего компьютера для реального устройства:
-            // androidUrl = "http://192.168.1.XXX:5000/"; // Замените XXX на ваш IP
+            androidUrl = "http://192.168.1.121:5000/"; // Замените XXX на ваш IP
             
             return androidUrl;
 #else

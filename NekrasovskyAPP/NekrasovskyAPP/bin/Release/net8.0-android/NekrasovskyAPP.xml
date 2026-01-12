@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NekrasovskyAPP</name>
+    </assembly>
+    <members>
+        <member name="M:NekrasovskyAPP.ViewModels.LoginViewModel.ClearState">
+            <summary>
+            Очищает состояние ViewModel (используется при выходе или возврате на страницу входа)
+            </summary>
+        </member>
+    </members>
+</doc>

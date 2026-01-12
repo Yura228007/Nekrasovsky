@@ -70,5 +70,12 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.10" />
 	</ItemGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net8.0-android'">
+  <AndroidPackageFormat>apk</AndroidPackageFormat>
+  <RunAOTCompilation>false</RunAOTCompilation>
+  <PublishTrimmed>false</PublishTrimmed>
+  <AndroidEnableR8>false</AndroidEnableR8>
+</PropertyGroup>
 
 </Project>

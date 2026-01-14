@@ -57,9 +57,94 @@ using (var scope = app.Services.CreateScope())
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
     try
     {
-        logger.LogInformation("Applying database migrations...");
-        dbContext.Database.Migrate();
-        logger.LogInformation("Database migrations applied successfully.");
+        logger.LogInformation("Checking database connection...");
+        
+        // Check if database exists and can connect
+        if (!dbContext.Database.CanConnect())
+        {
+            logger.LogWarning("Cannot connect to database. Please check connection string.");
+        }
+        else
+        {
+            logger.LogInformation("Database connection successful.");
+            
+            // Get pending migrations
+            var pendingMigrations = dbContext.Database.GetPendingMigrations().ToList();
+            
+            if (pendingMigrations.Any())
+            {
+                logger.LogInformation("Applying {Count} pending migration(s)...", pendingMigrations.Count);
+                foreach (var migration in pendingMigrations)
+                {
+                    logger.LogInformation("Applying migration: {Migration}", migration);
+                }
+                
+                dbContext.Database.Migrate();
+                logger.LogInformation("Database migrations applied successfully.");
+            }
+            else
+            {
+                logger.LogInformation("Database is up to date. No migrations to apply.");
+            }
+        }
+    }
+    catch (Npgsql.PostgresException pgEx) when (pgEx.SqlState == "42P07")
+    {
+        // Table already exists - this means migration was partially applied
+        logger.LogWarning("Some tables already exist. Attempting to mark migrations as applied...");
+        try
+        {
+            // Get all migrations
+            var allMigrations = dbContext.Database.GetMigrations().ToList();
+            var appliedMigrations = dbContext.Database.GetAppliedMigrations().ToList();
+            
+            // If migrations history table doesn't exist or migration is not marked as applied
+            if (!appliedMigrations.Any() && allMigrations.Any())
+            {
+                logger.LogInformation("Creating migrations history table and marking migrations as applied...");
+                
+                // Create migrations history table if it doesn't exist
+                try
+                {
+                    dbContext.Database.ExecuteSqlRaw(@"
+                        CREATE TABLE IF NOT EXISTS ""__EFMigrationsHistory"" (
+                            ""MigrationId"" varchar(150) NOT NULL,
+                            ""ProductVersion"" varchar(32) NOT NULL,
+                            CONSTRAINT ""PK___EFMigrationsHistory"" PRIMARY KEY (""MigrationId"")
+                        );
+                    ");
+                }
+                catch
+                {
+                    // Table might already exist, ignore
+                }
+                
+                // Mark the initial migration as applied
+                var initialMigration = allMigrations.FirstOrDefault();
+                if (initialMigration != null)
+                {
+                    try
+                    {
+                        dbContext.Database.ExecuteSqlRaw($@"
+                            INSERT INTO ""__EFMigrationsHistory"" (""MigrationId"", ""ProductVersion"")
+                            VALUES ('{initialMigration}', '8.0.10')
+                            ON CONFLICT (""MigrationId"") DO NOTHING;
+                        ");
+                        logger.LogInformation("Migration {Migration} marked as applied.", initialMigration);
+                    }
+                    catch (Exception insertEx)
+                    {
+                        logger.LogWarning(insertEx, "Could not mark migration as applied. This is usually safe to ignore if tables already exist.");
+                    }
+                }
+            }
+            
+            logger.LogInformation("Database migration issue resolved. Server will continue.");
+        }
+        catch (Exception innerEx)
+        {
+            logger.LogError(innerEx, "Failed to resolve migration issue. Please run 'dotnet ef database update' manually.");
+        }
     }
     catch (Exception ex)
     {

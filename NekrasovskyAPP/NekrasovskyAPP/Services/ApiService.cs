@@ -100,9 +100,17 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/users/add", user, _jsonOptions);
+                var response = await _httpClient.PostAsJsonAsync("api/users", user, _jsonOptions);
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<User>>(_jsonOptions) ?? new ApiResponse<User>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("user"))
+                {
+                    var userJson = System.Text.Json.JsonSerializer.Serialize(result["user"]);
+                    var createdUser = System.Text.Json.JsonSerializer.Deserialize<User>(userJson, _jsonOptions);
+                    return new ApiResponse<User> { User = createdUser, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "User created successfully" : "User created successfully" };
+                }
+                return new ApiResponse<User> { Message = "Failed to parse response" };
             }
             catch (HttpRequestException ex)
             {
@@ -114,9 +122,17 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync($"api/users/edit/{id}", user, _jsonOptions);
+                var response = await _httpClient.PutAsJsonAsync($"api/users/{id}", user, _jsonOptions);
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<User>>(_jsonOptions) ?? new ApiResponse<User>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("user"))
+                {
+                    var userJson = System.Text.Json.JsonSerializer.Serialize(result["user"]);
+                    var updatedUser = System.Text.Json.JsonSerializer.Deserialize<User>(userJson, _jsonOptions);
+                    return new ApiResponse<User> { User = updatedUser, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "User updated successfully" : "User updated successfully" };
+                }
+                return new ApiResponse<User> { Message = "Failed to parse response" };
             }
             catch (HttpRequestException ex)
             {
@@ -128,9 +144,11 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsync($"api/users/delete/{id}", null);
+                var response = await _httpClient.DeleteAsync($"api/users/{id}");
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<object>>(_jsonOptions) ?? new ApiResponse<object>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object> { Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "User deleted successfully" : "User deleted successfully" };
             }
             catch (HttpRequestException ex)
             {
@@ -190,9 +208,17 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/products/add", product, _jsonOptions);
+                var response = await _httpClient.PostAsJsonAsync("api/products", product, _jsonOptions);
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<Product>>(_jsonOptions) ?? new ApiResponse<Product>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("product"))
+                {
+                    var productJson = System.Text.Json.JsonSerializer.Serialize(result["product"]);
+                    var createdProduct = System.Text.Json.JsonSerializer.Deserialize<Product>(productJson, _jsonOptions);
+                    return new ApiResponse<Product> { Product = createdProduct, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Product created successfully" : "Product created successfully" };
+                }
+                return new ApiResponse<Product> { Message = "Failed to parse response" };
             }
             catch (HttpRequestException ex)
             {
@@ -204,9 +230,17 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync($"api/products/edit/{id}", product, _jsonOptions);
+                var response = await _httpClient.PutAsJsonAsync($"api/products/{id}", product, _jsonOptions);
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<Product>>(_jsonOptions) ?? new ApiResponse<Product>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("product"))
+                {
+                    var productJson = System.Text.Json.JsonSerializer.Serialize(result["product"]);
+                    var updatedProduct = System.Text.Json.JsonSerializer.Deserialize<Product>(productJson, _jsonOptions);
+                    return new ApiResponse<Product> { Product = updatedProduct, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Product updated successfully" : "Product updated successfully" };
+                }
+                return new ApiResponse<Product> { Message = "Failed to parse response" };
             }
             catch (HttpRequestException ex)
             {
@@ -218,9 +252,11 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsync($"api/products/delete/{id}", null);
+                var response = await _httpClient.DeleteAsync($"api/products/{id}");
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<object>>(_jsonOptions) ?? new ApiResponse<object>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object> { Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "Product deleted successfully" : "Product deleted successfully" };
             }
             catch (HttpRequestException ex)
             {
@@ -280,9 +316,17 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/materials/add", material, _jsonOptions);
+                var response = await _httpClient.PostAsJsonAsync("api/materials", material, _jsonOptions);
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<Material>>(_jsonOptions) ?? new ApiResponse<Material>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("material"))
+                {
+                    var materialJson = System.Text.Json.JsonSerializer.Serialize(result["material"]);
+                    var createdMaterial = System.Text.Json.JsonSerializer.Deserialize<Material>(materialJson, _jsonOptions);
+                    return new ApiResponse<Material> { Material = createdMaterial, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Material created successfully" : "Material created successfully" };
+                }
+                return new ApiResponse<Material> { Message = "Failed to parse response" };
             }
             catch (HttpRequestException ex)
             {
@@ -294,9 +338,17 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync($"api/materials/edit/{id}", material, _jsonOptions);
+                var response = await _httpClient.PutAsJsonAsync($"api/materials/{id}", material, _jsonOptions);
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<Material>>(_jsonOptions) ?? new ApiResponse<Material>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("material"))
+                {
+                    var materialJson = System.Text.Json.JsonSerializer.Serialize(result["material"]);
+                    var updatedMaterial = System.Text.Json.JsonSerializer.Deserialize<Material>(materialJson, _jsonOptions);
+                    return new ApiResponse<Material> { Material = updatedMaterial, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Material updated successfully" : "Material updated successfully" };
+                }
+                return new ApiResponse<Material> { Message = "Failed to parse response" };
             }
             catch (HttpRequestException ex)
             {
@@ -308,9 +360,11 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsync($"api/materials/delete/{id}", null);
+                var response = await _httpClient.DeleteAsync($"api/materials/{id}");
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<object>>(_jsonOptions) ?? new ApiResponse<object>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object> { Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "Material deleted successfully" : "Material deleted successfully" };
             }
             catch (HttpRequestException ex)
             {
@@ -370,9 +424,17 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/warehouses/add", warehouse, _jsonOptions);
+                var response = await _httpClient.PostAsJsonAsync("api/warehouses", warehouse, _jsonOptions);
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<Warehouse>>(_jsonOptions) ?? new ApiResponse<Warehouse>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("warehouse"))
+                {
+                    var warehouseJson = System.Text.Json.JsonSerializer.Serialize(result["warehouse"]);
+                    var createdWarehouse = System.Text.Json.JsonSerializer.Deserialize<Warehouse>(warehouseJson, _jsonOptions);
+                    return new ApiResponse<Warehouse> { Warehouse = createdWarehouse, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Warehouse created successfully" : "Warehouse created successfully" };
+                }
+                return new ApiResponse<Warehouse> { Message = "Failed to parse response" };
             }
             catch (HttpRequestException ex)
             {
@@ -384,9 +446,17 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync($"api/warehouses/edit/{id}", warehouse, _jsonOptions);
+                var response = await _httpClient.PutAsJsonAsync($"api/warehouses/{id}", warehouse, _jsonOptions);
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<Warehouse>>(_jsonOptions) ?? new ApiResponse<Warehouse>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("warehouse"))
+                {
+                    var warehouseJson = System.Text.Json.JsonSerializer.Serialize(result["warehouse"]);
+                    var updatedWarehouse = System.Text.Json.JsonSerializer.Deserialize<Warehouse>(warehouseJson, _jsonOptions);
+                    return new ApiResponse<Warehouse> { Warehouse = updatedWarehouse, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Warehouse updated successfully" : "Warehouse updated successfully" };
+                }
+                return new ApiResponse<Warehouse> { Message = "Failed to parse response" };
             }
             catch (HttpRequestException ex)
             {
@@ -398,9 +468,11 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsync($"api/warehouses/delete/{id}", null);
+                var response = await _httpClient.DeleteAsync($"api/warehouses/{id}");
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<object>>(_jsonOptions) ?? new ApiResponse<object>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object> { Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "Warehouse deleted successfully" : "Warehouse deleted successfully" };
             }
             catch (HttpRequestException ex)
             {
@@ -540,9 +612,17 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/part-requests/add", request, _jsonOptions);
+                var response = await _httpClient.PostAsJsonAsync("api/part-requests", request, _jsonOptions);
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<PartRequest>>(_jsonOptions) ?? new ApiResponse<PartRequest>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("request"))
+                {
+                    var requestJson = System.Text.Json.JsonSerializer.Serialize(result["request"]);
+                    var createdRequest = System.Text.Json.JsonSerializer.Deserialize<PartRequest>(requestJson, _jsonOptions);
+                    return new ApiResponse<PartRequest> { Request = createdRequest, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "PartRequest created successfully" : "PartRequest created successfully" };
+                }
+                return new ApiResponse<PartRequest> { Message = "Failed to parse response" };
             }
             catch (HttpRequestException ex)
             {

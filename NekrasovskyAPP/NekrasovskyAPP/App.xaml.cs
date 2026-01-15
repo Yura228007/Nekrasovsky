@@ -5,6 +5,10 @@
         public App()
         {
             InitializeComponent();
+            
+            // Устанавливаем темную тему по умолчанию
+            UserAppTheme = AppTheme.Dark;
+            
             MainPage = new AppShell();
         }
     }

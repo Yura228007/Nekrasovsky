@@ -23,6 +23,10 @@ namespace server.Models
         [Column(TypeName = "varchar(50)")]
         public string Type { get; set; } = "???";
 
+        [Required]
+        [Column(TypeName = "boolean")]
+        public bool IsActive { get; set; } = true;
+
         // ?? ????????????? ???????? (?????????? ??? ??????)
         public virtual ICollection<AccessibleMovement> FromMovements { get; set; } = new List<AccessibleMovement>();
         public virtual ICollection<AccessibleMovement> ToMovements { get; set; } = new List<AccessibleMovement>();

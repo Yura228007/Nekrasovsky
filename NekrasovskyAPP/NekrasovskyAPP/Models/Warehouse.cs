@@ -18,6 +18,10 @@ namespace NekrasovskyAPP.Models
         [Column(TypeName = "varchar(50)")]
         public string Type { get; set; } = "Цех";
 
+        [Required]
+        [Column(TypeName = "boolean")]
+        public bool IsActive { get; set; } = true;
+
         // 🔗 Навигационные свойства (пригодятся для связей)
         public virtual ICollection<AccessibleMovement> FromMovements { get; set; } = new List<AccessibleMovement>();
         public virtual ICollection<AccessibleMovement> ToMovements { get; set; } = new List<AccessibleMovement>();

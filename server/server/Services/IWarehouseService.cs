@@ -11,6 +11,8 @@ namespace server.Services
         Task<Warehouse> CreateWarehouseAsync(Warehouse warehouse);
         Task<Warehouse> UpdateWarehouseAsync(int id, Warehouse updatedWarehouse);
         Task<bool> DeleteWarehouseAsync(int id);
+        Task<Warehouse> StopWarehouseAsync(int id);
+        Task<Warehouse> StartWarehouseAsync(int id);
         Task<IEnumerable<AccessibleMovement>> GetWarehouseMovementsAsync(int warehouseId);
         Task<IEnumerable<PartRequest>> GetWarehouseRequestsAsync(int warehouseId);
     }

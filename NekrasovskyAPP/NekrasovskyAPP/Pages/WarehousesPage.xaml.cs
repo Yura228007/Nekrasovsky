@@ -64,25 +64,71 @@ namespace NekrasovskyAPP.Pages
         {
             if (e.CurrentSelection.FirstOrDefault() is Warehouse selectedWarehouse)
             {
+                var statusAction = selectedWarehouse.IsActive ? "Остановить работу" : "Запустить работу";
                 var action = await DisplayActionSheet(
                     $"Склад: {selectedWarehouse.Name}",
                     "Отмена",
                     null,
                     "Просмотр",
                     "Редактировать",
+                    statusAction,
                     "Удалить");
 
                 switch (action)
                 {
                     case "Просмотр":
+                        var statusText = selectedWarehouse.IsActive ? "Работает" : "Остановлен";
                         await DisplayAlert("Информация о складе",
                             $"Название: {selectedWarehouse.Name}\n" +
-                            $"Тип: {selectedWarehouse.Type}",
+                            $"Тип: {selectedWarehouse.Type}\n" +
+                            $"Статус: {statusText}",
                             "OK");
                         break;
 
                     case "Редактировать":
                         await ShowWarehouseDialogAsync(selectedWarehouse);
+                        break;
+
+                    case "Остановить работу":
+                        var stopConfirm = await DisplayAlert(
+                            "Подтверждение остановки",
+                            $"Вы уверены, что хотите остановить работу склада {selectedWarehouse.Name}?",
+                            "Остановить",
+                            "Отмена");
+
+                        if (stopConfirm)
+                        {
+                            var success = await _viewModel.StopWarehouseAsync(selectedWarehouse.Id);
+                            if (!success)
+                            {
+                                await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+                            }
+                            else
+                            {
+                                await DisplayAlert("Успех", "Работа склада остановлена", "OK");
+                            }
+                        }
+                        break;
+
+                    case "Запустить работу":
+                        var startConfirm = await DisplayAlert(
+                            "Подтверждение запуска",
+                            $"Вы уверены, что хотите запустить работу склада {selectedWarehouse.Name}?",
+                            "Запустить",
+                            "Отмена");
+
+                        if (startConfirm)
+                        {
+                            var success = await _viewModel.StartWarehouseAsync(selectedWarehouse.Id);
+                            if (!success)
+                            {
+                                await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+                            }
+                            else
+                            {
+                                await DisplayAlert("Успех", "Работа склада запущена", "OK");
+                            }
+                        }
                         break;
 
                     case "Удалить":

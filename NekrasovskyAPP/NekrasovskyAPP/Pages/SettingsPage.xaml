@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NekrasovskyAPP.Pages.SettingsPage"
-             Title="Настройки системы">
+             Title="Настройки системы"
+             BackgroundColor="{StaticResource BackgroundDark}">
     
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
@@ -11,99 +12,104 @@
             <Label Text="Настройки системы"
                    FontSize="28"
                    FontAttributes="Bold"
+                   TextColor="{StaticResource White}"
                    HorizontalOptions="Center"
                    Margin="0,10,0,20" />
             
             <!-- Database Info Section -->
-            <Border BackgroundColor="White"
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
                     StrokeThickness="1"
-                    Stroke="#E0E0E0"
+                    Stroke="{StaticResource BorderColor}"
                     Padding="20">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="15"/>
+                    <RoundRectangle CornerRadius="16"/>
                 </Border.StrokeShape>
                 <VerticalStackLayout Spacing="15">
                     <Label Text="📊 База данных"
                            FontSize="20"
-                           FontAttributes="Bold" />
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
                     <Button Text="Проверить подключение"
                             Clicked="OnCheckDatabaseClicked"
                             BackgroundColor="{StaticResource Primary}"
-                            TextColor="White"
+                            TextColor="{StaticResource White}"
                             CornerRadius="10" />
                     <Label x:Name="DatabaseStatusLabel"
                            Text=""
                            FontSize="14"
-                           TextColor="Gray" />
+                           TextColor="{StaticResource Gray400}" />
                 </VerticalStackLayout>
             </Border>
             
             <!-- System Info Section -->
-            <Border BackgroundColor="White"
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
                     StrokeThickness="1"
-                    Stroke="#E0E0E0"
+                    Stroke="{StaticResource BorderColor}"
                     Padding="20">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="15"/>
+                    <RoundRectangle CornerRadius="16"/>
                 </Border.StrokeShape>
                 <VerticalStackLayout Spacing="15">
                     <Label Text="ℹ️ Информация о системе"
                            FontSize="20"
-                           FontAttributes="Bold" />
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
                     <Label x:Name="SystemInfoLabel"
                            Text=""
                            FontSize="14"
-                           TextColor="Gray" />
+                           TextColor="{StaticResource Gray400}" />
                     <Button Text="Обновить информацию"
                             Clicked="OnRefreshInfoClicked"
                             BackgroundColor="{StaticResource Primary}"
-                            TextColor="White"
+                            TextColor="{StaticResource White}"
                             CornerRadius="10" />
                 </VerticalStackLayout>
             </Border>
             
             <!-- API Configuration Section -->
-            <Border BackgroundColor="White"
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
                     StrokeThickness="1"
-                    Stroke="#E0E0E0"
+                    Stroke="{StaticResource BorderColor}"
                     Padding="20">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="15"/>
+                    <RoundRectangle CornerRadius="16"/>
                 </Border.StrokeShape>
                 <VerticalStackLayout Spacing="15">
                     <Label Text="🔧 Настройки API"
                            FontSize="20"
-                           FontAttributes="Bold" />
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
                     <Label x:Name="ApiUrlLabel"
                            Text=""
                            FontSize="14"
-                           TextColor="Gray" />
+                           TextColor="{StaticResource Gray400}" />
                     <Label Text="Для изменения URL отредактируйте файл ApiService.cs"
                            FontSize="12"
-                           TextColor="DarkGray" />
+                           TextColor="{StaticResource Gray600}" />
                 </VerticalStackLayout>
             </Border>
             
             <!-- Actions Section -->
-            <Border BackgroundColor="White"
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
                     StrokeThickness="1"
-                    Stroke="#E0E0E0"
+                    Stroke="{StaticResource BorderColor}"
                     Padding="20">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="15"/>
+                    <RoundRectangle CornerRadius="16"/>
                 </Border.StrokeShape>
                 <VerticalStackLayout Spacing="15">
                     <Label Text="⚙️ Действия"
                            FontSize="20"
-                           FontAttributes="Bold" />
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
                     <Button Text="Очистить кэш"
                             Clicked="OnClearCacheClicked"
-                            BackgroundColor="Orange"
-                            TextColor="White"
+                            BackgroundColor="{StaticResource Warning}"
+                            TextColor="{StaticResource White}"
                             CornerRadius="10" />
                     <Label Text="Очистка кэша пока не реализована"
                            FontSize="12"
-                           TextColor="DarkGray" />
+                           TextColor="{StaticResource Gray600}" />
                 </VerticalStackLayout>
             </Border>
             

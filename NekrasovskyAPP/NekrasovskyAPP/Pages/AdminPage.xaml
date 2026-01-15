@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NekrasovskyAPP.Pages.AdminPage"
-             Title="Панель администратора">
+             Title="Панель администратора"
+             BackgroundColor="{StaticResource BackgroundDark}">
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Выход" Clicked="OnLogoutClicked" />
@@ -15,12 +16,13 @@
             <Label Text="Панель администратора"
                    FontSize="28"
                    FontAttributes="Bold"
+                   TextColor="{StaticResource White}"
                    HorizontalOptions="Center"
-                   Margin="0,10,0,20" />
+                   Margin="0,10,0,10" />
             
             <Label Text="Добро пожаловать, администратор!"
-                   FontSize="18"
-                   TextColor="Gray"
+                   FontSize="16"
+                   TextColor="{StaticResource Gray400}"
                    HorizontalOptions="Center"
                    Margin="0,0,0,30" />
             
@@ -29,144 +31,150 @@
                 
                 <!-- Users Management -->
                 <Border Grid.Row="0" Grid.Column="0"
-                        BackgroundColor="White"
+                        BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="1"
-                        Stroke="#E0E0E0"
+                        Stroke="{StaticResource BorderColor}"
                         Padding="20">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="15"/>
+                        <RoundRectangle CornerRadius="16"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="10">
+                    <VerticalStackLayout Spacing="12">
                         <Label Text="👥" FontSize="40" HorizontalOptions="Center" />
                         <Label Text="Управление пользователями" 
                                FontSize="16" 
                                FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center" />
                         <Button Text="Открыть"
                                 Clicked="OnUsersClicked"
                                 BackgroundColor="{StaticResource Primary}"
-                                TextColor="White"
+                                TextColor="{StaticResource White}"
                                 CornerRadius="10" />
                     </VerticalStackLayout>
                 </Border>
                 
                 <!-- Products Management -->
                 <Border Grid.Row="0" Grid.Column="1"
-                        BackgroundColor="White"
+                        BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="1"
-                        Stroke="#E0E0E0"
+                        Stroke="{StaticResource BorderColor}"
                         Padding="20">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="15"/>
+                        <RoundRectangle CornerRadius="16"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="10">
+                    <VerticalStackLayout Spacing="12">
                         <Label Text="📦" FontSize="40" HorizontalOptions="Center" />
                         <Label Text="Управление продуктами" 
                                FontSize="16" 
                                FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center" />
                         <Button Text="Открыть"
                                 Clicked="OnProductsClicked"
                                 BackgroundColor="{StaticResource Primary}"
-                                TextColor="White"
+                                TextColor="{StaticResource White}"
                                 CornerRadius="10" />
                     </VerticalStackLayout>
                 </Border>
                 
                 <!-- Materials Management -->
                 <Border Grid.Row="1" Grid.Column="0"
-                        BackgroundColor="White"
+                        BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="1"
-                        Stroke="#E0E0E0"
+                        Stroke="{StaticResource BorderColor}"
                         Padding="20">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="15"/>
+                        <RoundRectangle CornerRadius="16"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="10">
+                    <VerticalStackLayout Spacing="12">
                         <Label Text="🔧" FontSize="40" HorizontalOptions="Center" />
                         <Label Text="Управление материалами" 
                                FontSize="16" 
                                FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center" />
                         <Button Text="Открыть"
                                 Clicked="OnMaterialsClicked"
                                 BackgroundColor="{StaticResource Primary}"
-                                TextColor="White"
+                                TextColor="{StaticResource White}"
                                 CornerRadius="10" />
                     </VerticalStackLayout>
                 </Border>
                 
                 <!-- Warehouses Management -->
                 <Border Grid.Row="1" Grid.Column="1"
-                        BackgroundColor="White"
+                        BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="1"
-                        Stroke="#E0E0E0"
+                        Stroke="{StaticResource BorderColor}"
                         Padding="20">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="15"/>
+                        <RoundRectangle CornerRadius="16"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="10">
+                    <VerticalStackLayout Spacing="12">
                         <Label Text="🏭" FontSize="40" HorizontalOptions="Center" />
                         <Label Text="Управление складами" 
                                FontSize="16" 
                                FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center" />
                         <Button Text="Открыть"
                                 Clicked="OnWarehousesClicked"
                                 BackgroundColor="{StaticResource Primary}"
-                                TextColor="White"
+                                TextColor="{StaticResource White}"
                                 CornerRadius="10" />
                     </VerticalStackLayout>
                 </Border>
                 
                 <!-- Reports -->
                 <Border Grid.Row="2" Grid.Column="0"
-                        BackgroundColor="White"
+                        BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="1"
-                        Stroke="#E0E0E0"
+                        Stroke="{StaticResource BorderColor}"
                         Padding="20">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="15"/>
+                        <RoundRectangle CornerRadius="16"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="10">
+                    <VerticalStackLayout Spacing="12">
                         <Label Text="📊" FontSize="40" HorizontalOptions="Center" />
                         <Label Text="Отчеты" 
                                FontSize="16" 
                                FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center" />
                         <Button Text="Открыть"
                                 Clicked="OnReportsClicked"
                                 BackgroundColor="{StaticResource Primary}"
-                                TextColor="White"
+                                TextColor="{StaticResource White}"
                                 CornerRadius="10" />
                     </VerticalStackLayout>
                 </Border>
                 
                 <!-- System Settings -->
                 <Border Grid.Row="2" Grid.Column="1"
-                        BackgroundColor="White"
+                        BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="1"
-                        Stroke="#E0E0E0"
+                        Stroke="{StaticResource BorderColor}"
                         Padding="20">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="15"/>
+                        <RoundRectangle CornerRadius="16"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="10">
+                    <VerticalStackLayout Spacing="12">
                         <Label Text="⚙️" FontSize="40" HorizontalOptions="Center" />
                         <Label Text="Настройки системы" 
                                FontSize="16" 
                                FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center" />
                         <Button Text="Открыть"
                                 Clicked="OnSettingsClicked"
                                 BackgroundColor="{StaticResource Primary}"
-                                TextColor="White"
+                                TextColor="{StaticResource White}"
                                 CornerRadius="10" />
                     </VerticalStackLayout>
                 </Border>
@@ -177,4 +185,3 @@
     </ScrollView>
     
 </ContentPage>
-

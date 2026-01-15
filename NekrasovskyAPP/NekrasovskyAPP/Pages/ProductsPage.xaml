@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NekrasovskyAPP.Pages.ProductsPage"
-             Title="Продукты">
+             Title="Продукты"
+             BackgroundColor="{StaticResource BackgroundDark}">
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
@@ -17,15 +18,20 @@
         
         <!-- Search Bar -->
         <Border Grid.Row="0" 
-                BackgroundColor="White"
-                Padding="10"
-                Margin="10,10,10,0">
+                BackgroundColor="{StaticResource BackgroundCard}"
+                StrokeThickness="1"
+                Stroke="{StaticResource BorderColor}"
+                Padding="15,12"
+                Margin="15,15,15,10">
             <Border.StrokeShape>
-                <RoundRectangle CornerRadius="10"/>
+                <RoundRectangle CornerRadius="12"/>
             </Border.StrokeShape>
             <Entry x:Name="SearchEntry"
                    Placeholder="Поиск по названию или коду..."
-                   TextChanged="OnSearchTextChanged" />
+                   TextChanged="OnSearchTextChanged"
+                   TextColor="{StaticResource Gray200}"
+                   PlaceholderColor="{StaticResource Gray600}"
+                   BackgroundColor="Transparent" />
         </Border>
         
         <!-- Products List -->
@@ -38,24 +44,25 @@
                           SelectionChanged="OnProductSelected">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border BackgroundColor="White"
+                        <Border BackgroundColor="{StaticResource BackgroundCard}"
                                 StrokeThickness="1"
-                                Stroke="#E0E0E0"
-                                Margin="10,5"
-                                Padding="15">
+                                Stroke="{StaticResource BorderColor}"
+                                Margin="15,8"
+                                Padding="18">
                             <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10"/>
+                                <RoundRectangle CornerRadius="12"/>
                             </Border.StrokeShape>
-                            <VerticalStackLayout Spacing="5">
+                            <VerticalStackLayout Spacing="6">
                                 <Label Text="{Binding Name}"
                                        FontSize="18"
-                                       FontAttributes="Bold" />
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource White}" />
                                 <Label Text="{Binding Code, StringFormat='Код: {0}'}"
                                        FontSize="14"
-                                       TextColor="Gray" />
+                                       TextColor="{StaticResource Gray400}" />
                                 <Label Text="{Binding MeasuringUnit, StringFormat='Ед. измерения: {0}'}"
                                        FontSize="12"
-                                       TextColor="DarkGray" />
+                                       TextColor="{StaticResource Gray600}" />
                             </VerticalStackLayout>
                         </Border>
                     </DataTemplate>
@@ -67,10 +74,9 @@
         <ActivityIndicator Grid.Row="1"
                           IsRunning="{Binding IsLoading}"
                           IsVisible="{Binding IsLoading}"
-                          Color="{StaticResource Primary}"
+                          Color="{StaticResource Accent}"
                           VerticalOptions="Center"
                           HorizontalOptions="Center" />
     </Grid>
     
 </ContentPage>
-

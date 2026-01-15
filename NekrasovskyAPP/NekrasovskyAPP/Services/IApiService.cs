@@ -35,6 +35,8 @@ namespace NekrasovskyAPP.Services
         Task<ApiResponse<Warehouse>> AddWarehouseAsync(Warehouse warehouse);
         Task<ApiResponse<Warehouse>> EditWarehouseAsync(int id, Warehouse warehouse);
         Task<ApiResponse<object>> DeleteWarehouseAsync(int id);
+        Task<ApiResponse<Warehouse>> StopWarehouseAsync(int id);
+        Task<ApiResponse<Warehouse>> StartWarehouseAsync(int id);
 
         // Work Reports
         Task<List<WorkReport>> GetAllWorkReportsAsync();

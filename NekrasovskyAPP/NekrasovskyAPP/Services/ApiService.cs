@@ -498,6 +498,50 @@ namespace NekrasovskyAPP.Services
             }
         }
 
+        public async Task<ApiResponse<Warehouse>> StopWarehouseAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/warehouses/{id}/stop", null);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("warehouse"))
+                {
+                    var warehouseJson = System.Text.Json.JsonSerializer.Serialize(result["warehouse"]);
+                    var warehouse = System.Text.Json.JsonSerializer.Deserialize<Warehouse>(warehouseJson, _jsonOptions);
+                    return new ApiResponse<Warehouse> { Warehouse = warehouse, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Warehouse stopped successfully" : "Warehouse stopped successfully" };
+                }
+                return new ApiResponse<Warehouse> { Message = "Failed to parse response" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<Warehouse> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<Warehouse>> StartWarehouseAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/warehouses/{id}/start", null);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("warehouse"))
+                {
+                    var warehouseJson = System.Text.Json.JsonSerializer.Serialize(result["warehouse"]);
+                    var warehouse = System.Text.Json.JsonSerializer.Deserialize<Warehouse>(warehouseJson, _jsonOptions);
+                    return new ApiResponse<Warehouse> { Warehouse = warehouse, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Warehouse started successfully" : "Warehouse started successfully" };
+                }
+                return new ApiResponse<Warehouse> { Message = "Failed to parse response" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<Warehouse> { Message = ex.Message };
+            }
+        }
+
         // Work Reports
         public async Task<List<WorkReport>> GetAllWorkReportsAsync()
         {

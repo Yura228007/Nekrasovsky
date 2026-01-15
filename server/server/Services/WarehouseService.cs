@@ -64,6 +64,7 @@ namespace server.Services
 
             warehouse.Name = updatedWarehouse.Name;
             warehouse.Type = updatedWarehouse.Type;
+            warehouse.IsActive = updatedWarehouse.IsActive;
 
             await _context.SaveChangesAsync();
 
@@ -98,6 +99,46 @@ namespace server.Services
             return await _context.PartRequests
                 .Where(pr => pr.FromWarehouseId == warehouseId || pr.ToWarehouseId == warehouseId)
                 .ToListAsync();
+        }
+
+        public async Task<Warehouse> StopWarehouseAsync(int id)
+        {
+            var warehouse = await _context.Warehouses.FindAsync(id);
+            if (warehouse == null)
+            {
+                throw new KeyNotFoundException($"Warehouse with ID {id} not found");
+            }
+
+            if (!warehouse.IsActive)
+            {
+                throw new InvalidOperationException($"Warehouse with ID {id} is already stopped");
+            }
+
+            warehouse.IsActive = false;
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Warehouse stopped with ID: {WarehouseId}, Name: {Name}", warehouse.Id, warehouse.Name);
+            return warehouse;
+        }
+
+        public async Task<Warehouse> StartWarehouseAsync(int id)
+        {
+            var warehouse = await _context.Warehouses.FindAsync(id);
+            if (warehouse == null)
+            {
+                throw new KeyNotFoundException($"Warehouse with ID {id} not found");
+            }
+
+            if (warehouse.IsActive)
+            {
+                throw new InvalidOperationException($"Warehouse with ID {id} is already active");
+            }
+
+            warehouse.IsActive = true;
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Warehouse started with ID: {WarehouseId}, Name: {Name}", warehouse.Id, warehouse.Name);
+            return warehouse;
         }
     }
 }

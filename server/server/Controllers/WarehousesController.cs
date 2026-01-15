@@ -241,5 +241,71 @@ namespace server.Controllers
                 return StatusCode(500, new { message = "An error occurred while retrieving requests" });
             }
         }
+
+        // POST: api/warehouses/{id}/stop
+        [HttpPost("{id}/stop")]
+        [RequirePermission("ManageWarehouses")]
+        public async Task<IActionResult> StopWarehouse(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest(new { message = "Id must be greater than 0" });
+                }
+
+                var warehouse = await _warehouseService.StopWarehouseAsync(id);
+                _logger.LogInformation("Warehouse stopped successfully with ID: {WarehouseId}", id);
+                return Ok(new { message = "Warehouse stopped successfully", warehouse });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogWarning(ex, "Warehouse with ID {WarehouseId} not found for stopping", id);
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Invalid operation while stopping warehouse with ID {WarehouseId}", id);
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while stopping warehouse with ID {WarehouseId}", id);
+                return StatusCode(500, new { message = "An unexpected error occurred while stopping the warehouse" });
+            }
+        }
+
+        // POST: api/warehouses/{id}/start
+        [HttpPost("{id}/start")]
+        [RequirePermission("ManageWarehouses")]
+        public async Task<IActionResult> StartWarehouse(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest(new { message = "Id must be greater than 0" });
+                }
+
+                var warehouse = await _warehouseService.StartWarehouseAsync(id);
+                _logger.LogInformation("Warehouse started successfully with ID: {WarehouseId}", id);
+                return Ok(new { message = "Warehouse started successfully", warehouse });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogWarning(ex, "Warehouse with ID {WarehouseId} not found for starting", id);
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Invalid operation while starting warehouse with ID {WarehouseId}", id);
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while starting warehouse with ID {WarehouseId}", id);
+                return StatusCode(500, new { message = "An unexpected error occurred while starting the warehouse" });
+            }
+        }
     }
 }

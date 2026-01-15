@@ -599,6 +599,66 @@ namespace NekrasovskyAPP.ViewModels
             }
         }
 
+        public async Task<bool> StopWarehouseAsync(int id)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.StopWarehouseAsync(id);
+                if (response.GetData() != null)
+                {
+                    await LoadWarehousesAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка остановки склада";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка остановки склада: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task<bool> StartWarehouseAsync(int id)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.StartWarehouseAsync(id);
+                if (response.GetData() != null)
+                {
+                    await LoadWarehousesAsync();
+                    return true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message ?? "Ошибка запуска склада";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка запуска склада: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

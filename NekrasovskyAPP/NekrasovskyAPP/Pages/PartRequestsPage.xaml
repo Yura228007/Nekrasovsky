@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:NekrasovskyAPP.Converters"
              x:Class="NekrasovskyAPP.Pages.PartRequestsPage"
-             Title="Запросы на детали">
+             Title="Запросы на детали"
+             BackgroundColor="{StaticResource BackgroundDark}">
     
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -31,40 +32,41 @@
                           ItemsSource="{Binding PartRequests}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border BackgroundColor="White"
+                        <Border BackgroundColor="{StaticResource BackgroundCard}"
                                 StrokeThickness="1"
-                                Stroke="#E0E0E0"
-                                Margin="10,5"
-                                Padding="15">
+                                Stroke="{StaticResource BorderColor}"
+                                Margin="15,8"
+                                Padding="18">
                             <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10"/>
+                                <RoundRectangle CornerRadius="12"/>
                             </Border.StrokeShape>
-                            <VerticalStackLayout Spacing="5">
+                            <VerticalStackLayout Spacing="6">
                                 <Label Text="{Binding Material.Name, StringFormat='Материал: {0}'}"
                                        FontSize="18"
-                                       FontAttributes="Bold" />
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource White}" />
                                 <Label Text="{Binding Quantity, StringFormat='Количество: {0}'}"
                                        FontSize="14"
-                                       TextColor="Gray" />
+                                       TextColor="{StaticResource Gray400}" />
                                 <Label Text="{Binding Status, StringFormat='Статус: {0}'}"
                                        FontSize="14"
-                                       TextColor="Gray" />
+                                       TextColor="{StaticResource Gray400}" />
                                 <Label Text="{Binding CreatedAt, StringFormat='Создан: {0:dd.MM.yyyy HH:mm}'}"
                                        FontSize="12"
-                                       TextColor="DarkGray" />
+                                       TextColor="{StaticResource Gray600}" />
                                 <HorizontalStackLayout Spacing="10" Margin="0,10,0,0">
                                     <Button Text="Одобрить"
                                             Clicked="OnApproveClicked"
-                                            BackgroundColor="Green"
-                                            TextColor="White"
-                                            CornerRadius="5"
+                                            BackgroundColor="{StaticResource Success}"
+                                            TextColor="{StaticResource White}"
+                                            CornerRadius="8"
                                             IsVisible="{Binding Status, Converter={StaticResource IsPendingConverter}}"
                                             CommandParameter="{Binding .}" />
                                     <Button Text="Отклонить"
                                             Clicked="OnRejectClicked"
-                                            BackgroundColor="Red"
-                                            TextColor="White"
-                                            CornerRadius="5"
+                                            BackgroundColor="{StaticResource Error}"
+                                            TextColor="{StaticResource White}"
+                                            CornerRadius="8"
                                             IsVisible="{Binding Status, Converter={StaticResource IsPendingConverter}}"
                                             CommandParameter="{Binding .}" />
                                 </HorizontalStackLayout>
@@ -79,16 +81,16 @@
         <ActivityIndicator Grid.Row="0"
                           IsRunning="{Binding IsLoading}"
                           IsVisible="{Binding IsLoading}"
-                          Color="{StaticResource Primary}"
+                          Color="{StaticResource Accent}"
                           VerticalOptions="Center"
                           HorizontalOptions="Center" />
         
         <!-- Error Message -->
         <Label Grid.Row="1"
                Text="{Binding ErrorMessage}"
-               TextColor="Red"
+               TextColor="{StaticResource Error}"
                IsVisible="{Binding ErrorMessage, Converter={StaticResource IsStringNotEmpty}}"
-               Margin="10"
+               Margin="15"
                HorizontalOptions="Center" />
     </Grid>
     

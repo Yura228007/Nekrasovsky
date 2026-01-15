@@ -15,7 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.WebHost.ConfigureKestrel(options =>
 {
     // Настройка HTTP - слушаем на всех интерфейсах
-    options.ListenAnyIP(5000, listenOptions =>
+    // Используем порт 9000, если 7000 занят
+    options.ListenAnyIP(9000, listenOptions =>
     {
         listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1AndHttp2;
     });
@@ -107,11 +108,10 @@ using (var scope = app.Services.CreateScope())
                         ");
                         
                         // Mark migration as applied
-                        dbContext.Database.ExecuteSqlRaw($@"
-                            INSERT INTO ""__EFMigrationsHistory"" (""MigrationId"", ""ProductVersion"")
-                            VALUES ('{initialMigration}', '8.0.10')
-                            ON CONFLICT (""MigrationId"") DO NOTHING;
-                        ");
+                        dbContext.Database.ExecuteSql(
+                            $@"INSERT INTO ""__EFMigrationsHistory"" (""MigrationId"", ""ProductVersion"")
+                               VALUES ({initialMigration}, '8.0.10')
+                               ON CONFLICT (""MigrationId"") DO NOTHING;");
                         
                         logger.LogInformation("Migration {Migration} marked as applied.", initialMigration);
                     }

@@ -9,6 +9,7 @@ namespace NekrasovskyAPP.Services
     {
         private readonly HttpClient _httpClient;
         private readonly JsonSerializerOptions _jsonOptions;
+        private int? _currentUserId;
         
         private static string GetBaseUrl()
         {
@@ -26,12 +27,12 @@ namespace NekrasovskyAPP.Services
             string androidUrl = "http://10.0.2.2:5000/"; // По умолчанию для эмулятора
             
             // Раскомментируйте и укажите IP вашего компьютера для реального устройства:
-            androidUrl = "http://192.168.1.121:5000/"; // Замените XXX на ваш IP
+            androidUrl = "http://192.168.1.121:9000/"; // Замените XXX на ваш IP
             
             return androidUrl;
 #else
             // Для Windows/Desktop/iOS/Mac
-            return "http://localhost:5000/";
+            return "http://localhost:9000/";
 #endif
         }
 
@@ -46,6 +47,23 @@ namespace NekrasovskyAPP.Services
                 PropertyNameCaseInsensitive = true,
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
+        }
+
+        /// <summary>
+        /// Устанавливает ID текущего пользователя для добавления в заголовки запросов
+        /// </summary>
+        public void SetCurrentUserId(int? userId)
+        {
+            _currentUserId = userId;
+            if (userId.HasValue)
+            {
+                _httpClient.DefaultRequestHeaders.Remove("X-User-Id");
+                _httpClient.DefaultRequestHeaders.Add("X-User-Id", userId.Value.ToString());
+            }
+            else
+            {
+                _httpClient.DefaultRequestHeaders.Remove("X-User-Id");
+            }
         }
 
         // Users

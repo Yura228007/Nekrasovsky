@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -299,7 +300,11 @@ namespace NekrasovskyAPP.ViewModels
                 ErrorMessage = string.Empty;
 
                 var response = await _apiService.DeleteUserAsync(id);
-                if (response.GetData() != null || string.IsNullOrEmpty(response.Message))
+                // Проверяем успешность по сообщению - если есть сообщение и оно не содержит "error" или "ошибка", считаем успешным
+                if (!string.IsNullOrEmpty(response.Message) && 
+                    !response.Message.Contains("error", StringComparison.OrdinalIgnoreCase) &&
+                    !response.Message.Contains("ошибка", StringComparison.OrdinalIgnoreCase) &&
+                    !response.Message.Contains("Error", StringComparison.OrdinalIgnoreCase))
                 {
                     await LoadUsersAsync();
                     return true;

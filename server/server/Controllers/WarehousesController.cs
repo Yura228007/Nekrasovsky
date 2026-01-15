@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
+using server.Attributes;
 
 namespace server.Controllers
 {
@@ -100,6 +101,7 @@ namespace server.Controllers
 
         // POST: api/warehouses
         [HttpPost]
+        [RequirePermission("ManageWarehouses")]
         public async Task<IActionResult> CreateWarehouse([FromBody] Warehouse warehouse)
         {
             if (!ModelState.IsValid)
@@ -128,6 +130,7 @@ namespace server.Controllers
 
         // PUT: api/warehouses/5
         [HttpPut("{id}")]
+        [RequirePermission("ManageWarehouses")]
         public async Task<IActionResult> UpdateWarehouse(int id, [FromBody] Warehouse updated)
         {
             if (id <= 0)
@@ -165,6 +168,7 @@ namespace server.Controllers
 
         // DELETE: api/warehouses/5
         [HttpDelete("{id}")]
+        [RequirePermission("ManageWarehouses")]
         public async Task<IActionResult> DeleteWarehouse(int id)
         {
             try

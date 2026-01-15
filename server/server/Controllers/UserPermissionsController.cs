@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
+using server.Attributes;
 
 namespace server.Controllers
 {
@@ -62,6 +63,7 @@ namespace server.Controllers
 
         // POST: api/user-permissions
         [HttpPost]
+        [RequirePermission("ManageUsers")]
         public async Task<IActionResult> AddPermissionToUser([FromBody] UserPermissions userPermission)
         {
             if (!ModelState.IsValid)
@@ -107,29 +109,25 @@ namespace server.Controllers
             }
         }
 
-        // DELETE: api/user-permissions
+        // DELETE: api/user-permissions?userId=5&permissionId=3
         [HttpDelete]
-        public async Task<IActionResult> RemovePermissionFromUser([FromBody] UserPermissions userPermission)
+        [RequirePermission("ManageUsers")]
+        public async Task<IActionResult> RemovePermissionFromUser([FromQuery] int userId, [FromQuery] int permissionId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(new { message = "Invalid model state", errors = ModelState });
-            }
-
             try
             {
-                if (userPermission.UserId <= 0)
+                if (userId <= 0)
                 {
                     return BadRequest(new { message = "UserId must be greater than 0" });
                 }
 
-                if (userPermission.PermissionId <= 0)
+                if (permissionId <= 0)
                 {
                     return BadRequest(new { message = "PermissionId must be greater than 0" });
                 }
 
-                await _userPermissionsService.RemovePermissionFromUserAsync(userPermission.UserId, userPermission.PermissionId);
-                _logger.LogInformation("Permission {PermissionId} removed from user {UserId}", userPermission.PermissionId, userPermission.UserId);
+                await _userPermissionsService.RemovePermissionFromUserAsync(userId, permissionId);
+                _logger.LogInformation("Permission {PermissionId} removed from user {UserId}", permissionId, userId);
                 return Ok(new { message = "Permission removed from user successfully" });
             }
             catch (KeyNotFoundException ex)
@@ -177,6 +175,7 @@ namespace server.Controllers
 
         // PUT: api/user-permissions/5
         [HttpPut("{userId}")]
+        [RequirePermission("ManageUsers")]
         public async Task<IActionResult> UpdateUserPermissions(int userId, [FromBody] IEnumerable<int> permissionIds)
         {
             if (userId <= 0)

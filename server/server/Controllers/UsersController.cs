@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
+using server.Attributes;
 
 namespace server.Controllers
 {
@@ -115,6 +116,7 @@ namespace server.Controllers
 
         // POST: api/users
         [HttpPost]
+        [RequirePermission("ManageUsers")]
         public async Task<IActionResult> CreateUser([FromBody] User user)
         {
             if (!ModelState.IsValid)
@@ -148,6 +150,7 @@ namespace server.Controllers
 
         // PUT: api/users/5
         [HttpPut("{id}")]
+        [RequirePermission("ManageUsers")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] User updated)
         {
             if (id <= 0)
@@ -190,6 +193,7 @@ namespace server.Controllers
 
         // DELETE: api/users/5
         [HttpDelete("{id}")]
+        [RequirePermission("ManageUsers")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             try

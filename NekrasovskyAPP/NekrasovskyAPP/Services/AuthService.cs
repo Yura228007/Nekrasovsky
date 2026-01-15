@@ -55,6 +55,11 @@ namespace NekrasovskyAPP.Services
                 }
 
                 _currentUser = user;
+                // Устанавливаем userId в ApiService для автоматического добавления в заголовки
+                if (_apiService is ApiService apiService)
+                {
+                    apiService.SetCurrentUserId(user.Id);
+                }
                 return new LoginResult
                 {
                     User = user,
@@ -121,6 +126,11 @@ namespace NekrasovskyAPP.Services
         public void Logout()
         {
             _currentUser = null;
+            // Очищаем userId в ApiService
+            if (_apiService is ApiService apiService)
+            {
+                apiService.SetCurrentUserId(null);
+            }
         }
     }
 }

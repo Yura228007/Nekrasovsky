@@ -1,0 +1,13 @@
+﻿=======================================================
+Timestamp: 2026-01-16T14:05:13.0735700Z
+Method: GET
+URL: /api/database/check
+Status: 200
+Duration: 110 ms
+UserId: 
+Client IP: ::1
+User-Agent: curl/8.7.1
+Controller: Database, Action: CheckDatabase
+Response Body: {"success":true,"message":"Подключение к базе данных успешно","usersCount":1,"users":[{"id":1,"login":"admin","email":"admin@nekrasovsky.local","name":"Администратор Системы","isPasswordEncrypted":true,"passwordLength":24}]}
+=======================================================
+

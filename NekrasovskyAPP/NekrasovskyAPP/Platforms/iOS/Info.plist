@@ -28,5 +28,7 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Приложению необходим доступ к камере для сканирования штрих-кодов и QR-кодов продуктов</string>
 </dict>
 </plist>

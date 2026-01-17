@@ -1,8 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using NekrasovskyAPP.Services;
 using NekrasovskyAPP.ViewModels;
 using NekrasovskyAPP.Pages;
+#if ANDROID || IOS
+using BarcodeScanning;
+#endif
 
 namespace NekrasovskyAPP
 {
@@ -11,9 +14,15 @@ namespace NekrasovskyAPP
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
-            builder
-                .UseMauiApp<App>()
-                .ConfigureFonts(fonts =>
+            var mauiAppBuilder = builder
+                .UseMauiApp<App>();
+            
+#if ANDROID || IOS
+            // BarcodeScanning поддерживается только на Android и iOS
+            mauiAppBuilder.UseBarcodeScanning();
+#endif
+            
+            mauiAppBuilder.ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
@@ -50,6 +59,10 @@ namespace NekrasovskyAPP
                 new PartRequestsPage(sp.GetRequiredService<ViewModels.PartRequestsViewModel>()));
             builder.Services.AddTransient<SettingsPage>(sp => 
                 new SettingsPage(sp.GetRequiredService<IApiService>()));
+#if ANDROID || IOS
+            // BarcodeScannerPage доступна только на Android и iOS
+            builder.Services.AddTransient<BarcodeScannerPage>();
+#endif
 
             return builder.Build();
         }

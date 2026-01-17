@@ -68,8 +68,10 @@
                                            TextColor="{StaticResource White}"
                                            VerticalOptions="Center" />
                                     <Border BackgroundColor="{Binding IsActive, Converter={StaticResource BoolToStatusColorConverter}}"
-                                            Padding="8,4"
-                                            CornerRadius="6">
+                                            Padding="8,4">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="6"/>
+                                        </Border.StrokeShape>
                                         <Label Text="{Binding IsActive, Converter={StaticResource BoolToStatusTextConverter}}"
                                                FontSize="12"
                                                FontAttributes="Bold"

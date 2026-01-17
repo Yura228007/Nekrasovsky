@@ -1078,3 +1078,11 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\stamp\_GenerateJavaStubs.stamp
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\stamp\_GeneratePackageManagerJava.stamp
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\stamp\_ResolveLibraryProjectImports.stamp
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.dll
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.pdb
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.csproj.AssemblyReference.cache
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.AssemblyInfoInputs.cache
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.AssemblyInfo.cs
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.csproj.CoreCompileInputs.cache
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.sourcelink.json

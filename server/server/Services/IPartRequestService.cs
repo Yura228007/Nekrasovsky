@@ -15,6 +15,7 @@ namespace server.Services
         Task<PartRequest> ApprovePartRequestAsync(int id);
         Task<PartRequest> RejectPartRequestAsync(int id, string? reason);
         Task<bool> DeletePartRequestAsync(int id);
+        Task<int> GetRejectionCountAsync(int fromUserId, int toUserId);
     }
 }
 

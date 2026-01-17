@@ -55,6 +55,48 @@ namespace NekrasovskyAPP.Pages
             }
         }
 
+        private async void OnScanBarcodeClicked(object? sender, EventArgs e)
+        {
+#if ANDROID || IOS
+            try
+            {
+                var scannerPage = new BarcodeScannerPage();
+                scannerPage.BarcodeScanned += OnBarcodeScanned;
+                await Navigation.PushModalAsync(scannerPage);
+            }
+            catch
+            {
+                await DisplayAlert("Ошибка", "Не удалось открыть сканер. Убедитесь, что приложение имеет разрешение на использование камеры.", "OK");
+            }
+#else
+            await DisplayAlert("Недоступно", "Сканирование штрих-кодов доступно только на Android и iOS устройствах.", "OK");
+#endif
+        }
+
+        private async void OnBarcodeScanned(object? sender, string barcodeValue)
+        {
+#if ANDROID || IOS
+            if (sender is BarcodeScannerPage scannerPage)
+            {
+                scannerPage.BarcodeScanned -= OnBarcodeScanned;
+            }
+#endif
+
+            if (!string.IsNullOrWhiteSpace(barcodeValue))
+            {
+                // Обновить поле поиска с найденным штрих-кодом
+                SearchEntry.Text = barcodeValue;
+                
+                // Выполнить поиск по штрих-коду
+                await _viewModel.SearchProductsAsync(null, barcodeValue);
+                
+                await DisplayAlert(
+                    "Штрих-код найден",
+                    $"Найден штрих-код: {barcodeValue}\nВыполняется поиск...",
+                    "OK");
+            }
+        }
+
         private async void OnAddClicked(object? sender, EventArgs e)
         {
             await ShowProductDialogAsync(null);

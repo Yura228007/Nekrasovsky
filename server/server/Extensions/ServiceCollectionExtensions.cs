@@ -12,6 +12,9 @@ namespace server.Extensions
             // Register user service
             services.AddScoped<IUserService, UserService>();
 
+            // Register role service
+            services.AddScoped<IRoleService, RoleService>();
+
             // Register permission service
             services.AddScoped<IPermissionService, PermissionService>();
 

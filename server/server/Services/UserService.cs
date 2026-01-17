@@ -19,7 +19,9 @@ namespace server.Services
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _context.Users
+                .Include(u => u.Role)
+                .ToListAsync();
             
             // Decrypt passwords for all users
             foreach (var user in users)
@@ -42,6 +44,7 @@ namespace server.Services
             var totalCount = await _context.Users.CountAsync();
             
             var users = await _context.Users
+                .Include(u => u.Role)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -68,7 +71,9 @@ namespace server.Services
             if (!string.IsNullOrWhiteSpace(surname))
                 query = query.Where(u => EF.Functions.ILike(u.Surname, $"%{surname}%"));
 
-            var users = await query.ToListAsync();
+            var users = await query
+                .Include(u => u.Role)
+                .ToListAsync();
             
             // Decrypt passwords for all users
             foreach (var user in users)
@@ -84,7 +89,9 @@ namespace server.Services
 
         public async Task<User?> GetUserByIdAsync(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Id == id);
             
             // Decrypt password if user exists
             if (user != null && !string.IsNullOrEmpty(user.EncryptedPassword))
@@ -109,10 +116,10 @@ namespace server.Services
                 throw new InvalidOperationException($"User with email '{user.Email}' already exists");
             }
 
-            // Encrypt password before saving
+            // Hash password before saving (use new BCrypt hashing)
             if (!string.IsNullOrEmpty(user.EncryptedPassword))
             {
-                user.EncryptedPassword = _passwordService.Encrypt(user.EncryptedPassword);
+                user.EncryptedPassword = _passwordService.HashPassword(user.EncryptedPassword);
             }
 
             user.CreatedAt = DateTime.UtcNow;
@@ -152,12 +159,12 @@ namespace server.Services
             // Update user properties
             user.Login = updatedUser.Login;
             
-            // Encrypt password if it's being updated
+            // Hash password if it's being updated (use new BCrypt hashing)
             if (!string.IsNullOrEmpty(updatedUser.EncryptedPassword))
             {
-                user.EncryptedPassword = _passwordService.Encrypt(updatedUser.EncryptedPassword);
+                user.EncryptedPassword = _passwordService.HashPassword(updatedUser.EncryptedPassword);
             }
-            // If password is not provided, keep the existing encrypted password
+            // If password is not provided, keep the existing hashed password
             
             user.Name = updatedUser.Name;
             user.Surname = updatedUser.Surname;

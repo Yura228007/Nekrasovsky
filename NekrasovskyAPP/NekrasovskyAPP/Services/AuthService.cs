@@ -67,7 +67,7 @@ namespace NekrasovskyAPP.Services
                     ErrorMessage = string.Empty
                 };
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException)
             {
                 return new LoginResult
                 {

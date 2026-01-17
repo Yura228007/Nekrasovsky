@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
+using server.Hubs;
 
 namespace server.Controllers
 {
@@ -11,11 +13,19 @@ namespace server.Controllers
     {
         private readonly IPartRequestService _partRequestService;
         private readonly ILogger<PartRequestsController> _logger;
+        private readonly IHubContext<NotificationHub> _hubContext;
+        private readonly IUserPermissionsService _userPermissionsService;
 
-        public PartRequestsController(IPartRequestService partRequestService, ILogger<PartRequestsController> logger)
+        public PartRequestsController(
+            IPartRequestService partRequestService, 
+            ILogger<PartRequestsController> logger,
+            IHubContext<NotificationHub> hubContext,
+            IUserPermissionsService userPermissionsService)
         {
             _partRequestService = partRequestService;
             _logger = logger;
+            _hubContext = hubContext;
+            _userPermissionsService = userPermissionsService;
         }
 
         // GET: api/part-requests
@@ -248,9 +258,47 @@ namespace server.Controllers
                     return BadRequest(new { message = "Id must be greater than 0" });
                 }
 
+                // Получаем запрос перед отклонением, чтобы узнать FromUserId и ToUserId
+                var requestBeforeReject = await _partRequestService.GetPartRequestByIdAsync(id);
+                if (requestBeforeReject == null)
+                {
+                    return NotFound(new { message = $"PartRequest with ID {id} not found" });
+                }
+
                 var request = await _partRequestService.RejectPartRequestAsync(id, reason);
+                
+                // Проверяем количество отказов и отправляем уведомление при достижении 3 отказов
+                var rejectionCount = await _partRequestService.GetRejectionCountAsync(
+                    request.FromUserId, request.ToUserId);
+
+                if (rejectionCount >= 3)
+                {
+                    // Получаем информацию о пользователях для уведомления
+                    var userService = HttpContext.RequestServices.GetRequiredService<IUserService>();
+                    var fromUser = await userService.GetUserByIdAsync(request.FromUserId);
+                    var toUser = await userService.GetUserByIdAsync(request.ToUserId);
+
+                    var notificationMessage = new
+                    {
+                        type = "RejectionThreshold",
+                        message = $"Пользователь {fromUser?.Name} {fromUser?.Surname} (ID: {request.FromUserId}) получил {rejectionCount} отказов от пользователя {toUser?.Name} {toUser?.Surname} (ID: {request.ToUserId}). Требуется внимание администратора.",
+                        fromUserId = request.FromUserId,
+                        toUserId = request.ToUserId,
+                        rejectionCount = rejectionCount,
+                        timestamp = DateTime.UtcNow
+                    };
+
+                    // Отправляем уведомление всем подписанным на группу "RejectionNotifications" (администраторы и супервайзеры)
+                    await _hubContext.Clients.Group("RejectionNotifications")
+                        .SendAsync("RejectionNotification", notificationMessage);
+
+                    _logger.LogWarning(
+                        "Rejection threshold reached! User {FromUserId} has {RejectionCount} rejections from user {ToUserId}. Notification sent.",
+                        request.FromUserId, rejectionCount, request.ToUserId);
+                }
+
                 _logger.LogInformation("PartRequest rejected successfully with ID: {PartRequestId}", id);
-                return Ok(new { message = "PartRequest rejected successfully", request });
+                return Ok(new { message = "PartRequest rejected successfully", request, rejectionCount });
             }
             catch (KeyNotFoundException ex)
             {
@@ -261,6 +309,27 @@ namespace server.Controllers
             {
                 _logger.LogError(ex, "Unexpected error while rejecting part request with ID {PartRequestId}", id);
                 return StatusCode(500, new { message = "An unexpected error occurred while rejecting the part request" });
+            }
+        }
+
+        // GET: api/part-requests/rejection-count?fromUserId=&toUserId=
+        [HttpGet("rejection-count")]
+        public async Task<ActionResult<int>> GetRejectionCount([FromQuery] int fromUserId, [FromQuery] int toUserId)
+        {
+            try
+            {
+                if (fromUserId <= 0 || toUserId <= 0)
+                {
+                    return BadRequest(new { message = "FromUserId and ToUserId must be greater than 0" });
+                }
+
+                var count = await _partRequestService.GetRejectionCountAsync(fromUserId, toUserId);
+                return Ok(new { fromUserId, toUserId, rejectionCount = count });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting rejection count");
+                return StatusCode(500, new { message = "An error occurred while retrieving rejection count" });
             }
         }
 

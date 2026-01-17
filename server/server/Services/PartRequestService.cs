@@ -8,6 +8,8 @@ namespace server.Services
     {
         private readonly AppDbContext _context;
         private readonly ILogger<PartRequestService> _logger;
+        // Хранилище для подсчета отказов: ключ - комбинация fromUserId-toUserId, значение - количество отказов
+        private static readonly Dictionary<string, int> _rejectionCounts = new Dictionary<string, int>();
 
         public PartRequestService(AppDbContext context, ILogger<PartRequestService> logger)
         {
@@ -128,7 +130,18 @@ namespace server.Services
             request.Status = PartRequestStatus.Approved;
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("PartRequest {RequestId} approved", id);
+            // Сбрасываем счетчик отказов при одобрении запроса
+            var rejectionKey = $"{request.FromUserId}-{request.ToUserId}";
+            lock (_rejectionCounts)
+            {
+                if (_rejectionCounts.ContainsKey(rejectionKey))
+                {
+                    _rejectionCounts[rejectionKey] = 0;
+                }
+            }
+
+            _logger.LogInformation("PartRequest {RequestId} approved. Rejection counter reset for users {FromUserId}-{ToUserId}", 
+                id, request.FromUserId, request.ToUserId);
             return request;
         }
 
@@ -143,8 +156,49 @@ namespace server.Services
             request.Status = PartRequestStatus.Rejected;
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("PartRequest {RequestId} rejected. Reason: {Reason}", id, reason ?? "No reason provided");
+            // Подсчет отказов: увеличиваем счетчик для комбинации fromUserId-toUserId
+            var rejectionKey = $"{request.FromUserId}-{request.ToUserId}";
+            lock (_rejectionCounts)
+            {
+                if (!_rejectionCounts.ContainsKey(rejectionKey))
+                {
+                    _rejectionCounts[rejectionKey] = 0;
+                }
+                _rejectionCounts[rejectionKey]++;
+            }
+
+            var rejectionCount = await GetRejectionCountAsync(request.FromUserId, request.ToUserId);
+
+            _logger.LogInformation(
+                "PartRequest {RequestId} rejected. Reason: {Reason}. Rejection count for user {FromUserId} from user {ToUserId}: {RejectionCount}", 
+                id, reason ?? "No reason provided", request.FromUserId, request.ToUserId, rejectionCount);
+
             return request;
+        }
+
+        /// <summary>
+        /// Получает количество отказов для комбинации пользователей
+        /// </summary>
+        public async Task<int> GetRejectionCountAsync(int fromUserId, int toUserId)
+        {
+            // Сначала проверяем in-memory хранилище
+            var rejectionKey = $"{fromUserId}-{toUserId}";
+            int count;
+            lock (_rejectionCounts)
+            {
+                _rejectionCounts.TryGetValue(rejectionKey, out count);
+            }
+
+            // Также считаем отказы из БД за последние 24 часа для более точного подсчета
+            var last24Hours = DateTime.UtcNow.AddHours(-24);
+            var dbRejectionCount = await _context.PartRequests
+                .CountAsync(pr => pr.FromUserId == fromUserId && 
+                                  pr.ToUserId == toUserId && 
+                                  pr.Status == PartRequestStatus.Rejected &&
+                                  pr.CreatedAt >= last24Hours);
+
+            // Возвращаем максимальное значение (для случая, если in-memory счетчик был сброшен)
+            return Math.Max(count, dbRejectionCount);
         }
 
         public async Task<bool> DeletePartRequestAsync(int id)

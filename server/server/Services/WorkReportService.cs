@@ -53,6 +53,26 @@ namespace server.Services
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<PartRequest>> GetPartRequestsForWorkReportAsync(int reportId)
+        {
+            var report = await _context.WorkReports.FindAsync(reportId);
+            if (report == null)
+            {
+                throw new KeyNotFoundException($"WorkReport with ID {reportId} not found");
+            }
+
+            // Получаем все запросы пользователя за дату отчета
+            var startOfDay = report.Date.Date;
+            var endOfDay = startOfDay.AddDays(1);
+
+            return await _context.PartRequests
+                .Where(pr => pr.FromUserId == report.UserId && 
+                            pr.CreatedAt >= startOfDay && 
+                            pr.CreatedAt < endOfDay)
+                .OrderBy(pr => pr.CreatedAt)
+                .ToListAsync();
+        }
+
         public async Task<WorkReport> CreateWorkReportAsync(WorkReport report)
         {
             // Check if user exists

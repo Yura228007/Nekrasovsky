@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
+using server.Hubs;
 
 namespace server.Controllers
 {
@@ -11,11 +13,16 @@ namespace server.Controllers
     {
         private readonly IAlarmEventService _alarmEventService;
         private readonly ILogger<AlarmEventsController> _logger;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
-        public AlarmEventsController(IAlarmEventService alarmEventService, ILogger<AlarmEventsController> logger)
+        public AlarmEventsController(
+            IAlarmEventService alarmEventService, 
+            ILogger<AlarmEventsController> logger,
+            IHubContext<NotificationHub> hubContext)
         {
             _alarmEventService = alarmEventService;
             _logger = logger;
+            _hubContext = hubContext;
         }
 
         // GET: api/alarm-events
@@ -170,6 +177,31 @@ namespace server.Controllers
                 }
 
                 var createdEvent = await _alarmEventService.CreateAlarmEventAsync(alarmEvent);
+
+                // Получаем информацию о пользователе для уведомления
+                var userService = HttpContext.RequestServices.GetRequiredService<IUserService>();
+                var user = await userService.GetUserByIdAsync(createdEvent.UserId);
+
+                // Создаем уведомление для всех пользователей
+                var notificationMessage = new
+                {
+                    type = "Alarm",
+                    message = $"СОБЫТИЕ ТРЕВОГИ! {createdEvent.Message ?? "Требуется внимание"}",
+                    location = createdEvent.Location,
+                    user = user != null ? $"{user.Name} {user.Surname}" : $"Пользователь ID: {createdEvent.UserId}",
+                    userId = createdEvent.UserId,
+                    alarmEventId = createdEvent.Id,
+                    timestamp = createdEvent.CreatedAt,
+                    sound = true // Звуковой сигнал
+                };
+
+                // Отправляем уведомление ВСЕМ подключенным пользователям через SignalR
+                await _hubContext.Clients.All.SendAsync("AlarmNotification", notificationMessage);
+
+                _logger.LogWarning(
+                    "AlarmEvent created and notification sent to all users. Event ID: {AlarmEventId}, Location: {Location}, User: {UserId}",
+                    createdEvent.Id, createdEvent.Location, createdEvent.UserId);
+
                 _logger.LogInformation("AlarmEvent created successfully with ID: {AlarmEventId}", createdEvent.Id);
                 return CreatedAtAction(nameof(GetById), new { id = createdEvent.Id },
                     new { message = "AlarmEvent created successfully", alarmEvent = createdEvent });

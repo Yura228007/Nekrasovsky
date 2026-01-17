@@ -27,14 +27,19 @@ namespace NekrasovskyAPP.Pages
                 if (response != null && response.ContainsKey("success") && 
                     response["success"].ToString()?.ToLower() == "true")
                 {
-                    var usersCount = response.ContainsKey("usersCount") ? response["usersCount"].ToString() : "?";
+                    var usersCount = response.ContainsKey("usersCount") ? response["usersCount"]?.ToString() ?? "?" : "?";
                     DatabaseStatusLabel.Text = $"✅ База данных подключена\n" +
                                               $"Пользователей в системе: {usersCount}";
                     DatabaseStatusLabel.TextColor = Colors.Green;
                 }
                 else
                 {
-                    var message = response.ContainsKey("message") ? response["message"].ToString() : "Неизвестная ошибка";
+                    string message = "Неизвестная ошибка";
+                    if (response != null && response.ContainsKey("message") && response["message"] != null)
+                    {
+                        var messageValue = response["message"];
+                        message = messageValue?.ToString() ?? "Неизвестная ошибка";
+                    }
                     DatabaseStatusLabel.Text = $"❌ Ошибка подключения к базе данных\n{message}";
                     DatabaseStatusLabel.TextColor = Colors.Red;
                 }

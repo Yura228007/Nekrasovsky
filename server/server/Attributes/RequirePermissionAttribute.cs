@@ -29,25 +29,52 @@ namespace server.Attributes
                 return;
             }
 
-            // Получаем сервис для проверки прав
+            // Получаем сервисы для проверки прав
             var userPermissionsService = context.HttpContext.RequestServices.GetRequiredService<IUserPermissionsService>();
+            var roleService = context.HttpContext.RequestServices.GetRequiredService<IRoleService>();
+            var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
 
-            // Проверяем права пользователя
-            var hasPermission = await userPermissionsService.HasPermissionAsync(userId.Value, _permissionCode);
+            // Получаем пользователя
+            var user = await userService.GetUserByIdAsync(userId.Value);
+            if (user == null)
+            {
+                context.Result = new UnauthorizedObjectResult(new { message = "User not found" });
+                return;
+            }
 
-            // Также проверяем, является ли пользователь админом (логин "admin" или право "Admin")
+            var hasPermission = false;
+
+            // Проверяем права через роль пользователя (если роль назначена)
+            if (user.RoleId.HasValue)
+            {
+                var rolePermissions = await roleService.GetRolePermissionsAsync(user.RoleId.Value);
+                hasPermission = rolePermissions.Any(p => p.Code == _permissionCode);
+            }
+
+            // Проверяем права через прямое назначение (UserPermissions)
             if (!hasPermission)
             {
-                var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                var user = await userService.GetUserByIdAsync(userId.Value);
-                
-                if (user != null && user.Login.Equals("admin", StringComparison.OrdinalIgnoreCase))
+                hasPermission = await userPermissionsService.HasPermissionAsync(userId.Value, _permissionCode);
+            }
+
+            // Также проверяем, является ли пользователь админом или владельцем (логин "admin" или роль Owner/Admin)
+            if (!hasPermission)
+            {
+                if (user.Login.Equals("admin", StringComparison.OrdinalIgnoreCase))
                 {
                     hasPermission = true;
                 }
+                else if (user.RoleId.HasValue)
+                {
+                    var userRole = await roleService.GetRoleByIdAsync(user.RoleId.Value);
+                    if (userRole != null && (userRole.Code == "Owner" || userRole.Code == "Admin"))
+                    {
+                        hasPermission = true;
+                    }
+                }
                 else
                 {
-                    // Проверяем право Admin
+                    // Проверяем право Admin (для обратной совместимости)
                     hasPermission = await userPermissionsService.HasPermissionAsync(userId.Value, "Admin");
                 }
             }

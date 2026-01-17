@@ -101,17 +101,18 @@ namespace server.Controllers
                 }
 
                 var wasEncrypted = IsBase64(user.EncryptedPassword);
-                var encryptedPassword = _passwordService.Encrypt(request.Password);
+                // Используем HashPassword вместо устаревшего Encrypt
+                var hashedPassword = _passwordService.HashPassword(request.Password);
 
-                user.EncryptedPassword = encryptedPassword;
+                user.EncryptedPassword = hashedPassword;
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Пароль пользователя {Login} (ID: {UserId}) зашифрован", user.Login, user.Id);
+                _logger.LogInformation("Пароль пользователя {Login} (ID: {UserId}) хэширован", user.Login, user.Id);
 
                 return Ok(new
                 {
                     success = true,
-                    message = "Пароль успешно зашифрован",
+                    message = "Пароль успешно хэширован",
                     userId = user.Id,
                     login = user.Login,
                     wasEncrypted = wasEncrypted
@@ -119,7 +120,7 @@ namespace server.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка при зашифровке пароля пользователя");
+                _logger.LogError(ex, "Ошибка при хэшировании пароля пользователя");
                 return StatusCode(500, new
                 {
                     success = false,

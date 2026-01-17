@@ -1,68 +1,72 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\",
+  "WorkspaceRootPath": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\nekrasovskyapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\nekrasovskyapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\nekrasovskyapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\services\\encryptionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\services\\encryptionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\10.0.101\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\models\\fillingwarehouse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\models\\fillingwarehouse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Nekrasovsky\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Laws.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\platforms\\android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\platforms\\android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\services\\encryptionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\services\\encryptionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\models\\alarmevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\models\\alarmevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\platforms\\android\\mainapplication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\platforms\\android\\mainapplication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\platforms\\android\\mainapplication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\models\\warehouse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\platforms\\android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\platforms\\android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\models\\warehouse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\models\\warehouse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\models\\shifttransfer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\models\\shifttransfer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\models\\shifttransfer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\models\\permission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\models\\permission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\models\\permission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\models\\accessiblemovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\models\\alarmevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\models\\alarmevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\models\\accessiblemovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\models\\accessiblemovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\models\\fillingwarehouse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\models\\fillingwarehouse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\domain\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|c:\\users\\\u0433\u043B\u0435\u0431\\documents\\github\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\domain\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\domain\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Nekrasovsky\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Laws.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -72,32 +76,40 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{f96a0d64-71fd-316f-b663-924c78154f2a}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ApiService.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\ApiService.cs",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\Services\\ApiService.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\ApiService.cs",
-              "RelativeToolTip": "NekrasovskyAPP\\Services\\ApiService.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAuwBQAAABNAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "MauiProgram.cs",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\MauiProgram.cs",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\MauiProgram.cs",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\MauiProgram.cs",
+              "RelativeToolTip": "NekrasovskyAPP\\MauiProgram.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T18:54:00.121Z",
+              "WhenOpened": "2026-01-17T12:26:34.898Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
+              "Title": "ApiService.cs",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\ApiService.cs",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Services\\ApiService.cs",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\ApiService.cs",
+              "RelativeToolTip": "NekrasovskyAPP\\Services\\ApiService.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAuwBQAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-09T18:54:00.121Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "EncryptionService.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\EncryptionService.cs",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\EncryptionService.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Services\\EncryptionService.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\EncryptionService.cs",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\EncryptionService.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Services\\EncryptionService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -105,11 +117,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 6,
               "Title": "MainApplication.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\MainApplication.cs",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\MainApplication.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Platforms\\Android\\MainApplication.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\MainApplication.cs",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\MainApplication.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Platforms\\Android\\MainApplication.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -117,33 +129,35 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Microsoft.NET.EolTargetFrameworks.targets",
               "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\10.0.101\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\10.0.101\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets",
               "ToolTip": "C:\\Program Files\\dotnet\\sdk\\10.0.101\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\10.0.101\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
               "WhenOpened": "2025-12-21T09:04:06.042Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "NekrasovskyAPP.csproj",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\NekrasovskyAPP.csproj",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\NekrasovskyAPP.csproj",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\NekrasovskyAPP.csproj",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\NekrasovskyAPP.csproj",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\NekrasovskyAPP.csproj",
               "RelativeToolTip": "NekrasovskyAPP\\NekrasovskyAPP.csproj",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAAAE4AAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2025-10-14T17:15:50.219Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "launchSettings.json",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Properties\\launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Properties\\launchSettings.json",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Properties\\launchSettings.json",
               "RelativeToolTip": "NekrasovskyAPP\\Properties\\launchSettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
@@ -151,11 +165,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "MainActivity.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\MainActivity.cs",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\MainActivity.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Platforms\\Android\\MainActivity.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\MainActivity.cs",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\MainActivity.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Platforms\\Android\\MainActivity.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -165,9 +179,9 @@
               "$type": "Document",
               "DocumentIndex": 9,
               "Title": "Warehouse.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Warehouse.cs",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Warehouse.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\Warehouse.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Warehouse.cs",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Warehouse.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Models\\Warehouse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -177,9 +191,9 @@
               "$type": "Document",
               "DocumentIndex": 10,
               "Title": "ShiftTransfer.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\ShiftTransfer.cs",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\ShiftTransfer.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\ShiftTransfer.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\ShiftTransfer.cs",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\ShiftTransfer.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Models\\ShiftTransfer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -189,9 +203,9 @@
               "$type": "Document",
               "DocumentIndex": 11,
               "Title": "Permission.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Permission.cs",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Permission.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\Permission.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Permission.cs",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Permission.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Models\\Permission.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -199,11 +213,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 12,
               "Title": "AlarmEvent.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\AlarmEvent.cs",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\AlarmEvent.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\AlarmEvent.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\AlarmEvent.cs",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\AlarmEvent.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Models\\AlarmEvent.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -211,11 +225,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "AccessibleMovement.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\AccessibleMovement.cs",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\AccessibleMovement.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\AccessibleMovement.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\AccessibleMovement.cs",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\AccessibleMovement.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Models\\AccessibleMovement.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -223,11 +237,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 14,
               "Title": "FillingWarehouse.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\FillingWarehouse.cs",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\FillingWarehouse.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\FillingWarehouse.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\FillingWarehouse.cs",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\FillingWarehouse.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Models\\FillingWarehouse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -235,11 +249,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "LoginViewModel.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\ViewModels\\LoginViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\ViewModels\\LoginViewModel.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\ViewModels\\LoginViewModel.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\ViewModels\\LoginViewModel.cs",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\ViewModels\\LoginViewModel.cs",
               "RelativeToolTip": "NekrasovskyAPP\\ViewModels\\LoginViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -247,11 +261,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "AppDbContext.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Domain\\AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Domain\\AppDbContext.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Domain\\AppDbContext.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Domain\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\\u0413\u043B\u0435\u0431\\Documents\\GitHub\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Domain\\AppDbContext.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Domain\\AppDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -259,12 +273,22 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 3,
               "Title": "Laws.cs",
               "DocumentMoniker": "C:\\Nekrasovsky\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Laws.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Nekrasovsky\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Laws.cs",
               "ToolTip": "C:\\Nekrasovsky\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Laws.cs",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Nekrasovsky\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Laws.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-14T17:13:58.47Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{f96a0d64-71fd-316f-b663-924c78154f2a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }

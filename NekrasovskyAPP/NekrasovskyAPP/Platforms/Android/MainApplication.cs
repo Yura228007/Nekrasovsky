@@ -1,4 +1,5 @@
-﻿using Android.App;
+#if ANDROID
+using Android.App;
 using Android.Runtime;
 
 namespace NekrasovskyAPP
@@ -14,3 +15,4 @@ namespace NekrasovskyAPP
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
     }
 }
+#endif

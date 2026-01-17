@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NekrasovskyAPP.Models
@@ -37,7 +37,11 @@ namespace NekrasovskyAPP.Models
         [Column(TypeName = "timestamp with time zone")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+        [ForeignKey(nameof(Role))]
+        public int? RoleId { get; set; }
+
         // 🔗 Навигационные свойства (связи с другими таблицами)
+        public virtual Role? Role { get; set; }
         public virtual ICollection<AlarmEvent> AlarmEvents { get; set; } = new List<AlarmEvent>();
         public virtual ICollection<PartRequest> SentPartRequests { get; set; } = new List<PartRequest>();
         public virtual ICollection<PartRequest> ReceivedPartRequests { get; set; } = new List<PartRequest>();

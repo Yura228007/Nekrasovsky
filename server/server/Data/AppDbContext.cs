@@ -8,8 +8,10 @@ public class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Role> Roles { get; set; } = null!;
     public DbSet<Permission> Permissions { get; set; } = null!;
     public DbSet<UserPermissions> UserPermissions { get; set; } = null!;
+    public DbSet<RolePermission> RolePermissions { get; set; } = null!;
     public DbSet<Warehouse> Warehouses { get; set; } = null!;
     public DbSet<Material> Materials { get; set; } = null!;
     public DbSet<Product> Products { get; set; } = null!;
@@ -39,6 +41,9 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<UserPermissions>()
             .HasKey(up => new { up.UserId, up.PermissionId });
 
+        modelBuilder.Entity<RolePermission>()
+            .HasKey(rp => new { rp.RoleId, rp.PermissionId });
+
         modelBuilder.Entity<FillingWarehouse>()
             .HasKey(fw => new { fw.WarehouseId, fw.MaterialId });
 
@@ -53,6 +58,32 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
+
+        // =============================
+        // Role и User-Role связь
+        // =============================
+
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Role)
+            .WithMany(r => r.Users)
+            .HasForeignKey(u => u.RoleId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        // =============================
+        // RolePermission
+        // =============================
+
+        modelBuilder.Entity<RolePermission>()
+            .HasOne(rp => rp.Role)
+            .WithMany(r => r.RolePermissions)
+            .HasForeignKey(rp => rp.RoleId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<RolePermission>()
+            .HasOne(rp => rp.Permission)
+            .WithMany()
+            .HasForeignKey(rp => rp.PermissionId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         // =============================
         // Связи AccessibleMovement

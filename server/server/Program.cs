@@ -11,6 +11,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add SignalR
+builder.Services.AddSignalR();
+
 // Configure Kestrel to listen on all interfaces
 builder.WebHost.ConfigureKestrel(options =>
 {
@@ -149,5 +152,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Map SignalR Hub
+app.MapHub<server.Hubs.NotificationHub>("/hubs/notifications");
 
 app.Run();

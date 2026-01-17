@@ -181,6 +181,32 @@ namespace server.Controllers
             }
         }
 
+        // GET: api/work-reports/{id}/part-requests
+        [HttpGet("{id}/part-requests")]
+        public async Task<ActionResult<IEnumerable<PartRequest>>> GetPartRequestsForReport(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest(new { message = "Id must be greater than 0" });
+                }
+
+                var partRequests = await _workReportService.GetPartRequestsForWorkReportAsync(id);
+                return Ok(partRequests);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogWarning(ex, "WorkReport with ID {WorkReportId} not found", id);
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting part requests for work report {WorkReportId}", id);
+                return StatusCode(500, new { message = "An error occurred while retrieving part requests" });
+            }
+        }
+
         // POST: api/work-reports
         [HttpPost]
         public async Task<IActionResult> CreateWorkReport([FromBody] WorkReport report)

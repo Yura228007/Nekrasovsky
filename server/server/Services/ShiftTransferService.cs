@@ -71,6 +71,49 @@ namespace server.Services
                 throw new KeyNotFoundException($"ToUser with ID {transfer.ToUserId} not found");
             }
 
+            // Проверка остатков перед передачей смены
+            // Получаем все склады и проверяем их заполненность
+            var warehouses = await _context.Warehouses.ToListAsync();
+            var missingStock = new List<string>();
+
+            foreach (var warehouse in warehouses)
+            {
+                var fillings = await _context.FillingWarehouses
+                    .Where(fw => fw.WarehouseId == warehouse.Id)
+                    .ToListAsync();
+
+                if (fillings == null || fillings.Count == 0)
+                {
+                    missingStock.Add($"Склад '{warehouse.Name}' (ID: {warehouse.Id}) не имеет информации об остатках");
+                }
+                else
+                {
+                    // Проверяем наличие материалов с нулевым количеством (можно расширить логику)
+                    var zeroQuantity = fillings.Where(f => f.Quantity <= 0).ToList();
+                    if (zeroQuantity.Any())
+                    {
+                        var materialIds = zeroQuantity.Select(f => f.MaterialId).ToList();
+                        var materials = await _context.Materials
+                            .Where(m => materialIds.Contains(m.Id))
+                            .ToListAsync();
+                        
+                        var materialNames = string.Join(", ", materials.Select(m => m.Name));
+                        missingStock.Add($"На складе '{warehouse.Name}' закончились материалы: {materialNames}");
+                    }
+                }
+            }
+
+            if (missingStock.Any())
+            {
+                _logger.LogWarning("ShiftTransfer creation attempted with missing stock information: {MissingStock}", 
+                    string.Join("; ", missingStock));
+                // Можно либо выбросить исключение, либо просто предупредить в логах
+                // Для соответствия требованиям, выбросим исключение если нет остатков
+                throw new InvalidOperationException(
+                    $"Невозможно выполнить передачу смены: отсутствует информация об остатках на складах. " +
+                    $"Детали: {string.Join("; ", missingStock)}");
+            }
+
             transfer.IsConfirmed = false;
 
             _context.ShiftTransfers.Add(transfer);

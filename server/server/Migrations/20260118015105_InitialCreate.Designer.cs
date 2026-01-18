@@ -12,7 +12,7 @@ using server.Data;
 namespace server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260117213647_InitialCreate")]
+    [Migration("20260118015105_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -119,8 +119,6 @@ namespace server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Material");
-
-                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("server.Models.PartRequest", b =>
@@ -196,6 +194,33 @@ namespace server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Permission");
+                });
+
+            modelBuilder.Entity("server.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MeasuringUnit")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("server.Models.Recipe", b =>
@@ -463,13 +488,6 @@ namespace server.Migrations
                     b.ToTable("WorkReport");
                 });
 
-            modelBuilder.Entity("server.Models.Product", b =>
-                {
-                    b.HasBaseType("server.Models.Material");
-
-                    b.ToTable("Product");
-                });
-
             modelBuilder.Entity("server.Models.AccessibleMovement", b =>
                 {
                     b.HasOne("server.Models.Warehouse", "FromWarehouse")
@@ -675,15 +693,6 @@ namespace server.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("server.Models.Product", b =>
-                {
-                    b.HasOne("server.Models.Material", null)
-                        .WithOne()
-                        .HasForeignKey("server.Models.Product", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("server.Models.Role", b =>

@@ -3320,3 +3320,2952 @@ Controller: Materials, Action: GetAll
 Response Body: [{"id":1,"name":"Яблоко","description":"Святое","code":"144","measuringUnit":"шт"},{"id":2,"name":"Косточка","description":"часть","code":"671","measuringUnit":"кг"}]
 =======================================================
 
+=======================================================
+Timestamp: 2026-01-18T01:55:49.8589425Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 619 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T01:54:59.449532Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:57:33.0431427Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:57:33.1532384Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 88 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:57:59.1668607Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:57:59.3154775Z
+Method: POST
+URL: /api/products
+Status: 201
+Duration: 132 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: CreateProduct
+Response Body: {"message":"Product created successfully","product":{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:57:59.3357302Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:57:59.5067118Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 179 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:02.4511827Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:02.5570678Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:02.5581338Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 19 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:16.3487641Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:16.3500352Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:16.4743526Z
+Method: POST
+URL: /api/materials
+Status: 201
+Duration: 114 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: CreateMaterial
+Response Body: {"message":"Material created successfully","material":{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:16.4870680Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:16.4906785Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:16.5115319Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:19.4159572Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:19.4195551Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:19.4207700Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:19.4878099Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 66 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:22.2626290Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:22.2627429Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:22.2672113Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:22.2679401Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:22.2728862Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:28.8795405Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:28.8806034Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:28.8866757Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:28.8951357Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:28.8972049Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 24 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:29.0011320Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:39.4371596Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:39.4399481Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:39.4400422Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:39.4466199Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:39.4497600Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:39.5960261Z
+Method: POST
+URL: /api/warehouses
+Status: 201
+Duration: 144 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: CreateWarehouse
+Response Body: {"message":"Warehouse created successfully","warehouse":{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:39.6079789Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:39.6084337Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:39.6157479Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:39.6235290Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:49.8616362Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:49.8635435Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:49.8713959Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:49.8739453Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:49.9868700Z
+Method: PUT
+URL: /api/warehouses/1
+Status: 200
+Duration: 37 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: UpdateWarehouse
+Response Body: {"message":"Warehouse updated successfully","warehouse":{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:49.9920182Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:50.0103564Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:50.0308866Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 91 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:50.0339262Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 102 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:56.1736917Z
+Method: GET
+URL: /api/work-reports/user/1
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:56.1790609Z
+Method: GET
+URL: /api/work-reports/user/1
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:57.1769905Z
+Method: GET
+URL: /api/work-reports/user/1
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:57.1884100Z
+Method: POST
+URL: /api/work-reports/start
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:58:59.5327651Z
+Method: GET
+URL: /api/database/check
+Status: 200
+Duration: 96 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Database, Action: CheckDatabase
+Response Body: {"success":true,"message":"Подключение к базе данных успешно","usersCount":1,"users":[{"id":1,"login":"admin","email":"admin@example.com","name":"Админ Системный","isPasswordEncrypted":true,"passwordLength":4}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:04.7392900Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:04.7392270Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:04.7464442Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:04.7484183Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:04.7572727Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:07.7099828Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:07.7092160Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:07.7125777Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:07.7126986Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:07.7189622Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:07.8616810Z
+Method: POST
+URL: /api/warehouses/1/stop
+Status: 200
+Duration: 125 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: StopWarehouse
+Response Body: {"message":"Warehouse stopped successfully","warehouse":{"id":1,"name":"Хуян","type":"Производство","isActive":false,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:07.8731560Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:07.8734117Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:07.8785888Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:07.8838760Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":false,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:12.9456981Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":false,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:12.9482117Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:12.9500337Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:12.9544185Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:12.9593332Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:13.0678358Z
+Method: POST
+URL: /api/warehouses/1/start
+Status: 200
+Duration: 106 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: StartWarehouse
+Response Body: {"message":"Warehouse started successfully","warehouse":{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:13.0842931Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:13.0921293Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:13.0979517Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:20.7065523Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T01:54:59.449532Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:20.7092246Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:20.8298770Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T01:59:20.8313763Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T01:54:59.449532Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:00.1170241Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:00.2260004Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:00.2942183Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 72 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$6uJnEZuBr0Toig.ZG8P.B.GA/JMf7tSE/AgCZCns63cW45vDzgzp.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T01:54:59.449532Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:12.2345400Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:12.2385909Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$6uJnEZuBr0Toig.ZG8P.B.GA/JMf7tSE/AgCZCns63cW45vDzgzp.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T01:54:59.449532Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:12.2439214Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:12.2490358Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:12.2527930Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:12.4803183Z
+Method: PUT
+URL: /api/users/2
+Status: 200
+Duration: 220 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: UpdateUser
+Response Body: {"message":"User updated successfully","user":{"id":2,"login":"adam","encryptedPassword":"$2a$11$jzNon7H2OidiPTzuAP9bkudPhgkWpF/GCwLMBHaw8QBs3pu8EVfd.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:12.4979648Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:12.4986549Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:12.5093722Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:12.5125950Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:00:12.5136318Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$jzNon7H2OidiPTzuAP9bkudPhgkWpF/GCwLMBHaw8QBs3pu8EVfd.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T01:54:59.449532Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:00.3126148Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:00.3194157Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:00.3142023Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$jzNon7H2OidiPTzuAP9bkudPhgkWpF/GCwLMBHaw8QBs3pu8EVfd.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T01:54:59.449532Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:00.3284962Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:00.4453359Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:00.4677777Z
+Method: DELETE
+URL: /api/users/1
+Status: 200
+Duration: 107 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: DeleteUser
+Response Body: {"message":"User deleted successfully"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:00.4756944Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$jzNon7H2OidiPTzuAP9bkudPhgkWpF/GCwLMBHaw8QBs3pu8EVfd.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:00.4769260Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:00.4786115Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:00.4875635Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:00.4887191Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:00.4929839Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:00.4976440Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$jzNon7H2OidiPTzuAP9bkudPhgkWpF/GCwLMBHaw8QBs3pu8EVfd.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:42.7818013Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:42.7836676Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$11$jzNon7H2OidiPTzuAP9bkudPhgkWpF/GCwLMBHaw8QBs3pu8EVfd.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:42.7862522Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:42.8923942Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:42.8926281Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:01:42.8938646Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$11$jzNon7H2OidiPTzuAP9bkudPhgkWpF/GCwLMBHaw8QBs3pu8EVfd.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:02:01.9670218Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$11$jzNon7H2OidiPTzuAP9bkudPhgkWpF/GCwLMBHaw8QBs3pu8EVfd.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:02:12.7985583Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$11$jzNon7H2OidiPTzuAP9bkudPhgkWpF/GCwLMBHaw8QBs3pu8EVfd.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:02:53.1547809Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 181 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$11$jzNon7H2OidiPTzuAP9bkudPhgkWpF/GCwLMBHaw8QBs3pu8EVfd.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:02:53.2717822Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 140 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:02:53.2748575Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 223 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$11$jzNon7H2OidiPTzuAP9bkudPhgkWpF/GCwLMBHaw8QBs3pu8EVfd.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:02:53.2987806Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 295 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:05.5631770Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:05.5643660Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$11$jzNon7H2OidiPTzuAP9bkudPhgkWpF/GCwLMBHaw8QBs3pu8EVfd.","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:05.5702275Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:05.5737713Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:05.5747210Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:05.5810530Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:05.7820717Z
+Method: PUT
+URL: /api/users/2
+Status: 200
+Duration: 200 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: UpdateUser
+Response Body: {"message":"User updated successfully","user":{"id":2,"login":"adam","encryptedPassword":"$2a$11$FQUkNulRgnLnIhEm9SNZouv2P22oHqi2NZDJdZ6scYtRvRRYB8Pym","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:05.8128293Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:05.8195256Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:05.8350444Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$11$FQUkNulRgnLnIhEm9SNZouv2P22oHqi2NZDJdZ6scYtRvRRYB8Pym","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:31.8850765Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:31.8943412Z
+Method: PUT
+URL: /api/users/2
+Status: 200
+Duration: 280 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: UpdateUser
+Response Body: {"message":"User updated successfully","user":{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:31.9662214Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:03:53.8691529Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:04:10.6592393Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:04:16.1339965Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:18.9722277Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:21.3050946Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:21.4147415Z
+Method: GET
+URL: /api/user-permissions/check?userId=2&permissionCode=Admin
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:21.4428480Z
+Method: GET
+URL: /api/user-permissions/user/2
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:24.8324687Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:24.9464998Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:24.9905105Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:25.0295979Z
+Method: GET
+URL: /api/part-requests
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:25.0470414Z
+Method: GET
+URL: /api/part-requests
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:29.2772021Z
+Method: GET
+URL: /api/work-reports/user/2
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:29.2813902Z
+Method: GET
+URL: /api/work-reports/user/2
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:31.7603991Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:31.7659199Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:36.0469385Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:36.0514669Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:36.0590011Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:45.1603943Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:45.2883407Z
+Method: POST
+URL: /api/materials
+Status: 201
+Duration: 118 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: CreateMaterial
+Response Body: {"message":"Material created successfully","material":{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:45.3036451Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:45.3036452Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:48.1738226Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:48.1792770Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:48.1822531Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:51.0130831Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:51.1306874Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:51.1315717Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:05:51.1522718Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:06:07.3247281Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:06:07.3251447Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:06:07.4460954Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:06:07.4462761Z
+Method: PUT
+URL: /api/users/3
+Status: 500
+Duration: 24 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Response Body: Error: No authenticationScheme was specified, and there was no DefaultForbidScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:06:10.7792439Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:06:10.7831102Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:06:10.8930530Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:09:46.5514427Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 92 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:09:46.6780729Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 118 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:09:46.6781047Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 105 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:09:50.5901814Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:09:50.6926529Z
+Method: GET
+URL: /api/part-requests
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:09:50.6938276Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:09:50.6926202Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:10:03.1707845Z
+Method: GET
+URL: /api/part-requests
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:10:03.1753717Z
+Method: POST
+URL: /api/part-requests
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:00.7361516Z
+Method: GET
+URL: /api/work-reports/user/2
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:00.7361486Z
+Method: GET
+URL: /api/work-reports/user/2
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:01.6783812Z
+Method: GET
+URL: /api/work-reports/user/2
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:01.6818829Z
+Method: POST
+URL: /api/work-reports/start
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:10.9765278Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:10.9776741Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:10.9798445Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:10.9841281Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:10.9891637Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:13.4459068Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:13.4465053Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:13.4472832Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:13.5640234Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:13.5639646Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:13.5666068Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:16.7176463Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:16.8363761Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:28.8654612Z
+Method: GET
+URL: /api/part-requests
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:11:28.8675463Z
+Method: POST
+URL: /api/part-requests
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:04.9642798Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:10.7282980Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:10.7308032Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:10.7322874Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:10.7399405Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:10.7447698Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:10.7508143Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:13.1969918Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:13.1984973Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:13.2004680Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:13.2041766Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:13.2064785Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:13.3129014Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:25.9468719Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:25.9643599Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:25.9762415Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:25.9850470Z
+Method: DELETE
+URL: /api/users/2
+Status: 500
+Duration: 16 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Response Body: Error: No authenticationScheme was specified, and there was no DefaultForbidScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:32.8007993Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:32.8057258Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:32.8078789Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:32.9111962Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:12:32.9113518Z
+Method: DELETE
+URL: /api/users/3
+Status: 500
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Response Body: Error: No authenticationScheme was specified, and there was no DefaultForbidScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:15:38.3261717Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 212 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:15:38.3299483Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 369 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:16:38.4887942Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:16:38.4941391Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"работает?","code":"12312","measuringUnit":"шт"},{"id":2,"name":"Бам сука","description":"","code":"","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:16:38.6013188Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:16:38.6018286Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Хуян","type":"Производство","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:16:38.6031578Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-18T02:23:25.3578343Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 89 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$7k1dXxf9I/3efRZ0fMivY.y8GdBpilmqMN08djBsYEcWj/zQcM2Xq","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+

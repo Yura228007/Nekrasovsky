@@ -104,10 +104,10 @@ target triple = "i686-unknown-linux-android21"
 	i32 3, ; uint32_t package_naming_policy (0x3)
 	i32 8, ; uint32_t environment_variable_count (0x8)
 	i32 0, ; uint32_t system_property_count (0x0)
-	i32 314, ; uint32_t number_of_assemblies_in_apk (0x13a)
+	i32 349, ; uint32_t number_of_assemblies_in_apk (0x15d)
 	i32 0, ; uint32_t bundled_assembly_name_width (0x0)
 	i32 2, ; uint32_t number_of_assembly_store_files (0x2)
-	i32 24, ; uint32_t number_of_dso_cache_entries (0x18)
+	i32 40, ; uint32_t number_of_dso_cache_entries (0x28)
 	i32 33560135, ; uint32_t android_runtime_jnienv_class_token (0x2001647)
 	i32 100757453, ; uint32_t jnienv_initialize_method_token (0x6016fcd)
 	i32 100757452, ; uint32_t jnienv_registerjninatives_method_token (0x6016fcc)
@@ -118,157 +118,253 @@ target triple = "i686-unknown-linux-android21"
 }, align 4
 
 ; DSO cache entries
-@dso_cache = dso_local local_unnamed_addr global [24 x %struct.DSOCacheEntry] [
+@dso_cache = dso_local local_unnamed_addr global [40 x %struct.DSOCacheEntry] [
 	%struct.DSOCacheEntry {
-		i64 154543565, ; hash 0x93625cd, from name: libSystem.Security.Cryptography.Native.Android
+		i64 40953476, ; hash 0x270e684, from name: libimage_processing_util_jni.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.2_name, ; name: libSystem.Security.Cryptography.Native.Android.so
+		ptr @.DSOCacheEntry.0_name, ; name: libimage_processing_util_jni.so
 		ptr null; void* handle (0x0)
 	}, ; 0
 	%struct.DSOCacheEntry {
-		i64 229294244, ; hash 0xdaac0a4, from name: monodroid.so
+		i64 154543565, ; hash 0x93625cd, from name: libSystem.Security.Cryptography.Native.Android
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.5_name, ; name: libmonodroid.so
+		ptr @.DSOCacheEntry.6_name, ; name: libSystem.Security.Cryptography.Native.Android.so
 		ptr null; void* handle (0x0)
 	}, ; 1
 	%struct.DSOCacheEntry {
-		i64 391888984, ; hash 0x175bc058, from name: mono-component-marshal-ilgen.so
+		i64 229294244, ; hash 0xdaac0a4, from name: monodroid.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.3_name, ; name: libmono-component-marshal-ilgen.so
+		ptr @.DSOCacheEntry.9_name, ; name: libmonodroid.so
 		ptr null; void* handle (0x0)
 	}, ; 2
 	%struct.DSOCacheEntry {
-		i64 500609955, ; hash 0x1dd6b3a3, from name: System.Native.so
+		i64 323085593, ; hash 0x1341e519, from name: barhopper_v3
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.1_name, ; name: libSystem.Native.so
+		ptr @.DSOCacheEntry.3_name, ; name: libbarhopper_v3.so
 		ptr null; void* handle (0x0)
 	}, ; 3
 	%struct.DSOCacheEntry {
-		i64 748366034, ; hash 0x2c9b28d2, from name: monodroid
+		i64 391888984, ; hash 0x175bc058, from name: mono-component-marshal-ilgen.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.5_name, ; name: libmonodroid.so
+		ptr @.DSOCacheEntry.7_name, ; name: libmono-component-marshal-ilgen.so
 		ptr null; void* handle (0x0)
 	}, ; 4
 	%struct.DSOCacheEntry {
-		i64 870587408, ; hash 0x33e41c10, from name: System.Security.Cryptography.Native.Android.so
+		i64 500609955, ; hash 0x1dd6b3a3, from name: System.Native.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.2_name, ; name: libSystem.Security.Cryptography.Native.Android.so
+		ptr @.DSOCacheEntry.5_name, ; name: libSystem.Native.so
 		ptr null; void* handle (0x0)
 	}, ; 5
 	%struct.DSOCacheEntry {
-		i64 1398864029, ; hash 0x5360f89d, from name: System.Security.Cryptography.Native.Android
+		i64 679993603, ; hash 0x2887e103, from name: image_processing_util_jni
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.2_name, ; name: libSystem.Security.Cryptography.Native.Android.so
+		ptr @.DSOCacheEntry.0_name, ; name: libimage_processing_util_jni.so
 		ptr null; void* handle (0x0)
 	}, ; 6
 	%struct.DSOCacheEntry {
-		i64 1478865992, ; hash 0x5825b448, from name: libmono-component-marshal-ilgen
+		i64 748366034, ; hash 0x2c9b28d2, from name: monodroid
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.3_name, ; name: libmono-component-marshal-ilgen.so
+		ptr @.DSOCacheEntry.9_name, ; name: libmonodroid.so
 		ptr null; void* handle (0x0)
 	}, ; 7
 	%struct.DSOCacheEntry {
-		i64 1536876128, ; hash 0x5b9ade60, from name: libSystem.Native
+		i64 870587408, ; hash 0x33e41c10, from name: System.Security.Cryptography.Native.Android.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.1_name, ; name: libSystem.Native.so
+		ptr @.DSOCacheEntry.6_name, ; name: libSystem.Security.Cryptography.Native.Android.so
 		ptr null; void* handle (0x0)
 	}, ; 8
 	%struct.DSOCacheEntry {
-		i64 1959705688, ; hash 0x74cebc58, from name: System.IO.Compression.Native
+		i64 1398864029, ; hash 0x5360f89d, from name: System.Security.Cryptography.Native.Android
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.0_name, ; name: libSystem.IO.Compression.Native.so
+		ptr @.DSOCacheEntry.6_name, ; name: libSystem.Security.Cryptography.Native.Android.so
 		ptr null; void* handle (0x0)
 	}, ; 9
 	%struct.DSOCacheEntry {
-		i64 2044108986, ; hash 0x79d6a0ba, from name: libSystem.Native.so
+		i64 1478865992, ; hash 0x5825b448, from name: libmono-component-marshal-ilgen
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.1_name, ; name: libSystem.Native.so
+		ptr @.DSOCacheEntry.7_name, ; name: libmono-component-marshal-ilgen.so
 		ptr null; void* handle (0x0)
 	}, ; 10
 	%struct.DSOCacheEntry {
-		i64 2072777569, ; hash 0x7b8c1361, from name: System.IO.Compression.Native.so
+		i64 1536876128, ; hash 0x5b9ade60, from name: libSystem.Native
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.0_name, ; name: libSystem.IO.Compression.Native.so
+		ptr @.DSOCacheEntry.5_name, ; name: libSystem.Native.so
 		ptr null; void* handle (0x0)
 	}, ; 11
 	%struct.DSOCacheEntry {
-		i64 2078610628, ; hash 0x7be514c4, from name: libmono-component-marshal-ilgen.so
+		i64 1771486509, ; hash 0x6996bd2d, from name: libbarhopper_v3
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.3_name, ; name: libmono-component-marshal-ilgen.so
+		ptr @.DSOCacheEntry.3_name, ; name: libbarhopper_v3.so
 		ptr null; void* handle (0x0)
 	}, ; 12
 	%struct.DSOCacheEntry {
-		i64 2101192894, ; hash 0x7d3da8be, from name: libSystem.Security.Cryptography.Native.Android.so
+		i64 1897796552, ; hash 0x711e13c8, from name: libimage_processing_util_jni
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.2_name, ; name: libSystem.Security.Cryptography.Native.Android.so
+		ptr @.DSOCacheEntry.0_name, ; name: libimage_processing_util_jni.so
 		ptr null; void* handle (0x0)
 	}, ; 13
 	%struct.DSOCacheEntry {
-		i64 2496112763, ; hash 0x94c7a87b, from name: libmonosgen-2.0
+		i64 1959705688, ; hash 0x74cebc58, from name: System.IO.Compression.Native
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.4_name, ; name: libmonosgen-2.0.so
+		ptr @.DSOCacheEntry.4_name, ; name: libSystem.IO.Compression.Native.so
 		ptr null; void* handle (0x0)
 	}, ; 14
 	%struct.DSOCacheEntry {
-		i64 2578174356, ; hash 0x99abd194, from name: System.Native
+		i64 2044108986, ; hash 0x79d6a0ba, from name: libSystem.Native.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.1_name, ; name: libSystem.Native.so
+		ptr @.DSOCacheEntry.5_name, ; name: libSystem.Native.so
 		ptr null; void* handle (0x0)
 	}, ; 15
 	%struct.DSOCacheEntry {
-		i64 2658598962, ; hash 0x9e770032, from name: monosgen-2.0.so
+		i64 2072777569, ; hash 0x7b8c1361, from name: System.IO.Compression.Native.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.4_name, ; name: libmonosgen-2.0.so
+		ptr @.DSOCacheEntry.4_name, ; name: libSystem.IO.Compression.Native.so
 		ptr null; void* handle (0x0)
 	}, ; 16
 	%struct.DSOCacheEntry {
-		i64 2938740861, ; hash 0xaf29a07d, from name: libSystem.IO.Compression.Native.so
+		i64 2078610628, ; hash 0x7be514c4, from name: libmono-component-marshal-ilgen.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.0_name, ; name: libSystem.IO.Compression.Native.so
+		ptr @.DSOCacheEntry.7_name, ; name: libmono-component-marshal-ilgen.so
 		ptr null; void* handle (0x0)
 	}, ; 17
 	%struct.DSOCacheEntry {
-		i64 2950894636, ; hash 0xafe3142c, from name: libSystem.IO.Compression.Native
+		i64 2101192894, ; hash 0x7d3da8be, from name: libSystem.Security.Cryptography.Native.Android.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.0_name, ; name: libSystem.IO.Compression.Native.so
+		ptr @.DSOCacheEntry.6_name, ; name: libSystem.Security.Cryptography.Native.Android.so
 		ptr null; void* handle (0x0)
 	}, ; 18
 	%struct.DSOCacheEntry {
-		i64 3422266863, ; hash 0xcbfba5ef, from name: libmonodroid.so
+		i64 2299748692, ; hash 0x89136154, from name: surface_util_jni
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.5_name, ; name: libmonodroid.so
+		ptr @.DSOCacheEntry.1_name, ; name: libsurface_util_jni.so
 		ptr null; void* handle (0x0)
 	}, ; 19
 	%struct.DSOCacheEntry {
-		i64 3636393175, ; hash 0xd8bef4d7, from name: libmonodroid
+		i64 2428530332, ; hash 0x90c06e9c, from name: libsurface_util_jni
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.5_name, ; name: libmonodroid.so
+		ptr @.DSOCacheEntry.1_name, ; name: libsurface_util_jni.so
 		ptr null; void* handle (0x0)
 	}, ; 20
 	%struct.DSOCacheEntry {
-		i64 3790421216, ; hash 0xe1ed3ce0, from name: monosgen-2.0
+		i64 2496112763, ; hash 0x94c7a87b, from name: libmonosgen-2.0
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.4_name, ; name: libmonosgen-2.0.so
+		ptr @.DSOCacheEntry.8_name, ; name: libmonosgen-2.0.so
 		ptr null; void* handle (0x0)
 	}, ; 21
 	%struct.DSOCacheEntry {
-		i64 3817984437, ; hash 0xe391d1b5, from name: libmonosgen-2.0.so
+		i64 2578174356, ; hash 0x99abd194, from name: System.Native
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.4_name, ; name: libmonosgen-2.0.so
+		ptr @.DSOCacheEntry.5_name, ; name: libSystem.Native.so
 		ptr null; void* handle (0x0)
 	}, ; 22
 	%struct.DSOCacheEntry {
+		i64 2658598962, ; hash 0x9e770032, from name: monosgen-2.0.so
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.8_name, ; name: libmonosgen-2.0.so
+		ptr null; void* handle (0x0)
+	}, ; 23
+	%struct.DSOCacheEntry {
+		i64 2796059679, ; hash 0xa6a87c1f, from name: libsurface_util_jni.so
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.1_name, ; name: libsurface_util_jni.so
+		ptr null; void* handle (0x0)
+	}, ; 24
+	%struct.DSOCacheEntry {
+		i64 2855628931, ; hash 0xaa357083, from name: image_processing_util_jni.so
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.0_name, ; name: libimage_processing_util_jni.so
+		ptr null; void* handle (0x0)
+	}, ; 25
+	%struct.DSOCacheEntry {
+		i64 2938740861, ; hash 0xaf29a07d, from name: libSystem.IO.Compression.Native.so
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.4_name, ; name: libSystem.IO.Compression.Native.so
+		ptr null; void* handle (0x0)
+	}, ; 26
+	%struct.DSOCacheEntry {
+		i64 2950894636, ; hash 0xafe3142c, from name: libSystem.IO.Compression.Native
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.4_name, ; name: libSystem.IO.Compression.Native.so
+		ptr null; void* handle (0x0)
+	}, ; 27
+	%struct.DSOCacheEntry {
+		i64 3039277538, ; hash 0xb527b1e2, from name: libInvertBytes.so
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.2_name, ; name: libInvertBytes.so
+		ptr null; void* handle (0x0)
+	}, ; 28
+	%struct.DSOCacheEntry {
+		i64 3192619055, ; hash 0xbe4b802f, from name: InvertBytes
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.2_name, ; name: libInvertBytes.so
+		ptr null; void* handle (0x0)
+	}, ; 29
+	%struct.DSOCacheEntry {
+		i64 3422266863, ; hash 0xcbfba5ef, from name: libmonodroid.so
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.9_name, ; name: libmonodroid.so
+		ptr null; void* handle (0x0)
+	}, ; 30
+	%struct.DSOCacheEntry {
+		i64 3468972690, ; hash 0xcec45292, from name: libbarhopper_v3.so
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.3_name, ; name: libbarhopper_v3.so
+		ptr null; void* handle (0x0)
+	}, ; 31
+	%struct.DSOCacheEntry {
+		i64 3636393175, ; hash 0xd8bef4d7, from name: libmonodroid
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.9_name, ; name: libmonodroid.so
+		ptr null; void* handle (0x0)
+	}, ; 32
+	%struct.DSOCacheEntry {
+		i64 3742037897, ; hash 0xdf0af789, from name: surface_util_jni.so
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.1_name, ; name: libsurface_util_jni.so
+		ptr null; void* handle (0x0)
+	}, ; 33
+	%struct.DSOCacheEntry {
+		i64 3790421216, ; hash 0xe1ed3ce0, from name: monosgen-2.0
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.8_name, ; name: libmonosgen-2.0.so
+		ptr null; void* handle (0x0)
+	}, ; 34
+	%struct.DSOCacheEntry {
+		i64 3817984437, ; hash 0xe391d1b5, from name: libmonosgen-2.0.so
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.8_name, ; name: libmonosgen-2.0.so
+		ptr null; void* handle (0x0)
+	}, ; 35
+	%struct.DSOCacheEntry {
+		i64 4051474642, ; hash 0xf17c98d2, from name: libInvertBytes
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.2_name, ; name: libInvertBytes.so
+		ptr null; void* handle (0x0)
+	}, ; 36
+	%struct.DSOCacheEntry {
+		i64 4053023790, ; hash 0xf1943c2e, from name: InvertBytes.so
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.2_name, ; name: libInvertBytes.so
+		ptr null; void* handle (0x0)
+	}, ; 37
+	%struct.DSOCacheEntry {
 		i64 4087202641, ; hash 0xf39dc351, from name: mono-component-marshal-ilgen
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.3_name, ; name: libmono-component-marshal-ilgen.so
+		ptr @.DSOCacheEntry.7_name, ; name: libmono-component-marshal-ilgen.so
 		ptr null; void* handle (0x0)
-	} ; 23
+	}, ; 38
+	%struct.DSOCacheEntry {
+		i64 4198279443, ; hash 0xfa3ca913, from name: barhopper_v3.so
+		i8 0, ; bool ignore
+		ptr @.DSOCacheEntry.3_name, ; name: libbarhopper_v3.so
+		ptr null; void* handle (0x0)
+	} ; 39
 ], align 8
 
 ; Bundled assembly name buffers, all empty (unused when assembly stores are enabled)
 @bundled_assemblies = dso_local local_unnamed_addr global [0 x %struct.XamarinAndroidBundledAssembly] zeroinitializer, align 4
 
-@assembly_store_bundled_assemblies = dso_local local_unnamed_addr global [314 x %struct.AssemblyStoreSingleAssemblyRuntimeData] zeroinitializer, align 4
+@assembly_store_bundled_assemblies = dso_local local_unnamed_addr global [349 x %struct.AssemblyStoreSingleAssemblyRuntimeData] zeroinitializer, align 4
 
 @assembly_stores = dso_local local_unnamed_addr global [2 x %struct.AssemblyStoreRuntimeData] zeroinitializer, align 4
 
@@ -279,7 +375,7 @@ target triple = "i686-unknown-linux-android21"
 @.env.0 = private unnamed_addr constant [15 x i8] c"MONO_GC_PARAMS\00", align 1
 @.env.1 = private unnamed_addr constant [21 x i8] c"major=marksweep-conc\00", align 1
 @.env.2 = private unnamed_addr constant [17 x i8] c"XAMARIN_BUILD_ID\00", align 1
-@.env.3 = private unnamed_addr constant [37 x i8] c"58dcc340-d230-4179-8fb0-1e13fa111de9\00", align 1
+@.env.3 = private unnamed_addr constant [37 x i8] c"7371b6af-84f7-4bfe-8a8c-88940839257b\00", align 1
 @.env.4 = private unnamed_addr constant [28 x i8] c"XA_HTTP_CLIENT_HANDLER_TYPE\00", align 1
 @.env.5 = private unnamed_addr constant [42 x i8] c"Xamarin.Android.Net.AndroidMessageHandler\00", align 1
 @.env.6 = private unnamed_addr constant [29 x i8] c"__XA_PACKAGE_NAMING_POLICY__\00", align 1
@@ -289,12 +385,16 @@ target triple = "i686-unknown-linux-android21"
 @.ApplicationConfig.0_android_package_name = private unnamed_addr constant [31 x i8] c"com.companyname.nekrasovskyapp\00", align 1
 
 ;DSOCacheEntry
-@.DSOCacheEntry.0_name = private unnamed_addr constant [35 x i8] c"libSystem.IO.Compression.Native.so\00", align 1
-@.DSOCacheEntry.1_name = private unnamed_addr constant [20 x i8] c"libSystem.Native.so\00", align 1
-@.DSOCacheEntry.2_name = private unnamed_addr constant [50 x i8] c"libSystem.Security.Cryptography.Native.Android.so\00", align 1
-@.DSOCacheEntry.3_name = private unnamed_addr constant [35 x i8] c"libmono-component-marshal-ilgen.so\00", align 1
-@.DSOCacheEntry.4_name = private unnamed_addr constant [19 x i8] c"libmonosgen-2.0.so\00", align 1
-@.DSOCacheEntry.5_name = private unnamed_addr constant [16 x i8] c"libmonodroid.so\00", align 1
+@.DSOCacheEntry.0_name = private unnamed_addr constant [32 x i8] c"libimage_processing_util_jni.so\00", align 1
+@.DSOCacheEntry.1_name = private unnamed_addr constant [23 x i8] c"libsurface_util_jni.so\00", align 1
+@.DSOCacheEntry.2_name = private unnamed_addr constant [18 x i8] c"libInvertBytes.so\00", align 1
+@.DSOCacheEntry.3_name = private unnamed_addr constant [19 x i8] c"libbarhopper_v3.so\00", align 1
+@.DSOCacheEntry.4_name = private unnamed_addr constant [35 x i8] c"libSystem.IO.Compression.Native.so\00", align 1
+@.DSOCacheEntry.5_name = private unnamed_addr constant [20 x i8] c"libSystem.Native.so\00", align 1
+@.DSOCacheEntry.6_name = private unnamed_addr constant [50 x i8] c"libSystem.Security.Cryptography.Native.Android.so\00", align 1
+@.DSOCacheEntry.7_name = private unnamed_addr constant [35 x i8] c"libmono-component-marshal-ilgen.so\00", align 1
+@.DSOCacheEntry.8_name = private unnamed_addr constant [19 x i8] c"libmonosgen-2.0.so\00", align 1
+@.DSOCacheEntry.9_name = private unnamed_addr constant [16 x i8] c"libmonodroid.so\00", align 1
 
 ; Metadata
 !llvm.module.flags = !{!0, !1, !7}

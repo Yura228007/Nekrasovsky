@@ -41,7 +41,7 @@ public class MultiPageFragmentStateAdapter_1
 	{
 		super (p0, p1);
 		if (getClass () == MultiPageFragmentStateAdapter_1.class) {
-			mono.android.TypeManager.Activate ("Microsoft.Maui.Controls.Platform.MultiPageFragmentStateAdapter`1, Microsoft.Maui.Controls", "AndroidX.Fragment.App.FragmentManager, Xamarin.AndroidX.Fragment:AndroidX.Lifecycle.Lifecycle, Xamarin.AndroidX.Lifecycle.Common", this, new java.lang.Object[] { p0, p1 });
+			mono.android.TypeManager.Activate ("Microsoft.Maui.Controls.Platform.MultiPageFragmentStateAdapter`1, Microsoft.Maui.Controls", "AndroidX.Fragment.App.FragmentManager, Xamarin.AndroidX.Fragment:AndroidX.Lifecycle.Lifecycle, Xamarin.AndroidX.Lifecycle.Common.Jvm", this, new java.lang.Object[] { p0, p1 });
 		}
 	}
 

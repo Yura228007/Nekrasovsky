@@ -147,7 +147,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<AuditMiddleware>();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

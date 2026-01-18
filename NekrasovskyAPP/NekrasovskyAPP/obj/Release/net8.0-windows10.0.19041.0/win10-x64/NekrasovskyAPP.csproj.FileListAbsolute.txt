@@ -254,3 +254,4 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\MultipleQualifiersPerDimensionFound.txt
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\NekrasovskyAPP.genpublishdeps.cache
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\ProjectArchitectures.txt
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\BarcodeScanning.Native.Maui.dll

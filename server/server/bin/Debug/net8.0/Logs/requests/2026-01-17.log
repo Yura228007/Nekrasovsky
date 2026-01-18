@@ -1,0 +1,2787 @@
+﻿=======================================================
+Timestamp: 2026-01-17T21:20:36.4228176Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 512 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:20:50.0273528Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 25 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:20:51.4220321Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 13 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:20:52.1320668Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 11 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:20:52.4626789Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 10 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:20:52.6572094Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 10 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:20:52.8747597Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 9 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:20:53.3981362Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 9 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:20:53.8533907Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 10 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:21:01.4910795Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 10 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:21:03.1782092Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 10 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:21:43.7805154Z
+Method: GET
+URL: /
+Status: 404
+Duration: 3 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:22:40.7377848Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 10820 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:24:20.8893145Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 13427 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:24:40.6184373Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 11539 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:25:21.7105813Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 34456 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:29:36.1184763Z
+Method: GET
+URL: /
+Status: 404
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:31:22.8995811Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 91619 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:32:14.5581904Z
+Method: GET
+URL: /api/users
+Status: 500
+Duration: 49954 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: {"message":"An error occurred while retrieving users"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:07.7995962Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 325 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:15.7551182Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:16.4889037Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:16.9759398Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:17.4228864Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:17.6396851Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:17.8224753Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:18.0075421Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:47.1817139Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:47.3821908Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:47.5488407Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:47.7299096Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:47.8953027Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:48.0653042Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:48.2301778Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:48.3948431Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:48.5655113Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:48.7205776Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:48.8690957Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:49.0321434Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:49.1833441Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:49.3375211Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:49.4827504Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:49.6333300Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:38:49.8169249Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:00.2609733Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:00.4105912Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:00.5806957Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:00.7468973Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:00.9087637Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:01.0953513Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:01.2593507Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:01.4292876Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:01.6063866Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:01.7627906Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:01.9455766Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:02.0988539Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:02.2795772Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:02.4645368Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:02.6328123Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:02.7986211Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:02.9729451Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:03.1627023Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:03.3335136Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:03.5636017Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:03.7102633Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:03.8792830Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:04.0751160Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:04.2374556Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:04.4123824Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:04.6030618Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:04.7852947Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:04.9704271Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:05.1555065Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:05.3386561Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:05.5552024Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:05.7386918Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:05.9390965Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:06.1378331Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:06.3203487Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:06.5123512Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:06.6919440Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:06.9125488Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:07.0929049Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:08.0435129Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:12.5718784Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:12.8302208Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:12.9895157Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:13.1640222Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:13.3227122Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:13.4905830Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:13.6559581Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:13.8082459Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:14.0289619Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:14.2269003Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:14.3793867Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:14.5762517Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:14.7104604Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:14.9196483Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:15.0547317Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:15.3451337Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:15.6247575Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:15.7621945Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:15.9289948Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:16.0905673Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:16.3046117Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:16.4175189Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:39:16.5795047Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:15.9515649Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 74 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:16.7580005Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:17.1581735Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:17.3397982Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:17.5057639Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:17.6758940Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:17.8731064Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:18.0382094Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:18.2286209Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:18.4202249Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:18.5894275Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:18.7478428Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:18.8863155Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:19.1348362Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:19.3162893Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:19.4696947Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:19.6643183Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:19.8266055Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:19.9865281Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:20.1674629Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:20.3286289Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:20.4947226Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:20.6697239Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:20.8306608Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:20.9963101Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:21.1639806Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:21.3336647Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:21.4876615Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:21.6694214Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:21.8044879Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:21.9671409Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:22.1061083Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:22.2742211Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:23.4733543Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:23.7257167Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:24.2077010Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:24.3637972Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:24.5619929Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:24.7226908Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:24.8632107Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:25.0959331Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:25.2170370Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:25.4100655Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:25.5840426Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:33.7009413Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:33.9681543Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:34.1909464Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:34.4505281Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:34.6731532Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:54.9864031Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:55.2199138Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:55.3644550Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:43:55.5371668Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:44:50.7960183Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:44:52.2709418Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:44:52.8902853Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:44:53.3540569Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:44:53.5800358Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:44:53.7627953Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:44:53.9595562Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:44:58.6458151Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:44:59.7107336Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:00.5132387Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:01.0938321Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:01.3427064Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:01.5315962Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:01.7197075Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:01.9176197Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:02.1293645Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:02.3220729Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:02.5021047Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:02.6765337Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:02.8325796Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:02.9646773Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:03.1260774Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:17.0066454Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:17.5116852Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:18.2167790Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:18.4536085Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:18.6529510Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:18.8577692Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:45:19.0430500Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:47:05.9020577Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:47:06.1273047Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:47:06.3116357Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:48:38.5846256Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 398 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:48:41.0572353Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:48:41.6604645Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:48:42.1626792Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 3 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:48:42.4257069Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:48:42.5896326Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:48:42.7535075Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:48:42.8970090Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:48:43.0596647Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:48:46.7577234Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:55:17.4491208Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 73 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:55:18.2661776Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:55:19.1639923Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:55:19.7511299Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:55:20.2512467Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:55:20.4746661Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:55:20.6561962Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:55:20.8411365Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:55:21.0224796Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:55:21.7537078Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:55:22.2233424Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:55:22.4215017Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.141
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-17T21:58:45.2056244Z
+Method: GET
+URL: /
+Status: 404
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36
+=======================================================
+

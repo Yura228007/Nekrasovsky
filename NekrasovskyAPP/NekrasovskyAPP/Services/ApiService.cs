@@ -14,26 +14,11 @@ namespace NekrasovskyAPP.Services
         private static string GetBaseUrl()
         {
 #if ANDROID
-            // Для Android:
-            // - Эмулятор: "http://10.0.2.2:5000/"
-            // - Реальное устройство: используйте IP вашего компьютера в локальной сети
-            //   Например: "http://192.168.1.100:5000/"
-            //   Найдите IP через: ifconfig (Mac/Linux) или ipconfig (Windows)
-            //   Важно: устройство и компьютер должны быть в одной Wi-Fi сети
-            
-            // Попробуем определить, эмулятор это или реальное устройство
-            // Для реального устройства используйте IP вашего компьютера
-            // Замените на ваш IP адрес для тестирования на реальном устройстве
-            string androidUrl = "http://10.0.2.2:5000/"; // По умолчанию для эмулятора
-            
-            // Раскомментируйте и укажите IP вашего компьютера для реального устройства:
-            androidUrl = "http://192.168.1.121:9000/"; // Замените XXX на ваш IP
-            
-            return androidUrl;
+            return "http://192.168.1.121:9000/";
 #else
-            // Для Windows/Desktop/iOS/Mac
             return "http://localhost:9000/";
 #endif
+
         }
 
         public ApiService(HttpClient httpClient)

@@ -1,20 +1,34 @@
-using System.Media;
-
 namespace NekrasovskyAPP.Platforms.Windows
 {
     public class AlarmSoundService
     {
-        private SoundPlayer? _soundPlayer;
-
         public void PlayAlarmSound()
         {
             try
             {
-                // Используем системный звук Windows
-                SystemSounds.Exclamation.Play();
+                // В .NET MAUI для Windows используем системный звук через консольный Beep
+                // Это простой способ воспроизвести звук без дополнительных зависимостей
                 
-                // Альтернативно можно использовать более громкий звук
-                // SystemSounds.Asterisk.Play();
+                // Воспроизводим несколько коротких звуковых сигналов для имитации тревоги
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        // Три коротких сигнала
+                        for (int i = 0; i < 3; i++)
+                        {
+                            Console.Beep(1000, 200); // Частота 1000 Гц, длительность 200 мс
+                            Thread.Sleep(100);
+                        }
+                    }
+                    catch
+                    {
+                        // Если Beep не поддерживается, просто игнорируем
+                        System.Diagnostics.Debug.WriteLine("Beep не поддерживается на этой платформе");
+                    }
+                });
+                
+                System.Diagnostics.Debug.WriteLine("Звук тревоги воспроизведен");
             }
             catch (Exception ex)
             {
@@ -24,7 +38,7 @@ namespace NekrasovskyAPP.Platforms.Windows
 
         public void StopAlarmSound()
         {
-            // SystemSounds не требует остановки
+            // Console.Beep не требует явной остановки
         }
     }
 }

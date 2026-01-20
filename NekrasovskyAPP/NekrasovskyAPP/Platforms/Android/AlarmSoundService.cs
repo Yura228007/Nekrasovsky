@@ -5,38 +5,20 @@ namespace NekrasovskyAPP.Platforms.Android
 {
     public class AlarmSoundService
     {
-        private MediaPlayer? _mediaPlayer;
+        private ToneGenerator? _toneGenerator;
 
         public void PlayAlarmSound()
         {
             try
             {
-                // Используем системный звук тревоги
-                var audioManager = Android.App.Application.Context.GetSystemService(Context.AudioService) as AudioManager;
-                var streamType = Stream.Notification;
+                // Используем ToneGenerator для воспроизведения тонального сигнала тревоги
+                _toneGenerator = new ToneGenerator(Android.Media.Stream.Notification, 100);
                 
-                // Создаем MediaPlayer для воспроизведения системного звука
-                _mediaPlayer = MediaPlayer.Create(Android.App.Application.Context, Android.Resource.Raw.Beep);
+                // Воспроизводим тональный сигнал (тон DTMF для экстренных ситуаций)
+                // Используем TONE_CDMA_EMERGENCY_RINGBACK как сигнал тревоги
+                _toneGenerator.StartTone(Android.Media.Tone.CdmaEmergencyRingback, 2000);
                 
-                if (_mediaPlayer == null)
-                {
-                    // Если системный звук недоступен, используем тональный сигнал
-                    var toneGenerator = new ToneGenerator(streamType, 100);
-                    toneGenerator.StartTone(Tone.AlertEmergencyGeneric, 2000);
-                    return;
-                }
-
-                _mediaPlayer.SetAudioStreamType(streamType);
-                _mediaPlayer.SetVolume(1.0f, 1.0f);
-                _mediaPlayer.SetLooping(false);
-                
-                _mediaPlayer.Completion += (sender, e) =>
-                {
-                    _mediaPlayer?.Release();
-                    _mediaPlayer = null;
-                };
-
-                _mediaPlayer.Start();
+                System.Diagnostics.Debug.WriteLine("Звук тревоги воспроизведен");
             }
             catch (Exception ex)
             {
@@ -48,9 +30,9 @@ namespace NekrasovskyAPP.Platforms.Android
         {
             try
             {
-                _mediaPlayer?.Stop();
-                _mediaPlayer?.Release();
-                _mediaPlayer = null;
+                _toneGenerator?.StopTone();
+                _toneGenerator?.Release();
+                _toneGenerator = null;
             }
             catch (Exception ex)
             {

@@ -1,112 +1,114 @@
 is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = true
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
 build_property.TargetFramework = net8.0-android
-build_property.TargetFrameworkIdentifier = .NETCoreApp
-build_property.TargetFrameworkVersion = v8.0
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = 
 build_property.ProjectTypeGuids = 
-build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = false
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = NekrasovskyAPP
-build_property.ProjectDir = C:\Users\Глеб\Documents\GitHub\Nekrasovsky1\NekrasovskyAPP\NekrasovskyAPP\
+build_property.ProjectDir = D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/App.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/App.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.App.xaml
 build_metadata.AdditionalFiles.TargetPath = App.xaml
 build_metadata.AdditionalFiles.RelativePath = App.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/AppShell.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/AppShell.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.AppShell.xaml
 build_metadata.AdditionalFiles.TargetPath = AppShell.xaml
 build_metadata.AdditionalFiles.RelativePath = AppShell.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/MainPage.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/MainPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.MainPage.xaml
 build_metadata.AdditionalFiles.TargetPath = MainPage.xaml
 build_metadata.AdditionalFiles.RelativePath = MainPage.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/Pages/AdminPage.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/AdminPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.AdminPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\AdminPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\AdminPage.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/Pages/BarcodeScannerPage.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/BarcodeScannerPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.BarcodeScannerPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\BarcodeScannerPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\BarcodeScannerPage.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/Pages/HomePage.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/HomePage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.HomePage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\HomePage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\HomePage.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/Pages/LoginPage.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/LoginPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.LoginPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\LoginPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\LoginPage.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/Pages/MaterialsPage.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/MaterialsPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.MaterialsPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\MaterialsPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\MaterialsPage.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/Pages/PartRequestsPage.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/PartRequestsPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.PartRequestsPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\PartRequestsPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\PartRequestsPage.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/Pages/ProductsPage.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/ProductsPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.ProductsPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\ProductsPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\ProductsPage.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/Pages/SettingsPage.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/SettingsPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.SettingsPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\SettingsPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\SettingsPage.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/Pages/UsersPage.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/UsersPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.UsersPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\UsersPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\UsersPage.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/Pages/WarehousesPage.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/WarehousesPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.WarehousesPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\WarehousesPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\WarehousesPage.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/Pages/WorkReportsPage.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/WorkReportsPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.WorkReportsPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\WorkReportsPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\WorkReportsPage.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/Resources/Styles/Colors.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Resources/Styles/Colors.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Resources.Styles.Colors.xaml
 build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Colors.xaml
 build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Colors.xaml
 
-[C:/Users/Глеб/Documents/GitHub/Nekrasovsky1/NekrasovskyAPP/NekrasovskyAPP/Resources/Styles/Styles.xaml]
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Resources/Styles/Styles.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Resources.Styles.Styles.xaml
 build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Styles.xaml

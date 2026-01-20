@@ -6,7 +6,15 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\NekrasovskyAPP.pdb
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\resources.pri
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\AppxManifest.xml
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\BarcodeScanning.Native.Maui.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Humanizer.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.Connections.Abstractions.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.Http.Connections.Client.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.Http.Connections.Common.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.SignalR.Client.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.SignalR.Client.Core.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.SignalR.Common.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.Bcl.AsyncInterfaces.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.CodeAnalysis.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.CodeAnalysis.CSharp.dll
@@ -23,6 +31,7 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.Extensions.DependencyInjection.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.Extensions.DependencyModel.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.Extensions.Features.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.Extensions.Logging.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.Extensions.Logging.Abstractions.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\Microsoft.Extensions.Logging.Debug.dll
@@ -173,11 +182,6 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\mauifont.stamp
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\f\OpenSans-Regular.ttf
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\f\OpenSans-Semibold.ttf
-D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-400.png
-D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-200.png
-D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-150.png
-D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-125.png
-D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-100.png
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-400.png
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-200.png
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-150.png
@@ -224,6 +228,11 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-125.png
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-100.png
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appicon.ico
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-400.png
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-200.png
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-150.png
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-125.png
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-100.png
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\mauiimage.stamp
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\mauiimage.outputs
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\NekrasovskyAPP.AssemblyInfoInputs.cache
@@ -254,4 +263,3 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\MultipleQualifiersPerDimensionFound.txt
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\NekrasovskyAPP.genpublishdeps.cache
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\ProjectArchitectures.txt
-D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\BarcodeScanning.Native.Maui.dll

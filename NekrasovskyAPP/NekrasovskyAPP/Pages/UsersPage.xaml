@@ -5,25 +5,25 @@
              x:Class="NekrasovskyAPP.Pages.UsersPage"
              Title="Пользователи"
              BackgroundColor="{StaticResource BackgroundDark}">
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:IsStringNotEmptyConverter x:Key="IsStringNotEmpty" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
         <ToolbarItem Text="Добавить" Clicked="OnAddClicked" />
     </ContentPage.ToolbarItems>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <!-- Search Bar -->
         <Border Grid.Row="0" 
                 BackgroundColor="{StaticResource BackgroundCard}"
@@ -41,15 +41,15 @@
                    PlaceholderColor="{StaticResource Gray600}"
                    BackgroundColor="Transparent" />
         </Border>
-        
+
         <!-- Users List -->
         <RefreshView Grid.Row="1" 
                      IsRefreshing="{Binding IsLoading}"
                      Refreshing="OnRefreshing">
             <CollectionView x:Name="UsersCollectionView"
-                          ItemsSource="{Binding Users}"
-                          SelectionMode="Single"
-                          SelectionChanged="OnUserSelected">
+                            ItemsSource="{Binding Users}"
+                            SelectionMode="Single"
+                            SelectionChanged="OnUserSelected">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border BackgroundColor="{StaticResource BackgroundCard}"
@@ -85,7 +85,7 @@
                                 <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                                        FontSize="12"
                                        TextColor="{StaticResource Gray500}"
-                                       Margin="0,3,0,0">
+                                       Margin="0,5,0,0">
                                     <Label.Text>
                                         <Binding Path="Role.Name">
                                             <Binding.StringFormat>Роль: {0}</Binding.StringFormat>
@@ -93,7 +93,6 @@
                                         </Binding>
                                     </Label.Text>
                                 </Label>
-                                       Margin="0,5,0,0" />
                                 <Label Grid.Row="0" Grid.Column="2"
                                        Text="→"
                                        FontSize="20"
@@ -105,15 +104,15 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-        
+
         <!-- Loading Indicator -->
         <ActivityIndicator Grid.Row="1"
-                          IsRunning="{Binding IsLoading}"
-                          IsVisible="{Binding IsLoading}"
-                          Color="{StaticResource Accent}"
-                          VerticalOptions="Center"
-                          HorizontalOptions="Center" />
-        
+                           IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           Color="{StaticResource Accent}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
+
         <!-- Error Message -->
         <Label Grid.Row="2"
                Text="{Binding ErrorMessage}"
@@ -122,5 +121,5 @@
                Margin="15"
                HorizontalOptions="Center" />
     </Grid>
-    
+
 </ContentPage>

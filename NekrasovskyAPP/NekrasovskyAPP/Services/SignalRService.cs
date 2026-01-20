@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 
 namespace NekrasovskyAPP.Services
 {

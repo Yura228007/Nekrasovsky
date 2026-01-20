@@ -21,16 +21,11 @@ namespace server.Services
         {
             var users = await _context.Users
                 .Include(u => u.Role)
+                .AsNoTracking() // Отключаем отслеживание изменений
                 .ToListAsync();
             
-            // Decrypt passwords for all users
-            foreach (var user in users)
-            {
-                if (!string.IsNullOrEmpty(user.EncryptedPassword))
-                {
-                    user.EncryptedPassword = _passwordService.Decrypt(user.EncryptedPassword);
-                }
-            }
+            // НЕ расшифровываем пароли - они должны оставаться зашифрованными/хэшированными
+            // Пароли используются только для проверки через VerifyPassword, не для отображения
             
             return users;
         }
@@ -45,18 +40,13 @@ namespace server.Services
             
             var users = await _context.Users
                 .Include(u => u.Role)
+                .AsNoTracking() // Отключаем отслеживание изменений
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
             
-            // Decrypt passwords for all users
-            foreach (var user in users)
-            {
-                if (!string.IsNullOrEmpty(user.EncryptedPassword))
-                {
-                    user.EncryptedPassword = _passwordService.Decrypt(user.EncryptedPassword);
-                }
-            }
+            // НЕ расшифровываем пароли - они должны оставаться зашифрованными/хэшированными
+            // Пароли используются только для проверки через VerifyPassword, не для отображения
             
             return (Users: users, TotalCount: totalCount);
         }
@@ -73,16 +63,11 @@ namespace server.Services
 
             var users = await query
                 .Include(u => u.Role)
+                .AsNoTracking() // Отключаем отслеживание изменений
                 .ToListAsync();
             
-            // Decrypt passwords for all users
-            foreach (var user in users)
-            {
-                if (!string.IsNullOrEmpty(user.EncryptedPassword))
-                {
-                    user.EncryptedPassword = _passwordService.Decrypt(user.EncryptedPassword);
-                }
-            }
+            // НЕ расшифровываем пароли - они должны оставаться зашифрованными/хэшированными
+            // Пароли используются только для проверки через VerifyPassword, не для отображения
             
             return users;
         }
@@ -91,13 +76,11 @@ namespace server.Services
         {
             var user = await _context.Users
                 .Include(u => u.Role)
+                .AsNoTracking() // Отключаем отслеживание изменений
                 .FirstOrDefaultAsync(u => u.Id == id);
             
-            // Decrypt password if user exists
-            if (user != null && !string.IsNullOrEmpty(user.EncryptedPassword))
-            {
-                user.EncryptedPassword = _passwordService.Decrypt(user.EncryptedPassword);
-            }
+            // НЕ расшифровываем пароль - он должен оставаться зашифрованным/хэшированным
+            // Пароль используется только для проверки через VerifyPassword, не для отображения
             
             return user;
         }
@@ -117,9 +100,14 @@ namespace server.Services
             }
 
             // Hash password before saving (use new BCrypt hashing)
+            // Проверяем, не является ли пароль уже хэшированным (BCrypt хэши начинаются с $2)
             if (!string.IsNullOrEmpty(user.EncryptedPassword))
             {
-                user.EncryptedPassword = _passwordService.HashPassword(user.EncryptedPassword);
+                // Если пароль уже хэширован (начинается с $2), не хэшируем повторно
+                if (!user.EncryptedPassword.StartsWith("$2"))
+                {
+                    user.EncryptedPassword = _passwordService.HashPassword(user.EncryptedPassword);
+                }
             }
 
             user.CreatedAt = DateTime.UtcNow;
@@ -160,9 +148,19 @@ namespace server.Services
             user.Login = updatedUser.Login;
             
             // Hash password if it's being updated (use new BCrypt hashing)
+            // Проверяем, не является ли пароль уже хэшированным (BCrypt хэши начинаются с $2)
             if (!string.IsNullOrEmpty(updatedUser.EncryptedPassword))
             {
-                user.EncryptedPassword = _passwordService.HashPassword(updatedUser.EncryptedPassword);
+                // Если пароль уже хэширован (начинается с $2), не хэшируем повторно
+                if (!updatedUser.EncryptedPassword.StartsWith("$2"))
+                {
+                    user.EncryptedPassword = _passwordService.HashPassword(updatedUser.EncryptedPassword);
+                }
+                else
+                {
+                    // Если пароль уже хэширован, используем его как есть
+                    user.EncryptedPassword = updatedUser.EncryptedPassword;
+                }
             }
             // If password is not provided, keep the existing hashed password
             
@@ -170,6 +168,7 @@ namespace server.Services
             user.Surname = updatedUser.Surname;
             user.Email = updatedUser.Email;
             user.Phone = updatedUser.Phone;
+            user.RoleId = updatedUser.RoleId; // Обновляем роль пользователя
 
             await _context.SaveChangesAsync();
 

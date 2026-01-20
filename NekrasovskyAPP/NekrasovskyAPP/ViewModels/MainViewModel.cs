@@ -20,12 +20,14 @@ namespace NekrasovskyAPP.ViewModels
             Products = new ObservableCollection<Product>();
             Materials = new ObservableCollection<Material>();
             Warehouses = new ObservableCollection<Warehouse>();
+            Roles = new ObservableCollection<Role>();
         }
 
         public ObservableCollection<User> Users { get; }
         public ObservableCollection<Product> Products { get; }
         public ObservableCollection<Material> Materials { get; }
         public ObservableCollection<Warehouse> Warehouses { get; }
+        public ObservableCollection<Role> Roles { get; }
 
         public bool IsLoading
         {
@@ -132,6 +134,29 @@ namespace NekrasovskyAPP.ViewModels
             catch (Exception ex)
             {
                 ErrorMessage = $"Ошибка загрузки складов: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task LoadRolesAsync()
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var roles = await _apiService.GetAllRolesAsync();
+                Roles.Clear();
+                foreach (var role in roles)
+                {
+                    Roles.Add(role);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка загрузки ролей: {ex.Message}";
             }
             finally
             {

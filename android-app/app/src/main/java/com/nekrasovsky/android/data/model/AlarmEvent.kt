@@ -9,16 +9,13 @@ data class AlarmEvent(
     @SerializedName("userId")
     val userId: Int,
     
-    @SerializedName("eventDate")
-    val eventDate: String,
+    @SerializedName("createdAt")
+    val createdAt: String,
     
     @SerializedName("location")
     val location: String,
     
-    @SerializedName("description")
-    val description: String,
-    
-    @SerializedName("severity")
-    val severity: String? = null
+    @SerializedName("message")
+    val message: String? = null
 )
 

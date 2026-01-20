@@ -303,10 +303,15 @@ namespace server.Controllers
 
         // POST: api/work-reports/start
         [HttpPost("start")]
-        public async Task<IActionResult> StartWork([FromBody] StartWorkRequest request)
+        public async Task<IActionResult> StartWork([FromBody] StartWorkRequest? request)
         {
             try
             {
+                if (request == null)
+                {
+                    return BadRequest(new { message = "Request body is required" });
+                }
+
                 if (request.UserId <= 0)
                 {
                     return BadRequest(new { message = "UserId must be greater than 0" });

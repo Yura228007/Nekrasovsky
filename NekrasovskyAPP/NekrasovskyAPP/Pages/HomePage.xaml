@@ -175,6 +175,29 @@
                 
             </Grid>
             
+            <!-- Alarm Button -->
+            <Border Margin="0,20,0,0"
+                    BackgroundColor="#DC3545"
+                    StrokeThickness="2"
+                    Stroke="#FF6B6B"
+                    Padding="25"
+                    HorizontalOptions="Fill">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20"/>
+                </Border.StrokeShape>
+                <Button x:Name="AlarmButton"
+                        Text="🚨 ТРЕВОГА"
+                        FontSize="24"
+                        FontAttributes="Bold"
+                        BackgroundColor="Transparent"
+                        TextColor="{StaticResource White}"
+                        BorderColor="Transparent"
+                        BorderWidth="0"
+                        Clicked="OnAlarmClicked"
+                        HorizontalOptions="Fill"
+                        HeightRequest="80" />
+            </Border>
+            
         </VerticalStackLayout>
     </ScrollView>
     

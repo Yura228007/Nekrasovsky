@@ -36,6 +36,8 @@ namespace NekrasovskyAPP
             builder.Services.AddSingleton<HttpClient>();
             builder.Services.AddSingleton<IApiService, ApiService>();
             builder.Services.AddSingleton<IAuthService, AuthService>();
+            builder.Services.AddSingleton<ISignalRService, SignalRService>();
+            builder.Services.AddSingleton<IAlarmSoundService, AlarmSoundService>();
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddSingleton<ViewModels.WorkReportsViewModel>();

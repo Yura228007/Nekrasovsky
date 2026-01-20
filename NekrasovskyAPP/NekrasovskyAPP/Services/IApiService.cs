@@ -63,6 +63,10 @@ namespace NekrasovskyAPP.Services
         Task<List<Permission>> GetUserPermissionsAsync(int userId);
         Task<bool> CheckPermissionAsync(int userId, string permissionCode);
 
+        // Roles
+        Task<List<Role>> GetAllRolesAsync();
+        Task<Role?> GetRoleByIdAsync(int id);
+
         // Database
         Task<Dictionary<string, object>> CheckDatabaseAsync();
     }
@@ -77,10 +81,11 @@ namespace NekrasovskyAPP.Services
         public T? Report { get; set; }
         public T? Request { get; set; }
         public T? AlarmEvent { get; set; }
+        public T? Role { get; set; }
 
         public T? GetData()
         {
-            return User ?? Product ?? Material ?? Warehouse ?? Report ?? Request ?? AlarmEvent;
+            return User ?? Product ?? Material ?? Warehouse ?? Report ?? Request ?? AlarmEvent ?? Role;
         }
     }
 

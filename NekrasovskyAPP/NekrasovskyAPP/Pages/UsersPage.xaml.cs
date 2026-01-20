@@ -1,5 +1,6 @@
 using NekrasovskyAPP.ViewModels;
 using NekrasovskyAPP.Models;
+using System.Linq;
 
 namespace NekrasovskyAPP.Pages
 {
@@ -19,6 +20,11 @@ namespace NekrasovskyAPP.Pages
         {
             base.OnAppearing();
             await _viewModel.LoadUsersAsync();
+            // Загружаем роли при открытии страницы, если еще не загружены
+            if (!_viewModel.Roles.Any())
+            {
+                await _viewModel.LoadRolesAsync();
+            }
         }
 
         private async void OnRefreshing(object? sender, EventArgs e)
@@ -58,6 +64,7 @@ namespace NekrasovskyAPP.Pages
                             $"Email: {selectedUser.Email}\n" +
                             $"Логин: {selectedUser.Login}\n" +
                             $"Телефон: {selectedUser.Phone ?? "Не указан"}\n" +
+                            $"Роль: {selectedUser.Role?.Name ?? "Не назначена"}\n" +
                             $"Дата создания: {selectedUser.CreatedAt:dd.MM.yyyy HH:mm}",
                             "OK");
                         break;
@@ -119,7 +126,47 @@ namespace NekrasovskyAPP.Pages
             if (string.IsNullOrWhiteSpace(email))
                 return;
 
-            var phone = await DisplayPromptAsync(title, "Телефон (необязательно):", "Сохранить", "Отмена", "Телефон", -1, Keyboard.Telephone, existingUser?.Phone ?? "");
+            var phone = await DisplayPromptAsync(title, "Телефон (необязательно):", "Далее", "Отмена", "Телефон", -1, Keyboard.Telephone, existingUser?.Phone ?? "");
+
+            // Загружаем роли, если еще не загружены
+            if (!_viewModel.Roles.Any())
+            {
+                await _viewModel.LoadRolesAsync();
+            }
+
+            // Выбор роли
+            int? selectedRoleId = existingUser?.RoleId;
+            if (_viewModel.Roles.Any())
+            {
+                var roleOptions = new List<string> { "Без роли" };
+                roleOptions.AddRange(_viewModel.Roles.Select(r => r.Name));
+                
+                // Определяем текущую выбранную роль для отображения
+                var currentRoleName = existingUser?.Role?.Name ?? "Без роли";
+                
+                var selectedRoleIndex = await DisplayActionSheet(
+                    "Выберите роль:",
+                    "Отмена",
+                    null,
+                    roleOptions.ToArray());
+
+                if (selectedRoleIndex == "Отмена")
+                {
+                    return; // Пользователь отменил операцию
+                }
+                else if (selectedRoleIndex == "Без роли" || string.IsNullOrEmpty(selectedRoleIndex))
+                {
+                    selectedRoleId = null;
+                }
+                else if (!string.IsNullOrEmpty(selectedRoleIndex))
+                {
+                    var selectedRole = _viewModel.Roles.FirstOrDefault(r => r.Name == selectedRoleIndex);
+                    if (selectedRole != null)
+                    {
+                        selectedRoleId = selectedRole.Id;
+                    }
+                }
+            }
 
             // Создаем или обновляем пользователя
             var user = existingUser ?? new User();
@@ -128,6 +175,7 @@ namespace NekrasovskyAPP.Pages
             user.Surname = surname;
             user.Email = email;
             user.Phone = phone ?? string.Empty;
+            user.RoleId = selectedRoleId;
 
             if (!isEdit && !string.IsNullOrWhiteSpace(password))
             {

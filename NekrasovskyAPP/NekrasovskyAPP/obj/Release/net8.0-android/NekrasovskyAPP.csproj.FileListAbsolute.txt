@@ -1234,3 +1234,11 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\android\src\mono\com\google\android\gms\tasks\OnFailureListenerImplementor.java
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\android\src\mono\com\google\android\gms\tasks\OnSuccessListenerImplementor.java
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\android\src\mono\com\google\android\gms\tasks\OnTokenCanceledListenerImplementor.java
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky1\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.csproj.AssemblyReference.cache
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky1\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky1\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.AssemblyInfoInputs.cache
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky1\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.AssemblyInfo.cs
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky1\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.csproj.CoreCompileInputs.cache
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky1\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.sourcelink.json
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky1\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.dll
+C:\Users\Глеб\Documents\GitHub\Nekrasovsky1\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\NekrasovskyAPP.pdb

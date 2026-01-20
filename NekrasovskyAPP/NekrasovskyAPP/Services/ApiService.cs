@@ -738,9 +738,17 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/alarm-events/add", alarmEvent, _jsonOptions);
+                var response = await _httpClient.PostAsJsonAsync("api/alarm-events", alarmEvent, _jsonOptions);
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<AlarmEvent>>(_jsonOptions) ?? new ApiResponse<AlarmEvent>();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("alarmEvent"))
+                {
+                    var alarmEventJson = System.Text.Json.JsonSerializer.Serialize(result["alarmEvent"]);
+                    var createdAlarmEvent = System.Text.Json.JsonSerializer.Deserialize<AlarmEvent>(alarmEventJson, _jsonOptions);
+                    return new ApiResponse<AlarmEvent> { AlarmEvent = createdAlarmEvent, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "AlarmEvent created successfully" : "AlarmEvent created successfully" };
+                }
+                return new ApiResponse<AlarmEvent> { Message = "Failed to parse response" };
             }
             catch (HttpRequestException ex)
             {
@@ -779,6 +787,35 @@ namespace NekrasovskyAPP.Services
         }
 
         // Database
+        // Roles
+        public async Task<List<Role>> GetAllRolesAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/roles");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<Role>>(_jsonOptions) ?? new List<Role>();
+            }
+            catch
+            {
+                return new List<Role>();
+            }
+        }
+
+        public async Task<Role?> GetRoleByIdAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/roles/{id}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<Role>(_jsonOptions);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<Dictionary<string, object>> CheckDatabaseAsync()
         {
             try

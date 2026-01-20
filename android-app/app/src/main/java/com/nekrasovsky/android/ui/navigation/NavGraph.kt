@@ -42,6 +42,9 @@ fun NavGraph(navController: NavHostController) {
                 onNavigateToMaterials = { navController.navigate(Screen.Materials.route) },
                 onNavigateToWarehouses = { navController.navigate(Screen.Warehouses.route) },
                 onNavigateToWorkReports = { navController.navigate(Screen.WorkReports.route) },
+                onAlarmClick = {
+                    // Обработка будет в DashboardScreen
+                },
                 onLogout = {
                     navController.navigate(Screen.Login.route) {
                         popUpTo(0) { inclusive = true }

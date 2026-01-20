@@ -152,8 +152,13 @@ namespace server.Controllers
 
         // POST: api/part-requests
         [HttpPost]
-        public async Task<IActionResult> CreatePartRequest([FromBody] PartRequest request)
+        public async Task<IActionResult> CreatePartRequest([FromBody] PartRequest? request)
         {
+            if (request == null)
+            {
+                return BadRequest(new { message = "Request body is required" });
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(new { message = "Invalid model state", errors = ModelState });

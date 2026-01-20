@@ -139,7 +139,7 @@ interface ApiService {
     @GET("api/alarm-events/user/{userId}")
     suspend fun getAlarmEventsByUser(@Path("userId") userId: Int): Response<List<AlarmEvent>>
     
-    @POST("api/alarm-events/add")
+    @POST("api/alarm-events")
     suspend fun addAlarmEvent(@Body event: AlarmEvent): Response<ApiResponse<AlarmEvent>>
 }
 

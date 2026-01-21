@@ -1,9 +1,7 @@
 #if ANDROID || IOS
 using System.Windows.Input;
 using BarcodeScanning;
-using NekrasovskyAPP.Services;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
+using Microsoft.Maui.ApplicationModel;
 
 
 namespace NekrasovskyAPP.Pages
@@ -12,10 +10,10 @@ namespace NekrasovskyAPP.Pages
     {
         private bool _isCameraEnabled;
         private bool _isProcessing; // 🔒 защита от повторного сканирования
+        private bool _isTorchOn = false;
 
         public string ScannedBarcode { get; private set; } = string.Empty;
         public event EventHandler<string>? BarcodeScanned;
-        private readonly IFlashlightService? _flashlightService;
 
         public bool IsCameraEnabled
         {
@@ -35,10 +33,6 @@ namespace NekrasovskyAPP.Pages
         public BarcodeScannerPage()
         {
             InitializeComponent();
-
-            _flashlightService =
-                Microsoft.Maui.MauiApplication.Current.Services
-                    .GetService<IFlashlightService>();
 
             DetectionFinishedCommand =
                 new Command<IReadOnlySet<BarcodeResult>?>(OnDetectionFinished);
@@ -94,9 +88,6 @@ namespace NekrasovskyAPP.Pages
 
             MainThread.BeginInvokeOnMainThread(async () =>
             {
-                // 🔦 ОБЯЗАТЕЛЬНО выключаем фонарик, если был включён
-                if (_flashlightService != null)
-                    await _flashlightService.TurnOffAsync();
 
                 await DisplayAlert(
                     "Штрих-код найден",
@@ -107,34 +98,21 @@ namespace NekrasovskyAPP.Pages
             });
         }
 
-
-        private async void ToggleFlashlight(object? sender, EventArgs e)
+        private void ToggleFlashlight(object? sender, EventArgs e)
         {
-            if (_flashlightService == null)
-            {
-                await DisplayAlert("Ошибка", "Сервис фонарика недоступен", "OK");
-                return;
-            }
-
-            if (!_flashlightService.IsSupported)
-            {
-                await DisplayAlert("Фонарик", "Фонарик не поддерживается", "OK");
-                return;
-            }
-
             try
             {
-                await _flashlightService.ToggleAsync();
+                _isTorchOn = !_isTorchOn;
+                BarcodeCamera.TorchOn = _isTorchOn;
             }
-            catch (Exception ex)
+            catch
             {
-                await DisplayAlert(
-                    "Ошибка",
-                    $"Не удалось включить фонарик\n{ex.Message}",
+                DisplayAlert(
+                    "Фонарик",
+                    "Не удалось включить фонарик",
                     "OK");
             }
         }
-
 
         private async void CloseScanner(object? sender, EventArgs e)
         {
@@ -142,32 +120,61 @@ namespace NekrasovskyAPP.Pages
             await Navigation.PopModalAsync();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-
-            // ♻️ сбрасываем состояние
             _isProcessing = false;
-            IsCameraEnabled = true;
+
+            bool hasPermission = await RequestCameraPermissionAsync();
+            if (hasPermission)
+            {
+                IsCameraEnabled = true;
+            }
+            else
+            {
+                await DisplayAlert(
+                    "Камера недоступна",
+                    "Без разрешения на камеру сканирование невозможно.",
+                    "OK");
+                await Navigation.PopModalAsync();
+            }
         }
 
-        protected override async void OnDisappearing()
+
+        protected override void OnDisappearing()
         {
             base.OnDisappearing();
 
             IsCameraEnabled = false;
 
-            if (_flashlightService != null)
+            try
             {
-                try
-                {
-                    await _flashlightService.TurnOffAsync();
-                }
-                catch
-                {
-                    // ignored
-                }
+                BarcodeCamera.TorchOn = false;
+                _isTorchOn = false;
             }
+            catch { }
+        }
+
+        private async Task<bool> RequestCameraPermissionAsync()
+        {
+            var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+
+            if (status == PermissionStatus.Granted)
+                return true;
+
+            if (status == PermissionStatus.Denied && DeviceInfo.Platform == DevicePlatform.iOS)
+            {
+                // На iOS если пользователь ранее отказал, надо открывать настройки
+                await DisplayAlert(
+                    "Разрешение на камеру",
+                    "Разрешение на камеру отключено. Пожалуйста, включите его в настройках.",
+                    "OK");
+                return false;
+            }
+
+            status = await Permissions.RequestAsync<Permissions.Camera>();
+
+            return status == PermissionStatus.Granted;
         }
 
     }

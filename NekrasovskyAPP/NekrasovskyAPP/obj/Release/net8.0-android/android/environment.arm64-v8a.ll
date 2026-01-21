@@ -375,7 +375,7 @@ target triple = "aarch64-unknown-linux-android21"
 @.env.0 = private unnamed_addr constant [15 x i8] c"MONO_GC_PARAMS\00", align 1
 @.env.1 = private unnamed_addr constant [21 x i8] c"major=marksweep-conc\00", align 1
 @.env.2 = private unnamed_addr constant [17 x i8] c"XAMARIN_BUILD_ID\00", align 1
-@.env.3 = private unnamed_addr constant [37 x i8] c"3354a194-2c6d-4946-abac-40297e1c4922\00", align 1
+@.env.3 = private unnamed_addr constant [37 x i8] c"b28a4609-db9f-44a2-b3ec-157449a941a6\00", align 1
 @.env.4 = private unnamed_addr constant [28 x i8] c"XA_HTTP_CLIENT_HANDLER_TYPE\00", align 1
 @.env.5 = private unnamed_addr constant [42 x i8] c"Xamarin.Android.Net.AndroidMessageHandler\00", align 1
 @.env.6 = private unnamed_addr constant [29 x i8] c"__XA_PACKAGE_NAMING_POLICY__\00", align 1

@@ -3,50 +3,70 @@
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:barcode="clr-namespace:BarcodeScanning;assembly=BarcodeScanning.Native.Maui"
-             Title="Сканер штрих-кодов">
-    
-    <Grid RowDefinitions="Auto,*,Auto">
-        <!-- Header -->
-        <Label Grid.Row="0"
-               Text="Наведите камеру на штрих-код или QR-код"
-               FontSize="16"
-               Padding="20,10"
-               HorizontalOptions="Center"
-               VerticalOptions="Center" />
-        
-        <!-- Camera View -->
+             Title="Сканер"
+             BackgroundColor="Black">
+
+    <Grid>
+
+        <!-- CAMERA -->
         <barcode:CameraView
             x:Name="BarcodeCamera"
-            Grid.Row="1"
             CameraEnabled="{Binding IsCameraEnabled}"
             OnDetectionFinishedCommand="{Binding DetectionFinishedCommand}"
             HorizontalOptions="Fill"
             VerticalOptions="Fill" />
-        
-        <!-- Footer with controls -->
-        <Grid Grid.Row="2" 
-              Padding="20"
-              ColumnDefinitions="*,Auto,*">
-            
-            <!-- Flashlight button -->
-            <Button Grid.Column="0"
-                    Text="Фонарик"
-                    Clicked="ToggleFlashlight"
-                    HorizontalOptions="Start"
-                    WidthRequest="150" />
-            
-            <Switch x:Name="FlashlightToggle"
-                    Grid.Column="1"
-                    Toggled="OnFlashlightToggled"
-                    HorizontalOptions="Center" />
-            
-            <!-- Close button -->
-            <Button Grid.Column="2"
-                    Text="Закрыть"
-                    Clicked="CloseScanner"
-                    HorizontalOptions="End"
-                    WidthRequest="100" />
+
+        <!-- OVERLAY -->
+        <Grid RowDefinitions="Auto,*,Auto"
+              BackgroundColor="#80000000">
+
+            <!-- HEADER -->
+            <Label Grid.Row="0"
+                   Text="Наведите камеру на штрих-код или QR-код"
+                   TextColor="White"
+                   FontSize="16"
+                   HorizontalTextAlignment="Center"
+                   Padding="16" />
+
+            <!-- SCAN AREA -->
+            <Grid Grid.Row="1"
+                  HorizontalOptions="Center"
+                  VerticalOptions="Center"
+                  WidthRequest="260"
+                  HeightRequest="260">
+
+                <Frame BorderColor="White"
+                       BackgroundColor="Transparent"
+                       CornerRadius="12"
+                       HasShadow="False"
+                       Padding="0" />
+
+            </Grid>
+
+            <!-- FOOTER -->
+            <Grid Grid.Row="2"
+                  Padding="16"
+                  ColumnDefinitions="Auto,*,Auto">
+
+                <!-- FLASH -->
+                <Button Text="Фонарик"
+                        Clicked="ToggleFlashlight"
+                        BackgroundColor="#333333"
+                        TextColor="White"
+                        CornerRadius="8" />
+
+                <!-- SPACER -->
+                <BoxView Grid.Column="1" />
+
+                <!-- CLOSE -->
+                <Button Grid.Column="2"
+                        Text="Закрыть"
+                        Clicked="CloseScanner"
+                        BackgroundColor="#AA0000"
+                        TextColor="White"
+                        CornerRadius="8" />
+            </Grid>
+
         </Grid>
     </Grid>
 </ContentPage>
-

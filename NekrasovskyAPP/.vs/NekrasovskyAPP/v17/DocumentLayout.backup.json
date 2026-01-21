@@ -3,12 +3,32 @@
   "WorkspaceRootPath": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\pages\\barcodescannerpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\pages\\barcodescannerpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\pages\\barcodescannerpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\pages\\barcodescannerpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\server_ip.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\server_ip.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\pages\\productspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\pages\\productspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\pages\\productspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\pages\\productspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\platforms\\android\\alarmsoundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\platforms\\android\\alarmsoundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -17,10 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\nekrasovskyapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\nekrasovskyapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\platforms\\android\\alarmsoundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\platforms\\android\\alarmsoundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\services\\alarmsoundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -41,10 +57,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\platforms\\android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\platforms\\android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\pages\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -71,10 +83,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\models\\material.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\models\\material.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\pages\\productspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\pages\\productspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\pages\\loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -120,62 +128,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "server_ip.txt",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\server_ip.txt",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\server_ip.txt",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\server_ip.txt",
-              "RelativeToolTip": "NekrasovskyAPP\\server_ip.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2026-01-21T00:33:09.569Z",
+              "DocumentIndex": 0,
+              "Title": "BarcodeScannerPage.xaml.cs",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml.cs",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml.cs",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml.cs",
+              "RelativeToolTip": "NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFgAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T12:18:43.109Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\Properties\\launchSettings.json",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Properties\\launchSettings.json",
-              "RelativeToolTip": "NekrasovskyAPP\\Properties\\launchSettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-01-21T00:19:00.511Z",
+              "DocumentIndex": 1,
+              "Title": "BarcodeScannerPage.xaml",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml",
+              "RelativeToolTip": "NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAADkAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-01-21T12:10:21.477Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "ProductsPage.xaml",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\ProductsPage.xaml",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\ProductsPage.xaml",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\ProductsPage.xaml",
+              "RelativeToolTip": "NekrasovskyAPP\\Pages\\ProductsPage.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-01-21T12:08:09.278Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "AlarmSoundService.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\AlarmSoundService.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Platforms\\Android\\AlarmSoundService.cs",
               "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\AlarmSoundService.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Platforms\\Android\\AlarmSoundService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABZAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-20T20:35:43.488Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "SignalRService.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\SignalRService.cs",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\Services\\SignalRService.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\SignalRService.cs",
-              "RelativeToolTip": "NekrasovskyAPP\\Services\\SignalRService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-20T20:35:07.073Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 13,
               "Title": "MainActivity.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\MainActivity.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Platforms\\Android\\MainActivity.cs",
@@ -187,20 +196,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "ApiService.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\ApiService.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Services\\ApiService.cs",
               "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\ApiService.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Services\\ApiService.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAADwvxMAAABFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-09T18:54:00.121Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "AndroidManifest.xml",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\AndroidManifest.xml",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Platforms\\Android\\AndroidManifest.xml",
@@ -212,7 +221,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "LoginViewModel.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\ViewModels\\LoginViewModel.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\ViewModels\\LoginViewModel.cs",
@@ -224,70 +233,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AlarmSoundService.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\AlarmSoundService.cs",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\Services\\AlarmSoundService.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\AlarmSoundService.cs",
-              "RelativeToolTip": "NekrasovskyAPP\\Services\\AlarmSoundService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-20T20:50:39.267Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "NekrasovskyAPP.csproj",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\NekrasovskyAPP.csproj",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\NekrasovskyAPP.csproj",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\NekrasovskyAPP.csproj",
-              "RelativeToolTip": "NekrasovskyAPP\\NekrasovskyAPP.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-10-14T17:15:50.219Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "UsersPage.xaml",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\UsersPage.xaml",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\UsersPage.xaml",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\UsersPage.xaml",
-              "RelativeToolTip": "NekrasovskyAPP\\Pages\\UsersPage.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABNAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-01-20T20:37:29.317Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "LoginPage.xaml.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\LoginPage.xaml.cs",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\LoginPage.xaml.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\LoginPage.xaml.cs",
-              "RelativeToolTip": "NekrasovskyAPP\\Pages\\LoginPage.xaml.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAQwCQAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-17T21:44:14.404Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "Material.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Material.cs",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\Material.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Material.cs",
-              "RelativeToolTip": "NekrasovskyAPP\\Models\\Material.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-18T01:32:36.398Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
               "Title": "MauiProgram.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\MauiProgram.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\MauiProgram.cs",
@@ -299,7 +245,104 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProductsPage.xaml.cs",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\ProductsPage.xaml.cs",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\ProductsPage.xaml.cs",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\ProductsPage.xaml.cs",
+              "RelativeToolTip": "NekrasovskyAPP\\Pages\\ProductsPage.xaml.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAcwD4AAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-17T12:53:37.702Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "SignalRService.cs",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\SignalRService.cs",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Services\\SignalRService.cs",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\SignalRService.cs",
+              "RelativeToolTip": "NekrasovskyAPP\\Services\\SignalRService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T20:35:07.073Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Properties\\launchSettings.json",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Properties\\launchSettings.json",
+              "RelativeToolTip": "NekrasovskyAPP\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-21T00:19:00.511Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AlarmSoundService.cs",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\AlarmSoundService.cs",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Services\\AlarmSoundService.cs",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\AlarmSoundService.cs",
+              "RelativeToolTip": "NekrasovskyAPP\\Services\\AlarmSoundService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T20:50:39.267Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 8,
+              "Title": "NekrasovskyAPP.csproj",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\NekrasovskyAPP.csproj",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\NekrasovskyAPP.csproj",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\NekrasovskyAPP.csproj",
+              "RelativeToolTip": "NekrasovskyAPP\\NekrasovskyAPP.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-14T17:15:50.219Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "UsersPage.xaml",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\UsersPage.xaml",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\UsersPage.xaml",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\UsersPage.xaml",
+              "RelativeToolTip": "NekrasovskyAPP\\Pages\\UsersPage.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-01-20T20:37:29.317Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "LoginPage.xaml.cs",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\LoginPage.xaml.cs",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\LoginPage.xaml.cs",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\LoginPage.xaml.cs",
+              "RelativeToolTip": "NekrasovskyAPP\\Pages\\LoginPage.xaml.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwCQAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-17T21:44:14.404Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Material.cs",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Material.cs",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\Material.cs",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Material.cs",
+              "RelativeToolTip": "NekrasovskyAPP\\Models\\Material.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-18T01:32:36.398Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "MainApplication.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\MainApplication.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Platforms\\Android\\MainApplication.cs",
@@ -311,7 +354,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "Microsoft.NET.EolTargetFrameworks.targets",
               "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\10.0.101\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets",
               "ToolTip": "C:\\Program Files\\dotnet\\sdk\\10.0.101\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets",
@@ -320,7 +363,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "Product.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Product.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\Product.cs",
@@ -332,19 +375,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "ProductsPage.xaml.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\ProductsPage.xaml.cs",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\ProductsPage.xaml.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\ProductsPage.xaml.cs",
-              "RelativeToolTip": "NekrasovskyAPP\\Pages\\ProductsPage.xaml.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAmwE4AAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-17T12:53:37.702Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "LoginPage.xaml",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\LoginPage.xaml",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\LoginPage.xaml",
@@ -352,12 +383,11 @@
               "RelativeToolTip": "NekrasovskyAPP\\Pages\\LoginPage.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-01-17T21:44:11.686Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-17T21:44:11.686Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "EncryptionService.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\EncryptionService.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Services\\EncryptionService.cs",
@@ -369,7 +399,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "Warehouse.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Warehouse.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\Warehouse.cs",
@@ -381,7 +411,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "ShiftTransfer.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\ShiftTransfer.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\ShiftTransfer.cs",
@@ -393,7 +423,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "Permission.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Permission.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\Permission.cs",
@@ -405,7 +435,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 26,
               "Title": "AlarmEvent.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\AlarmEvent.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\AlarmEvent.cs",
@@ -417,7 +447,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "AccessibleMovement.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\AccessibleMovement.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\AccessibleMovement.cs",
@@ -429,7 +459,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 28,
               "Title": "FillingWarehouse.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\FillingWarehouse.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\FillingWarehouse.cs",
@@ -441,7 +471,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 29,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Domain\\AppDbContext.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Domain\\AppDbContext.cs",
@@ -453,7 +483,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "Laws.cs",
               "DocumentMoniker": "C:\\Nekrasovsky\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Laws.cs",
               "ToolTip": "C:\\Nekrasovsky\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\Laws.cs",

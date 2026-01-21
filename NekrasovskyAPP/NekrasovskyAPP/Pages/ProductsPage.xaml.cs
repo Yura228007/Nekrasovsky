@@ -17,11 +17,15 @@ namespace NekrasovskyAPP.Pages
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await _viewModel.LoadProductsAsync();
+            if (_viewModel.Products?.Any() == false)
+            {
+                await _viewModel.LoadProductsAsync();   
+            }
         }
 
         private async void OnRefreshing(object? sender, EventArgs e)
         {
+            SearchEntry.Text = string.Empty;
             await _viewModel.LoadProductsAsync();
         }
 
@@ -48,10 +52,21 @@ namespace NekrasovskyAPP.Pages
             else
             {
                 var parts = searchText.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                var name = parts.Length > 0 ? parts[0] : null;
-                var code = parts.Length > 1 ? parts[1] : null;
-                
-                await _viewModel.SearchProductsAsync(name, code);
+                var searchTerm = string.Join(" ", parts);
+
+                // Определяем, является ли ввод кодом (например, только цифры)
+                bool isLikelyCode = !string.IsNullOrEmpty(searchTerm) && searchTerm.All(char.IsDigit);
+
+                if (isLikelyCode)
+                {
+                    // Если похоже на код - ищем только по коду
+                    await _viewModel.SearchProductsAsync(null, searchTerm);
+                }
+                else
+                {
+                    // Иначе ищем только по имени
+                    await _viewModel.SearchProductsAsync(searchTerm, null);
+                }
             }
         }
 

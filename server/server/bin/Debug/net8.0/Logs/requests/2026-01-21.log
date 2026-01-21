@@ -11305,3 +11305,326 @@ Controller: Products, Action: GetAll
 Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
 =======================================================
 
+=======================================================
+Timestamp: 2026-01-21T20:43:42.1919948Z
+Method: GET
+URL: /
+Status: 404
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:43:44.5012048Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 539 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$O2LDI/XqHSjEV.y0jbJDHue4R0XDH6BPWvHIEVQgkwoQDO5X3ZVLW","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:43:47.2854758Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 48 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:43:47.6064423Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 369 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:15.4970253Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 24 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:15.4991730Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 22 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:15.6420867Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:15.7242251Z
+Method: GET
+URL: /api/products/search?code=152
+Status: 200
+Duration: 92 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: Search
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:19.9630288Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 50 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:20.1352800Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 35 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:20.1380288Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 57 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:20.1400809Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 118 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:22.9440711Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 27 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:23.0809666Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 24 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:23.4978917Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:23.4993736Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:23.5034373Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 16 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:23.5068739Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 25 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:23.6626339Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 24 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:23.6641773Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 24 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:23.6698033Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 27 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:23.6715867Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 39 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:23.8512662Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 27 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:23.9040767Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 31 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T20:44:23.9656562Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 36 ms
+UserId: 
+Client IP: ::ffff:192.168.1.118
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"},{"id":2,"name":"Хуета1","description":"пример","code":"1231212","measuringUnit":"шт"},{"id":3,"name":"Пиздострадалец2","description":"","code":"8541236974","measuringUnit":"шт"}]
+=======================================================
+

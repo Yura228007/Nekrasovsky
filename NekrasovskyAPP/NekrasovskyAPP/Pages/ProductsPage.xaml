@@ -43,6 +43,21 @@
                           ItemsSource="{Binding Products}"
                           SelectionMode="Single"
                           SelectionChanged="OnProductSelected">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center" 
+                               VerticalOptions="Center"
+                               Spacing="10"
+                               Margin="20">
+                        <Label Text="Товары не найдены"
+                       FontSize="16"
+                       TextColor="{StaticResource Gray500}"
+                       HorizontalOptions="Center" />
+                        <Label Text="Попробуйте изменить поисковый запрос"
+                       FontSize="14"
+                       TextColor="{StaticResource Gray600}"
+                       HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border BackgroundColor="{StaticResource BackgroundCard}"

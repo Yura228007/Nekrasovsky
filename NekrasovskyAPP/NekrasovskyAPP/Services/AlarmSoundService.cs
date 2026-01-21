@@ -3,7 +3,7 @@ namespace NekrasovskyAPP.Services
     public class AlarmSoundService : IAlarmSoundService
     {
 #if ANDROID
-        private Platforms.Android.AlarmSoundService? _androidService;
+        private Platforms.AndroidPlatform.AlarmSoundService? _androidService;
 #elif WINDOWS
         private Platforms.Windows.AlarmSoundService? _windowsService;
 #endif
@@ -11,7 +11,7 @@ namespace NekrasovskyAPP.Services
         public AlarmSoundService()
         {
 #if ANDROID
-            _androidService = new Platforms.Android.AlarmSoundService();
+            _androidService = new Platforms.AndroidPlatform.AlarmSoundService();
 #elif WINDOWS
             _windowsService = new Platforms.Windows.AlarmSoundService();
 #endif

@@ -1,7 +1,6 @@
 using Android.Media;
-using Android.Content;
 
-namespace NekrasovskyAPP.Platforms.Android
+namespace NekrasovskyAPP.Platforms.AndroidPlatform
 {
     public class AlarmSoundService
     {

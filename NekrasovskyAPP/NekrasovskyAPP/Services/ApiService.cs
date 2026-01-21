@@ -2,6 +2,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Linq;
 using NekrasovskyAPP.Models;
+using System.Threading.Tasks;
 
 namespace NekrasovskyAPP.Services
 {
@@ -11,11 +12,14 @@ namespace NekrasovskyAPP.Services
         private readonly JsonSerializerOptions _jsonOptions;
         private int? _currentUserId;
         
-        private static string GetBaseUrl()
+        private static async Task<string> GetBaseUrl()
         {
 #if ANDROID
+            //using var stream = await FileSystem.OpenAppPackageFileAsync("server_ip.txt");
+            //using var reader = new StreamReader(stream);
+            //return (await reader.ReadToEndAsync()).Trim().ToString();
             return "http://192.168.1.121:9000/";
-#else
+#else 
             return "http://localhost:9000/";
 #endif
 
@@ -24,7 +28,7 @@ namespace NekrasovskyAPP.Services
         public ApiService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri(GetBaseUrl());
+            _httpClient.BaseAddress = new Uri(GetBaseUrl().Result);
             _httpClient.Timeout = TimeSpan.FromSeconds(30);
             
             _jsonOptions = new JsonSerializerOptions

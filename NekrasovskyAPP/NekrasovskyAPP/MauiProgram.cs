@@ -1,6 +1,9 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using NekrasovskyAPP.Services;
+#if ANDROID
+using NekrasovskyAPP.Platforms.AndroidPlatform;
+#endif
 using NekrasovskyAPP.ViewModels;
 using NekrasovskyAPP.Pages;
 #if ANDROID || IOS
@@ -37,7 +40,10 @@ namespace NekrasovskyAPP
             builder.Services.AddSingleton<IApiService, ApiService>();
             builder.Services.AddSingleton<IAuthService, AuthService>();
             builder.Services.AddSingleton<ISignalRService, SignalRService>();
-            builder.Services.AddSingleton<IAlarmSoundService, AlarmSoundService>();
+            builder.Services.AddSingleton<IAlarmSoundService, NekrasovskyAPP.Services.AlarmSoundService>();
+#if ANDROID
+            builder.Services.AddSingleton<IFlashlightService, AndroidFlashlightService>();
+#endif
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddSingleton<ViewModels.WorkReportsViewModel>();

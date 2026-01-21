@@ -1,6 +1,10 @@
 #if ANDROID || IOS
 using System.Windows.Input;
 using BarcodeScanning;
+using NekrasovskyAPP.Services;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui;
+
 
 namespace NekrasovskyAPP.Pages
 {
@@ -11,6 +15,7 @@ namespace NekrasovskyAPP.Pages
 
         public string ScannedBarcode { get; private set; } = string.Empty;
         public event EventHandler<string>? BarcodeScanned;
+        private readonly IFlashlightService? _flashlightService;
 
         public bool IsCameraEnabled
         {
@@ -31,11 +36,16 @@ namespace NekrasovskyAPP.Pages
         {
             InitializeComponent();
 
+            _flashlightService =
+                Microsoft.Maui.MauiApplication.Current.Services
+                    .GetService<IFlashlightService>();
+
             DetectionFinishedCommand =
                 new Command<IReadOnlySet<BarcodeResult>?>(OnDetectionFinished);
 
             BindingContext = this;
         }
+
 
         private void OnDetectionFinished(IReadOnlySet<BarcodeResult>? results)
         {
@@ -56,7 +66,7 @@ namespace NekrasovskyAPP.Pages
                 return;
             }
 
-            // ✅ В BarcodeScanning.Native.Maui корректное свойство — Value
+            // ✅ корректно для BarcodeScanning.Native.Maui
             var value = barcode.DisplayValue?.ToString();
 
             if (string.IsNullOrWhiteSpace(value))
@@ -71,8 +81,23 @@ namespace NekrasovskyAPP.Pages
             // ⛔ сразу выключаем камеру
             IsCameraEnabled = false;
 
+            // 📳 ВИБРАЦИЯ ПРИ УСПЕШНОМ СКАНЕ
+            try
+            {
+                Vibration.Default.Vibrate(
+                    TimeSpan.FromMilliseconds(150));
+            }
+            catch
+            {
+                // устройство может не поддерживать вибрацию
+            }
+
             MainThread.BeginInvokeOnMainThread(async () =>
             {
+                // 🔦 ОБЯЗАТЕЛЬНО выключаем фонарик, если был включён
+                if (_flashlightService != null)
+                    await _flashlightService.TurnOffAsync();
+
                 await DisplayAlert(
                     "Штрих-код найден",
                     value,
@@ -82,14 +107,34 @@ namespace NekrasovskyAPP.Pages
             });
         }
 
+
         private async void ToggleFlashlight(object? sender, EventArgs e)
         {
-            // Заглушка — чтобы код был стабильным
-            await DisplayAlert(
-                "Фонарик",
-                "Управление фонариком пока не реализовано",
-                "OK");
+            if (_flashlightService == null)
+            {
+                await DisplayAlert("Ошибка", "Сервис фонарика недоступен", "OK");
+                return;
+            }
+
+            if (!_flashlightService.IsSupported)
+            {
+                await DisplayAlert("Фонарик", "Фонарик не поддерживается", "OK");
+                return;
+            }
+
+            try
+            {
+                await _flashlightService.ToggleAsync();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert(
+                    "Ошибка",
+                    $"Не удалось включить фонарик\n{ex.Message}",
+                    "OK");
+            }
         }
+
 
         private async void CloseScanner(object? sender, EventArgs e)
         {
@@ -106,11 +151,25 @@ namespace NekrasovskyAPP.Pages
             IsCameraEnabled = true;
         }
 
-        protected override void OnDisappearing()
+        protected override async void OnDisappearing()
         {
             base.OnDisappearing();
+
             IsCameraEnabled = false;
+
+            if (_flashlightService != null)
+            {
+                try
+                {
+                    await _flashlightService.TurnOffAsync();
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
         }
+
     }
 }
 #endif

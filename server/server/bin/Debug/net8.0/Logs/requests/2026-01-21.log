@@ -9784,3 +9784,627 @@ Controller: Products, Action: GetAll
 Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
 =======================================================
 
+=======================================================
+Timestamp: 2026-01-21T13:37:56.5598743Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 67 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$O2LDI/XqHSjEV.y0jbJDHue4R0XDH6BPWvHIEVQgkwoQDO5X3ZVLW","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:38:05.1190660Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:38:05.2612265Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 66 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:38:39.6836685Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$O2LDI/XqHSjEV.y0jbJDHue4R0XDH6BPWvHIEVQgkwoQDO5X3ZVLW","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:38:41.7628795Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:38:45.2616152Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:38:45.2620790Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:44.8020624Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:44.8029605Z
+Method: GET
+URL: /api/products/search?name=8700216593106
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: Search
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:44.8063470Z
+Method: GET
+URL: /api/products/search?code=8700216593106
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: Search
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:49.4758904Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:49.4760757Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:55.0745416Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:55.0746164Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:57.3472633Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:57.3484454Z
+Method: GET
+URL: /api/products/search?name=870021659310
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: Search
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:57.7362309Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:57.7377844Z
+Method: GET
+URL: /api/products/search?name=87002165931
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: Search
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:58.1387761Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:58.1389911Z
+Method: GET
+URL: /api/products/search?name=8700216593
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: Search
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:59.1051242Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:59.1066509Z
+Method: GET
+URL: /api/products/search?name=870021659
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: Search
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:59.3687380Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:59.3686768Z
+Method: GET
+URL: /api/products/search?name=87002165
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: Search
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:59.6141021Z
+Method: GET
+URL: /api/products/search?name=8700216
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: Search
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:59.6141583Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:59.8042024Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:59.9721924Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:39:59.9733660Z
+Method: GET
+URL: /api/products/search?name=87002
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: Search
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:40:00.1955081Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:40:00.7858694Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:40:00.7866606Z
+Method: GET
+URL: /api/products/search?name=870
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: Search
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:40:01.1893856Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:40:01.1899081Z
+Method: GET
+URL: /api/products/search?name=87
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: Search
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:40:01.6754039Z
+Method: GET
+URL: /api/products/search?name=8
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: Search
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:40:01.6758331Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:40:02.0849251Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:40:02.0864462Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:40:10.4885913Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:40:10.4907998Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:40:10.6284778Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 67 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:48:59.2270835Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 67 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Users, Action: GetAll
+Response Body: [{"id":2,"login":"adam","encryptedPassword":"$2a$11$O2LDI/XqHSjEV.y0jbJDHue4R0XDH6BPWvHIEVQgkwoQDO5X3ZVLW","name":"Adam","surname":"First","email":"first@people.world","phone":"","createdAt":"2026-01-18T02:00:00.151037Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"admin","encryptedPassword":"5252","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-18T02:01:31.317309Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:49:02.3543575Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:49:02.3851788Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 65 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:49:11.0945943Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:49:11.0946154Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:50:50.2446722Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-21T13:50:50.2448647Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 1 ms
+UserId: 
+Client IP: ::ffff:192.168.1.216
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; AGS5-L09 Build/HUAWEIAGS5-L09)
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблочко","description":"1548753264","code":"152","measuringUnit":"шт"}]
+=======================================================
+

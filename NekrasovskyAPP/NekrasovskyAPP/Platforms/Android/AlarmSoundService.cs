@@ -35,7 +35,7 @@ namespace NekrasovskyAPP.Platforms.AndroidPlatform
                 catch (Exception)
                 {
                     // Fallback: looped tone if mp3 is missing/unavailable
-                    _toneGenerator = new ToneGenerator(Stream.Notification, 100);
+                    _toneGenerator = new ToneGenerator(Android.Media.Stream.Notification, 100);
                     _fallbackToneCts = new CancellationTokenSource();
                     var token = _fallbackToneCts.Token;
                     Task.Run(async () =>

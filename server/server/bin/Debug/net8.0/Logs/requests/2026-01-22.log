@@ -14593,3 +14593,119 @@ Client IP: ::1
 User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
 =======================================================
 
+=======================================================
+Timestamp: 2026-01-22T20:36:32.5445762Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1094 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":3,"login":"eva","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:37:03.6746472Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 399 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":3,"login":"eva","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:38:02.2581719Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 461 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":2,"login":"adam","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:38:02.6357208Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"KVR7zceCSSU3wz4L1nTVwQ","connectionToken":"IezjhDzZAeYF5_hWXgiGpQ","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:38:59.7819742Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 429 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":37,"userId":3,"createdAt":"2026-01-22T20:38:59.3625254Z","message":"","location":"f"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:39:12.9126979Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":38,"userId":2,"createdAt":"2026-01-22T20:39:12.8922458Z","message":"z","location":"z"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:40:15.8349635Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 311 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":39,"userId":3,"createdAt":"2026-01-22T20:40:15.4000289Z","message":"","location":"f"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:41:43.0723951Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 128 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":40,"userId":3,"createdAt":"2026-01-22T20:41:43.0110621Z","message":"","location":"6h"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:42:31.9992419Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 304 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":41,"userId":2,"createdAt":"2026-01-22T20:42:31.6824589Z","message":"f","location":"dsf"}}
+=======================================================
+

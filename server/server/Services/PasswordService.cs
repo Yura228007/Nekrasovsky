@@ -22,8 +22,7 @@ namespace server.Services
 
             try
             {
-                // BCrypt автоматически добавляет соль и использует work factor 10
-                return BCrypt.Net.BCrypt.HashPassword(plainText);
+                return BCrypt.Net.BCrypt.HashPassword(plainText, workFactor: 12);
             }
             catch (Exception ex)
             {
@@ -33,51 +32,128 @@ namespace server.Services
         }
 
         /// <summary>
-        /// Проверяет пароль с помощью BCrypt
+        /// Проверяет пароль и определяет, нужно ли обновить хэш
         /// </summary>
-        public bool VerifyPassword(string plainText, string hashedPassword)
+        public PasswordVerificationResult VerifyPasswordWithUpgrade(string plainText, string storedPassword)
         {
-            if (string.IsNullOrEmpty(plainText) || string.IsNullOrEmpty(hashedPassword))
-                return false;
+            if (string.IsNullOrEmpty(plainText) || string.IsNullOrEmpty(storedPassword))
+            {
+                return new PasswordVerificationResult
+                {
+                    IsValid = false,
+                    NeedsUpgrade = false
+                };
+            }
 
             try
             {
-                // Проверяем, является ли хэш валидным BCrypt хэшем
-                // BCrypt хэши начинаются с $2a$, $2b$, $2y$ или $2x$
-                if (!hashedPassword.StartsWith("$2"))
+                // Проверяем, является ли это BCrypt хэшем
+                if (storedPassword.StartsWith("$2"))
                 {
-                    // Старый формат - возможно, это зашифрованный пароль (для обратной совместимости)
-                    _logger.LogWarning("Password hash does not appear to be BCrypt format. Attempting legacy verification.");
-                    return VerifyLegacyPassword(plainText, hashedPassword);
+                    bool isValid = BCrypt.Net.BCrypt.Verify(plainText, storedPassword);
+                    return new PasswordVerificationResult
+                    {
+                        IsValid = isValid,
+                        NeedsUpgrade = false,
+                        NewHash = null
+                    };
                 }
-
-                return BCrypt.Net.BCrypt.Verify(plainText, hashedPassword);
+                else
+                {
+                    // Это старый формат (AES-зашифрованный)
+                    _logger.LogInformation("Legacy password format detected. Attempting verification and upgrade.");
+                    
+                    bool isValid = VerifyLegacyPassword(plainText, storedPassword);
+                    
+                    if (isValid)
+                    {
+                        // Создаем новый BCrypt хэш для обновления
+                        string newHash = HashPassword(plainText);
+                        return new PasswordVerificationResult
+                        {
+                            IsValid = true,
+                            NeedsUpgrade = true,
+                            NewHash = newHash
+                        };
+                    }
+                    
+                    return new PasswordVerificationResult
+                    {
+                        IsValid = false,
+                        NeedsUpgrade = false
+                    };
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error verifying password");
-                return false;
+                return new PasswordVerificationResult
+                {
+                    IsValid = false,
+                    NeedsUpgrade = false
+                };
             }
         }
 
         /// <summary>
-        /// Проверяет пароль в старом формате (AES зашифрованный) для обратной совместимости
+        /// Проверяет пароль с помощью BCrypt (обратная совместимость)
+        /// </summary>
+        public bool VerifyPassword(string plainText, string hashedPassword)
+        {
+            var result = VerifyPasswordWithUpgrade(plainText, hashedPassword);
+            return result.IsValid;
+        }
+
+        /// <summary>
+        /// Проверяет, является ли пароль в старом формате (нуждается в обновлении)
+        /// </summary>
+        public bool IsLegacyPassword(string storedPassword)
+        {
+            if (string.IsNullOrEmpty(storedPassword))
+                return false;
+
+            return !storedPassword.StartsWith("$2");
+        }
+
+        /// <summary>
+        /// Проверяет пароль в старом формате (AES зашифрованный)
         /// </summary>
         private bool VerifyLegacyPassword(string plainText, string encryptedPassword)
         {
             try
             {
-                var decrypted = Decrypt(encryptedPassword);
-                return decrypted.Equals(plainText, StringComparison.Ordinal);
+                // Сначала пробуем расшифровать
+                if (IsValidBase64(encryptedPassword))
+                {
+                    var decrypted = Decrypt(encryptedPassword);
+                    bool matches = decrypted.Equals(plainText, StringComparison.Ordinal);
+                    
+                    if (matches)
+                    {
+                        _logger.LogInformation("Legacy password verified successfully (AES encrypted).");
+                        return true;
+                    }
+                }
+                
+                // Если расшифровка не удалась, проверяем прямое сравнение
+                // (на случай если в базе хранятся незашифрованные пароли)
+                bool directMatch = encryptedPassword.Equals(plainText, StringComparison.Ordinal);
+                
+                if (directMatch)
+                {
+                    _logger.LogWarning("Legacy password verified with direct comparison (plain text). This is insecure!");
+                }
+                
+                return directMatch;
             }
-            catch
+            catch (Exception ex)
             {
-                // Если расшифровка не удалась, пробуем прямое сравнение (на случай, если пароль не зашифрован)
-                return encryptedPassword.Equals(plainText, StringComparison.Ordinal);
+                _logger.LogError(ex, "Error verifying legacy password");
+                return false;
             }
         }
 
-        // Ключ должен быть длиной 32 байта (AES-256) - для обратной совместимости
+        // Ключ AES-256 для обратной совместимости
         private static readonly byte[] Key = new byte[32]
         {
             0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
@@ -86,7 +162,7 @@ namespace server.Services
             0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
         };
 
-        // Вектор инициализации (IV) должен быть длиной 16 байт - для обратной совместимости
+        // Вектор инициализации (IV) для обратной совместимости
         private static readonly byte[] IV = new byte[16]
         {
             0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
@@ -94,7 +170,7 @@ namespace server.Services
         };
 
         /// <summary>
-        /// Старый метод шифрования (deprecated) - для обратной совместимости
+        /// Старый метод шифрования (deprecated)
         /// </summary>
         [Obsolete("Use HashPassword instead. This method is for backward compatibility only.")]
         public string Encrypt(string plainText)
@@ -104,7 +180,7 @@ namespace server.Services
 
             try
             {
-                using (System.Security.Cryptography.Aes aes = System.Security.Cryptography.Aes.Create())
+                using (var aes = Aes.Create())
                 {
                     aes.Key = Key;
                     aes.IV = IV;
@@ -132,25 +208,23 @@ namespace server.Services
         }
 
         /// <summary>
-        /// Старый метод расшифровки (deprecated) - для обратной совместимости
+        /// Старый метод расшифровки (deprecated)
         /// </summary>
-        [Obsolete("Password hashing is one-way. Use VerifyPassword instead. This method is for backward compatibility only.")]
+        [Obsolete("Use VerifyPassword instead. This method is for backward compatibility only.")]
         public string Decrypt(string cipherText)
         {
             if (string.IsNullOrEmpty(cipherText))
                 return string.Empty;
 
-            // Проверяем, является ли строка валидным Base64
-            // Зашифрованные пароли всегда в формате Base64
             if (!IsValidBase64(cipherText))
             {
-                _logger.LogWarning("Password is not encrypted (not a valid Base64 string). Returning as plain text for backward compatibility.");
-                return cipherText; // Возвращаем как есть для обратной совместимости
+                _logger.LogWarning("Password is not in valid Base64 format.");
+                return cipherText;
             }
 
             try
             {
-                using (System.Security.Cryptography.Aes aes = System.Security.Cryptography.Aes.Create())
+                using (var aes = Aes.Create())
                 {
                     aes.Key = Key;
                     aes.IV = IV;
@@ -169,16 +243,9 @@ namespace server.Services
                     }
                 }
             }
-            catch (FormatException)
-            {
-                // Если Base64 валиден, но расшифровка не удалась - возможно, пароль не зашифрован
-                _logger.LogWarning("Failed to decrypt password. Password may not be encrypted. Returning as plain text for backward compatibility.");
-                return cipherText;
-            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error decrypting password");
-                // В случае другой ошибки возвращаем исходную строку для обратной совместимости
                 return cipherText;
             }
         }
@@ -188,14 +255,11 @@ namespace server.Services
             if (string.IsNullOrWhiteSpace(str))
                 return false;
 
-            // Base64 строка должна содержать только символы A-Z, a-z, 0-9, +, /, = и пробелы
-            // Зашифрованные пароли обычно длиннее 20 символов
             if (str.Length < 20)
                 return false;
 
             try
             {
-                // Пытаемся преобразовать в байты
                 Convert.FromBase64String(str);
                 return true;
             }
@@ -204,5 +268,15 @@ namespace server.Services
                 return false;
             }
         }
+    }
+
+    /// <summary>
+    /// Результат проверки пароля с информацией об обновлении
+    /// </summary>
+    public class PasswordVerificationResult
+    {
+        public bool IsValid { get; set; }
+        public bool NeedsUpgrade { get; set; }
+        public string? NewHash { get; set; }
     }
 }

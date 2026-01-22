@@ -20,11 +20,7 @@ namespace NekrasovskyAPP.Pages
         {
             base.OnAppearing();
             await _viewModel.LoadUsersAsync();
-            // Загружаем роли при открытии страницы, если еще не загружены
-            if (!_viewModel.Roles.Any())
-            {
-                await _viewModel.LoadRolesAsync();
-            }
+            await _viewModel.LoadRolesAsync();
         }
 
         private async void OnRefreshing(object? sender, EventArgs e)
@@ -53,6 +49,7 @@ namespace NekrasovskyAPP.Pages
                     null,
                     "Просмотр",
                     "Редактировать",
+                    "Изменить роль",
                     "Удалить");
 
                 switch (action)
@@ -71,6 +68,9 @@ namespace NekrasovskyAPP.Pages
 
                     case "Редактировать":
                         await ShowUserDialogAsync(selectedUser);
+                        break;
+                    case "Изменить роль":
+                        await ChangeUserRoleAsync(selectedUser);
                         break;
 
                     case "Удалить":
@@ -128,11 +128,7 @@ namespace NekrasovskyAPP.Pages
 
             var phone = await DisplayPromptAsync(title, "Телефон (необязательно):", "Далее", "Отмена", "Телефон", -1, Keyboard.Telephone, existingUser?.Phone ?? "");
 
-            // Загружаем роли, если еще не загружены
-            if (!_viewModel.Roles.Any())
-            {
-                await _viewModel.LoadRolesAsync();
-            }
+            await _viewModel.LoadRolesAsync();
 
             // Выбор роли
             int? selectedRoleId = existingUser?.RoleId;
@@ -204,6 +200,53 @@ namespace NekrasovskyAPP.Pages
             if (success)
             {
                 await DisplayAlert("Успех", isEdit ? "Пользователь успешно обновлен" : "Пользователь успешно создан", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+            }
+        }
+
+        private async Task ChangeUserRoleAsync(User user)
+        {
+            await _viewModel.LoadRolesAsync();
+
+            if (!_viewModel.Roles.Any())
+            {
+                await DisplayAlert("Ошибка", "Список ролей пуст", "OK");
+                return;
+            }
+
+            var roleOptions = new List<string> { "Без роли" };
+            roleOptions.AddRange(_viewModel.Roles.Select(r => r.Name));
+
+            var currentRoleName = user.Role?.Name ?? "Без роли";
+            var selectedRoleName = await DisplayActionSheet(
+                $"Выберите роль (текущая: {currentRoleName})",
+                "Отмена",
+                null,
+                roleOptions.ToArray());
+
+            if (selectedRoleName == "Отмена")
+            {
+                return;
+            }
+
+            int? selectedRoleId = null;
+            Role? selectedRole = null;
+            if (selectedRoleName != "Без роли" && !string.IsNullOrEmpty(selectedRoleName))
+            {
+                selectedRole = _viewModel.Roles.FirstOrDefault(r => r.Name == selectedRoleName);
+                selectedRoleId = selectedRole?.Id;
+            }
+
+            user.RoleId = selectedRoleId;
+            user.Role = selectedRole;
+
+            var success = await _viewModel.UpdateUserAsync(user.Id, user);
+            if (success)
+            {
+                await DisplayAlert("Успех", "Роль пользователя обновлена", "OK");
             }
             else
             {

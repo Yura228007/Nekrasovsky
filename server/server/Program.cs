@@ -129,6 +129,15 @@ using (var scope = app.Services.CreateScope())
         {
             logger.LogInformation("Database is up to date. No migrations to apply.");
         }
+
+        try
+        {
+            server.Seed.RolePermissionSeeder.SeedRolesAndPermissions(dbContext, logger, AppContext.BaseDirectory);
+        }
+        catch (Exception seedEx)
+        {
+            logger.LogError(seedEx, "Failed to seed roles and permissions.");
+        }
     }
     catch (Exception ex)
     {

@@ -21,7 +21,7 @@
                    Margin="0,10,0,30" />
             
             <!-- Navigation Cards -->
-            <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*" ColumnSpacing="15" RowSpacing="15">
+            <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*" ColumnSpacing="15" RowSpacing="15">
                 
                 <!-- Users Card -->
                 <Border Grid.Row="0" Grid.Column="0"
@@ -167,6 +167,31 @@
                                HorizontalOptions="Center" />
                         <Button Text="Открыть"
                                 Clicked="OnPartRequestsClicked"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="{StaticResource White}"
+                                CornerRadius="10" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Shift Transfers Card -->
+                <Border Grid.Row="3" Grid.Column="0"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="1"
+                        Stroke="{StaticResource BorderColor}"
+                        Padding="20"
+                        Margin="0,0,0,0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="🔄" FontSize="40" HorizontalOptions="Center" />
+                        <Label Text="Передача смены" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               HorizontalOptions="Center" />
+                        <Button Text="Открыть"
+                                Clicked="OnShiftTransfersClicked"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="{StaticResource White}"
                                 CornerRadius="10" />

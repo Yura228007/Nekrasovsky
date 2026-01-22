@@ -317,6 +317,54 @@ namespace server.Controllers
             }
         }
 
+        // POST: api/part-requests/{id}/cancel
+        [HttpPost("{id}/cancel")]
+        public async Task<IActionResult> Cancel(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest(new { message = "Id must be greater than 0" });
+                }
+
+                if (!Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) ||
+                    !int.TryParse(userIdHeader.ToString(), out var userId))
+                {
+                    return BadRequest(new { message = "X-User-Id header is required" });
+                }
+
+                var request = await _partRequestService.GetPartRequestByIdAsync(id);
+                if (request == null)
+                {
+                    return NotFound(new { message = $"PartRequest with ID {id} not found" });
+                }
+
+                if (request.FromUserId != userId)
+                {
+                    return Forbid();
+                }
+
+                if (request.Status != PartRequestStatus.Pending)
+                {
+                    return BadRequest(new { message = "Only pending requests can be cancelled" });
+                }
+
+                var deleted = await _partRequestService.DeletePartRequestAsync(id);
+                if (!deleted)
+                {
+                    return NotFound(new { message = $"PartRequest with ID {id} not found" });
+                }
+
+                return Ok(new { message = "PartRequest cancelled successfully" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while cancelling part request with ID {PartRequestId}", id);
+                return StatusCode(500, new { message = "An unexpected error occurred while cancelling the part request" });
+            }
+        }
+
         // GET: api/part-requests/rejection-count?fromUserId=&toUserId=
         [HttpGet("rejection-count")]
         public async Task<ActionResult<int>> GetRejectionCount([FromQuery] int fromUserId, [FromQuery] int toUserId)

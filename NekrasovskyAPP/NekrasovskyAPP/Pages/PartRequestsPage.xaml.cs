@@ -1,5 +1,6 @@
 using NekrasovskyAPP.ViewModels;
 using NekrasovskyAPP.Models;
+using System.Linq;
 
 namespace NekrasovskyAPP.Pages
 {
@@ -38,6 +39,12 @@ namespace NekrasovskyAPP.Pages
 
         private async Task ShowCreatePartRequestDialogAsync()
         {
+            if (_viewModel.CurrentUser == null)
+            {
+                await DisplayAlert("Ошибка", "Пользователь не авторизован", "OK");
+                return;
+            }
+
             // Загружаем зависимости, если еще не загружены
             if (!_viewModel.Users.Any() || !_viewModel.Warehouses.Any() || !_viewModel.Materials.Any())
             {
@@ -61,16 +68,6 @@ namespace NekrasovskyAPP.Pages
                 await DisplayAlert("Ошибка", "Нет доступных материалов. Убедитесь, что в системе есть материалы.", "OK");
                 return;
             }
-
-            // Выбор пользователя-отправителя
-            var fromUserOptions = _viewModel.Users.Select(u => $"{u.Name} {u.Surname} ({u.Login})").ToArray();
-            var fromUserIndex = await DisplayActionSheet("Выберите отправителя:", "Отмена", null, fromUserOptions);
-            if (fromUserIndex == "Отмена" || string.IsNullOrEmpty(fromUserIndex))
-                return;
-
-            var fromUser = _viewModel.Users.ElementAt(Array.IndexOf(fromUserOptions, fromUserIndex));
-            if (fromUser == null)
-                return;
 
             // Выбор пользователя-получателя
             var toUserOptions = _viewModel.Users.Select(u => $"{u.Name} {u.Surname} ({u.Login})").ToArray();
@@ -123,7 +120,7 @@ namespace NekrasovskyAPP.Pages
             // Создание запроса
             var request = new PartRequest
             {
-                FromUserId = fromUser.Id,
+                FromUserId = _viewModel.CurrentUser.Id,
                 ToUserId = toUser.Id,
                 FromWarehouseId = fromWarehouse.Id,
                 ToWarehouseId = toWarehouse.Id,
@@ -161,6 +158,14 @@ namespace NekrasovskyAPP.Pages
                 {
                     await _viewModel.RejectPartRequestAsync(request.Id, reason);
                 }
+            }
+        }
+
+        private async void OnCancelClicked(object? sender, EventArgs e)
+        {
+            if (sender is Button button && button.CommandParameter is PartRequest request)
+            {
+                await _viewModel.CancelPartRequestAsync(request.Id);
             }
         }
     }

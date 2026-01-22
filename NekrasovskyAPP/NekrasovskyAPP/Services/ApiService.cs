@@ -18,7 +18,7 @@ namespace NekrasovskyAPP.Services
             //using var stream = await FileSystem.OpenAppPackageFileAsync("server_ip.txt");
             //using var reader = new StreamReader(stream);
             //return (await reader.ReadToEndAsync()).Trim().ToString();
-            return "http://192.168.1.121:9000/";
+            return "http://192.168.0.47:9000/";
 #else 
             return "http://localhost:9000/";
 #endif
@@ -84,6 +84,34 @@ namespace NekrasovskyAPP.Services
             }
         }
 
+        public async Task<ApiResponse<User>> AuthenticateAsync(string login, string password)
+        {
+            try
+            {
+                var payload = new { login, password };
+                var response = await _httpClient.PostAsJsonAsync("api/Users/authenticate", payload, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("user"))
+                {
+                    var userJson = System.Text.Json.JsonSerializer.Serialize(result["user"]);
+                    var user = System.Text.Json.JsonSerializer.Deserialize<User>(userJson, _jsonOptions);
+                    return new ApiResponse<User>
+                    {
+                        User = user,
+                        Message = result.ContainsKey("message")
+                            ? result["message"]?.ToString() ?? "Login successful"
+                            : "Login successful"
+                    };
+                }
+                return new ApiResponse<User> { Message = "Failed to parse response" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<User> { Message = ex.Message };
+            }
+        }
         public async Task<List<User>> SearchUsersAsync(string? name, string? surname)
         {
             try
@@ -536,7 +564,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync("api/work-reports");
+                var response = await _httpClient.GetAsync("api/WorkReports");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<WorkReport>>(_jsonOptions) ?? new List<WorkReport>();
             }
@@ -550,7 +578,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/work-reports/{id}");
+                var response = await _httpClient.GetAsync($"api/WorkReports/{id}");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<WorkReport>(_jsonOptions);
             }
@@ -564,7 +592,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/work-reports/user/{userId}");
+                var response = await _httpClient.GetAsync($"api/WorkReports/user/{userId}");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<WorkReport>>(_jsonOptions) ?? new List<WorkReport>();
             }
@@ -578,7 +606,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/work-reports/user/{userId}/active");
+                var response = await _httpClient.GetAsync($"api/WorkReports/user/{userId}/active");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<WorkReport>>(_jsonOptions) ?? new List<WorkReport>();
             }
@@ -592,7 +620,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/work-reports", report, _jsonOptions);
+                var response = await _httpClient.PostAsJsonAsync("api/WorkReports", report, _jsonOptions);
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<ApiResponse<WorkReport>>(_jsonOptions) ?? new ApiResponse<WorkReport>();
             }
@@ -606,7 +634,7 @@ namespace NekrasovskyAPP.Services
         {   
             try
             {
-            var response = await _httpClient.PostAsJsonAsync("api/work-reports/start", request, _jsonOptions);
+            var response = await _httpClient.PostAsJsonAsync("api/WorkReports/start", request, _jsonOptions);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<ApiResponse<WorkReport>>(_jsonOptions) ?? new ApiResponse<WorkReport>();
             }
@@ -621,7 +649,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync($"api/work-reports/{id}/finish", request, _jsonOptions);
+                var response = await _httpClient.PostAsJsonAsync($"api/WorkReports/{id}/finish", request, _jsonOptions);
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<ApiResponse<WorkReport>>(_jsonOptions) ?? new ApiResponse<WorkReport>();
             }
@@ -636,7 +664,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync("api/part-requests");
+                var response = await _httpClient.GetAsync("api/PartRequests");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<PartRequest>>(_jsonOptions) ?? new List<PartRequest>();
             }
@@ -646,11 +674,24 @@ namespace NekrasovskyAPP.Services
             }
         }
 
+        public async Task<List<PartRequest>> GetPartRequestsByUserAsync(int userId, bool sent = true)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/PartRequests/user/{userId}?sent={sent}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<PartRequest>>(_jsonOptions) ?? new List<PartRequest>();
+            }
+            catch
+            {
+                return new List<PartRequest>();
+            }
+        }
         public async Task<PartRequest?> GetPartRequestByIdAsync(int id)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/part-requests/{id}");
+                var response = await _httpClient.GetAsync($"api/PartRequests/{id}");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<PartRequest>(_jsonOptions);
             }
@@ -664,7 +705,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/part-requests", request, _jsonOptions);
+                var response = await _httpClient.PostAsJsonAsync("api/PartRequests", request, _jsonOptions);
                 response.EnsureSuccessStatusCode();
                 var jsonString = await response.Content.ReadAsStringAsync();
                 var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
@@ -686,7 +727,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsync($"api/part-requests/{id}/approve", null);
+                var response = await _httpClient.PostAsync($"api/PartRequests/{id}/approve", null);
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<ApiResponse<PartRequest>>(_jsonOptions) ?? new ApiResponse<PartRequest>();
             }
@@ -700,7 +741,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync($"api/part-requests/{id}/reject", reason, _jsonOptions);
+                var response = await _httpClient.PostAsJsonAsync($"api/PartRequests/{id}/reject", reason, _jsonOptions);
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<ApiResponse<PartRequest>>(_jsonOptions) ?? new ApiResponse<PartRequest>();
             }
@@ -710,12 +751,101 @@ namespace NekrasovskyAPP.Services
             }
         }
 
+        public async Task<ApiResponse<object>> CancelPartRequestAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/PartRequests/{id}/cancel", null);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object> { Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "Request cancelled" : "Request cancelled" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
+        // Shift Transfers
+        public async Task<List<ShiftTransfer>> GetShiftTransfersByUserAsync(int userId, bool sent = true)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/ShiftTransfers/user/{userId}?sent={sent}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<ShiftTransfer>>(_jsonOptions) ?? new List<ShiftTransfer>();
+            }
+            catch
+            {
+                return new List<ShiftTransfer>();
+            }
+        }
+
+        public async Task<List<ShiftTransfer>> GetPendingShiftTransfersAsync(int userId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/ShiftTransfers/pending/{userId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<ShiftTransfer>>(_jsonOptions) ?? new List<ShiftTransfer>();
+            }
+            catch
+            {
+                return new List<ShiftTransfer>();
+            }
+        }
+
+        public async Task<ApiResponse<ShiftTransfer>> CreateShiftTransferAsync(ShiftTransfer transfer)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/ShiftTransfers", transfer, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<ApiResponse<ShiftTransfer>>(_jsonOptions) ?? new ApiResponse<ShiftTransfer>();
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<ShiftTransfer> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<ShiftTransfer>> ConfirmShiftTransferAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/ShiftTransfers/{id}/confirm", null);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<ApiResponse<ShiftTransfer>>(_jsonOptions) ?? new ApiResponse<ShiftTransfer>();
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<ShiftTransfer> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<object>> CancelShiftTransferAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/ShiftTransfers/{id}/cancel", null);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object> { Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "Transfer cancelled" : "Transfer cancelled" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
         // Alarm Events
         public async Task<List<AlarmEvent>> GetAllAlarmEventsAsync()
         {
             try
             {
-                var response = await _httpClient.GetAsync("api/alarm-events");
+                var response = await _httpClient.GetAsync("api/AlarmEvents");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<AlarmEvent>>(_jsonOptions) ?? new List<AlarmEvent>();
             }
@@ -729,7 +859,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/alarm-events/user/{userId}");
+                var response = await _httpClient.GetAsync($"api/AlarmEvents/user/{userId}");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<AlarmEvent>>(_jsonOptions) ?? new List<AlarmEvent>();
             }
@@ -743,7 +873,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/alarm-events", alarmEvent, _jsonOptions);
+                var response = await _httpClient.PostAsJsonAsync("api/AlarmEvents", alarmEvent, _jsonOptions);
                 response.EnsureSuccessStatusCode();
                 var jsonString = await response.Content.ReadAsStringAsync();
                 var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
@@ -797,7 +927,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync("api/roles");
+                var response = await _httpClient.GetAsync("api/Roles");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<Role>>(_jsonOptions) ?? new List<Role>();
             }
@@ -811,7 +941,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/roles/{id}");
+                var response = await _httpClient.GetAsync($"api/Roles/{id}");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<Role>(_jsonOptions);
             }

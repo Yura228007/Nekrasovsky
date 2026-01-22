@@ -5609,9 +5609,6 @@
           "location": {
             "minLength": 1,
             "type": "string"
-          },
-          "user": {
-            "$ref": "#/components/schemas/User"
           }
         },
         "additionalProperties": false

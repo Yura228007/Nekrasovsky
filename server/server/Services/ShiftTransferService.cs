@@ -105,13 +105,8 @@ namespace server.Services
 
             if (missingStock.Any())
             {
-                _logger.LogWarning("ShiftTransfer creation attempted with missing stock information: {MissingStock}", 
+                _logger.LogWarning("ShiftTransfer created with missing stock information: {MissingStock}",
                     string.Join("; ", missingStock));
-                // Можно либо выбросить исключение, либо просто предупредить в логах
-                // Для соответствия требованиям, выбросим исключение если нет остатков
-                throw new InvalidOperationException(
-                    $"Невозможно выполнить передачу смены: отсутствует информация об остатках на складах. " +
-                    $"Детали: {string.Join("; ", missingStock)}");
             }
 
             transfer.IsConfirmed = false;

@@ -90,7 +90,7 @@ namespace NekrasovskyAPP.ViewModels
                 var request = new Services.StartWorkRequest
                 {
                     UserId = currentUser.Id,
-                    StartTime = DateTime.UtcNow
+                    StartTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss")
                 };
 
                 var response = await _apiService.StartWorkAsync(request);

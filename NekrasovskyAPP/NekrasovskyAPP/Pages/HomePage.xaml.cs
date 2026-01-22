@@ -98,6 +98,11 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("PartRequestsPage");
         }
 
+        private async void OnShiftTransfersClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("ShiftTransfersPage");
+        }
+
         private async void OnAlarmClicked(object sender, EventArgs e)
         {
             try

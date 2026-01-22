@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace server.Models
 {
@@ -25,7 +26,9 @@ namespace server.Models
         public int Rank { get; set; } = 0; // Ранг роли для определения иерархии (меньше = выше ранг)
 
         // Навигационные свойства
+        [JsonIgnore]
         public virtual ICollection<User> Users { get; set; } = new List<User>();
+        [JsonIgnore]
         public virtual ICollection<RolePermission> RolePermissions { get; set; } = new List<RolePermission>();
     }
 }

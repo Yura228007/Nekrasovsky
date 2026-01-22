@@ -156,6 +156,11 @@ namespace server.Controllers
                 _logger.LogWarning(ex, "Key not found while creating shift transfer");
                 return NotFound(new { message = ex.Message });
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Invalid operation while creating shift transfer");
+                return BadRequest(new { message = ex.Message });
+            }
             catch (DbUpdateException ex)
             {
                 _logger.LogError(ex, "Database error while creating shift transfer");
@@ -235,6 +240,54 @@ namespace server.Controllers
             {
                 _logger.LogError(ex, "Unexpected error while confirming shift transfer with ID {ShiftTransferId}", id);
                 return StatusCode(500, new { message = "An unexpected error occurred while confirming the shift transfer" });
+            }
+        }
+
+        // POST: api/shift-transfers/{id}/cancel
+        [HttpPost("{id}/cancel")]
+        public async Task<IActionResult> Cancel(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest(new { message = "Id must be greater than 0" });
+                }
+
+                if (!Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) ||
+                    !int.TryParse(userIdHeader.ToString(), out var userId))
+                {
+                    return BadRequest(new { message = "X-User-Id header is required" });
+                }
+
+                var transfer = await _shiftTransferService.GetShiftTransferByIdAsync(id);
+                if (transfer == null)
+                {
+                    return NotFound(new { message = $"ShiftTransfer with ID {id} not found" });
+                }
+
+                if (transfer.FromUserId != userId)
+                {
+                    return Forbid();
+                }
+
+                if (transfer.IsConfirmed)
+                {
+                    return BadRequest(new { message = "Confirmed transfers cannot be cancelled" });
+                }
+
+                var deleted = await _shiftTransferService.DeleteShiftTransferAsync(id);
+                if (!deleted)
+                {
+                    return NotFound(new { message = $"ShiftTransfer with ID {id} not found" });
+                }
+
+                return Ok(new { message = "ShiftTransfer cancelled successfully" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while cancelling shift transfer with ID {ShiftTransferId}", id);
+                return StatusCode(500, new { message = "An unexpected error occurred while cancelling the shift transfer" });
             }
         }
 

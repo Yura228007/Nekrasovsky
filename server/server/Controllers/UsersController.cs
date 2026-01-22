@@ -11,12 +11,77 @@ namespace server.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IPasswordService _passwordService;
         private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IUserService userService, ILogger<UsersController> logger)
+        public UsersController(IUserService userService, IPasswordService passwordService, ILogger<UsersController> logger)
         {
             _userService = userService;
+            _passwordService = passwordService;
             _logger = logger;
+        }
+
+        public class LoginRequest
+        {
+            public string Login { get; set; } = string.Empty;
+            public string Password { get; set; } = string.Empty;
+        }
+
+        public class AuthenticatedUserDto
+        {
+            public int Id { get; set; }
+            public string Login { get; set; } = string.Empty;
+            public string Name { get; set; } = string.Empty;
+            public string Surname { get; set; } = string.Empty;
+            public string Email { get; set; } = string.Empty;
+            public string Phone { get; set; } = string.Empty;
+            public DateTime CreatedAt { get; set; }
+            public int? RoleId { get; set; }
+            public Role? Role { get; set; }
+        }
+
+        // POST: api/users/authenticate
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Login) || string.IsNullOrWhiteSpace(request.Password))
+            {
+                return BadRequest(new { message = "Login and password are required" });
+            }
+
+            try
+            {
+                var user = await _userService.GetUserByLoginAsync(request.Login);
+                if (user == null)
+                {
+                    return Unauthorized(new { message = "Invalid login or password" });
+                }
+
+                if (!_passwordService.VerifyPassword(request.Password, user.EncryptedPassword))
+                {
+                    return Unauthorized(new { message = "Invalid login or password" });
+                }
+
+                var result = new AuthenticatedUserDto
+                {
+                    Id = user.Id,
+                    Login = user.Login,
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    Email = user.Email,
+                    Phone = user.Phone,
+                    CreatedAt = user.CreatedAt,
+                    RoleId = user.RoleId,
+                    Role = user.Role
+                };
+
+                return Ok(new { message = "Login successful", user = result });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while authenticating user {Login}", request.Login);
+                return StatusCode(500, new { message = "An error occurred while authenticating" });
+            }
         }
 
         // GET: api/users

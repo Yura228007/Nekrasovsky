@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,8 +33,12 @@ namespace server.Models
         [Column(TypeName = "boolean")]
         public bool IsConfirmed { get; set; } = false;
 
-        // ?? ????????????? ????????
-        public virtual User FromUser { get; set; } = null!;
-        public virtual User ToUser { get; set; } = null!;
+        // Навигационные свойства (не участвуют в валидации/JSON)
+        [JsonIgnore]
+        [ValidateNever]
+        public virtual User? FromUser { get; set; }
+        [JsonIgnore]
+        [ValidateNever]
+        public virtual User? ToUser { get; set; }
     }
 }

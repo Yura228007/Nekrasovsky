@@ -8,6 +8,7 @@ namespace NekrasovskyAPP.Services
         Task<List<User>> GetAllUsersAsync();
         Task<User?> GetUserByIdAsync(int id);
         Task<List<User>> SearchUsersAsync(string? name, string? surname);
+        Task<ApiResponse<User>> AuthenticateAsync(string login, string password);
         Task<ApiResponse<User>> AddUserAsync(User user);
         Task<ApiResponse<User>> EditUserAsync(int id, User user);
         Task<ApiResponse<object>> DeleteUserAsync(int id);
@@ -50,9 +51,18 @@ namespace NekrasovskyAPP.Services
         // Part Requests
         Task<List<PartRequest>> GetAllPartRequestsAsync();
         Task<PartRequest?> GetPartRequestByIdAsync(int id);
+        Task<List<PartRequest>> GetPartRequestsByUserAsync(int userId, bool sent = true);
         Task<ApiResponse<PartRequest>> AddPartRequestAsync(PartRequest request);
         Task<ApiResponse<PartRequest>> ApprovePartRequestAsync(int id);
         Task<ApiResponse<PartRequest>> RejectPartRequestAsync(int id, string? reason);
+        Task<ApiResponse<object>> CancelPartRequestAsync(int id);
+
+        // Shift Transfers
+        Task<List<ShiftTransfer>> GetShiftTransfersByUserAsync(int userId, bool sent = true);
+        Task<List<ShiftTransfer>> GetPendingShiftTransfersAsync(int userId);
+        Task<ApiResponse<ShiftTransfer>> CreateShiftTransferAsync(ShiftTransfer transfer);
+        Task<ApiResponse<ShiftTransfer>> ConfirmShiftTransferAsync(int id);
+        Task<ApiResponse<object>> CancelShiftTransferAsync(int id);
 
         // Alarm Events
         Task<List<AlarmEvent>> GetAllAlarmEventsAsync();

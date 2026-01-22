@@ -41,7 +41,11 @@ namespace NekrasovskyAPP
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddSingleton<ViewModels.WorkReportsViewModel>();
-            builder.Services.AddSingleton<ViewModels.PartRequestsViewModel>();
+            builder.Services.AddSingleton<ViewModels.PartRequestsViewModel>(sp =>
+                new ViewModels.PartRequestsViewModel(
+                    sp.GetRequiredService<IApiService>(),
+                    sp.GetRequiredService<IAuthService>()));
+            builder.Services.AddSingleton<ViewModels.ShiftTransfersViewModel>();
 
             // Register Pages
             builder.Services.AddTransient<LoginPage>();
@@ -59,6 +63,8 @@ namespace NekrasovskyAPP
                 new WorkReportsPage(sp.GetRequiredService<ViewModels.WorkReportsViewModel>()));
             builder.Services.AddTransient<PartRequestsPage>(sp => 
                 new PartRequestsPage(sp.GetRequiredService<ViewModels.PartRequestsViewModel>()));
+            builder.Services.AddTransient<ShiftTransfersPage>(sp =>
+                new ShiftTransfersPage(sp.GetRequiredService<ViewModels.ShiftTransfersViewModel>()));
             builder.Services.AddTransient<SettingsPage>(sp => 
                 new SettingsPage(sp.GetRequiredService<IApiService>()));
 #if ANDROID || IOS

@@ -85,6 +85,19 @@ namespace server.Services
             return user;
         }
 
+        public async Task<User?> GetUserByLoginAsync(string login)
+        {
+            if (string.IsNullOrWhiteSpace(login))
+            {
+                return null;
+            }
+
+            return await _context.Users
+                .Include(u => u.Role)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Login == login);
+        }
+
         public async Task<User> CreateUserAsync(User user)
         {
             // Business logic: Check if login already exists

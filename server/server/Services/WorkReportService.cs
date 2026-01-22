@@ -116,11 +116,22 @@ namespace server.Services
                 throw new KeyNotFoundException($"User with ID {userId} not found");
             }
 
+            var normalizedStart = startTime ?? DateTime.UtcNow;
+            if (normalizedStart.Kind == DateTimeKind.Unspecified)
+            {
+                normalizedStart = DateTime.SpecifyKind(normalizedStart, DateTimeKind.Utc);
+            }
+            else if (normalizedStart.Kind == DateTimeKind.Local)
+            {
+                normalizedStart = normalizedStart.ToUniversalTime();
+            }
+
             var report = new WorkReport
             {
                 UserId = userId,
-                Date = DateTime.UtcNow.Date,
-                StartWork = startTime ?? DateTime.UtcNow,
+                // PostgreSQL date expects Unspecified kind
+                Date = DateTime.SpecifyKind(DateTime.UtcNow.Date, DateTimeKind.Unspecified),
+                StartWork = normalizedStart,
                 FinishWork = null
             };
 

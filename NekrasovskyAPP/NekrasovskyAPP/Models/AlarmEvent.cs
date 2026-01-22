@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace NekrasovskyAPP.Models
 {
@@ -27,6 +28,7 @@ namespace NekrasovskyAPP.Models
         public string Location { get; set; } = string.Empty;
 
         // Навигационное свойство (к пользователю)
+        [JsonIgnore]
         public virtual User User { get; set; } = null!;
     }
 }

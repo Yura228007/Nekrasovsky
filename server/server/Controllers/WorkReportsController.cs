@@ -324,7 +324,9 @@ namespace server.Controllers
                     {
                         return BadRequest(new { message = "StartTime must be a valid DateTime format or empty" });
                     }
-                    parsedStartTime = parsed;
+                    parsedStartTime = parsed.Kind == DateTimeKind.Unspecified
+                        ? DateTime.SpecifyKind(parsed, DateTimeKind.Utc)
+                        : parsed.ToUniversalTime();
                 }
 
                 var report = await _workReportService.StartWorkAsync(request.UserId, parsedStartTime);
@@ -361,7 +363,9 @@ namespace server.Controllers
                     {
                         return BadRequest(new { message = "FinishTime must be a valid DateTime format or empty" });
                     }
-                    parsedFinishTime = parsed;
+                    parsedFinishTime = parsed.Kind == DateTimeKind.Unspecified
+                        ? DateTime.SpecifyKind(parsed, DateTimeKind.Utc)
+                        : parsed.ToUniversalTime();
                 }
 
                 var report = await _workReportService.FinishWorkAsync(id, parsedFinishTime);

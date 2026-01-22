@@ -28,41 +28,28 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                // Получаем всех пользователей и ищем по логину
-                var users = await _apiService.GetAllUsersAsync();
-                var user = users.FirstOrDefault(u => u.Login.Equals(login, StringComparison.OrdinalIgnoreCase));
-
-                if (user == null)
-                {
-                    return new LoginResult
-                    {
-                        User = null,
-                        ErrorType = LoginErrorType.UserNotFound,
-                        ErrorMessage = "Пользователь с таким логином не найден"
-                    };
-                }
-
-                // API возвращает расшифрованный пароль в поле EncryptedPassword
-                // Сравниваем напрямую, так как сервер расшифровывает при получении
-                if (!user.EncryptedPassword.Equals(password, StringComparison.Ordinal))
+                var response = await _apiService.AuthenticateAsync(login, password);
+                if (response.User == null)
                 {
                     return new LoginResult
                     {
                         User = null,
                         ErrorType = LoginErrorType.InvalidPassword,
-                        ErrorMessage = "Неверный пароль"
+                        ErrorMessage = string.IsNullOrWhiteSpace(response.Message)
+                            ? "Неверный логин или пароль"
+                            : response.Message
                     };
                 }
 
-                _currentUser = user;
+                _currentUser = response.User;
                 // Устанавливаем userId в ApiService для автоматического добавления в заголовки
                 if (_apiService is ApiService apiService)
                 {
-                    apiService.SetCurrentUserId(user.Id);
+                    apiService.SetCurrentUserId(_currentUser.Id);
                 }
                 return new LoginResult
                 {
-                    User = user,
+                    User = _currentUser,
                     ErrorType = LoginErrorType.None,
                     ErrorMessage = string.Empty
                 };

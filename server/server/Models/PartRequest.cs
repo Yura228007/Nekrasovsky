@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace server.Models
 {
@@ -45,12 +47,22 @@ namespace server.Models
         [Column(TypeName = "integer")]
         public PartRequestStatus Status { get; set; } = PartRequestStatus.Pending;
 
-        // ?? ????????????? ????????
-        public virtual User FromUser { get; set; } = null!;
-        public virtual User ToUser { get; set; } = null!;
-        public virtual Warehouse FromWarehouse { get; set; } = null!;
-        public virtual Warehouse ToWarehouse { get; set; } = null!;
-        public virtual Material Material { get; set; } = null!;
+        // Навигационные свойства (не участвуют в валидации/JSON)
+        [JsonIgnore]
+        [ValidateNever]
+        public virtual User? FromUser { get; set; }
+        [JsonIgnore]
+        [ValidateNever]
+        public virtual User? ToUser { get; set; }
+        [JsonIgnore]
+        [ValidateNever]
+        public virtual Warehouse? FromWarehouse { get; set; }
+        [JsonIgnore]
+        [ValidateNever]
+        public virtual Warehouse? ToWarehouse { get; set; }
+        [JsonIgnore]
+        [ValidateNever]
+        public virtual Material? Material { get; set; }
     }
 
     public enum PartRequestStatus

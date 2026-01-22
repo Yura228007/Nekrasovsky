@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +32,9 @@ namespace server.Models
         [Column(TypeName = "varchar(255)")]
         public string Location { get; set; } = string.Empty;
 
-        // ????????????? ???????? (? ????????????)
-        public virtual User User { get; set; } = null!;
+        // Навигационное свойство (к пользователю) - не участвует в валидации/JSON
+        [JsonIgnore]
+        [ValidateNever]
+        public virtual User? User { get; set; }
     }
 }

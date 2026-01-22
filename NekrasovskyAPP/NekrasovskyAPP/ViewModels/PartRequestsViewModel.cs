@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,22 +10,27 @@ namespace NekrasovskyAPP.ViewModels
     public class PartRequestsViewModel : INotifyPropertyChanged
     {
         private readonly IApiService _apiService;
+        private readonly IAuthService _authService;
         private bool _isLoading;
         private string _errorMessage = string.Empty;
 
-        public PartRequestsViewModel(IApiService apiService)
+        public PartRequestsViewModel(IApiService apiService, IAuthService authService)
         {
             _apiService = apiService;
-            PartRequests = new ObservableCollection<PartRequest>();
+            _authService = authService;
+            IncomingRequests = new ObservableCollection<PartRequest>();
+            SentRequests = new ObservableCollection<PartRequest>();
             Users = new ObservableCollection<User>();
             Warehouses = new ObservableCollection<Warehouse>();
             Materials = new ObservableCollection<Material>();
         }
 
-        public ObservableCollection<PartRequest> PartRequests { get; }
+        public ObservableCollection<PartRequest> IncomingRequests { get; }
+        public ObservableCollection<PartRequest> SentRequests { get; }
         public ObservableCollection<User> Users { get; }
         public ObservableCollection<Warehouse> Warehouses { get; }
         public ObservableCollection<Material> Materials { get; }
+        public User? CurrentUser => _authService.CurrentUser;
 
         public bool IsLoading
         {
@@ -52,11 +58,25 @@ namespace NekrasovskyAPP.ViewModels
             {
                 IsLoading = true;
                 ErrorMessage = string.Empty;
-                var requests = await _apiService.GetAllPartRequestsAsync();
-                PartRequests.Clear();
-                foreach (var request in requests)
+                var currentUser = _authService.CurrentUser;
+                if (currentUser == null)
                 {
-                    PartRequests.Add(request);
+                    ErrorMessage = "Пользователь не авторизован";
+                    return;
+                }
+
+                var incoming = await _apiService.GetPartRequestsByUserAsync(currentUser.Id, sent: false);
+                IncomingRequests.Clear();
+                foreach (var request in incoming)
+                {
+                    IncomingRequests.Add(request);
+                }
+
+                var sent = await _apiService.GetPartRequestsByUserAsync(currentUser.Id, sent: true);
+                SentRequests.Clear();
+                foreach (var request in sent)
+                {
+                    SentRequests.Add(request);
                 }
             }
             catch (Exception ex)
@@ -116,6 +136,34 @@ namespace NekrasovskyAPP.ViewModels
             catch (Exception ex)
             {
                 ErrorMessage = $"Ошибка отклонения запроса: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task CancelPartRequestAsync(int id)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                var response = await _apiService.CancelPartRequestAsync(id);
+                if (!string.IsNullOrEmpty(response.Message) &&
+                    response.Message.Contains("error", StringComparison.OrdinalIgnoreCase))
+                {
+                    ErrorMessage = response.Message;
+                }
+                else
+                {
+                    await LoadPartRequestsAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка отмены запроса: {ex.Message}";
             }
             finally
             {

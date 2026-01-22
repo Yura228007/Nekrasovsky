@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:NekrasovskyAPP.Converters"
+             x:Class="NekrasovskyAPP.Pages.ShiftTransfersPage"
+             Title="Передача смены"
+             BackgroundColor="{StaticResource BackgroundDark}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:IsStringNotEmptyConverter x:Key="IsStringNotEmpty" />
+            <converters:IsFalseConverter x:Key="IsFalseConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Передать смену" Clicked="OnCreateClicked" />
+        <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+            <Label Text="Ожидают подтверждения"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource White}" />
+
+            <CollectionView ItemsSource="{Binding PendingTransfers}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="{StaticResource BackgroundCard}"
+                                StrokeThickness="1"
+                                Stroke="{StaticResource BorderColor}"
+                                Margin="0,6"
+                                Padding="16">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12"/>
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="{Binding TransferDate, StringFormat='Дата: {0:dd.MM.yyyy HH:mm}'}"
+                                       FontSize="12"
+                                       TextColor="{StaticResource Gray400}" />
+                                <Label Text="{Binding FromUserId, StringFormat='От: {0}'}"
+                                       FontSize="14"
+                                       TextColor="{StaticResource Gray200}" />
+                                <Label Text="{Binding ToUserId, StringFormat='Кому: {0}'}"
+                                       FontSize="14"
+                                       TextColor="{StaticResource Gray200}" />
+                                <Button Text="Подтвердить"
+                                        Clicked="OnConfirmClicked"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        TextColor="{StaticResource White}"
+                                        CornerRadius="10" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Text="Отправленные передачи"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource White}"
+                   Margin="0,16,0,0" />
+
+            <CollectionView ItemsSource="{Binding SentTransfers}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="{StaticResource BackgroundCard}"
+                                StrokeThickness="1"
+                                Stroke="{StaticResource BorderColor}"
+                                Margin="0,6"
+                                Padding="16">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12"/>
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="{Binding TransferDate, StringFormat='Дата: {0:dd.MM.yyyy HH:mm}'}"
+                                       FontSize="12"
+                                       TextColor="{StaticResource Gray400}" />
+                                <Label Text="{Binding ToUserId, StringFormat='Кому: {0}'}"
+                                       FontSize="14"
+                                       TextColor="{StaticResource Gray200}" />
+                                <Label Text="{Binding IsConfirmed, StringFormat='Подтверждено: {0}'}"
+                                       FontSize="12"
+                                       TextColor="{StaticResource Gray500}" />
+                                <Button Text="Отменить"
+                                        Clicked="OnCancelClicked"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="{StaticResource Error}"
+                                        TextColor="{StaticResource White}"
+                                        CornerRadius="10"
+                                        IsVisible="{Binding IsConfirmed, Converter={StaticResource IsFalseConverter}}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               IsVisible="{Binding IsLoading}"
+                               Color="{StaticResource Accent}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="{StaticResource Error}"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource IsStringNotEmpty}}"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

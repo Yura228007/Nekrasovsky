@@ -603,17 +603,18 @@ namespace NekrasovskyAPP.Services
         }
 
         public async Task<ApiResponse<WorkReport>> StartWorkAsync(StartWorkRequest request)
-        {
+        {   
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/work-reports/start", request, _jsonOptions);
-                response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<ApiResponse<WorkReport>>(_jsonOptions) ?? new ApiResponse<WorkReport>();
+            var response = await _httpClient.PostAsJsonAsync("api/work-reports/start", request, _jsonOptions);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<ApiResponse<WorkReport>>(_jsonOptions) ?? new ApiResponse<WorkReport>();
             }
             catch (HttpRequestException ex)
             {
                 return new ApiResponse<WorkReport> { Message = ex.Message };
             }
+
         }
 
         public async Task<ApiResponse<WorkReport>> FinishWorkAsync(int id, FinishWorkRequest? request)

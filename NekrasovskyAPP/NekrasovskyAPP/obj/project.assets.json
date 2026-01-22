@@ -2,6 +2,160 @@
   "version": 3,
   "targets": {
     "net8.0-android34.0": {
+      "AppDynamics.Agent/2025.10.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/AppDynamics.Agent.targets": {}
+        },
+        "runtimeTargets": {
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/Info.plist": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeDirectory": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeRequirements": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeRequirements-1": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeResources": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeSignature": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/ADEUMInstrumentation": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumCollectorChannel.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumCommons.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumCrashReportCallback.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumHTTPRequestTracker.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumInstrumentation.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumInstrumentation_interfaces.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumNetworkRequestCallback.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumServerCorrelationHeaders.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumSessionFrame.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Info.plist": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Materials/PrivacyInfo.xcprivacy": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Materials/Readme.markdown": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Modules/module.modulemap": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/ADEUMInstrumentation": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumCollectorChannel.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumCommons.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumCrashReportCallback.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumHTTPRequestTracker.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumInstrumentation.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumInstrumentation_interfaces.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumNetworkRequestCallback.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumServerCorrelationHeaders.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumSessionFrame.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Info.plist": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Materials/PrivacyInfo.xcprivacy": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Materials/Readme.markdown": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Modules/module.modulemap": {
+            "assetType": "native",
+            "rid": "ios"
+          }
+        }
+      },
       "BarcodeScanning.Native.Maui/1.7.8": {
         "type": "package",
         "dependencies": {
@@ -3809,6 +3963,22 @@
       }
     },
     "net8.0-android34.0/android-arm": {
+      "AppDynamics.Agent/2025.10.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/AppDynamics.Agent.targets": {}
+        }
+      },
       "BarcodeScanning.Native.Maui/1.7.8": {
         "type": "package",
         "dependencies": {
@@ -7610,6 +7780,22 @@
       }
     },
     "net8.0-android34.0/android-arm64": {
+      "AppDynamics.Agent/2025.10.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/AppDynamics.Agent.targets": {}
+        }
+      },
       "BarcodeScanning.Native.Maui/1.7.8": {
         "type": "package",
         "dependencies": {
@@ -11411,6 +11597,22 @@
       }
     },
     "net8.0-android34.0/android-x64": {
+      "AppDynamics.Agent/2025.10.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/AppDynamics.Agent.targets": {}
+        }
+      },
       "BarcodeScanning.Native.Maui/1.7.8": {
         "type": "package",
         "dependencies": {
@@ -15212,6 +15414,22 @@
       }
     },
     "net8.0-android34.0/android-x86": {
+      "AppDynamics.Agent/2025.10.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/AppDynamics.Agent.targets": {}
+        }
+      },
       "BarcodeScanning.Native.Maui/1.7.8": {
         "type": "package",
         "dependencies": {
@@ -19013,6 +19231,22 @@
       }
     },
     "net8.0-android34.0/win10-x64": {
+      "AppDynamics.Agent/2025.10.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/AppDynamics.Agent.targets": {}
+        }
+      },
       "BarcodeScanning.Native.Maui/1.7.8": {
         "type": "package",
         "dependencies": {
@@ -22814,6 +23048,160 @@
       }
     },
     "net8.0-windows10.0.19041": {
+      "AppDynamics.Agent/2025.10.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/AppDynamics.Agent.targets": {}
+        },
+        "runtimeTargets": {
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/Info.plist": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeDirectory": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeRequirements": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeRequirements-1": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeResources": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeSignature": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/ADEUMInstrumentation": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumCollectorChannel.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumCommons.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumCrashReportCallback.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumHTTPRequestTracker.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumInstrumentation.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumInstrumentation_interfaces.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumNetworkRequestCallback.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumServerCorrelationHeaders.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumSessionFrame.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Info.plist": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Materials/PrivacyInfo.xcprivacy": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Materials/Readme.markdown": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Modules/module.modulemap": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/ADEUMInstrumentation": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumCollectorChannel.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumCommons.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumCrashReportCallback.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumHTTPRequestTracker.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumInstrumentation.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumInstrumentation_interfaces.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumNetworkRequestCallback.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumServerCorrelationHeaders.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumSessionFrame.h": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Info.plist": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Materials/PrivacyInfo.xcprivacy": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Materials/Readme.markdown": {
+            "assetType": "native",
+            "rid": "ios"
+          },
+          "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Modules/module.modulemap": {
+            "assetType": "native",
+            "rid": "ios"
+          }
+        }
+      },
       "BarcodeScanning.Native.Maui/1.7.8": {
         "type": "package",
         "dependencies": {
@@ -24249,6 +24637,22 @@
       }
     },
     "net8.0-windows10.0.19041/android-arm": {
+      "AppDynamics.Agent/2025.10.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/AppDynamics.Agent.targets": {}
+        }
+      },
       "BarcodeScanning.Native.Maui/1.7.8": {
         "type": "package",
         "dependencies": {
@@ -25638,6 +26042,22 @@
       }
     },
     "net8.0-windows10.0.19041/android-arm64": {
+      "AppDynamics.Agent/2025.10.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/AppDynamics.Agent.targets": {}
+        }
+      },
       "BarcodeScanning.Native.Maui/1.7.8": {
         "type": "package",
         "dependencies": {
@@ -27027,6 +27447,22 @@
       }
     },
     "net8.0-windows10.0.19041/android-x64": {
+      "AppDynamics.Agent/2025.10.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/AppDynamics.Agent.targets": {}
+        }
+      },
       "BarcodeScanning.Native.Maui/1.7.8": {
         "type": "package",
         "dependencies": {
@@ -28416,6 +28852,22 @@
       }
     },
     "net8.0-windows10.0.19041/android-x86": {
+      "AppDynamics.Agent/2025.10.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/AppDynamics.Agent.targets": {}
+        }
+      },
       "BarcodeScanning.Native.Maui/1.7.8": {
         "type": "package",
         "dependencies": {
@@ -29805,6 +30257,22 @@
       }
     },
     "net8.0-windows10.0.19041/win10-x64": {
+      "AppDynamics.Agent/2025.10.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "buildTransitive/AppDynamics.Agent.targets": {}
+        }
+      },
       "BarcodeScanning.Native.Maui/1.7.8": {
         "type": "package",
         "dependencies": {
@@ -31201,6 +31669,67 @@
     }
   },
   "libraries": {
+    "AppDynamics.Agent/2025.10.0": {
+      "sha512": "xTqrTpWofDjp7ACA/XTxjT8TyothunSqCMzfDQQ9/cvXHGp5OBlpyssZJdG+QBzpeu7cdlg1I+KiKpDn0qLvpA==",
+      "type": "package",
+      "path": "appdynamics.agent/2025.10.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "appdynamics.agent.2025.10.0.nupkg.sha512",
+        "appdynamics.agent.nuspec",
+        "buildTransitive/AppDynamics.Agent.targets",
+        "lib/net9.0-android35.0/AppDynamics.Agent.aar",
+        "lib/net9.0-android35.0/AppDynamics.Agent.dll",
+        "lib/net9.0-android35.0/AppDynamics.Agent.pdb",
+        "lib/net9.0-android35.0/AppDynamics.Agent.xml",
+        "lib/net9.0-android35.0/net.androidSdk.Bindings.dll",
+        "lib/net9.0-android35.0/net.androidSdk.Bindings.pdb",
+        "lib/net9.0-android35.0/net.androidSdk.Bindings.xml",
+        "lib/net9.0-ios18.0/AppDynamics.Agent.dll",
+        "lib/net9.0-ios18.0/AppDynamics.Agent.iOSSDK.NET.Bindings.dll",
+        "lib/net9.0-ios18.0/AppDynamics.Agent.iOSSDK.NET.Bindings.pdb",
+        "lib/net9.0-ios18.0/AppDynamics.Agent.pdb",
+        "lib/net9.0-ios18.0/AppDynamics.Agent.xml",
+        "lib/netstandard2.1/AppDynamics.Agent.dll",
+        "lib/netstandard2.1/AppDynamics.Agent.pdb",
+        "lib/netstandard2.1/AppDynamics.Agent.xml",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/Info.plist",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeDirectory",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeRequirements",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeRequirements-1",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeResources",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/_CodeSignature/CodeSignature",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/ADEUMInstrumentation",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumCollectorChannel.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumCommons.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumCrashReportCallback.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumHTTPRequestTracker.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumInstrumentation.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumInstrumentation_interfaces.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumNetworkRequestCallback.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumServerCorrelationHeaders.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Headers/ADEumSessionFrame.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Info.plist",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Materials/PrivacyInfo.xcprivacy",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Materials/Readme.markdown",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_arm64e/ADEUMInstrumentation.framework/Modules/module.modulemap",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/ADEUMInstrumentation",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumCollectorChannel.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumCommons.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumCrashReportCallback.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumHTTPRequestTracker.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumInstrumentation.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumInstrumentation_interfaces.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumNetworkRequestCallback.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumServerCorrelationHeaders.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Headers/ADEumSessionFrame.h",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Info.plist",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Materials/PrivacyInfo.xcprivacy",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Materials/Readme.markdown",
+        "runtimes/ios/native/ADEUMInstrumentation.xcframework/ios-arm64_x86_64-simulator/ADEUMInstrumentation.framework/Modules/module.modulemap"
+      ]
+    },
     "BarcodeScanning.Native.Maui/1.7.8": {
       "sha512": "hCU1iCnhop6i1WruOerOc3In+GutHwf4MyoNJ8lzC19gSHbVmAjZV/ZEEwFKJ9zf028CV1jWo7fkeY7WqWD39w==",
       "type": "package",
@@ -37420,6 +37949,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0-android34.0": [
+      "AppDynamics.Agent >= 2025.10.0",
       "BarcodeScanning.Native.Maui >= 1.7.8",
       "Microsoft.AspNetCore.SignalR.Client >= 8.0.0",
       "Microsoft.EntityFrameworkCore >= 8.0.15",
@@ -37432,6 +37962,7 @@
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.10"
     ],
     "net8.0-windows10.0.19041": [
+      "AppDynamics.Agent >= 2025.10.0",
       "BarcodeScanning.Native.Maui >= 1.7.8",
       "Microsoft.AspNetCore.SignalR.Client >= 8.0.0",
       "Microsoft.EntityFrameworkCore >= 8.0.15",
@@ -37500,6 +38031,10 @@
       "net8.0-android34.0": {
         "targetAlias": "net8.0-android",
         "dependencies": {
+          "AppDynamics.Agent": {
+            "target": "Package",
+            "version": "[2025.10.0, )"
+          },
           "BarcodeScanning.Native.Maui": {
             "target": "Package",
             "version": "[1.7.8, )"
@@ -37593,6 +38128,10 @@
       "net8.0-windows10.0.19041": {
         "targetAlias": "net8.0-windows10.0.19041.0",
         "dependencies": {
+          "AppDynamics.Agent": {
+            "target": "Package",
+            "version": "[2025.10.0, )"
+          },
           "BarcodeScanning.Native.Maui": {
             "target": "Package",
             "version": "[1.7.8, )"

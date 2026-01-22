@@ -53,16 +53,14 @@ namespace NekrasovskyAPP.Pages
             // Настраиваем обработчик уведомлений через SignalRService
             _signalRService.SetOnAlarmNotification((message, location, user) =>
             {
-                // Воспроизводим звук на главном потоке
-                MainThread.BeginInvokeOnMainThread(() =>
+                MainThread.BeginInvokeOnMainThread(async () =>
                 {
                     _alarmSoundService.PlayAlarmSound();
-
-                    // Показываем уведомление
-                    DisplayAlert(
+                    await DisplayAlert(
                         "🚨 ТРЕВОГА!",
                         $"{message}\n\nМесто: {location}\nПользователь: {user}",
                         "OK");
+                    _alarmSoundService.StopAlarmSound();
                 });
             });
         }

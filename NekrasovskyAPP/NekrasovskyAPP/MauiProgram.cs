@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NekrasovskyAPP.Services;
 using NekrasovskyAPP.ViewModels;
 using NekrasovskyAPP.Pages;
+using AppDynamics.Agent;
 #if ANDROID || IOS
 using BarcodeScanning;
 #endif

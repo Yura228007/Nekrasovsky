@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "0zitRfVrgnE=",
+  "dgSpecHash": "qVCRi8yb5mk=",
   "success": true,
   "projectFilePath": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\NekrasovskyAPP.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\admin\\.nuget\\packages\\appdynamics.agent\\2025.10.0\\appdynamics.agent.2025.10.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\barcodescanning.native.maui\\1.7.8\\barcodescanning.native.maui.1.7.8.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\googlegson\\2.10.1.4\\googlegson.2.10.1.4.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

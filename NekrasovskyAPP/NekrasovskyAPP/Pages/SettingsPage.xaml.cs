@@ -74,14 +74,5 @@ namespace NekrasovskyAPP.Pages
             await DisplayAlert("Информация обновлена", "Системная информация обновлена", "OK");
         }
 
-        private async void OnClearCacheClicked(object sender, EventArgs e)
-        {
-            var confirm = await DisplayAlert("Очистка кэша", "Вы уверены, что хотите очистить кэш?", "Очистить", "Отмена");
-            if (confirm)
-            {
-                // TODO: Реализовать очистку кэша
-                await DisplayAlert("Информация", "Очистка кэша пока не реализована", "OK");
-            }
-        }
     }
 }

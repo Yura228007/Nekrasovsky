@@ -12854,3 +12854,1742 @@ Client IP: ::1
 User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
 =======================================================
 
+=======================================================
+Timestamp: 2026-01-22T19:12:20.0587879Z
+Method: GET
+URL: /
+Status: 404
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:13:54.0765648Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1659 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":3,"login":"eva","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:13:54.2847967Z
+Method: GET
+URL: /api/user-permissions/check?userId=3&permissionCode=Admin
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:13:54.9104062Z
+Method: GET
+URL: /api/user-permissions/user/3
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:13:55.3253735Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"2B4rLz5GQV7LZTmKMK9Aig","connectionToken":"jHKdF2sPbsff6N9KvMqRWA","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:14:01.6969500Z
+Method: GET
+URL: /hubs/notifications?id=jHKdF2sPbsff6N9KvMqRWA
+Status: 101
+Duration: 6204 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:14:10.3567811Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 635 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:14:14.8517685Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 106 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:14:14.9186529Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 156 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:14:15.0531584Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:14:15.1623718Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 119 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:14:52.1378359Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 38 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:14:59.2818140Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:15:00.0701184Z
+Method: POST
+URL: /api/users
+Status: 201
+Duration: 789 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: CreateUser
+Response Body: {"message":"User created successfully","user":{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.8570891Z","roleId":2,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:15:00.1239004Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":2,"role":{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:15:00.1313692Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 38 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":2,"role":{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:15:26.0829494Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 499 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":6,"login":"snake","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":2,"role":{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:15:26.0915345Z
+Method: GET
+URL: /api/user-permissions/check?userId=6&permissionCode=Admin
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:15:26.2167043Z
+Method: GET
+URL: /api/user-permissions/user/6
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:15:26.2642239Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 2 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"jS4OwOdS8VifcQUapZj0Rw","connectionToken":"-r3oKxjEZ3qjeDq5kwJMPw","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:17:08.8898420Z
+Method: GET
+URL: /hubs/notifications?id=-r3oKxjEZ3qjeDq5kwJMPw
+Status: 101
+Duration: 102580 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:17:17.7153966Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 702 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:17:57.7675189Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 54 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":2,"role":{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:17:58.3839213Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 32 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":2,"role":{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:17:58.4228258Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 16 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:17:58.4391782Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 20 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":2,"role":{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:02.1673111Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:02.1782518Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 30 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":2,"role":{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:03.8607509Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":2,"role":{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:04.1525928Z
+Method: PUT
+URL: /api/users/6
+Status: 200
+Duration: 300 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: UpdateUser
+Response Body: {"message":"User updated successfully","user":{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:04.2042859Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 23 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:04.2684336Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 123 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:20.3588966Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 430 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":6,"login":"snake","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:20.5386921Z
+Method: GET
+URL: /api/user-permissions/user/6
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:20.5893458Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"gLGmNgQc2MR7R4e_74DErA","connectionToken":"2E9nrqXWvVM5o48lrNkfug","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:23.5443216Z
+Method: GET
+URL: /hubs/notifications?id=2E9nrqXWvVM5o48lrNkfug
+Status: 101
+Duration: 2945 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:30.1277635Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 429 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:36.4226502Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 14 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:36.5392686Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 65 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:18:36.5927456Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 164 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:25:32.5427888Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1289 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":6,"login":"snake","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:30:37.1462055Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1900 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":6,"login":"snake","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:30:45.2970975Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 353 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":8,"userId":6,"createdAt":"2026-01-22T19:30:44.9451498Z","message":"цфв","location":"ьам"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:30:57.1280076Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 34 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":9,"userId":6,"createdAt":"2026-01-22T19:30:56.9745855Z","message":"фывс","location":"ывсфыс"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:31:05.1286028Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 542 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":3,"login":"eva","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:31:05.2809588Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"ll5NWZyEU1OPqr4tnGlkyQ","connectionToken":"kcmUseT5xIllhzz8EjRt8w","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:31:08.2947632Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 26 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":10,"userId":3,"createdAt":"2026-01-22T19:31:08.2577618Z","message":"ad","location":"ad"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:31:13.4687013Z
+Method: GET
+URL: /hubs/notifications?id=kcmUseT5xIllhzz8EjRt8w
+Status: 101
+Duration: 8130 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:31:20.5387008Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 432 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:31:20.6599493Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"fM4w6OEF3eKQIHJDNFUHvg","connectionToken":"RVm0fGI8orLnBD-ctNBwaA","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:31:23.8801798Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 43 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":11,"userId":1,"createdAt":"2026-01-22T19:31:23.8253433Z","message":"ad","location":"ad"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:31:38.3936946Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 32 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":12,"userId":1,"createdAt":"2026-01-22T19:31:38.3550715Z","message":"ad","location":"ad"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:31:50.3854964Z
+Method: GET
+URL: /hubs/notifications?id=RVm0fGI8orLnBD-ctNBwaA
+Status: 101
+Duration: 29733 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:31:55.8011641Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 432 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:31:55.9495123Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"IyqPHavw8mXeewELZ1fgWA","connectionToken":"-nnrOiWzp5PDMN7WjzcC5g","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:31:58.9552889Z
+Method: GET
+URL: /hubs/notifications?id=-nnrOiWzp5PDMN7WjzcC5g
+Status: 101
+Duration: 3028 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:04.6188012Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 457 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":6,"login":"snake","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:08.7931833Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 27 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":13,"userId":6,"createdAt":"2026-01-22T19:32:08.6746497Z","message":"daw","location":"dwa"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:13.9356373Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 16 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:13.9969203Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:14.0170949Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:14.0674916Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 89 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:18.3997024Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:18.4990495Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 21 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:19.2464462Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 35 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:19.8523427Z
+Method: PUT
+URL: /api/users/1
+Status: 200
+Duration: 621 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: UpdateUser
+Response Body: {"message":"User updated successfully","user":{"id":1,"login":"admin","encryptedPassword":"$2a$12$5ET9m7dRzDbw03WMYfr8Fuot9yPnpW6TpdKOU/LyLFDcK93h3o2fu","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":1,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:19.8775993Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 29 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"$2a$12$5ET9m7dRzDbw03WMYfr8Fuot9yPnpW6TpdKOU/LyLFDcK93h3o2fu","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:19.8810037Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 34 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"$2a$12$5ET9m7dRzDbw03WMYfr8Fuot9yPnpW6TpdKOU/LyLFDcK93h3o2fu","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:37.7486700Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 414 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:32:42.7021570Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 21 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":14,"userId":1,"createdAt":"2026-01-22T19:32:42.6754104Z","message":"ad","location":"ad"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:43:46.8794748Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1715 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":6,"login":"snake","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:43:48.1377159Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"MArxOiBa9d6FAG34ChFm5Q","connectionToken":"aDxubXVXwWuRfK8z9UCIgw","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:43:52.1031130Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 26 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":15,"userId":6,"createdAt":"2026-01-22T19:43:51.9708494Z","message":"sd","location":"ds"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:44:05.2716436Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 499 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":3,"login":"eva","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:44:08.2883588Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 32 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":16,"userId":3,"createdAt":"2026-01-22T19:44:08.1641243Z","message":"ad","location":"ad"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:45:12.1509061Z
+Method: GET
+URL: /hubs/notifications?id=aDxubXVXwWuRfK8z9UCIgw
+Status: 101
+Duration: 83742 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:50:52.8865060Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 3436 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:51:00.0706723Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 69 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":17,"userId":1,"createdAt":"2026-01-22T19:51:00.0302169Z","message":"sh","location":"dj"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:51:15.5316655Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 24 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":18,"userId":1,"createdAt":"2026-01-22T19:51:15.5027191Z","message":"shshs","location":"dhdhd"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:51:29.3555124Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 477 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":3,"login":"eva","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:51:33.6940973Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 22 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":19,"userId":3,"createdAt":"2026-01-22T19:51:33.5790622Z","message":"ESS","location":"s"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:53:08.2490009Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1880 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":6,"login":"snake","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:53:13.7519826Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 38 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":20,"userId":6,"createdAt":"2026-01-22T19:53:13.6260664Z","message":"d","location":"dud"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:53:21.3685690Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 437 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":3,"login":"eva","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T19:53:25.9671798Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 48 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":21,"userId":3,"createdAt":"2026-01-22T19:53:25.9253507Z","message":"ehe","location":"dhd"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:03:54.4855443Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 480 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":2,"login":"adam","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:05:12.9314477Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 401
+Duration: 48 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Invalid login or password"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:05:17.5288472Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 401
+Duration: 16 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Invalid login or password"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:05:18.4067353Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 401
+Duration: 224 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Invalid login or password"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:05:18.6291737Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 401
+Duration: 38 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Invalid login or password"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:05:19.3962764Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 401
+Duration: 34 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Invalid login or password"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:05:20.1150223Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 401
+Duration: 223 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Invalid login or password"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:05:24.2061119Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1619 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":3,"login":"eva","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:05:24.4173815Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"HNitiNJ2ZpR7alVdOn8_qA","connectionToken":"j1_QVdWA1cWdnMUglIL_nQ","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:05:29.0671279Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 26 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":22,"userId":3,"createdAt":"2026-01-22T20:05:29.0383888Z","message":"s","location":"s"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:05:45.6732163Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 65 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":23,"userId":2,"createdAt":"2026-01-22T20:05:45.5501925Z","message":"d","location":"s"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:06:19.6015620Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 43 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":24,"userId":3,"createdAt":"2026-01-22T20:06:19.5643853Z","message":"wd","location":"wd"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:06:24.1483831Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 25 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":25,"userId":3,"createdAt":"2026-01-22T20:06:24.0161469Z","message":"dw","location":"dw"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:06:32.7213621Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 396 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:06:38.9776615Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 36 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":26,"userId":3,"createdAt":"2026-01-22T20:06:38.9109086Z","message":"xz","location":"zx"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:08:38.9225108Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 23 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"$2a$12$5ET9m7dRzDbw03WMYfr8Fuot9yPnpW6TpdKOU/LyLFDcK93h3o2fu","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:08:39.2299234Z
+Method: GET
+URL: /api/ShiftTransfers/user/3?sent=True
+Status: 200
+Duration: 245 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:08:39.2623070Z
+Method: GET
+URL: /api/ShiftTransfers/pending/3
+Status: 200
+Duration: 27 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: GetPending
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:08:45.0787091Z
+Method: POST
+URL: /api/ShiftTransfers
+Status: 201
+Duration: 388 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: CreateShiftTransfer
+Response Body: {"message":"ShiftTransfer created successfully","transfer":{"id":2,"fromUserId":3,"toUserId":2,"transferDate":"2026-01-22T20:08:44.6737748Z","isConfirmed":false}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:02.3229423Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 469 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":2,"login":"adam","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:04.4649123Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"$2a$12$5ET9m7dRzDbw03WMYfr8Fuot9yPnpW6TpdKOU/LyLFDcK93h3o2fu","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":6,"login":"snake","encryptedPassword":"$2a$12$lAHofNUjM4AdmY4zR01x5.AYs/ExA3VEwBFpxfiD9H5M65Lw05cAC","name":"Змей","surname":"Искуситель","email":"sobaka@dog.pet","phone":"152364","createdAt":"2026-01-22T19:14:59.857089Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":4,"login":"thegod","encryptedPassword":"$2a$11$JncHAzVv43Z0ocmpIBBA1OFjX/Afp7pVPcGG7sNHfNaCnyrFQSX72","name":"Бог","surname":"Один","email":"d@d.com","phone":"","createdAt":"2026-01-22T11:03:59.551634Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":5,"login":"user","encryptedPassword":"$2a$11$mHnvmUYeNwuqwyvUnZLFOOzIKWPYdIavEsmeRU.l4W6mI5EkHxLdq","name":"польз","surname":"да","email":"i@user.co","phone":"","createdAt":"2026-01-22T12:20:09.023047Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"67","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"5252","name":"adam","surname":"first","email":"g@g.com","phone":"","createdAt":"2026-01-22T09:41:42.056633Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:04.6547860Z
+Method: GET
+URL: /api/ShiftTransfers/user/2?sent=True
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: ShiftTransfers, Action: GetByUser
+Response Body: [{"id":1,"fromUserId":2,"toUserId":3,"transferDate":"2026-01-22T13:32:23.479858Z","isConfirmed":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:04.7109013Z
+Method: GET
+URL: /api/ShiftTransfers/pending/2
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: ShiftTransfers, Action: GetPending
+Response Body: [{"id":2,"fromUserId":3,"toUserId":2,"transferDate":"2026-01-22T20:08:44.673774Z","isConfirmed":false}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:15.9092313Z
+Method: POST
+URL: /api/ShiftTransfers/2/confirm
+Status: 200
+Duration: 188 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: ShiftTransfers, Action: Confirm
+Response Body: {"message":"ShiftTransfer confirmed successfully","transfer":{"id":2,"fromUserId":3,"toUserId":2,"transferDate":"2026-01-22T20:08:44.673774Z","isConfirmed":true}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:18.3805438Z
+Method: GET
+URL: /api/ShiftTransfers/user/2?sent=True
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: ShiftTransfers, Action: GetByUser
+Response Body: [{"id":1,"fromUserId":2,"toUserId":3,"transferDate":"2026-01-22T13:32:23.479858Z","isConfirmed":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:18.4931905Z
+Method: GET
+URL: /api/ShiftTransfers/pending/2
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: ShiftTransfers, Action: GetPending
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:24.5483372Z
+Method: POST
+URL: /api/ShiftTransfers
+Status: 201
+Duration: 48 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: ShiftTransfers, Action: CreateShiftTransfer
+Response Body: {"message":"ShiftTransfer created successfully","transfer":{"id":3,"fromUserId":2,"toUserId":3,"transferDate":"2026-01-22T20:09:21.5821933Z","isConfirmed":false}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:28.1540783Z
+Method: GET
+URL: /api/ShiftTransfers/user/3?sent=True
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: GetByUser
+Response Body: [{"id":2,"fromUserId":3,"toUserId":2,"transferDate":"2026-01-22T20:08:44.673774Z","isConfirmed":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:28.2647582Z
+Method: GET
+URL: /api/ShiftTransfers/pending/3
+Status: 200
+Duration: 30 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: GetPending
+Response Body: [{"id":3,"fromUserId":2,"toUserId":3,"transferDate":"2026-01-22T20:09:21.582193Z","isConfirmed":false}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:31.7357450Z
+Method: POST
+URL: /api/ShiftTransfers/3/confirm
+Status: 200
+Duration: 29 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: Confirm
+Response Body: {"message":"ShiftTransfer confirmed successfully","transfer":{"id":3,"fromUserId":2,"toUserId":3,"transferDate":"2026-01-22T20:09:21.582193Z","isConfirmed":true}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:33.8550018Z
+Method: GET
+URL: /api/ShiftTransfers/user/2?sent=True
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: ShiftTransfers, Action: GetByUser
+Response Body: [{"id":1,"fromUserId":2,"toUserId":3,"transferDate":"2026-01-22T13:32:23.479858Z","isConfirmed":true},{"id":3,"fromUserId":2,"toUserId":3,"transferDate":"2026-01-22T20:09:21.582193Z","isConfirmed":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:33.9668774Z
+Method: GET
+URL: /api/ShiftTransfers/pending/2
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: ShiftTransfers, Action: GetPending
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:37.4783448Z
+Method: GET
+URL: /api/ShiftTransfers/user/3?sent=True
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: GetByUser
+Response Body: [{"id":2,"fromUserId":3,"toUserId":2,"transferDate":"2026-01-22T20:08:44.673774Z","isConfirmed":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:37.4899989Z
+Method: GET
+URL: /api/ShiftTransfers/pending/3
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: GetPending
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:43.6565596Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 29 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":27,"userId":3,"createdAt":"2026-01-22T20:09:43.5385739Z","message":"ч","location":"ч"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:09:52.9312776Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 24 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":28,"userId":2,"createdAt":"2026-01-22T20:09:52.8944756Z","message":"t","location":"d"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:10:02.5567231Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 34 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":29,"userId":3,"createdAt":"2026-01-22T20:10:02.430805Z","message":"фвы","location":"фа"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:10:21.1266547Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 24 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":30,"userId":3,"createdAt":"2026-01-22T20:10:21.0142997Z","message":"фыв","location":"фвы"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:10:29.3279814Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 25 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":31,"userId":2,"createdAt":"2026-01-22T20:10:29.1906845Z","message":"e","location":"rf"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:11:48.6632436Z
+Method: GET
+URL: /hubs/notifications?id=j1_QVdWA1cWdnMUglIL_nQ
+Status: 101
+Duration: 383750 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:16:02.3940041Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 745 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-22T09:33:33.991733Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:16:02.7164435Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"UGvOFYhGeBZAzXU5m4v-Aw","connectionToken":"a8umFapu9aPPIL6KC2gHVw","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:16:06.6779973Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 31 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":32,"userId":1,"createdAt":"2026-01-22T20:16:06.6503406Z","message":"s","location":"s"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:16:31.2923787Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1309 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":3,"login":"eva","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:16:34.1003382Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 45 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":33,"userId":3,"createdAt":"2026-01-22T20:16:33.9830521Z","message":"as","location":"as"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:16:43.8849726Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 28 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":34,"userId":3,"createdAt":"2026-01-22T20:16:43.7664151Z","message":"as","location":"as"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:16:54.7773315Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 32 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":35,"userId":2,"createdAt":"2026-01-22T20:16:54.62243Z","message":"d","location":"r"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:17:00.6095424Z
+Method: GET
+URL: /hubs/notifications?id=a8umFapu9aPPIL6KC2gHVw
+Status: 101
+Duration: 57824 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:17:05.9680140Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 545 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":3,"login":"eva","name":"Eva","surname":"EvaEva","email":"eva@eva.com","phone":"","createdAt":"2026-01-22T10:35:25.894086Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:17:06.0419831Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"H8RtB75msWAcvtCiTeFxRA","connectionToken":"tqzBc6pSihfXqS3-6NgirQ","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:17:16.8566744Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 40 ms
+UserId: 
+Client IP: ::ffff:192.168.1.210
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 12; CTR-L91 Build/HUAWEICTR-L91)
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":36,"userId":2,"createdAt":"2026-01-22T20:17:16.7161989Z","message":"d","location":"ri"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-22T20:18:14.6496168Z
+Method: GET
+URL: /hubs/notifications?id=tqzBc6pSihfXqS3-6NgirQ
+Status: 101
+Duration: 68324 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+

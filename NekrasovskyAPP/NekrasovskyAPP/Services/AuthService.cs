@@ -87,22 +87,20 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                // Проверяем логин "admin"
-                if (_currentUser != null && _currentUser.Login.Equals("admin", StringComparison.OrdinalIgnoreCase))
+                if (_currentUser?.Role != null)
                 {
-                    return true;
+                    var roleCode = _currentUser.Role.Code ?? string.Empty;
+                    var roleName = _currentUser.Role.Name ?? string.Empty;
+                    if (roleCode.Equals("Owner", StringComparison.OrdinalIgnoreCase) ||
+                        roleCode.Equals("Admin", StringComparison.OrdinalIgnoreCase) ||
+                        roleName.Equals("Владелец", StringComparison.OrdinalIgnoreCase) ||
+                        roleName.Equals("Администратор", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
                 }
 
-                // Проверяем через API разрешения
-                var hasAdminPermission = await _apiService.CheckPermissionAsync(userId, "Admin");
-                if (hasAdminPermission)
-                {
-                    return true;
-                }
-
-                // Проверяем наличие разрешения через список разрешений
-                var permissions = await _apiService.GetUserPermissionsAsync(userId);
-                return permissions.Any(p => p.Code.Equals("Admin", StringComparison.OrdinalIgnoreCase));
+                return false;
             }
             catch
             {

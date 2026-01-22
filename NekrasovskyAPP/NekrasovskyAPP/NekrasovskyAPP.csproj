@@ -70,6 +70,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AppDynamics.Agent" Version="2025.10.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.15" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.15" PrivateAssets="all">			
 		  <PrivateAssets>all</PrivateAssets>

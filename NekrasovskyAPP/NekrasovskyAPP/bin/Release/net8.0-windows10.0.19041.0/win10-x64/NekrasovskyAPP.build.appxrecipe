@@ -37,6 +37,9 @@
     <AppxPackagedFile Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\Resources\Raw\AboutAssets.txt">
       <PackagePath>AboutAssets.txt</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\Resources\Raw\alarm.mp3">
+      <PackagePath>alarm.mp3</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\server_ip.txt">
       <PackagePath>server_ip.txt</PackagePath>
     </AppxPackagedFile>
@@ -327,6 +330,9 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\microsoft.windowsappsdk\1.5.240802000\runtimes\win10-x64\native\Microsoft.WindowsAppRuntime.Bootstrap.dll">
       <PackagePath>Microsoft.WindowsAppRuntime.Bootstrap.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\R2R\AppDynamics.Agent.dll">
+      <PackagePath>AppDynamics.Agent.dll</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\R2R\BarcodeScanning.Native.Maui.dll">
       <PackagePath>BarcodeScanning.Native.Maui.dll</PackagePath>

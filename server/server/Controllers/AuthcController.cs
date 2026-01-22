@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NekrasovskyAPP.Domain;
-using NekrasovskyAPP.Models;
 using server.Services;
+using server.Data;
+using server.Models;
 
 namespace server.Controllers
 {
@@ -55,7 +55,7 @@ namespace server.Controllers
                 // Проверяем пароль с возможностью обновления
                 var verificationResult = _passwordService.VerifyPasswordWithUpgrade(
                     request.Password, 
-                    user.Password);
+                    user.EncryptedPassword);
 
                 if (!verificationResult.IsValid)
                 {
@@ -72,7 +72,7 @@ namespace server.Controllers
                 {
                     _logger.LogInformation($"Upgrading password hash for user '{user.Login}' from legacy format to BCrypt");
                     
-                    user.Password = verificationResult.NewHash;
+                    user.EncryptedPassword = verificationResult.NewHash;
                     _context.Users.Update(user);
                     await _context.SaveChangesAsync();
                     
@@ -130,10 +130,9 @@ namespace server.Controllers
                 {
                     Login = request.Login,
                     Email = request.Email,
-                    Password = _passwordService.HashPassword(request.Password),
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
-                    Patronymic = request.Patronymic
+                    EncryptedPassword = _passwordService.HashPassword(request.Password),
+                    Name = request.FirstName,
+                    Surname = request.LastName
                 };
 
                 _context.Users.Add(user);
@@ -171,13 +170,13 @@ namespace server.Controllers
                 }
 
                 // Проверяем старый пароль
-                if (!_passwordService.VerifyPassword(request.OldPassword, user.Password))
+                if (!_passwordService.VerifyPassword(request.OldPassword, user.EncryptedPassword))
                 {
                     return BadRequest(new { Message = "Неверный текущий пароль" });
                 }
 
                 // Устанавливаем новый пароль (автоматически используется BCrypt)
-                user.Password = _passwordService.HashPassword(request.NewPassword);
+                user.EncryptedPassword = _passwordService.HashPassword(request.NewPassword);
                 _context.Users.Update(user);
                 await _context.SaveChangesAsync();
 

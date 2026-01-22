@@ -13,3 +13,5 @@ These files will be deployed with your package and will be accessible using Esse
 
 		var contents = reader.ReadToEnd();
 	}
+
+Note: add alarm audio as Resources/Raw/alarm.mp3 for alarm playback.

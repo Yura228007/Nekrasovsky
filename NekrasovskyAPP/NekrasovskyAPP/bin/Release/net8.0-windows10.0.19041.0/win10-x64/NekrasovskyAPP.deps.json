@@ -9,6 +9,7 @@
     ".NETCoreApp,Version=v8.0/win10-x64": {
       "NekrasovskyAPP/1.0": {
         "dependencies": {
+          "AppDynamics.Agent": "2025.10.0",
           "BarcodeScanning.Native.Maui": "1.7.8",
           "Microsoft.AspNetCore.SignalR.Client": "8.0.0",
           "Microsoft.EntityFrameworkCore": "8.0.15",
@@ -33,6 +34,14 @@
           "WinRT.Runtime.dll": {
             "assemblyVersion": "2.2.0.0",
             "fileVersion": "2.2.0.48161"
+          }
+        }
+      },
+      "AppDynamics.Agent/2025.10.0": {
+        "runtime": {
+          "lib/netstandard2.1/AppDynamics.Agent.dll": {
+            "assemblyVersion": "2025.10.0.0",
+            "fileVersion": "2025.10.0.0"
           }
         }
       },
@@ -1023,6 +1032,13 @@
       "type": "runtimepack",
       "serviceable": false,
       "sha512": ""
+    },
+    "AppDynamics.Agent/2025.10.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xTqrTpWofDjp7ACA/XTxjT8TyothunSqCMzfDQQ9/cvXHGp5OBlpyssZJdG+QBzpeu7cdlg1I+KiKpDn0qLvpA==",
+      "path": "appdynamics.agent/2025.10.0",
+      "hashPath": "appdynamics.agent.2025.10.0.nupkg.sha512"
     },
     "BarcodeScanning.Native.Maui/1.7.8": {
       "type": "package",

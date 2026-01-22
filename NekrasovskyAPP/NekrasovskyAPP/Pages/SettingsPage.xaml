@@ -88,31 +88,7 @@
                            TextColor="{StaticResource Gray600}" />
                 </VerticalStackLayout>
             </Border>
-            
-            <!-- Actions Section -->
-            <Border BackgroundColor="{StaticResource BackgroundCard}"
-                    StrokeThickness="1"
-                    Stroke="{StaticResource BorderColor}"
-                    Padding="20">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="16"/>
-                </Border.StrokeShape>
-                <VerticalStackLayout Spacing="15">
-                    <Label Text="⚙️ Действия"
-                           FontSize="20"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource White}" />
-                    <Button Text="Очистить кэш"
-                            Clicked="OnClearCacheClicked"
-                            BackgroundColor="{StaticResource Warning}"
-                            TextColor="{StaticResource White}"
-                            CornerRadius="10" />
-                    <Label Text="Очистка кэша пока не реализована"
-                           FontSize="12"
-                           TextColor="{StaticResource Gray600}" />
-                </VerticalStackLayout>
-            </Border>
-            
+
         </VerticalStackLayout>
     </ScrollView>
     

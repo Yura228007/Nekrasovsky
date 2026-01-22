@@ -1,5 +1,6 @@
 using NekrasovskyAPP.ViewModels;
 using NekrasovskyAPP.Services;
+using NekrasovskyAPP.Models;
 
 namespace NekrasovskyAPP.Pages
 {
@@ -7,12 +8,56 @@ namespace NekrasovskyAPP.Pages
     {
         private readonly MainViewModel _mainViewModel;
         private readonly IAuthService _authService;
+        private readonly IApiService _apiService;
+        private readonly ISignalRService _signalRService;
+        private readonly IAlarmSoundService _alarmSoundService;
 
-        public AdminPage(MainViewModel mainViewModel, IAuthService authService)
+        public AdminPage(MainViewModel mainViewModel, IAuthService authService, IApiService apiService, ISignalRService signalRService, IAlarmSoundService alarmSoundService)
         {
             InitializeComponent();
             _mainViewModel = mainViewModel;
             _authService = authService;
+            _apiService = apiService;
+            _signalRService = signalRService;
+            _alarmSoundService = alarmSoundService;
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (!_signalRService.IsConnected)
+            {
+                try
+                {
+                    await _signalRService.ConnectAsync();
+                    SetupSignalRHandlers();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Ошибка подключения к SignalR: {ex.Message}");
+                }
+            }
+            else
+            {
+                SetupSignalRHandlers();
+            }
+        }
+
+        private void SetupSignalRHandlers()
+        {
+            _signalRService.SetOnAlarmNotification((message, location, user) =>
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    _alarmSoundService.PlayAlarmSound();
+                    await DisplayAlert(
+                        "🚨 ТРЕВОГА!",
+                        $"{message}\n\nМесто: {location}\nПользователь: {user}",
+                        "OK");
+                    _alarmSoundService.StopAlarmSound();
+                });
+            });
         }
 
         private async void OnUsersClicked(object sender, EventArgs e)
@@ -54,6 +99,64 @@ namespace NekrasovskyAPP.Pages
             
             // Навигация к LoginPage и сброс стека навигации
             await Shell.Current.GoToAsync("///LoginPage");
+        }
+
+        private async void OnAlarmClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_authService.CurrentUser == null)
+                {
+                    await DisplayAlert("Ошибка", "Пользователь не авторизован", "OK");
+                    return;
+                }
+
+                var location = await DisplayPromptAsync(
+                    "🚨 ТРЕВОГА",
+                    "Укажите место происшествия:",
+                    "Отправить",
+                    "Отмена",
+                    "Место",
+                    -1,
+                    Keyboard.Default);
+
+                if (string.IsNullOrWhiteSpace(location))
+                {
+                    return;
+                }
+
+                var message = await DisplayPromptAsync(
+                    "🚨 ТРЕВОГА",
+                    "Опишите ситуацию (необязательно):",
+                    "Отправить",
+                    "Пропустить",
+                    "Сообщение",
+                    -1,
+                    Keyboard.Default);
+
+                var alarmEvent = new AlarmEvent
+                {
+                    UserId = _authService.CurrentUser.Id,
+                    Location = location,
+                    Message = message ?? string.Empty,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                var response = await _apiService.AddAlarmEventAsync(alarmEvent);
+
+                if (response.AlarmEvent != null)
+                {
+                    await DisplayAlert("Успех", "Тревога отправлена! Все пользователи получат уведомление.", "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Ошибка", response.Message ?? "Не удалось отправить тревогу", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Ошибка", $"Произошла ошибка: {ex.Message}", "OK");
+            }
         }
     }
 }

@@ -21,6 +21,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         
@@ -41,9 +42,73 @@
                    PlaceholderColor="{StaticResource Gray600}"
                    BackgroundColor="Transparent" />
         </Border>
-        
+
+        <!-- Filter Panel -->
+        <Border Grid.Row="1"
+                BackgroundColor="{StaticResource BackgroundCard}"
+                StrokeThickness="1"
+                Stroke="{StaticResource BorderColor}"
+                Padding="15,10"
+                Margin="15,0,15,10">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Фильтр по типу -->
+                <Picker Grid.Column="0"
+                        x:Name="TypePicker"
+                        Title="Тип склада"
+                        SelectedIndexChanged="OnFilterChanged"
+                        TextColor="{StaticResource Gray200}"
+                        TitleColor="{StaticResource Gray600}">
+                    <Picker.Items>
+                        <x:String>Все</x:String>
+                        <x:String>Цех</x:String>
+                        <x:String>Склад</x:String>
+                        <x:String>Производство</x:String>
+                    </Picker.Items>
+                </Picker>
+
+                <!-- Фильтр по статусу -->
+                <Picker Grid.Column="1"
+                        x:Name="StatusPicker"
+                        Title="Статус"
+                        SelectedIndexChanged="OnFilterChanged"
+                        TextColor="{StaticResource Gray200}"
+                        TitleColor="{StaticResource Gray600}"
+                        Margin="5,0">
+                    <Picker.Items>
+                        <x:String>Все</x:String>
+                        <x:String>Активные</x:String>
+                        <x:String>Остановлены</x:String>
+                    </Picker.Items>
+                </Picker>
+
+                <!-- Сортировка -->
+                <Picker Grid.Column="2"
+                        x:Name="SortPicker"
+                        Title="Сортировка"
+                        SelectedIndexChanged="OnFilterChanged"
+                        TextColor="{StaticResource Gray200}"
+                        TitleColor="{StaticResource Gray600}">
+                    <Picker.Items>
+                        <x:String>По имени ↑</x:String>
+                        <x:String>По имени ↓</x:String>
+                        <x:String>По типу ↑</x:String>
+                        <x:String>По типу ↓</x:String>
+                    </Picker.Items>
+                </Picker>
+            </Grid>
+        </Border>
+
         <!-- Warehouses List -->
-        <RefreshView Grid.Row="1" 
+        <RefreshView Grid.Row="2" 
                      IsRefreshing="{Binding IsLoading}"
                      Refreshing="OnRefreshing">
             <CollectionView x:Name="WarehousesCollectionView"
@@ -90,7 +155,7 @@
         </RefreshView>
         
         <!-- Loading Indicator -->
-        <ActivityIndicator Grid.Row="1"
+        <ActivityIndicator Grid.Row="2"
                           IsRunning="{Binding IsLoading}"
                           IsVisible="{Binding IsLoading}"
                           Color="{StaticResource Accent}"

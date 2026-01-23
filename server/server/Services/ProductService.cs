@@ -25,7 +25,7 @@ namespace server.Services
             return await _context.Products.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Product>> SearchProductsAsync(string? name, string? code)
+        public async Task<IEnumerable<Product>> SearchProductsAsync(string? name, string? code, bool? isActive = null, string? sortBy = null)
         {
             var query = _context.Products.AsQueryable();
 
@@ -34,6 +34,19 @@ namespace server.Services
 
             if (!string.IsNullOrWhiteSpace(code))
                 query = query.Where(p => p.Code != null && EF.Functions.ILike(p.Code, $"%{code}%"));
+
+            if (isActive.HasValue)
+                query = query.Where(p => p.IsActive == isActive.Value);
+
+            // Сортировка
+            query = sortBy?.ToLower() switch
+            {
+                "name" => query.OrderBy(p => p.Name),
+                "name_desc" => query.OrderByDescending(p => p.Name),
+                "code" => query.OrderBy(p => p.Code),
+                "code_desc" => query.OrderByDescending(p => p.Code),
+                _ => query.OrderBy(p => p.Name) // По умолчанию
+            };
 
             return await query.ToListAsync();
         }
@@ -59,6 +72,7 @@ namespace server.Services
             product.Description = updatedProduct.Description;
             product.Code = updatedProduct.Code;
             product.MeasuringUnit = updatedProduct.MeasuringUnit;
+            product.IsActive = updatedProduct.IsActive;
 
             await _context.SaveChangesAsync();
 

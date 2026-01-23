@@ -35,24 +35,73 @@ namespace NekrasovskyAPP.Pages
         private async void OnSearchTextChanged(object? sender, TextChangedEventArgs e)
         {
             var searchText = e.NewTextValue ?? string.Empty;
-            
+
             if (searchText == _lastSearchText)
                 return;
-            
+
             _lastSearchText = searchText;
 
-            if (string.IsNullOrWhiteSpace(searchText))
+            await ApplyFiltersAsync();
+        }
+
+        private async void OnFilterChanged(object? sender, EventArgs e)
+        {
+            await ApplyFiltersAsync();
+        }
+
+        private async Task ApplyFiltersAsync()
+        {
+            var searchText = SearchEntry.Text ?? string.Empty;
+
+            // Если нет поиска и все фильтры не выбраны, загружаем все склады
+            if (string.IsNullOrWhiteSpace(searchText) &&
+                (TypePicker.SelectedIndex <= 0) &&
+                (StatusPicker.SelectedIndex <= 0) &&
+                (SortPicker.SelectedIndex < 0))
             {
                 await _viewModel.LoadWarehousesAsync();
+                return;
             }
-            else
+
+            // Получаем имя из строки поиска
+            string? name = null;
+            if (!string.IsNullOrWhiteSpace(searchText))
             {
                 var parts = searchText.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                var name = parts.Length > 0 ? parts[0] : null;
-                var type = parts.Length > 1 ? parts[1] : null;
-                
-                await _viewModel.SearchWarehousesAsync(name, type);
+                name = parts.Length > 0 ? parts[0] : null;
             }
+
+            // Фильтр по типу
+            string? type = null;
+            if (TypePicker.SelectedIndex > 0 && TypePicker.SelectedItem != null)
+            {
+                var selectedType = TypePicker.SelectedItem.ToString();
+                if (selectedType != "Все")
+                    type = selectedType;
+            }
+
+            // Фильтр по статусу
+            bool? isActive = null;
+            if (StatusPicker.SelectedIndex == 1)
+                isActive = true;
+            else if (StatusPicker.SelectedIndex == 2)
+                isActive = false;
+
+            // Сортировка
+            string? sortBy = null;
+            if (SortPicker.SelectedIndex >= 0)
+            {
+                sortBy = SortPicker.SelectedIndex switch
+                {
+                    0 => "name",
+                    1 => "name_desc",
+                    2 => "type",
+                    3 => "type_desc",
+                    _ => null
+                };
+            }
+
+            await _viewModel.SearchWarehousesAsync(name, type, isActive, sortBy);
         }
 
         private async void OnAddClicked(object? sender, EventArgs e)

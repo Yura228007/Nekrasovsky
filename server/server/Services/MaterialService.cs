@@ -25,7 +25,7 @@ namespace server.Services
             return await _context.Materials.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Material>> SearchMaterialsAsync(string? name, string? code)
+        public async Task<IEnumerable<Material>> SearchMaterialsAsync(string? name, string? code, bool? isActive = null, string? sortBy = null)
         {
             var query = _context.Materials.AsQueryable();
 
@@ -34,6 +34,19 @@ namespace server.Services
 
             if (!string.IsNullOrWhiteSpace(code))
                 query = query.Where(m => m.Code != null && EF.Functions.ILike(m.Code, $"%{code}%"));
+
+            if (isActive.HasValue)
+                query = query.Where(m => m.IsActive == isActive.Value);
+
+            // Сортировка
+            query = sortBy?.ToLower() switch
+            {
+                "name" => query.OrderBy(m => m.Name),
+                "name_desc" => query.OrderByDescending(m => m.Name),
+                "code" => query.OrderBy(m => m.Code),
+                "code_desc" => query.OrderByDescending(m => m.Code),
+                _ => query.OrderBy(m => m.Name) // По умолчанию
+            };
 
             return await query.ToListAsync();
         }
@@ -66,6 +79,7 @@ namespace server.Services
             material.Description = updatedMaterial.Description;
             material.Code = updatedMaterial.Code;
             material.MeasuringUnit = updatedMaterial.MeasuringUnit;
+            material.IsActive = updatedMaterial.IsActive;
 
             await _context.SaveChangesAsync();
 

@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:NekrasovskyAPP.Converters"
              x:Class="NekrasovskyAPP.Pages.MaterialsPage"
              Title="Материалы"
              BackgroundColor="{StaticResource BackgroundDark}">
-    
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToStatusTextConverter x:Key="BoolToStatusTextConverter" />
+            <converters:BoolToStatusColorConverter x:Key="BoolToStatusColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
         <ToolbarItem Text="Добавить" Clicked="OnAddClicked" />
@@ -12,6 +20,7 @@
     
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -33,9 +42,58 @@
                    PlaceholderColor="{StaticResource Gray600}"
                    BackgroundColor="Transparent" />
         </Border>
-        
+
+        <!-- Filter Panel -->
+        <Border Grid.Row="1"
+                BackgroundColor="{StaticResource BackgroundCard}"
+                StrokeThickness="1"
+                Stroke="{StaticResource BorderColor}"
+                Padding="15,10"
+                Margin="15,0,15,10">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Фильтр по статусу -->
+                <Picker Grid.Column="0"
+                        x:Name="StatusPicker"
+                        Title="Статус"
+                        SelectedIndexChanged="OnFilterChanged"
+                        TextColor="{StaticResource Gray200}"
+                        TitleColor="{StaticResource Gray600}"
+                        Margin="0,0,5,0">
+                    <Picker.Items>
+                        <x:String>Все</x:String>
+                        <x:String>Активные</x:String>
+                        <x:String>Неактивные</x:String>
+                    </Picker.Items>
+                </Picker>
+
+                <!-- Сортировка -->
+                <Picker Grid.Column="1"
+                        x:Name="SortPicker"
+                        Title="Сортировка"
+                        SelectedIndexChanged="OnFilterChanged"
+                        TextColor="{StaticResource Gray200}"
+                        TitleColor="{StaticResource Gray600}"
+                        Margin="5,0,0,0">
+                    <Picker.Items>
+                        <x:String>По имени ↑</x:String>
+                        <x:String>По имени ↓</x:String>
+                        <x:String>По коду ↑</x:String>
+                        <x:String>По коду ↓</x:String>
+                    </Picker.Items>
+                </Picker>
+            </Grid>
+        </Border>
+
         <!-- Materials List -->
-        <RefreshView Grid.Row="1" 
+        <RefreshView Grid.Row="2" 
                      IsRefreshing="{Binding IsLoading}"
                      Refreshing="OnRefreshing">
             <CollectionView x:Name="MaterialsCollectionView"
@@ -53,10 +111,24 @@
                                 <RoundRectangle CornerRadius="12"/>
                             </Border.StrokeShape>
                             <VerticalStackLayout Spacing="6">
-                                <Label Text="{Binding Name}"
-                                       FontSize="18"
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource White}" />
+                                <HorizontalStackLayout Spacing="10">
+                                    <Label Text="{Binding Name}"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource White}"
+                                           VerticalOptions="Center" />
+                                    <Border BackgroundColor="{Binding IsActive, Converter={StaticResource BoolToStatusColorConverter}}"
+                                            Padding="8,4">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="6"/>
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding IsActive, Converter={StaticResource BoolToStatusTextConverter}}"
+                                               FontSize="12"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource White}"
+                                               VerticalOptions="Center" />
+                                    </Border>
+                                </HorizontalStackLayout>
                                 <Label Text="{Binding Code, StringFormat='Код: {0}'}"
                                        FontSize="14"
                                        TextColor="{StaticResource Gray400}" />
@@ -71,7 +143,7 @@
         </RefreshView>
         
         <!-- Loading Indicator -->
-        <ActivityIndicator Grid.Row="1"
+        <ActivityIndicator Grid.Row="2"
                           IsRunning="{Binding IsLoading}"
                           IsVisible="{Binding IsLoading}"
                           Color="{StaticResource Accent}"

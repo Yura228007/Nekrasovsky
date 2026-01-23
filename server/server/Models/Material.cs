@@ -23,6 +23,10 @@ namespace server.Models
         [Required]
         [Column(TypeName = "varchar(20)")]
         public string MeasuringUnit { get; set; } = "??";
+
+        [Required]
+        [Column(TypeName = "boolean")]
+        public bool IsActive { get; set; } = true;
     }
 
 }

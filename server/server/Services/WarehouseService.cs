@@ -32,7 +32,7 @@ namespace server.Services
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Warehouse>> SearchWarehousesAsync(string? name, string? type)
+        public async Task<IEnumerable<Warehouse>> SearchWarehousesAsync(string? name, string? type, bool? isActive = null, string? sortBy = null)
         {
             var query = _context.Warehouses.AsQueryable();
 
@@ -41,6 +41,19 @@ namespace server.Services
 
             if (!string.IsNullOrWhiteSpace(type))
                 query = query.Where(w => w.Type == type);
+
+            if (isActive.HasValue)
+                query = query.Where(w => w.IsActive == isActive.Value);
+
+            // Сортировка
+            query = sortBy?.ToLower() switch
+            {
+                "name" => query.OrderBy(w => w.Name),
+                "name_desc" => query.OrderByDescending(w => w.Name),
+                "type" => query.OrderBy(w => w.Type),
+                "type_desc" => query.OrderByDescending(w => w.Type),
+                _ => query.OrderBy(w => w.Name) // По умолчанию
+            };
 
             return await query.ToListAsync();
         }

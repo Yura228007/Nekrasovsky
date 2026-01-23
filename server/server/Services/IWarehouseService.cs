@@ -7,7 +7,7 @@ namespace server.Services
         Task<IEnumerable<Warehouse>> GetAllWarehousesAsync();
         Task<Warehouse?> GetWarehouseByIdAsync(int id);
         Task<IEnumerable<Warehouse>> GetWarehousesByTypeAsync(string type);
-        Task<IEnumerable<Warehouse>> SearchWarehousesAsync(string? name, string? type);
+        Task<IEnumerable<Warehouse>> SearchWarehousesAsync(string? name, string? type, bool? isActive = null, string? sortBy = null);
         Task<Warehouse> CreateWarehouseAsync(Warehouse warehouse);
         Task<Warehouse> UpdateWarehouseAsync(int id, Warehouse updatedWarehouse);
         Task<bool> DeleteWarehouseAsync(int id);

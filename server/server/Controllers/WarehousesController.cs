@@ -83,13 +83,17 @@ namespace server.Controllers
             }
         }
 
-        // GET: api/warehouses/search?name=&type=
+        // GET: api/warehouses/search?name=&type=&isActive=&sortBy=
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<Warehouse>>> Search([FromQuery] string? name, [FromQuery] string? type)
+        public async Task<ActionResult<IEnumerable<Warehouse>>> Search(
+            [FromQuery] string? name,
+            [FromQuery] string? type,
+            [FromQuery] bool? isActive,
+            [FromQuery] string? sortBy)
         {
             try
             {
-                var warehouses = await _warehouseService.SearchWarehousesAsync(name, type);
+                var warehouses = await _warehouseService.SearchWarehousesAsync(name, type, isActive, sortBy);
                 return Ok(warehouses);
             }
             catch (Exception ex)

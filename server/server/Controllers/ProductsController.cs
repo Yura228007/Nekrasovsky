@@ -61,13 +61,17 @@ namespace server.Controllers
             }
         }
 
-        // GET: api/products/search?name=&code=
+        // GET: api/products/search?name=&code=&isActive=&sortBy=
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<Product>>> Search([FromQuery] string? name, [FromQuery] string? code)
+        public async Task<ActionResult<IEnumerable<Product>>> Search(
+            [FromQuery] string? name,
+            [FromQuery] string? code,
+            [FromQuery] bool? isActive,
+            [FromQuery] string? sortBy)
         {
             try
             {
-                var products = await _productService.SearchProductsAsync(name, code);
+                var products = await _productService.SearchProductsAsync(name, code, isActive, sortBy);
                 return Ok(products);
             }
             catch (Exception ex)

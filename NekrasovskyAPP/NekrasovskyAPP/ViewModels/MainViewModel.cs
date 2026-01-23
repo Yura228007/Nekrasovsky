@@ -187,13 +187,13 @@ namespace NekrasovskyAPP.ViewModels
             }
         }
 
-        public async Task SearchProductsAsync(string? name, string? code)
+        public async Task SearchProductsAsync(string? name, string? code, bool? isActive = null, string? sortBy = null)
         {
             try
             {
                 IsLoading = true;
                 ErrorMessage = string.Empty;
-                var products = await _apiService.SearchProductsAsync(name, code);
+                var products = await _apiService.SearchProductsAsync(name, code, isActive, sortBy);
                 Products.Clear();
                 foreach (var product in products)
                 {
@@ -210,13 +210,13 @@ namespace NekrasovskyAPP.ViewModels
             }
         }
 
-        public async Task SearchMaterialsAsync(string? name, string? code)
+        public async Task SearchMaterialsAsync(string? name, string? code, bool? isActive = null, string? sortBy = null)
         {
             try
             {
                 IsLoading = true;
                 ErrorMessage = string.Empty;
-                var materials = await _apiService.SearchMaterialsAsync(name, code);
+                var materials = await _apiService.SearchMaterialsAsync(name, code, isActive, sortBy);
                 Materials.Clear();
                 foreach (var material in materials)
                 {
@@ -233,13 +233,13 @@ namespace NekrasovskyAPP.ViewModels
             }
         }
 
-        public async Task SearchWarehousesAsync(string? name, string? type)
+        public async Task SearchWarehousesAsync(string? name, string? type, bool? isActive = null, string? sortBy = null)
         {
             try
             {
                 IsLoading = true;
                 ErrorMessage = string.Empty;
-                var warehouses = await _apiService.SearchWarehousesAsync(name, type);
+                var warehouses = await _apiService.SearchWarehousesAsync(name, type, isActive, sortBy);
                 Warehouses.Clear();
                 foreach (var warehouse in warehouses)
                 {

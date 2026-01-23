@@ -7,10 +7,45 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace server.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AddIsActiveColumns : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            // Add IsActive column to Material table
+            migrationBuilder.AddColumn<bool>(
+                name: "IsActive",
+                table: "Material",
+                type: "boolean",
+                nullable: false,
+                defaultValue: true);
+
+            // Add IsActive column to Product table
+            migrationBuilder.AddColumn<bool>(
+                name: "IsActive",
+                table: "Product",
+                type: "boolean",
+                nullable: false,
+                defaultValue: true);
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            // Remove IsActive column from Material table
+            migrationBuilder.DropColumn(
+                name: "IsActive",
+                table: "Material");
+
+            // Remove IsActive column from Product table
+            migrationBuilder.DropColumn(
+                name: "IsActive",
+                table: "Product");
+        }
+    }
+}
+/* OLD VERSION - Creating all tables
+        protected override void Up_OLD(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
                 name: "Material",
@@ -21,7 +56,8 @@ namespace server.Migrations
                     Name = table.Column<string>(type: "varchar(100)", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Code = table.Column<string>(type: "varchar(50)", nullable: true),
-                    MeasuringUnit = table.Column<string>(type: "varchar(20)", nullable: false)
+                    MeasuringUnit = table.Column<string>(type: "varchar(20)", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,7 +88,8 @@ namespace server.Migrations
                     Name = table.Column<string>(type: "varchar(100)", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Code = table.Column<string>(type: "varchar(50)", nullable: true),
-                    MeasuringUnit = table.Column<string>(type: "varchar(20)", nullable: false)
+                    MeasuringUnit = table.Column<string>(type: "varchar(20)", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -499,8 +536,7 @@ namespace server.Migrations
                 column: "UserId");
         }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
+        protected override void Down_OLD(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "AccessibleMovement");
@@ -550,5 +586,4 @@ namespace server.Migrations
             migrationBuilder.DropTable(
                 name: "Role");
         }
-    }
-}
+*/

@@ -105,6 +105,9 @@ namespace server.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("MeasuringUnit")
                         .IsRequired()
                         .HasColumnType("varchar(20)");
@@ -206,6 +209,9 @@ namespace server.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("MeasuringUnit")
                         .IsRequired()

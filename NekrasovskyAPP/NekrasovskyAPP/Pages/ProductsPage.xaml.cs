@@ -39,17 +39,37 @@ namespace NekrasovskyAPP.Pages
         private async void OnSearchTextChanged(object? sender, TextChangedEventArgs e)
         {
             var searchText = e.NewTextValue ?? string.Empty;
-            
+
             if (searchText == _lastSearchText)
                 return;
-            
+
             _lastSearchText = searchText;
 
-            if (string.IsNullOrWhiteSpace(searchText))
+            await ApplyFiltersAsync();
+        }
+
+        private async void OnFilterChanged(object? sender, EventArgs e)
+        {
+            await ApplyFiltersAsync();
+        }
+
+        private async Task ApplyFiltersAsync()
+        {
+            var searchText = SearchEntry.Text ?? string.Empty;
+
+            // Если нет поиска и все фильтры не выбраны, загружаем все продукты
+            if (string.IsNullOrWhiteSpace(searchText) &&
+                (StatusPicker.SelectedIndex <= 0) &&
+                (SortPicker.SelectedIndex < 0))
             {
                 await _viewModel.LoadProductsAsync();
+                return;
             }
-            else
+
+            // Получаем имя и код из строки поиска
+            string? name = null;
+            string? code = null;
+            if (!string.IsNullOrWhiteSpace(searchText))
             {
                 var parts = searchText.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 var searchTerm = string.Join(" ", parts);
@@ -59,15 +79,36 @@ namespace NekrasovskyAPP.Pages
 
                 if (isLikelyCode)
                 {
-                    // Если похоже на код - ищем только по коду
-                    await _viewModel.SearchProductsAsync(null, searchTerm);
+                    code = searchTerm;
                 }
                 else
                 {
-                    // Иначе ищем только по имени
-                    await _viewModel.SearchProductsAsync(searchTerm, null);
+                    name = searchTerm;
                 }
             }
+
+            // Фильтр по статусу
+            bool? isActive = null;
+            if (StatusPicker.SelectedIndex == 1)
+                isActive = true;
+            else if (StatusPicker.SelectedIndex == 2)
+                isActive = false;
+
+            // Сортировка
+            string? sortBy = null;
+            if (SortPicker.SelectedIndex >= 0)
+            {
+                sortBy = SortPicker.SelectedIndex switch
+                {
+                    0 => "name",
+                    1 => "name_desc",
+                    2 => "code",
+                    3 => "code_desc",
+                    _ => null
+                };
+            }
+
+            await _viewModel.SearchProductsAsync(name, code, isActive, sortBy);
         }
 
         private async void OnScanBarcodeClicked(object? sender, EventArgs e)

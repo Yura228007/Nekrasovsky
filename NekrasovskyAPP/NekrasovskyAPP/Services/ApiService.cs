@@ -220,14 +220,16 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<List<Product>> SearchProductsAsync(string? name, string? code)
+        public async Task<List<Product>> SearchProductsAsync(string? name, string? code, bool? isActive = null, string? sortBy = null)
         {
             try
             {
                 var queryParams = new List<string>();
                 if (!string.IsNullOrEmpty(name)) queryParams.Add($"name={Uri.EscapeDataString(name)}");
                 if (!string.IsNullOrEmpty(code)) queryParams.Add($"code={Uri.EscapeDataString(code)}");
-                
+                if (isActive.HasValue) queryParams.Add($"isActive={isActive.Value.ToString().ToLower()}");
+                if (!string.IsNullOrEmpty(sortBy)) queryParams.Add($"sortBy={Uri.EscapeDataString(sortBy)}");
+
                 var query = queryParams.Any() ? "?" + string.Join("&", queryParams) : "";
                 var response = await _httpClient.GetAsync($"api/products/search{query}");
                 response.EnsureSuccessStatusCode();
@@ -328,14 +330,16 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<List<Material>> SearchMaterialsAsync(string? name, string? code)
+        public async Task<List<Material>> SearchMaterialsAsync(string? name, string? code, bool? isActive = null, string? sortBy = null)
         {
             try
             {
                 var queryParams = new List<string>();
                 if (!string.IsNullOrEmpty(name)) queryParams.Add($"name={Uri.EscapeDataString(name)}");
                 if (!string.IsNullOrEmpty(code)) queryParams.Add($"code={Uri.EscapeDataString(code)}");
-                
+                if (isActive.HasValue) queryParams.Add($"isActive={isActive.Value.ToString().ToLower()}");
+                if (!string.IsNullOrEmpty(sortBy)) queryParams.Add($"sortBy={Uri.EscapeDataString(sortBy)}");
+
                 var query = queryParams.Any() ? "?" + string.Join("&", queryParams) : "";
                 var response = await _httpClient.GetAsync($"api/materials/search{query}");
                 response.EnsureSuccessStatusCode();
@@ -436,14 +440,16 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<List<Warehouse>> SearchWarehousesAsync(string? name, string? type)
+        public async Task<List<Warehouse>> SearchWarehousesAsync(string? name, string? type, bool? isActive = null, string? sortBy = null)
         {
             try
             {
                 var queryParams = new List<string>();
                 if (!string.IsNullOrEmpty(name)) queryParams.Add($"name={Uri.EscapeDataString(name)}");
                 if (!string.IsNullOrEmpty(type)) queryParams.Add($"type={Uri.EscapeDataString(type)}");
-                
+                if (isActive.HasValue) queryParams.Add($"isActive={isActive.Value.ToString().ToLower()}");
+                if (!string.IsNullOrEmpty(sortBy)) queryParams.Add($"sortBy={Uri.EscapeDataString(sortBy)}");
+
                 var query = queryParams.Any() ? "?" + string.Join("&", queryParams) : "";
                 var response = await _httpClient.GetAsync($"api/warehouses/search{query}");
                 response.EnsureSuccessStatusCode();

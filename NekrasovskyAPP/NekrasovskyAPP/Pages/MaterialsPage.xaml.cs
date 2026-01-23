@@ -35,24 +35,65 @@ namespace NekrasovskyAPP.Pages
         private async void OnSearchTextChanged(object? sender, TextChangedEventArgs e)
         {
             var searchText = e.NewTextValue ?? string.Empty;
-            
+
             if (searchText == _lastSearchText)
                 return;
-            
+
             _lastSearchText = searchText;
 
-            if (string.IsNullOrWhiteSpace(searchText))
+            await ApplyFiltersAsync();
+        }
+
+        private async void OnFilterChanged(object? sender, EventArgs e)
+        {
+            await ApplyFiltersAsync();
+        }
+
+        private async Task ApplyFiltersAsync()
+        {
+            var searchText = SearchEntry.Text ?? string.Empty;
+
+            // Если нет поиска и все фильтры не выбраны, загружаем все материалы
+            if (string.IsNullOrWhiteSpace(searchText) &&
+                (StatusPicker.SelectedIndex <= 0) &&
+                (SortPicker.SelectedIndex < 0))
             {
                 await _viewModel.LoadMaterialsAsync();
+                return;
             }
-            else
+
+            // Получаем имя и код из строки поиска
+            string? name = null;
+            string? code = null;
+            if (!string.IsNullOrWhiteSpace(searchText))
             {
                 var parts = searchText.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                var name = parts.Length > 0 ? parts[0] : null;
-                var code = parts.Length > 1 ? parts[1] : null;
-                
-                await _viewModel.SearchMaterialsAsync(name, code);
+                name = parts.Length > 0 ? parts[0] : null;
+                code = parts.Length > 1 ? parts[1] : null;
             }
+
+            // Фильтр по статусу
+            bool? isActive = null;
+            if (StatusPicker.SelectedIndex == 1)
+                isActive = true;
+            else if (StatusPicker.SelectedIndex == 2)
+                isActive = false;
+
+            // Сортировка
+            string? sortBy = null;
+            if (SortPicker.SelectedIndex >= 0)
+            {
+                sortBy = SortPicker.SelectedIndex switch
+                {
+                    0 => "name",
+                    1 => "name_desc",
+                    2 => "code",
+                    3 => "code_desc",
+                    _ => null
+                };
+            }
+
+            await _viewModel.SearchMaterialsAsync(name, code, isActive, sortBy);
         }
 
         private async void OnAddClicked(object? sender, EventArgs e)

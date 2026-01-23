@@ -1,3 +1,4 @@
+using System;
 using NekrasovskyAPP.Models;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -10,6 +11,7 @@ namespace NekrasovskyAPP.Services
         private readonly IApiService _apiService;
         private User? _currentUser;
         private readonly JsonSerializerOptions _jsonOptions;
+        public event EventHandler? CurrentUserChanged;
 
         public AuthService(IApiService apiService)
         {
@@ -47,6 +49,7 @@ namespace NekrasovskyAPP.Services
                 {
                     apiService.SetCurrentUserId(_currentUser.Id);
                 }
+                NotifyCurrentUserChanged();
                 return new LoginResult
                 {
                     User = _currentUser,
@@ -116,6 +119,12 @@ namespace NekrasovskyAPP.Services
             {
                 apiService.SetCurrentUserId(null);
             }
+            NotifyCurrentUserChanged();
+        }
+
+        private void NotifyCurrentUserChanged()
+        {
+            CurrentUserChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

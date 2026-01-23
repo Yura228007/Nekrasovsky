@@ -4,5 +4,15 @@
         <name>NekrasovskyAPP</name>
     </assembly>
     <members>
+        <member name="M:NekrasovskyAPP.Services.ApiService.SetCurrentUserId(System.Nullable{System.Int32})">
+            <summary>
+            Устанавливает ID текущего пользователя для добавления в заголовки запросов
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.LoginViewModel.ClearState">
+            <summary>
+            Очищает состояние ViewModel (используется при выходе или возврате на страницу входа)
+            </summary>
+        </member>
     </members>
 </doc>

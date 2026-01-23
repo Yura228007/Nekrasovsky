@@ -53,7 +53,9 @@ namespace NekrasovskyAPP
             builder.Services.AddTransient<HomePage>();
             builder.Services.AddTransient<AdminPage>();
             builder.Services.AddTransient<UsersPage>(sp => 
-                new UsersPage(sp.GetRequiredService<MainViewModel>()));
+                new UsersPage(
+                    sp.GetRequiredService<MainViewModel>(),
+                    sp.GetRequiredService<IAuthService>()));
             builder.Services.AddTransient<ProductsPage>(sp => 
                 new ProductsPage(sp.GetRequiredService<MainViewModel>()));
             builder.Services.AddTransient<MaterialsPage>(sp => 

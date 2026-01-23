@@ -16,7 +16,7 @@ namespace NekrasovskyAPP.Services
         // Products
         Task<List<Product>> GetAllProductsAsync();
         Task<Product?> GetProductByIdAsync(int id);
-        Task<List<Product>> SearchProductsAsync(string? name, string? code);
+        Task<List<Product>> SearchProductsAsync(string? name, string? code, bool? isActive = null, string? sortBy = null);
         Task<ApiResponse<Product>> AddProductAsync(Product product);
         Task<ApiResponse<Product>> EditProductAsync(int id, Product product);
         Task<ApiResponse<object>> DeleteProductAsync(int id);
@@ -24,7 +24,7 @@ namespace NekrasovskyAPP.Services
         // Materials
         Task<List<Material>> GetAllMaterialsAsync();
         Task<Material?> GetMaterialByIdAsync(int id);
-        Task<List<Material>> SearchMaterialsAsync(string? name, string? code);
+        Task<List<Material>> SearchMaterialsAsync(string? name, string? code, bool? isActive = null, string? sortBy = null);
         Task<ApiResponse<Material>> AddMaterialAsync(Material material);
         Task<ApiResponse<Material>> EditMaterialAsync(int id, Material material);
         Task<ApiResponse<object>> DeleteMaterialAsync(int id);
@@ -32,7 +32,7 @@ namespace NekrasovskyAPP.Services
         // Warehouses
         Task<List<Warehouse>> GetAllWarehousesAsync();
         Task<Warehouse?> GetWarehouseByIdAsync(int id);
-        Task<List<Warehouse>> SearchWarehousesAsync(string? name, string? type);
+        Task<List<Warehouse>> SearchWarehousesAsync(string? name, string? type, bool? isActive = null, string? sortBy = null);
         Task<ApiResponse<Warehouse>> AddWarehouseAsync(Warehouse warehouse);
         Task<ApiResponse<Warehouse>> EditWarehouseAsync(int id, Warehouse warehouse);
         Task<ApiResponse<object>> DeleteWarehouseAsync(int id);

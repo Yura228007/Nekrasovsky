@@ -332,10 +332,6 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.WindowsAppRuntime.Bootstrap.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.Windows.SDK.NET.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\WinRT.Runtime.dll
-D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.Maui.Controls.HotReload.Forms.dll
-D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
-D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.VisualStudio.DesignTools.TapContract.dll
-D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\NekrasovskyAPP.csproj.AssemblyReference.cache
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\mauiimage.inputs
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\mauifont.inputs
@@ -438,3 +434,14 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\MultipleQualifiersPerDimensionFound.txt
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\NekrasovskyAPP.genpublishdeps.cache
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\ProjectArchitectures.txt
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\server_ip.txt
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\AppDynamics.Agent.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\BarcodeScanning.Native.Maui.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.Connections.Abstractions.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.Http.Connections.Client.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.Http.Connections.Common.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.SignalR.Client.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.SignalR.Client.Core.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.SignalR.Common.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.Extensions.Features.dll

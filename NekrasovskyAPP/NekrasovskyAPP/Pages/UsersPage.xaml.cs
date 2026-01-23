@@ -1,6 +1,7 @@
 using NekrasovskyAPP.ViewModels;
 using NekrasovskyAPP.Models;
 using System.Linq;
+using NekrasovskyAPP.Services;
 
 namespace NekrasovskyAPP.Pages
 {
@@ -10,7 +11,7 @@ namespace NekrasovskyAPP.Pages
         private readonly IAuthService _authService;
         private string _lastSearchText = string.Empty;
 
-        public UsersPage(MainViewModel viewModel)
+        public UsersPage(MainViewModel viewModel, IAuthService authService)
         {
             InitializeComponent();
             _viewModel = viewModel;
@@ -77,11 +78,10 @@ namespace NekrasovskyAPP.Pages
 
                     case "Удалить":
 
-
                         if (_authService.CurrentUser  != null && _authService.CurrentUser.Id == selectedUser.Id)
                         {
                             await DisplayAlert("Ошибка", "Вы не можете удалить самого себя", "OK");
-                            return;
+                            break;
                         }
 
                         var confirm = await DisplayAlert(
@@ -144,32 +144,36 @@ namespace NekrasovskyAPP.Pages
             int? selectedRoleId = existingUser?.RoleId;
             if (_viewModel.Roles.Any())
             {
-                var roleOptions = new List<string> { "Без роли" };
-                roleOptions.AddRange(_viewModel.Roles.Select(r => r.Name));
-                
-                // Определяем текущую выбранную роль для отображения
-                var currentRoleName = existingUser?.Role?.Name ?? "Без роли";
-                
-                var selectedRoleIndex = await DisplayActionSheet(
-                    "Выберите роль:",
-                    "Отмена",
-                    null,
-                    roleOptions.ToArray());
+                if (existingUser != null && _authService.CurrentUser != null && existingUser.Id == _authService.CurrentUser.Id)
+                {
+                    await DisplayAlert("Ограничение", "Вы не можете менять свою роль.", "OK");
+                }
+                else
+                {
+                    var roleOptions = new List<string> { "Без роли" };
+                    roleOptions.AddRange(_viewModel.Roles.Select(r => r.Name));
+                    
+                    var selectedRoleIndex = await DisplayActionSheet(
+                        "Выберите роль:",
+                        "Отмена",
+                        null,
+                        roleOptions.ToArray());
 
-                if (selectedRoleIndex == "Отмена")
-                {
-                    return; // Пользователь отменил операцию
-                }
-                else if (selectedRoleIndex == "Без роли" || string.IsNullOrEmpty(selectedRoleIndex))
-                {
-                    selectedRoleId = null;
-                }
-                else if (!string.IsNullOrEmpty(selectedRoleIndex))
-                {
-                    var selectedRole = _viewModel.Roles.FirstOrDefault(r => r.Name == selectedRoleIndex);
-                    if (selectedRole != null)
+                    if (selectedRoleIndex == "Отмена")
                     {
-                        selectedRoleId = selectedRole.Id;
+                        return; // Пользователь отменил операцию
+                    }
+                    else if (selectedRoleIndex == "Без роли" || string.IsNullOrEmpty(selectedRoleIndex))
+                    {
+                        selectedRoleId = null;
+                    }
+                    else if (!string.IsNullOrEmpty(selectedRoleIndex))
+                    {
+                        var selectedRole = _viewModel.Roles.FirstOrDefault(r => r.Name == selectedRoleIndex);
+                        if (selectedRole != null)
+                        {
+                            selectedRoleId = selectedRole.Id;
+                        }
                     }
                 }
             }
@@ -224,6 +228,12 @@ namespace NekrasovskyAPP.Pages
             if (!_viewModel.Roles.Any())
             {
                 await DisplayAlert("Ошибка", "Список ролей пуст", "OK");
+                return;
+            }
+
+            if (_authService.CurrentUser != null && _authService.CurrentUser.Id == user.Id)
+            {
+                await DisplayAlert("Ошибка", "Вы не можете менять свою роль.", "OK");
                 return;
             }
 

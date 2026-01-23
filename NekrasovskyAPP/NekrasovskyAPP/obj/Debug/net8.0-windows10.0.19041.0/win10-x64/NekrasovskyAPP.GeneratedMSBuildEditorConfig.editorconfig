@@ -76,6 +76,18 @@ build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.Produ
 build_metadata.AdditionalFiles.TargetPath = Pages\ProductsPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\ProductsPage.xaml
 
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/SettingsPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.SettingsPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Pages\SettingsPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Pages\SettingsPage.xaml
+
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/ShiftTransfersPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.ShiftTransfersPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Pages\ShiftTransfersPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Pages\ShiftTransfersPage.xaml
+
 [D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/UsersPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.UsersPage.xaml

@@ -1,4 +1,5 @@
 using NekrasovskyAPP.Models;
+using System;
 
 namespace NekrasovskyAPP.Services
 {
@@ -26,6 +27,7 @@ namespace NekrasovskyAPP.Services
         void Logout();
         User? CurrentUser { get; }
         bool IsAuthenticated { get; }
+        event EventHandler? CurrentUserChanged;
     }
 }
 

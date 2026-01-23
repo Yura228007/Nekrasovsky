@@ -1,3 +1,5 @@
+using System;
+using Microsoft.Maui.ApplicationModel;
 using NekrasovskyAPP.Services;
 using NekrasovskyAPP.Models;
 
@@ -28,6 +30,7 @@ namespace NekrasovskyAPP.Pages
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+            SubscribeToAuthServiceEvents();
             // Подключаемся к SignalR при открытии страницы
             if (!_signalRService.IsConnected)
             {
@@ -52,7 +55,25 @@ namespace NekrasovskyAPP.Pages
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
+            _authService.CurrentUserChanged -= OnCurrentUserChanged;
             // Не отключаемся от SignalR, чтобы получать уведомления даже когда страница не активна
+        }
+
+        private void SubscribeToAuthServiceEvents()
+        {
+            _authService.CurrentUserChanged -= OnCurrentUserChanged;
+            _authService.CurrentUserChanged += OnCurrentUserChanged;
+            RefreshCurrentUserName();
+        }
+
+        private void RefreshCurrentUserName()
+        {
+            OnPropertyChanged(nameof(CurrentUserName));
+        }
+
+        private void OnCurrentUserChanged(object? sender, EventArgs e)
+        {
+            MainThread.BeginInvokeOnMainThread(RefreshCurrentUserName);
         }
 
         private void SetupSignalRHandlers()

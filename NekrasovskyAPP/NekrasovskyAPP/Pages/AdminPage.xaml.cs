@@ -1,3 +1,5 @@
+using System;
+using Microsoft.Maui.ApplicationModel;
 using NekrasovskyAPP.ViewModels;
 using NekrasovskyAPP.Services;
 using NekrasovskyAPP.Models;
@@ -32,6 +34,7 @@ namespace NekrasovskyAPP.Pages
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+            SubscribeToAuthServiceEvents();
 
             if (!_signalRService.IsConnected)
             {
@@ -49,6 +52,29 @@ namespace NekrasovskyAPP.Pages
             {
                 SetupSignalRHandlers();
             }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            _authService.CurrentUserChanged -= OnCurrentUserChanged;
+        }
+
+        private void SubscribeToAuthServiceEvents()
+        {
+            _authService.CurrentUserChanged -= OnCurrentUserChanged;
+            _authService.CurrentUserChanged += OnCurrentUserChanged;
+            RefreshCurrentUserName();
+        }
+
+        private void RefreshCurrentUserName()
+        {
+            OnPropertyChanged(nameof(CurrentUserName));
+        }
+
+        private void OnCurrentUserChanged(object? sender, EventArgs e)
+        {
+            MainThread.BeginInvokeOnMainThread(RefreshCurrentUserName);
         }
 
         private void SetupSignalRHandlers()

@@ -10,6 +10,10 @@ namespace NekrasovskyAPP.Pages
         private readonly ISignalRService _signalRService;
         private readonly IAlarmSoundService _alarmSoundService;
 
+            public string CurrentUserName => _authService.CurrentUser != null 
+        ? $"Добро пожаловать, {_authService.CurrentUser.Name} {_authService.CurrentUser.Surname}!"
+        : "";
+
         public HomePage(IAuthService authService, IApiService apiService, ISignalRService signalRService, IAlarmSoundService alarmSoundService)
         {
             InitializeComponent();
@@ -17,12 +21,13 @@ namespace NekrasovskyAPP.Pages
             _apiService = apiService;
             _signalRService = signalRService;
             _alarmSoundService = alarmSoundService;
+
+            BindingContext = this;
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            
             // Подключаемся к SignalR при открытии страницы
             if (!_signalRService.IsConnected)
             {
@@ -41,6 +46,8 @@ namespace NekrasovskyAPP.Pages
                 SetupSignalRHandlers();
             }
         }
+
+
 
         protected override void OnDisappearing()
         {

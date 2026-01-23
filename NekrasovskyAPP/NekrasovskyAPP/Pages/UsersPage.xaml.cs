@@ -7,12 +7,14 @@ namespace NekrasovskyAPP.Pages
     public partial class UsersPage : ContentPage
     {
         private readonly MainViewModel _viewModel;
+        private readonly IAuthService _authService;
         private string _lastSearchText = string.Empty;
 
         public UsersPage(MainViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel;
+            _authService = authService;
             BindingContext = _viewModel;
         }
 
@@ -74,6 +76,14 @@ namespace NekrasovskyAPP.Pages
                         break;
 
                     case "Удалить":
+
+
+                        if (_authService.CurrentUser  != null && _authService.CurrentUser.Id == selectedUser.Id)
+                        {
+                            await DisplayAlert("Ошибка", "Вы не можете удалить самого себя", "OK");
+                            return;
+                        }
+
                         var confirm = await DisplayAlert(
                             "Подтверждение удаления",
                             $"Вы уверены, что хотите удалить пользователя {selectedUser.Name} {selectedUser.Surname}?",

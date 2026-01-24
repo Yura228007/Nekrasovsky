@@ -79,6 +79,23 @@ namespace NekrasovskyAPP.Services
 
         // Database
         Task<Dictionary<string, object>> CheckDatabaseAsync();
+
+        // Request Logs
+        Task<LogsSearchResult?> AdvancedSearchLogsAsync(
+            int? userId = null, string? controller = null, string? action = null,
+            string? httpMethod = null, int? statusCode = null, string? url = null,
+            DateTime? startDate = null, DateTime? endDate = null,
+            int? warehouseId = null, int? materialId = null, int? productId = null,
+            long? minDurationMs = null, long? maxDurationMs = null,
+            int pageNumber = 1, int pageSize = 100);
+
+        Task<byte[]?> ExportLogsAsync(
+            string format,
+            int? userId = null, string? controller = null, string? action = null,
+            string? httpMethod = null, int? statusCode = null, string? url = null,
+            DateTime? startDate = null, DateTime? endDate = null,
+            int? warehouseId = null, int? materialId = null, int? productId = null,
+            long? minDurationMs = null, long? maxDurationMs = null);
     }
 
     public class ApiResponse<T>
@@ -108,6 +125,15 @@ namespace NekrasovskyAPP.Services
     public class FinishWorkRequest
     {
         public string? FinishTime { get; set; }
+    }
+
+    public class LogsSearchResult
+    {
+        public List<RequestLog> Logs { get; set; } = new();
+        public int TotalCount { get; set; }
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
     }
 }
 

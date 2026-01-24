@@ -77,6 +77,9 @@ namespace server.Middleware
                 // Extract controller and action from route data
                 ExtractControllerAction(context, auditLog);
 
+                // Extract entity IDs from route/body
+                ExtractEntityIds(context, auditLog);
+
                 // Restore original response stream and send response to client
                 responseBody.Seek(0, SeekOrigin.Begin);
                 await responseBody.CopyToAsync(originalBodyStream);
@@ -153,6 +156,59 @@ namespace server.Middleware
             catch (Exception ex)
             {
                 Console.WriteLine($"Could not extract controller/action: {ex.Message}");
+            }
+        }
+
+        private void ExtractEntityIds(HttpContext context, RequestLog auditLog)
+        {
+            try
+            {
+                var routeData = context.GetRouteData();
+                var controller = auditLog.Controller?.ToLower();
+
+                if (routeData != null)
+                {
+                    if (controller == "warehouses" && routeData.Values.TryGetValue("id", out var warehouseId))
+                    {
+                        if (int.TryParse(warehouseId?.ToString(), out int whId))
+                            auditLog.WarehouseId = whId;
+                    }
+
+                    if (controller == "materials" && routeData.Values.TryGetValue("id", out var materialId))
+                    {
+                        if (int.TryParse(materialId?.ToString(), out int matId))
+                            auditLog.MaterialId = matId;
+                    }
+
+                    if (controller == "products" && routeData.Values.TryGetValue("id", out var productId))
+                    {
+                        if (int.TryParse(productId?.ToString(), out int prodId))
+                            auditLog.ProductId = prodId;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(auditLog.RequestBody))
+                {
+                    try
+                    {
+                        using var doc = System.Text.Json.JsonDocument.Parse(auditLog.RequestBody);
+                        var root = doc.RootElement;
+
+                        if (controller == "warehouses" && root.TryGetProperty("id", out var whIdProp) && whIdProp.TryGetInt32(out int whId))
+                            auditLog.WarehouseId = whId;
+
+                        if (controller == "materials" && root.TryGetProperty("id", out var matIdProp) && matIdProp.TryGetInt32(out int matId))
+                            auditLog.MaterialId = matId;
+
+                        if (controller == "products" && root.TryGetProperty("id", out var prodIdProp) && prodIdProp.TryGetInt32(out int prodId))
+                            auditLog.ProductId = prodId;
+                    }
+                    catch { }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Could not extract entity IDs: {ex.Message}");
             }
         }
 

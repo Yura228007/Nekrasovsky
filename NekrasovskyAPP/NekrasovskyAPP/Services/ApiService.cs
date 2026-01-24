@@ -971,6 +971,84 @@ namespace NekrasovskyAPP.Services
                 return new Dictionary<string, object> { { "success", false }, { "message", "Ошибка подключения к серверу" } };
             }
         }
+
+        public async Task<LogsSearchResult?> AdvancedSearchLogsAsync(
+            int? userId = null, string? controller = null, string? action = null,
+            string? httpMethod = null, int? statusCode = null, string? url = null,
+            DateTime? startDate = null, DateTime? endDate = null,
+            int? warehouseId = null, int? materialId = null, int? productId = null,
+            long? minDurationMs = null, long? maxDurationMs = null,
+            int pageNumber = 1, int pageSize = 100)
+        {
+            try
+            {
+                var queryParams = new List<string>();
+
+                if (userId.HasValue) queryParams.Add($"userId={userId.Value}");
+                if (!string.IsNullOrEmpty(controller)) queryParams.Add($"controller={Uri.EscapeDataString(controller)}");
+                if (!string.IsNullOrEmpty(action)) queryParams.Add($"action={Uri.EscapeDataString(action)}");
+                if (!string.IsNullOrEmpty(httpMethod)) queryParams.Add($"httpMethod={Uri.EscapeDataString(httpMethod)}");
+                if (statusCode.HasValue) queryParams.Add($"statusCode={statusCode.Value}");
+                if (!string.IsNullOrEmpty(url)) queryParams.Add($"url={Uri.EscapeDataString(url)}");
+                if (startDate.HasValue) queryParams.Add($"startDate={startDate.Value:yyyy-MM-dd}");
+                if (endDate.HasValue) queryParams.Add($"endDate={endDate.Value:yyyy-MM-dd}");
+                if (warehouseId.HasValue) queryParams.Add($"warehouseId={warehouseId.Value}");
+                if (materialId.HasValue) queryParams.Add($"materialId={materialId.Value}");
+                if (productId.HasValue) queryParams.Add($"productId={productId.Value}");
+                if (minDurationMs.HasValue) queryParams.Add($"minDurationMs={minDurationMs.Value}");
+                if (maxDurationMs.HasValue) queryParams.Add($"maxDurationMs={maxDurationMs.Value}");
+                queryParams.Add($"pageNumber={pageNumber}");
+                queryParams.Add($"pageSize={pageSize}");
+
+                var query = string.Join("&", queryParams);
+                var response = await _httpClient.GetAsync($"api/request-logs/advanced-search?{query}");
+                response.EnsureSuccessStatusCode();
+
+                return await response.Content.ReadFromJsonAsync<LogsSearchResult>(_jsonOptions);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<byte[]?> ExportLogsAsync(
+            string format,
+            int? userId = null, string? controller = null, string? action = null,
+            string? httpMethod = null, int? statusCode = null, string? url = null,
+            DateTime? startDate = null, DateTime? endDate = null,
+            int? warehouseId = null, int? materialId = null, int? productId = null,
+            long? minDurationMs = null, long? maxDurationMs = null)
+        {
+            try
+            {
+                var queryParams = new List<string> { $"format={format}" };
+
+                if (userId.HasValue) queryParams.Add($"userId={userId.Value}");
+                if (!string.IsNullOrEmpty(controller)) queryParams.Add($"controller={Uri.EscapeDataString(controller)}");
+                if (!string.IsNullOrEmpty(action)) queryParams.Add($"action={Uri.EscapeDataString(action)}");
+                if (!string.IsNullOrEmpty(httpMethod)) queryParams.Add($"httpMethod={Uri.EscapeDataString(httpMethod)}");
+                if (statusCode.HasValue) queryParams.Add($"statusCode={statusCode.Value}");
+                if (!string.IsNullOrEmpty(url)) queryParams.Add($"url={Uri.EscapeDataString(url)}");
+                if (startDate.HasValue) queryParams.Add($"startDate={startDate.Value:yyyy-MM-dd}");
+                if (endDate.HasValue) queryParams.Add($"endDate={endDate.Value:yyyy-MM-dd}");
+                if (warehouseId.HasValue) queryParams.Add($"warehouseId={warehouseId.Value}");
+                if (materialId.HasValue) queryParams.Add($"materialId={materialId.Value}");
+                if (productId.HasValue) queryParams.Add($"productId={productId.Value}");
+                if (minDurationMs.HasValue) queryParams.Add($"minDurationMs={minDurationMs.Value}");
+                if (maxDurationMs.HasValue) queryParams.Add($"maxDurationMs={maxDurationMs.Value}");
+
+                var query = string.Join("&", queryParams);
+                var response = await _httpClient.GetAsync($"api/request-logs/export?{query}");
+                response.EnsureSuccessStatusCode();
+
+                return await response.Content.ReadAsByteArrayAsync();
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
 

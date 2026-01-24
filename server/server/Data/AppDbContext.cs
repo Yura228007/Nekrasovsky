@@ -224,5 +224,23 @@ public class AppDbContext : DbContext
             .WithMany()
             .HasForeignKey(rl => rl.UserId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<RequestLog>()
+            .HasOne(rl => rl.Warehouse)
+            .WithMany()
+            .HasForeignKey(rl => rl.WarehouseId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<RequestLog>()
+            .HasOne(rl => rl.Material)
+            .WithMany()
+            .HasForeignKey(rl => rl.MaterialId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<RequestLog>()
+            .HasOne(rl => rl.Product)
+            .WithMany()
+            .HasForeignKey(rl => rl.ProductId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

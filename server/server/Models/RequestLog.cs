@@ -42,7 +42,14 @@ namespace server.Models
 
         public long DurationMs { get; set; }
 
-        // ????????????? ????????
+        public int? WarehouseId { get; set; }
+        public int? MaterialId { get; set; }
+        public int? ProductId { get; set; }
+
+        // Навигационные свойства
         public virtual User? User { get; set; }
+        public virtual Warehouse? Warehouse { get; set; }
+        public virtual Material? Material { get; set; }
+        public virtual Product? Product { get; set; }
     }
 }

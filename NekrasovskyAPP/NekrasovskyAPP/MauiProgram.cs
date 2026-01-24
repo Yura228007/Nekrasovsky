@@ -68,8 +68,10 @@ namespace NekrasovskyAPP
                 new PartRequestsPage(sp.GetRequiredService<ViewModels.PartRequestsViewModel>()));
             builder.Services.AddTransient<ShiftTransfersPage>(sp =>
                 new ShiftTransfersPage(sp.GetRequiredService<ViewModels.ShiftTransfersViewModel>()));
-            builder.Services.AddTransient<SettingsPage>(sp => 
+            builder.Services.AddTransient<SettingsPage>(sp =>
                 new SettingsPage(sp.GetRequiredService<IApiService>()));
+            builder.Services.AddTransient<LogsPage>(sp =>
+                new LogsPage(sp.GetRequiredService<MainViewModel>()));
 #if ANDROID || IOS
             // BarcodeScannerPage доступна только на Android и iOS
             builder.Services.AddTransient<BarcodeScannerPage>();

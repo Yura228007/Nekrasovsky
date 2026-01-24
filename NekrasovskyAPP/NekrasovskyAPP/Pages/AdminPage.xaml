@@ -29,7 +29,7 @@
             </StackLayout>
             
             <!-- Admin Navigation Cards -->
-            <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*" ColumnSpacing="15" RowSpacing="15">
+            <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*" ColumnSpacing="15" RowSpacing="15">
                 
                 <!-- Users Management -->
                 <Border Grid.Row="0" Grid.Column="0"
@@ -167,8 +167,8 @@
                     </Border.StrokeShape>
                     <VerticalStackLayout Spacing="12">
                         <Label Text="⚙️" FontSize="40" HorizontalOptions="Center" />
-                        <Label Text="Настройки системы" 
-                               FontSize="16" 
+                        <Label Text="Настройки системы"
+                               FontSize="16"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
                                HorizontalOptions="Center"
@@ -180,7 +180,32 @@
                                 CornerRadius="10" />
                     </VerticalStackLayout>
                 </Border>
-                
+
+                <!-- Logs Management -->
+                <Border Grid.Row="3" Grid.Column="0"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="1"
+                        Stroke="{StaticResource BorderColor}"
+                        Padding="20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="📋" FontSize="40" HorizontalOptions="Center" />
+                        <Label Text="Системные логи"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+                        <Button Text="Открыть"
+                                Clicked="OnLogsClicked"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="{StaticResource White}"
+                                CornerRadius="10" />
+                    </VerticalStackLayout>
+                </Border>
+
             </Grid>
 
             <!-- Alarm Button -->

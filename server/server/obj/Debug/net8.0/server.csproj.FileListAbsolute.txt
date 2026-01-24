@@ -120,6 +120,7 @@
 /Users/gleb/Documents/GitHub/Nekrasovsky/server/server/obj/Debug/net8.0/server.pdb
 /Users/gleb/Documents/GitHub/Nekrasovsky/server/server/obj/Debug/net8.0/server.genruntimeconfig.cache
 /Users/gleb/Documents/GitHub/Nekrasovsky/server/server/obj/Debug/net8.0/ref/server.dll
+<<<<<<< Updated upstream
 D:\Projects\Nekrasovsky\server\server\bin\Debug\net8.0\appsettings.Development.json
 D:\Projects\Nekrasovsky\server\server\bin\Debug\net8.0\appsettings.json
 D:\Projects\Nekrasovsky\server\server\bin\Debug\net8.0\server.staticwebassets.runtime.json
@@ -242,3 +243,14 @@ D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\refint\server.dll
 D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\server.pdb
 D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\server.genruntimeconfig.cache
 D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\ref\server.dll
+=======
+/Users/gleb/Documents/GitHub/Nekrasovsky/server/server/bin/Debug/net8.0/ClosedXML.dll
+/Users/gleb/Documents/GitHub/Nekrasovsky/server/server/bin/Debug/net8.0/ClosedXML.Parser.dll
+/Users/gleb/Documents/GitHub/Nekrasovsky/server/server/bin/Debug/net8.0/CsvHelper.dll
+/Users/gleb/Documents/GitHub/Nekrasovsky/server/server/bin/Debug/net8.0/DocumentFormat.OpenXml.dll
+/Users/gleb/Documents/GitHub/Nekrasovsky/server/server/bin/Debug/net8.0/DocumentFormat.OpenXml.Framework.dll
+/Users/gleb/Documents/GitHub/Nekrasovsky/server/server/bin/Debug/net8.0/ExcelNumberFormat.dll
+/Users/gleb/Documents/GitHub/Nekrasovsky/server/server/bin/Debug/net8.0/RBush.dll
+/Users/gleb/Documents/GitHub/Nekrasovsky/server/server/bin/Debug/net8.0/SixLabors.Fonts.dll
+/Users/gleb/Documents/GitHub/Nekrasovsky/server/server/bin/Debug/net8.0/System.IO.Packaging.dll
+>>>>>>> Stashed changes

@@ -957,6 +957,48 @@ namespace NekrasovskyAPP.Services
             }
         }
 
+        // Permissions
+        public async Task<List<Permission>> GetAllPermissionsAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/permissions");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<Permission>>(_jsonOptions) ?? new List<Permission>();
+            }
+            catch
+            {
+                return new List<Permission>();
+            }
+        }
+
+        public async Task<List<Permission>> GetRolePermissionsAsync(int roleId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/roles/{roleId}/permissions");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<Permission>>(_jsonOptions) ?? new List<Permission>();
+            }
+            catch
+            {
+                return new List<Permission>();
+            }
+        }
+
+        public async Task<bool> UpdateRolePermissionsAsync(int roleId, List<int> permissionIds)
+        {
+            try
+            {
+                var response = await _httpClient.PutAsJsonAsync($"api/roles/{roleId}/permissions", permissionIds, _jsonOptions);
+                return response.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public async Task<Dictionary<string, object>> CheckDatabaseAsync()
         {
             try

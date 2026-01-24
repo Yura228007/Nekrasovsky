@@ -10,12 +10,31 @@ namespace server.Controllers
     public class RolesController : ControllerBase
     {
         private readonly IRoleService _roleService;
+        private readonly IUserService _userService;
         private readonly ILogger<RolesController> _logger;
 
-        public RolesController(IRoleService roleService, ILogger<RolesController> logger)
+        public RolesController(IRoleService roleService, IUserService userService, ILogger<RolesController> logger)
         {
             _roleService = roleService;
+            _userService = userService;
             _logger = logger;
+        }
+
+        /// <summary>
+        /// Проверяет, является ли текущий пользователь владельцем (Owner)
+        /// </summary>
+        private async Task<bool> IsCurrentUserOwnerAsync()
+        {
+            var userIdHeader = Request.Headers["X-User-Id"].FirstOrDefault();
+            if (!int.TryParse(userIdHeader, out int userId))
+                return false;
+
+            var user = await _userService.GetUserByIdAsync(userId);
+            if (user?.RoleId == null)
+                return false;
+
+            var role = await _roleService.GetRoleByIdAsync(user.RoleId.Value);
+            return role?.Code == "Owner";
         }
 
         // GET: api/roles
@@ -249,6 +268,13 @@ namespace server.Controllers
         {
             try
             {
+                // Проверка что только Owner может изменять права ролей
+                if (!await IsCurrentUserOwnerAsync())
+                {
+                    _logger.LogWarning("Non-owner user attempted to assign permission to role");
+                    return StatusCode(403, new { message = "Только владелец может изменять права ролей" });
+                }
+
                 if (roleId <= 0 || permissionId <= 0)
                 {
                     return BadRequest(new { message = "RoleId and PermissionId must be greater than 0" });
@@ -281,6 +307,13 @@ namespace server.Controllers
         {
             try
             {
+                // Проверка что только Owner может изменять права ролей
+                if (!await IsCurrentUserOwnerAsync())
+                {
+                    _logger.LogWarning("Non-owner user attempted to remove permission from role");
+                    return StatusCode(403, new { message = "Только владелец может изменять права ролей" });
+                }
+
                 if (roleId <= 0 || permissionId <= 0)
                 {
                     return BadRequest(new { message = "RoleId and PermissionId must be greater than 0" });
@@ -299,6 +332,46 @@ namespace server.Controllers
             {
                 _logger.LogError(ex, "Error occurred while removing permission {PermissionId} from role {RoleId}", permissionId, roleId);
                 return StatusCode(500, new { message = "An error occurred while removing the permission" });
+            }
+        }
+
+        // PUT: api/roles/{roleId}/permissions
+        [HttpPut("{roleId}/permissions")]
+        public async Task<IActionResult> UpdateRolePermissions(int roleId, [FromBody] List<int> permissionIds)
+        {
+            try
+            {
+                // Проверка что только Owner может изменять права ролей
+                if (!await IsCurrentUserOwnerAsync())
+                {
+                    _logger.LogWarning("Non-owner user attempted to update role permissions");
+                    return StatusCode(403, new { message = "Только владелец может изменять права ролей" });
+                }
+
+                if (roleId <= 0)
+                {
+                    return BadRequest(new { message = "RoleId must be greater than 0" });
+                }
+
+                if (permissionIds == null)
+                {
+                    return BadRequest(new { message = "PermissionIds cannot be null" });
+                }
+
+                await _roleService.UpdateRolePermissionsAsync(roleId, permissionIds);
+
+                _logger.LogInformation("Role {RoleId} permissions updated with {Count} permissions", roleId, permissionIds.Count);
+                return Ok(new { message = "Права роли обновлены", permissionCount = permissionIds.Count });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogWarning(ex, "Role with ID {RoleId} not found", roleId);
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating permissions for role {RoleId}", roleId);
+                return StatusCode(500, new { message = "An error occurred while updating role permissions" });
             }
         }
     }

@@ -77,6 +77,11 @@ namespace NekrasovskyAPP.Services
         Task<List<Role>> GetAllRolesAsync();
         Task<Role?> GetRoleByIdAsync(int id);
 
+        // Permissions
+        Task<List<Permission>> GetAllPermissionsAsync();
+        Task<List<Permission>> GetRolePermissionsAsync(int roleId);
+        Task<bool> UpdateRolePermissionsAsync(int roleId, List<int> permissionIds);
+
         // Database
         Task<Dictionary<string, object>> CheckDatabaseAsync();
 

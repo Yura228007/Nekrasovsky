@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NekrasovskyAPP.Pages.RolePermissionsPage"
+             Title="Управление правами ролей"
+             BackgroundColor="{StaticResource BackgroundDark}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Сохранить" Clicked="OnSaveClicked" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- Заголовок -->
+            <Label Text="Управление правами ролей"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource White}"
+                   HorizontalOptions="Center" />
+
+            <Label Text="Только владелец может изменять права ролей"
+                   FontSize="12"
+                   TextColor="{StaticResource Gray400}"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,10" />
+
+            <!-- Выбор роли -->
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
+                    StrokeThickness="1"
+                    Stroke="{StaticResource BorderColor}"
+                    Padding="15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Выберите роль:"
+                           TextColor="{StaticResource White}"
+                           FontAttributes="Bold" />
+                    <Picker x:Name="RolePicker"
+                            Title="Выберите роль"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedIndexChanged="OnRoleSelected"
+                            BackgroundColor="{StaticResource BackgroundCard}"
+                            TextColor="{StaticResource White}"
+                            TitleColor="{StaticResource Gray400}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Информация о выбранной роли -->
+            <Border x:Name="RoleInfoContainer"
+                    BackgroundColor="{StaticResource BackgroundCard}"
+                    StrokeThickness="1"
+                    Stroke="{StaticResource BorderColor}"
+                    Padding="15"
+                    IsVisible="False">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="5">
+                    <Label x:Name="RoleNameLabel"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
+                    <Label x:Name="RoleCodeLabel"
+                           FontSize="14"
+                           TextColor="{StaticResource Gray400}" />
+                    <Label x:Name="RoleDescriptionLabel"
+                           FontSize="12"
+                           TextColor="{StaticResource Gray400}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Список прав -->
+            <Border x:Name="PermissionsContainer"
+                    BackgroundColor="{StaticResource BackgroundCard}"
+                    StrokeThickness="1"
+                    Stroke="{StaticResource BorderColor}"
+                    Padding="15"
+                    IsVisible="False">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Права роли:"
+                           TextColor="{StaticResource White}"
+                           FontAttributes="Bold"
+                           FontSize="16" />
+
+                    <CollectionView x:Name="PermissionsCollectionView"
+                                    ItemsSource="{Binding Permissions}"
+                                    SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BackgroundColor="Transparent"
+                                        Padding="5"
+                                        Margin="0,2">
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                                        <Switch IsToggled="{Binding IsSelected, Mode=TwoWay}"
+                                                Grid.Column="0"
+                                                OnColor="{StaticResource Primary}"
+                                                ThumbColor="{StaticResource White}"
+                                                VerticalOptions="Center" />
+                                        <VerticalStackLayout Grid.Column="1"
+                                                             VerticalOptions="Center"
+                                                             Spacing="2">
+                                            <Label Text="{Binding Permission.Name}"
+                                                   TextColor="{StaticResource White}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="14" />
+                                            <Label Text="{Binding Permission.Description}"
+                                                   TextColor="{StaticResource Gray400}"
+                                                   FontSize="12"
+                                                   LineBreakMode="WordWrap" />
+                                            <Label Text="{Binding Permission.Code, StringFormat='Код: {0}'}"
+                                                   TextColor="{StaticResource Gray500}"
+                                                   FontSize="10" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Кнопка сохранения -->
+            <Button x:Name="SaveButton"
+                    Text="Сохранить изменения"
+                    Clicked="OnSaveClicked"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="{StaticResource White}"
+                    CornerRadius="10"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    IsVisible="False"
+                    Margin="0,10,0,0" />
+
+            <!-- Индикатор загрузки -->
+            <ActivityIndicator x:Name="LoadingIndicator"
+                               IsRunning="False"
+                               IsVisible="False"
+                               Color="{StaticResource Primary}"
+                               HeightRequest="50" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -14,6 +14,7 @@ namespace server.Services
         Task<bool> DeleteRoleAsync(int id);
         Task<bool> AssignPermissionToRoleAsync(int roleId, int permissionId);
         Task<bool> RemovePermissionFromRoleAsync(int roleId, int permissionId);
+        Task UpdateRolePermissionsAsync(int roleId, IEnumerable<int> permissionIds);
         Task<bool> UserHasRoleAsync(int userId, string roleCode);
         Task<IEnumerable<Role>> GetUserRolesAsync(int userId);
     }

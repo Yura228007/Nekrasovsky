@@ -36,6 +36,9 @@ namespace NekrasovskyAPP.Pages
             base.OnAppearing();
             SubscribeToAuthServiceEvents();
 
+            // Показать карточку управления ролями только для Owner
+            UpdateRolePermissionsCardVisibility();
+
             if (!_signalRService.IsConnected)
             {
                 try
@@ -52,6 +55,13 @@ namespace NekrasovskyAPP.Pages
             {
                 SetupSignalRHandlers();
             }
+        }
+
+        private void UpdateRolePermissionsCardVisibility()
+        {
+            var user = _authService.CurrentUser;
+            var isOwner = user?.Role?.Code?.Equals("Owner", StringComparison.OrdinalIgnoreCase) == true;
+            RolePermissionsCard.IsVisible = isOwner;
         }
 
         protected override void OnDisappearing()
@@ -128,6 +138,11 @@ namespace NekrasovskyAPP.Pages
         private async void OnLogsClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("LogsPage");
+        }
+
+        private async void OnRolePermissionsClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("RolePermissionsPage");
         }
 
         private async void OnLogoutClicked(object sender, EventArgs e)

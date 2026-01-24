@@ -162,6 +162,49 @@ namespace server.Services
             return true;
         }
 
+        public async Task UpdateRolePermissionsAsync(int roleId, IEnumerable<int> permissionIds)
+        {
+            // Проверяем существование роли
+            if (!await _context.Roles.AnyAsync(r => r.Id == roleId))
+            {
+                throw new KeyNotFoundException($"Role with ID {roleId} not found");
+            }
+
+            var permissionIdsList = permissionIds.ToList();
+
+            // Получаем текущие права роли
+            var currentPermissions = await _context.RolePermissions
+                .Where(rp => rp.RoleId == roleId)
+                .ToListAsync();
+
+            // Удаляем права, которых нет в новом списке
+            var toRemove = currentPermissions
+                .Where(rp => !permissionIdsList.Contains(rp.PermissionId))
+                .ToList();
+
+            if (toRemove.Any())
+            {
+                _context.RolePermissions.RemoveRange(toRemove);
+            }
+
+            // Добавляем новые права
+            var currentPermissionIds = currentPermissions.Select(rp => rp.PermissionId).ToHashSet();
+            var toAdd = permissionIdsList
+                .Where(pid => !currentPermissionIds.Contains(pid))
+                .Select(pid => new RolePermission { RoleId = roleId, PermissionId = pid })
+                .ToList();
+
+            if (toAdd.Any())
+            {
+                await _context.RolePermissions.AddRangeAsync(toAdd);
+            }
+
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Role {RoleId} permissions updated. Removed: {Removed}, Added: {Added}",
+                roleId, toRemove.Count, toAdd.Count);
+        }
+
         public async Task<bool> UserHasRoleAsync(int userId, string roleCode)
         {
             return await _context.Users

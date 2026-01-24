@@ -84,6 +84,18 @@ namespace NekrasovskyAPP.Pages
             {
                 MainThread.BeginInvokeOnMainThread(async () =>
                 {
+                    // Проверяем, не от текущего ли пользователя тревога (чтобы не дублировать)
+                    var currentUser = _authService.CurrentUser;
+                    if (currentUser != null)
+                    {
+                        var currentUserFullName = $"{currentUser.Name} {currentUser.Surname}";
+                        if (user == currentUserFullName)
+                        {
+                            // Это наша собственная тревога - уже показали уведомление
+                            return;
+                        }
+                    }
+
                     _alarmSoundService.PlayAlarmSound();
                     await DisplayAlert(
                         "🚨 ТРЕВОГА!",
@@ -247,10 +259,21 @@ namespace NekrasovskyAPP.Pages
 
                 // Отправляем на сервер
                 var response = await _apiService.AddAlarmEventAsync(alarmEvent);
-                
+
                 if (response.AlarmEvent != null)
                 {
-                    await DisplayAlert("Успех", "Тревога отправлена! Все пользователи получат уведомление.", "OK");
+                    // Воспроизводим звук тревоги для отправителя
+                    _alarmSoundService.PlayAlarmSound();
+
+                    await DisplayAlert(
+                        "🚨 ТРЕВОГА ОТПРАВЛЕНА!",
+                        $"Место: {location}\n" +
+                        $"Сообщение: {message ?? "Не указано"}\n\n" +
+                        "Все пользователи получат уведомление.",
+                        "OK");
+
+                    // Останавливаем звук после закрытия диалога
+                    _alarmSoundService.StopAlarmSound();
                 }
                 else
                 {

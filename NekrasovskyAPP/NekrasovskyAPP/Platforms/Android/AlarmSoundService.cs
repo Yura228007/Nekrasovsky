@@ -1,101 +1,75 @@
-using Android.Content.Res;
 using Android.Media;
-using Android.App;
 
-namespace NekrasovskyAPP.Platforms.AndroidPlatform
+namespace NekrasovskyAPP.Services
 {
-    public class AlarmSoundService
+    public partial class AlarmSoundService
     {
         private MediaPlayer? _mediaPlayer;
         private ToneGenerator? _toneGenerator;
-        private CancellationTokenSource? _fallbackToneCts;
 
-        public void PlayAlarmSound()
+        partial void StartPlatformAlarm(CancellationToken token)
         {
             try
             {
-                StopAlarmSound();
-
                 var context = Android.App.Application.Context;
-                if (context == null)
-                {
-                    return;
-                }
+                if (context == null) return;
 
-                // Требуется файл Resources/Raw/alarm.mp3 (MAUI asset -> Android assets)
+                // Пробуем загрузить MP3
                 try
                 {
                     var assets = context.Assets;
-                    if (assets == null)
+                    if (assets != null)
                     {
+                        using var assetFd = assets.OpenFd("alarm.mp3");
+                        _mediaPlayer = new MediaPlayer();
+                        _mediaPlayer.SetDataSource(assetFd.FileDescriptor, assetFd.StartOffset, assetFd.Length);
+                        _mediaPlayer.Looping = true;
+                        _mediaPlayer.Prepare();
+                        _mediaPlayer.Start();
                         return;
                     }
-
-                    using var assetFd = assets.OpenFd("alarm.mp3");
-                    _mediaPlayer = new MediaPlayer();
-                    _mediaPlayer.SetDataSource(assetFd.FileDescriptor, assetFd.StartOffset, assetFd.Length);
-                    _mediaPlayer.Looping = true;
-                    _mediaPlayer.Prepare();
-                    _mediaPlayer.Start();
                 }
-                catch (Exception)
+                catch
                 {
-                    // Fallback: looped tone if mp3 is missing/unavailable
-                    _toneGenerator = new ToneGenerator(Android.Media.Stream.Notification, 100);
-                    _fallbackToneCts = new CancellationTokenSource();
-                    var token = _fallbackToneCts.Token;
-                    Task.Run(async () =>
-                    {
-                        try
-                        {
-                            while (!token.IsCancellationRequested)
-                            {
-                                _toneGenerator.StartTone(Tone.CdmaEmergencyRingback, 2000);
-                                await Task.Delay(2000, token);
-                            }
-                        }
-                        catch
-                        {
-                            // ignore
-                        }
-                    }, token);
+                    // MP3 не найден - используем ToneGenerator
                 }
 
-                System.Diagnostics.Debug.WriteLine("Звук тревоги воспроизведен");
+                // Fallback: ToneGenerator
+                _toneGenerator = new ToneGenerator(Stream.Alarm, 100);
+
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        while (!token.IsCancellationRequested)
+                        {
+                            _toneGenerator?.StartTone(Tone.CdmaEmergencyRingback, 1500);
+                            await Task.Delay(2000, token);
+                        }
+                    }
+                    catch (OperationCanceledException) { }
+                }, token);
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Ошибка воспроизведения звука: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Android alarm error: {ex.Message}");
             }
         }
 
-        public void StopAlarmSound()
+        partial void StopPlatformAlarm()
         {
             try
             {
-                if (_fallbackToneCts != null)
-                {
-                    _fallbackToneCts.Cancel();
-                    _fallbackToneCts.Dispose();
-                    _fallbackToneCts = null;
-                }
-
                 _toneGenerator?.StopTone();
                 _toneGenerator?.Release();
                 _toneGenerator = null;
 
-                if (_mediaPlayer != null)
-                {
-                    _mediaPlayer.Stop();
-                    _mediaPlayer.Release();
-                    _mediaPlayer.Dispose();
-                    _mediaPlayer = null;
-                }
+                _mediaPlayer?.Stop();
+                _mediaPlayer?.Release();
+                _mediaPlayer?.Dispose();
+                _mediaPlayer = null;
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Ошибка остановки звука: {ex.Message}");
-            }
+            catch { }
         }
     }
 }

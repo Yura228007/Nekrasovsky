@@ -4,5 +4,6 @@ namespace NekrasovskyAPP.Services
     {
         void PlayAlarmSound();
         void StopAlarmSound();
+        bool IsPlaying { get; }
     }
 }

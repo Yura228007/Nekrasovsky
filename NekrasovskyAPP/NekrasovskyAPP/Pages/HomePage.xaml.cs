@@ -10,20 +10,21 @@ namespace NekrasovskyAPP.Pages
     {
         private readonly IAuthService _authService;
         private readonly IApiService _apiService;
-        private readonly ISignalRService _signalRService;
-        private readonly IAlarmSoundService _alarmSoundService;
+        private readonly IAlarmNotificationService _alarmNotificationService;
 
-            public string CurrentUserName => _authService.CurrentUser != null 
-        ? $"Добро пожаловать, {_authService.CurrentUser.Name} {_authService.CurrentUser.Surname}!"
-        : "";
+        public string CurrentUserName => _authService.CurrentUser != null
+            ? $"Добро пожаловать, {_authService.CurrentUser.Name} {_authService.CurrentUser.Surname}!"
+            : "";
 
-        public HomePage(IAuthService authService, IApiService apiService, ISignalRService signalRService, IAlarmSoundService alarmSoundService)
+        public HomePage(
+            IAuthService authService,
+            IApiService apiService,
+            IAlarmNotificationService alarmNotificationService)
         {
             InitializeComponent();
             _authService = authService;
             _apiService = apiService;
-            _signalRService = signalRService;
-            _alarmSoundService = alarmSoundService;
+            _alarmNotificationService = alarmNotificationService;
 
             BindingContext = this;
         }
@@ -32,32 +33,15 @@ namespace NekrasovskyAPP.Pages
         {
             base.OnAppearing();
             SubscribeToAuthServiceEvents();
-            // Подключаемся к SignalR при открытии страницы
-            if (!_signalRService.IsConnected)
-            {
-                try
-                {
-                    await _signalRService.ConnectAsync();
-                    SetupSignalRHandlers();
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Ошибка подключения к SignalR: {ex.Message}");
-                }
-            }
-            else
-            {
-                SetupSignalRHandlers();
-            }
+
+            // Инициализируем сервис уведомлений
+            await _alarmNotificationService.InitializeAsync();
         }
-
-
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
             _authService.CurrentUserChanged -= OnCurrentUserChanged;
-            // Не отключаемся от SignalR, чтобы получать уведомления даже когда страница не активна
         }
 
         private void SubscribeToAuthServiceEvents()
@@ -75,35 +59,6 @@ namespace NekrasovskyAPP.Pages
         private void OnCurrentUserChanged(object? sender, EventArgs e)
         {
             MainThread.BeginInvokeOnMainThread(RefreshCurrentUserName);
-        }
-
-        private void SetupSignalRHandlers()
-        {
-            // Настраиваем обработчик уведомлений через SignalRService
-            _signalRService.SetOnAlarmNotification((message, location, user) =>
-            {
-                MainThread.BeginInvokeOnMainThread(async () =>
-                {
-                    // Проверяем, не от текущего ли пользователя тревога (чтобы не дублировать)
-                    var currentUser = _authService.CurrentUser;
-                    if (currentUser != null)
-                    {
-                        var currentUserFullName = $"{currentUser.Name} {currentUser.Surname}";
-                        if (user == currentUserFullName)
-                        {
-                            // Это наша собственная тревога - уже показали уведомление
-                            return;
-                        }
-                    }
-
-                    _alarmSoundService.PlayAlarmSound();
-                    await DisplayAlert(
-                        "🚨 ТРЕВОГА!",
-                        $"{message}\n\nМесто: {location}\nПользователь: {user}",
-                        "OK");
-                    _alarmSoundService.StopAlarmSound();
-                });
-            });
         }
 
         private async void OnScannerClicked(object sender, EventArgs e)
@@ -216,91 +171,48 @@ namespace NekrasovskyAPP.Pages
 
         private async void OnAlarmClicked(object sender, EventArgs e)
         {
-            try
+            if (_authService.CurrentUser == null)
             {
-                if (_authService.CurrentUser == null)
-                {
-                    await DisplayAlert("Ошибка", "Пользователь не авторизован", "OK");
-                    return;
-                }
-
-                // Запрашиваем местоположение и сообщение
-                var location = await DisplayPromptAsync(
-                    "🚨 ТРЕВОГА",
-                    "Укажите место происшествия:",
-                    "Отправить",
-                    "Отмена",
-                    "Место",
-                    -1,
-                    Keyboard.Default);
-
-                if (string.IsNullOrWhiteSpace(location))
-                {
-                    return; // Пользователь отменил
-                }
-
-                var message = await DisplayPromptAsync(
-                    "🚨 ТРЕВОГА",
-                    "Опишите ситуацию (необязательно):",
-                    "Отправить",
-                    "Пропустить",
-                    "Сообщение",
-                    -1,
-                    Keyboard.Default);
-
-                // Создаем событие тревоги
-                var alarmEvent = new AlarmEvent
-                {
-                    UserId = _authService.CurrentUser.Id,
-                    Location = location,
-                    Message = message ?? string.Empty,
-                    CreatedAt = DateTime.UtcNow
-                };
-
-                // Отправляем на сервер
-                var response = await _apiService.AddAlarmEventAsync(alarmEvent);
-
-                if (response.AlarmEvent != null)
-                {
-                    // Воспроизводим звук тревоги для отправителя
-                    _alarmSoundService.PlayAlarmSound();
-
-                    await DisplayAlert(
-                        "🚨 ТРЕВОГА ОТПРАВЛЕНА!",
-                        $"Место: {location}\n" +
-                        $"Сообщение: {message ?? "Не указано"}\n\n" +
-                        "Все пользователи получат уведомление.",
-                        "OK");
-
-                    // Останавливаем звук после закрытия диалога
-                    _alarmSoundService.StopAlarmSound();
-                }
-                else
-                {
-                    await DisplayAlert("Ошибка", response.Message ?? "Не удалось отправить тревогу", "OK");
-                }
+                await DisplayAlert("Ошибка", "Пользователь не авторизован", "OK");
+                return;
             }
-            catch (Exception ex)
+
+            // Запрашиваем местоположение
+            var location = await DisplayPromptAsync(
+                "🚨 ТРЕВОГА",
+                "Укажите место происшествия:",
+                "Отправить",
+                "Отмена",
+                "Место",
+                -1,
+                Keyboard.Default);
+
+            if (string.IsNullOrWhiteSpace(location))
+                return;
+
+            // Запрашиваем сообщение
+            var message = await DisplayPromptAsync(
+                "🚨 ТРЕВОГА",
+                "Опишите ситуацию (необязательно):",
+                "Отправить",
+                "Пропустить",
+                "Сообщение",
+                -1,
+                Keyboard.Default);
+
+            // Отправляем тревогу через сервис
+            var success = await _alarmNotificationService.SendAlarmAsync(location, message);
+
+            if (!success)
             {
-                await DisplayAlert("Ошибка", $"Произошла ошибка: {ex.Message}", "OK");
+                await DisplayAlert("Ошибка", "Не удалось отправить тревогу", "OK");
             }
         }
 
         private async void OnLogoutClicked(object sender, EventArgs e)
         {
-            // Отключаемся от SignalR при выходе
-            try
-            {
-                await _signalRService.DisconnectAsync();
-            }
-            catch { }
-
-            // Выполняем выход
             _authService.Logout();
-            
-            // Навигация к LoginPage и сброс стека навигации
             await Shell.Current.GoToAsync("///LoginPage");
         }
     }
 }
-

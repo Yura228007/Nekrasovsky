@@ -1,83 +1,38 @@
-using Windows.Media.Core;
-using Windows.Media.Playback;
+using System.Media;
 
-namespace NekrasovskyAPP.Platforms.Windows
+namespace NekrasovskyAPP.Services
 {
-    public class AlarmSoundService
+    public partial class AlarmSoundService
     {
-        private MediaPlayer? _mediaPlayer;
-        private CancellationTokenSource? _fallbackBeepCts;
-
-        public void PlayAlarmSound()
+        partial void StartPlatformAlarm(CancellationToken token)
         {
-            try
-            {
-                StopAlarmSound();
+            // Сразу воспроизводим звук
+            SystemSounds.Exclamation.Play();
 
-                // Требуется файл Resources/Raw/alarm.mp3
+            // Запускаем цикл повторения
+            Task.Run(async () =>
+            {
                 try
                 {
-                    _mediaPlayer = new MediaPlayer
+                    while (!token.IsCancellationRequested)
                     {
-                        AutoPlay = false,
-                        IsLoopingEnabled = true
-                    };
-
-                    _mediaPlayer.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Resources/Raw/alarm.mp3"));
-                    _mediaPlayer.Play();
+                        await Task.Delay(800, token);
+                        if (!token.IsCancellationRequested)
+                        {
+                            SystemSounds.Exclamation.Play();
+                        }
+                    }
                 }
-                catch (Exception)
+                catch (OperationCanceledException)
                 {
-                    // Fallback: looped beep if mp3 is missing/unavailable
-                    _fallbackBeepCts = new CancellationTokenSource();
-                    var token = _fallbackBeepCts.Token;
-                    Task.Run(async () =>
-                    {
-                        try
-                        {
-                            while (!token.IsCancellationRequested)
-                            {
-                                Console.Beep(1000, 300);
-                                await Task.Delay(200, token);
-                            }
-                        }
-                        catch
-                        {
-                            // ignore
-                        }
-                    }, token);
+                    // Нормальная отмена
                 }
-
-                System.Diagnostics.Debug.WriteLine("Звук тревоги воспроизведен");
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Ошибка воспроизведения звука: {ex.Message}");
-            }
+            }, token);
         }
 
-        public void StopAlarmSound()
+        partial void StopPlatformAlarm()
         {
-            try
-            {
-                if (_fallbackBeepCts != null)
-                {
-                    _fallbackBeepCts.Cancel();
-                    _fallbackBeepCts.Dispose();
-                    _fallbackBeepCts = null;
-                }
-
-                if (_mediaPlayer != null)
-                {
-                    _mediaPlayer.Pause();
-                    _mediaPlayer.Dispose();
-                    _mediaPlayer = null;
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Ошибка остановки звука: {ex.Message}");
-            }
+            // SystemSounds не требует явной остановки
         }
     }
 }

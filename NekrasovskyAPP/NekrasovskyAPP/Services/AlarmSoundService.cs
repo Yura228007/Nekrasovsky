@@ -1,41 +1,39 @@
 namespace NekrasovskyAPP.Services
 {
-    public class AlarmSoundService : IAlarmSoundService
+    public partial class AlarmSoundService : IAlarmSoundService
     {
-#if ANDROID
-        private Platforms.AndroidPlatform.AlarmSoundService? _androidService;
-#elif WINDOWS
-        private Platforms.Windows.AlarmSoundService? _windowsService;
-#endif
+        private CancellationTokenSource? _cts;
 
-        public AlarmSoundService()
-        {
-#if ANDROID
-            _androidService = new Platforms.AndroidPlatform.AlarmSoundService();
-#elif WINDOWS
-            _windowsService = new Platforms.Windows.AlarmSoundService();
-#endif
-        }
+        public bool IsPlaying { get; private set; }
 
         public void PlayAlarmSound()
         {
-#if ANDROID
-            _androidService?.PlayAlarmSound();
-#elif WINDOWS
-            _windowsService?.PlayAlarmSound();
-#else
-            // Для других платформ можно добавить реализацию
-            System.Diagnostics.Debug.WriteLine("Воспроизведение звука тревоги");
-#endif
+            if (IsPlaying)
+                return;
+
+            IsPlaying = true;
+            _cts = new CancellationTokenSource();
+
+            StartPlatformAlarm(_cts.Token);
         }
 
         public void StopAlarmSound()
         {
-#if ANDROID
-            _androidService?.StopAlarmSound();
-#elif WINDOWS
-            _windowsService?.StopAlarmSound();
-#endif
+            IsPlaying = false;
+
+            try
+            {
+                _cts?.Cancel();
+                _cts?.Dispose();
+                _cts = null;
+            }
+            catch { }
+
+            StopPlatformAlarm();
         }
+
+        // Платформенные методы реализуются в partial классах
+        partial void StartPlatformAlarm(CancellationToken token);
+        partial void StopPlatformAlarm();
     }
 }

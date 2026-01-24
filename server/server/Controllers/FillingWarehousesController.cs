@@ -7,6 +7,7 @@ namespace server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Route("api/filling-warehouses")]
     public class FillingWarehousesController : ControllerBase
     {
         private readonly IFillingWarehouseService _fillingWarehouseService;

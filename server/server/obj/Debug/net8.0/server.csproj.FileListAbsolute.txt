@@ -128,7 +128,6 @@ D:/Projects/Nekrasovsky/server/server/obj/Debug/net8.0/refint/server.dll
 D:/Projects/Nekrasovsky/server/server/obj/Debug/net8.0/server.pdb
 D:/Projects/Nekrasovsky/server/server/obj/Debug/net8.0/server.genruntimeconfig.cache
 D:/Projects/Nekrasovsky/server/server/obj/Debug/net8.0/ref/server.dll
-D:/Projects/Nekrasovsky/server/server/obj/Debug/net8.0/staticwebassets.upToDateCheck.txt
 /Users/gleb/Documents/GitHub/Nekrasovsky/server/server/obj/Debug/net8.0/server.dll
 /Users/gleb/Documents/GitHub/Nekrasovsky/server/server/obj/Debug/net8.0/refint/server.dll
 /Users/gleb/Documents/GitHub/Nekrasovsky/server/server/obj/Debug/net8.0/server.pdb
@@ -384,10 +383,10 @@ D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\staticwebassets.build.jso
 D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\staticwebassets.build.json.cache
 D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\staticwebassets.development.json
 D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\server.csproj.Up2Date
 D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\server.dll
 D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\refint\server.dll
 D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\server.pdb
 D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\server.genruntimeconfig.cache
 D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\ref\server.dll
+D:\Projects\Nekrasovsky\server\server\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

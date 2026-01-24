@@ -8,6 +8,7 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
+        <ToolbarItem Text="Сканировать" Clicked="OnScanBarcodeClicked" />
         <ToolbarItem Text="Добавить" Clicked="OnAddClicked" />
     </ContentPage.ToolbarItems>
     

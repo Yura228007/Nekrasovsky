@@ -33,8 +33,16 @@ namespace server.Models
         public string? MeasuringType { get; set; }
 
         // ?? ????????????? ????????
+        [Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidateNever]
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Warehouse Warehouse { get; set; } = null!;
+
+        [Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidateNever]
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Material? Material { get; set; }
+
+        [Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidateNever]
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Product? Product { get; set; }
     }
 }

@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\pages\\barcodescannerpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\pages\\barcodescannerpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\pages\\barcodescannerpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\pages\\barcodescannerpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\services\\iapiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\services\\iapiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -91,16 +99,8 @@
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\pages\\productspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\pages\\barcodescannerpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\pages\\barcodescannerpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\platforms\\android\\androidmanifest.xml||{4E01A4BC-CFCF-452C-8C08-51352512D197}",
       "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\platforms\\android\\androidmanifest.xml||{4E01A4BC-CFCF-452C-8C08-51352512D197}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\pages\\barcodescannerpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|solutionrelative:nekrasovskyapp\\pages\\barcodescannerpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{44494C2D-5F24-41AC-874C-B387D8FD58CC}|NekrasovskyAPP\\NekrasovskyAPP.csproj|d:\\projects\\nekrasovsky\\nekrasovskyapp\\nekrasovskyapp\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -188,47 +188,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LogsPage.xaml",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\LogsPage.xaml",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\LogsPage.xaml",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\LogsPage.xaml",
-              "RelativeToolTip": "NekrasovskyAPP\\Pages\\LogsPage.xaml",
-              "ViewState": "AgIAAI4AAAAAAAAAAAAAABMAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-01-24T01:13:48.369Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "LogsPage.xaml.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\LogsPage.xaml.cs",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\LogsPage.xaml.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\LogsPage.xaml.cs",
-              "RelativeToolTip": "NekrasovskyAPP\\Pages\\LogsPage.xaml.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAawBsAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-24T00:47:45.305Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\AuthService.cs",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\Services\\AuthService.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\AuthService.cs",
-              "RelativeToolTip": "NekrasovskyAPP\\Services\\AuthService.cs",
-              "ViewState": "AgIAAE0AAAAAAAAAAAAIwF8AAABaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-22T19:20:12.045Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "WorkReportsViewModel.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\ViewModels\\WorkReportsViewModel.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\ViewModels\\WorkReportsViewModel.cs",
@@ -240,7 +204,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "AlarmSoundService.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\AlarmSoundService.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Platforms\\Android\\AlarmSoundService.cs",
@@ -252,7 +216,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "MauiProgram.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\MauiProgram.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\MauiProgram.cs",
@@ -264,7 +228,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "AdminPage.xaml",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\AdminPage.xaml",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\AdminPage.xaml",
@@ -276,20 +240,82 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "IApiService.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\IApiService.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Services\\IApiService.cs",
               "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\IApiService.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Services\\IApiService.cs",
-              "ViewState": "AgIAAFUAAAAAAAAAAAAjwFsAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAAA0AAAAAAAAAAIA3wBcAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-22T09:37:24.513Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BarcodeScannerPage.xaml",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml",
+              "RelativeToolTip": "NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAADkAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-01-21T12:10:21.477Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BarcodeScannerPage.xaml.cs",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml.cs",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml.cs",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml.cs",
+              "RelativeToolTip": "NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAE0AAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T12:18:43.109Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Services\\AuthService.cs",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\AuthService.cs",
+              "RelativeToolTip": "NekrasovskyAPP\\Services\\AuthService.cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAIwF8AAABaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-22T19:20:12.045Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "LogsPage.xaml.cs",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\LogsPage.xaml.cs",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\LogsPage.xaml.cs",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\LogsPage.xaml.cs",
+              "RelativeToolTip": "NekrasovskyAPP\\Pages\\LogsPage.xaml.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAawBsAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-24T00:47:45.305Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LogsPage.xaml",
+              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\LogsPage.xaml",
+              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\LogsPage.xaml",
+              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\LogsPage.xaml",
+              "RelativeToolTip": "NekrasovskyAPP\\Pages\\LogsPage.xaml",
+              "ViewState": "AgIAAI4AAAAAAAAAAAAAABMAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-01-24T01:13:48.369Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "UsersPage.xaml.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\UsersPage.xaml.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\UsersPage.xaml.cs",
@@ -301,7 +327,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "HomePage.xaml.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\HomePage.xaml.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\HomePage.xaml.cs",
@@ -313,7 +339,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "ApiService.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Services\\ApiService.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Services\\ApiService.cs",
@@ -325,7 +351,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "SettingsPage.xaml",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\SettingsPage.xaml",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\SettingsPage.xaml",
@@ -337,7 +363,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "SettingsPage.xaml.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\SettingsPage.xaml.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\SettingsPage.xaml.cs",
@@ -349,7 +375,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "AdminPage.xaml.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\AdminPage.xaml.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\AdminPage.xaml.cs",
@@ -361,7 +387,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "HomePage.xaml",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\HomePage.xaml",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\HomePage.xaml",
@@ -370,18 +396,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-01-22T19:29:15.194Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "BarcodeScannerPage.xaml.cs",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml.cs",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml.cs",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml.cs",
-              "RelativeToolTip": "NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml.cs",
-              "ViewState": "AgIAAFQAAAAAAAAAAIBJwHcAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-21T12:18:43.109Z"
             },
             {
               "$type": "Document",
@@ -397,7 +411,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "WorkReportsPage.xaml",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\WorkReportsPage.xaml",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\WorkReportsPage.xaml",
@@ -409,7 +423,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Domain\\AppDbContext.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Domain\\AppDbContext.cs",
@@ -421,7 +435,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "WorkReport.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\WorkReport.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\WorkReport.cs",
@@ -433,7 +447,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "PartRequest.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Models\\PartRequest.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Models\\PartRequest.cs",
@@ -445,19 +459,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "BarcodeScannerPage.xaml",
-              "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml",
-              "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml",
-              "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml",
-              "RelativeToolTip": "NekrasovskyAPP\\Pages\\BarcodeScannerPage.xaml",
-              "ViewState": "AgIAACEAAAAAAAAAAIBJwDkAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-01-21T12:10:21.477Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "UsersPage.xaml",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\UsersPage.xaml",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\UsersPage.xaml",
@@ -469,7 +471,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "ProductsPage.xaml.cs",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\ProductsPage.xaml.cs",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\ProductsPage.xaml.cs",
@@ -481,7 +483,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "ProductsPage.xaml",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\ProductsPage.xaml",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\ProductsPage.xaml",
@@ -493,7 +495,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "AndroidManifest.xml",
               "DocumentMoniker": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Platforms\\Android\\AndroidManifest.xml",
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Platforms\\Android\\AndroidManifest.xml",

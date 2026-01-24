@@ -55,11 +55,26 @@ namespace server.Services
         {
             var query = _context.Users.AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(name))
-                query = query.Where(u => EF.Functions.ILike(u.Name, $"%{name}%"));
-
-            if (!string.IsNullOrWhiteSpace(surname))
+            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(surname))
+            {
+                // Ищем в обоих порядках: "Имя Фамилия" ИЛИ "Фамилия Имя"
+                query = query.Where(u =>
+                    (EF.Functions.ILike(u.Name, $"%{name}%") &&
+                     EF.Functions.ILike(u.Surname, $"%{surname}%")) ||
+                    (EF.Functions.ILike(u.Name, $"%{surname}%") &&
+                     EF.Functions.ILike(u.Surname, $"%{name}%")));
+            }
+            else if (!string.IsNullOrWhiteSpace(name))
+            {
+                // Если указан только name - ищем по имени ИЛИ фамилии
+                query = query.Where(u =>
+                    EF.Functions.ILike(u.Name, $"%{name}%") ||
+                    EF.Functions.ILike(u.Surname, $"%{name}%"));
+            }
+            else if (!string.IsNullOrWhiteSpace(surname))
+            {
                 query = query.Where(u => EF.Functions.ILike(u.Surname, $"%{surname}%"));
+            }
 
             var users = await query
                 .Include(u => u.Role)

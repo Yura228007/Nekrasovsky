@@ -211,6 +211,56 @@ namespace NekrasovskyAPP.Pages
             }
         }
 
+        private async Task<(string? code, bool cancelled)> GetCodeAsync(string title, string? existingCode)
+        {
+#if ANDROID || IOS
+            var action = await DisplayActionSheet(
+                "Ввод артикула (кода)",
+                "Отмена",
+                null,
+                "Ввести вручную",
+                "Сканировать QR-код");
+
+            if (action == "Отмена" || action == null)
+                return (existingCode, false);
+
+            if (action == "Сканировать QR-код")
+            {
+                var tcs = new TaskCompletionSource<string?>();
+
+                var scannerPage = new BarcodeScannerPage();
+
+                void OnBarcodeScanned(object? sender, string barcodeValue)
+                {
+                    scannerPage.BarcodeScanned -= OnBarcodeScanned;
+                    tcs.TrySetResult(barcodeValue);
+                }
+
+                scannerPage.BarcodeScanned += OnBarcodeScanned;
+                scannerPage.Disappearing += (s, e) =>
+                {
+                    tcs.TrySetResult(null);
+                };
+
+                await Navigation.PushModalAsync(scannerPage);
+
+                var scannedCode = await tcs.Task;
+
+                if (!string.IsNullOrWhiteSpace(scannedCode))
+                {
+                    return (scannedCode, false);
+                }
+
+                // Если сканирование не удалось, предложить ввести вручную
+                var manualCode = await DisplayPromptAsync(title, "Код (необязательно):", "Далее", "Отмена", "Код", -1, Keyboard.Default, existingCode ?? "");
+                return (manualCode, false);
+            }
+#endif
+            // Ручной ввод
+            var code = await DisplayPromptAsync(title, "Код (необязательно):", "Далее", "Отмена", "Код", -1, Keyboard.Default, existingCode ?? "");
+            return (code, false);
+        }
+
         private async Task ShowProductDialogAsync(Product? existingProduct)
         {
             bool isEdit = existingProduct != null;
@@ -220,7 +270,7 @@ namespace NekrasovskyAPP.Pages
             if (string.IsNullOrWhiteSpace(name))
                 return;
 
-            var code = await DisplayPromptAsync(title, "Код (необязательно):", "Далее", "Отмена", "Код", -1, Keyboard.Default, existingProduct?.Code ?? "");
+            var (code, _) = await GetCodeAsync(title, existingProduct?.Code);
             
             var description = await DisplayPromptAsync(title, "Описание (необязательно):", "Далее", "Отмена", "Описание", -1, Keyboard.Default, existingProduct?.Description ?? "");
             

@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:NekrasovskyAPP.Converters"
              x:Class="NekrasovskyAPP.Pages.MaterialsPage"
-             Title="Материалы"
              BackgroundColor="{StaticResource BackgroundDark}">
 
     <ContentPage.ToolbarItems>

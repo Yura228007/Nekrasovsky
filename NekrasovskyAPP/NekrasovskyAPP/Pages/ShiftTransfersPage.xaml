@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:NekrasovskyAPP.Converters"
              x:Class="NekrasovskyAPP.Pages.ShiftTransfersPage"
-             Title="Передача смены"
              BackgroundColor="{StaticResource BackgroundDark}">
 
     <ContentPage.Resources>

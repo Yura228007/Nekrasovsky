@@ -118,6 +118,11 @@ namespace server.Controllers
                 return CreatedAtAction(nameof(GetById), new { id = createdMaterial.Id },
                     new { message = "Material created successfully", material = createdMaterial });
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Validation error while creating material");
+                return Conflict(new { message = ex.Message });
+            }
             catch (DbUpdateException ex)
             {
                 _logger.LogError(ex, "Database error while creating material");
@@ -154,6 +159,11 @@ namespace server.Controllers
             {
                 _logger.LogWarning(ex, "Material with ID {MaterialId} not found for update", id);
                 return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Validation error while updating material with ID {MaterialId}", id);
+                return Conflict(new { message = ex.Message });
             }
             catch (DbUpdateException ex)
             {

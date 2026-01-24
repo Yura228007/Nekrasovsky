@@ -53,6 +53,17 @@ namespace server.Services
 
         public async Task<Product> CreateProductAsync(Product product)
         {
+            // Проверка уникальности артикула
+            if (!string.IsNullOrWhiteSpace(product.Code))
+            {
+                var existingProduct = await _context.Products
+                    .FirstOrDefaultAsync(p => p.Code == product.Code);
+                if (existingProduct != null)
+                {
+                    throw new InvalidOperationException($"Продукт с артикулом '{product.Code}' уже существует");
+                }
+            }
+
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
@@ -66,6 +77,17 @@ namespace server.Services
             if (product == null)
             {
                 throw new KeyNotFoundException($"Product with ID {id} not found");
+            }
+
+            // Проверка уникальности артикула (исключая текущий продукт)
+            if (!string.IsNullOrWhiteSpace(updatedProduct.Code))
+            {
+                var existingProduct = await _context.Products
+                    .FirstOrDefaultAsync(p => p.Code == updatedProduct.Code && p.Id != id);
+                if (existingProduct != null)
+                {
+                    throw new InvalidOperationException($"Продукт с артикулом '{updatedProduct.Code}' уже существует");
+                }
             }
 
             product.Name = updatedProduct.Name;

@@ -60,6 +60,17 @@ namespace server.Services
 
         public async Task<Material> CreateMaterialAsync(Material material)
         {
+            // Проверка уникальности артикула
+            if (!string.IsNullOrWhiteSpace(material.Code))
+            {
+                var existingMaterial = await _context.Materials
+                    .FirstOrDefaultAsync(m => m.Code == material.Code);
+                if (existingMaterial != null)
+                {
+                    throw new InvalidOperationException($"Материал с артикулом '{material.Code}' уже существует");
+                }
+            }
+
             _context.Materials.Add(material);
             await _context.SaveChangesAsync();
 
@@ -73,6 +84,17 @@ namespace server.Services
             if (material == null)
             {
                 throw new KeyNotFoundException($"Material with ID {id} not found");
+            }
+
+            // Проверка уникальности артикула (исключая текущий материал)
+            if (!string.IsNullOrWhiteSpace(updatedMaterial.Code))
+            {
+                var existingMaterial = await _context.Materials
+                    .FirstOrDefaultAsync(m => m.Code == updatedMaterial.Code && m.Id != id);
+                if (existingMaterial != null)
+                {
+                    throw new InvalidOperationException($"Материал с артикулом '{updatedMaterial.Code}' уже существует");
+                }
             }
 
             material.Name = updatedMaterial.Name;

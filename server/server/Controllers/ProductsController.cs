@@ -97,6 +97,11 @@ namespace server.Controllers
                 return CreatedAtAction(nameof(GetById), new { id = createdProduct.Id },
                     new { message = "Product created successfully", product = createdProduct });
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Validation error while creating product");
+                return Conflict(new { message = ex.Message });
+            }
             catch (DbUpdateException ex)
             {
                 _logger.LogError(ex, "Database error while creating product");
@@ -133,6 +138,11 @@ namespace server.Controllers
             {
                 _logger.LogWarning(ex, "Product with ID {ProductId} not found for update", id);
                 return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Validation error while updating product with ID {ProductId}", id);
+                return Conflict(new { message = ex.Message });
             }
             catch (DbUpdateException ex)
             {

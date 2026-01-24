@@ -13,7 +13,7 @@ namespace NekrasovskyAPP.Pages
         {
             InitializeComponent();
             _viewModel = viewModel;
-            _apiService = viewModel.GetType().GetField("_apiService", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.GetValue(viewModel) as IApiService;
+            _apiService = viewModel.ApiService;
             BindingContext = _viewModel;
         }
 
@@ -188,9 +188,9 @@ namespace NekrasovskyAPP.Pages
                               $"Длительность: {selectedLog.DurationMs} мс\n" +
                               $"Контроллер: {selectedLog.Controller}\n" +
                               $"Действие: {selectedLog.Action}\n" +
-                              $"Время: {selectedLog.Timestamp:dd.MM.yyyy HH:mm:ss}\n" +
+                              $"Время: {selectedLog.RequestTime:dd.MM.yyyy HH:mm:ss}\n" +
                               $"Пользователь ID: {selectedLog.UserId}\n" +
-                              $"IP адрес: {selectedLog.IpAddress}\n" +
+                              $"IP адрес: {selectedLog.ClientIp}\n" +
                               $"User Agent: {selectedLog.UserAgent}";
 
                 if (selectedLog.WarehouseId.HasValue)
@@ -199,8 +199,8 @@ namespace NekrasovskyAPP.Pages
                     details += $"\nМатериал ID: {selectedLog.MaterialId}";
                 if (selectedLog.ProductId.HasValue)
                     details += $"\nПродукт ID: {selectedLog.ProductId}";
-                if (!string.IsNullOrEmpty(selectedLog.ErrorMessage))
-                    details += $"\n\nОшибка: {selectedLog.ErrorMessage}";
+                if (selectedLog.StatusCode >= 400 && !string.IsNullOrWhiteSpace(selectedLog.ResponseBody))
+                    details += $"\n\nОтвет: {selectedLog.ResponseBody}";
 
                 await DisplayAlert("Детали лога", details, "OK");
 

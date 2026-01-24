@@ -60,18 +60,19 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="12"/>
                             </Border.StrokeShape>
-                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
                                 <Label Grid.Row="0" Grid.Column="0"
-                                       Text="{Binding Name, StringFormat='{0} '}"
                                        FontSize="18"
                                        FontAttributes="Bold"
-                                       TextColor="{StaticResource White}" />
-                                <Label Grid.Row="0" Grid.Column="1"
-                                       Text="{Binding Surname}"
-                                       FontSize="18"
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource White}"
-                                       HorizontalOptions="Start" />
+                                       TextColor="{StaticResource White}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Name}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding Surname}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
                                 <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                                        Text="{Binding Email}"
                                        FontSize="14"
@@ -93,7 +94,7 @@
                                         </Binding>
                                     </Label.Text>
                                 </Label>
-                                <Label Grid.Row="0" Grid.Column="2"
+                                <Label Grid.Row="0" Grid.Column="1"
                                        Text="→"
                                        FontSize="20"
                                        VerticalOptions="Center"

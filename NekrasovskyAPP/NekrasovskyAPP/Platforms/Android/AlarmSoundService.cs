@@ -25,7 +25,13 @@ namespace NekrasovskyAPP.Platforms.AndroidPlatform
                 // Требуется файл Resources/Raw/alarm.mp3 (MAUI asset -> Android assets)
                 try
                 {
-                    using var assetFd = context.Assets.OpenFd("alarm.mp3");
+                    var assets = context.Assets;
+                    if (assets == null)
+                    {
+                        return;
+                    }
+
+                    using var assetFd = assets.OpenFd("alarm.mp3");
                     _mediaPlayer = new MediaPlayer();
                     _mediaPlayer.SetDataSource(assetFd.FileDescriptor, assetFd.StartOffset, assetFd.Length);
                     _mediaPlayer.Looping = true;

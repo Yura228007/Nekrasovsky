@@ -11,6 +11,7 @@ namespace server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Route("api/request-logs")]
     public class RequestLogsController : ControllerBase
     {
         private readonly IRequestLogService _requestLogService;

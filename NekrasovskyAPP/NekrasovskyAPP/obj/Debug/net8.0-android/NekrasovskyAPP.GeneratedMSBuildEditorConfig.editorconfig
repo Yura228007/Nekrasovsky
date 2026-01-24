@@ -60,6 +60,12 @@ build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.Login
 build_metadata.AdditionalFiles.TargetPath = Pages\LoginPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\LoginPage.xaml
 
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/LogsPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.LogsPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Pages\LogsPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Pages\LogsPage.xaml
+
 [D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/MaterialsPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.MaterialsPage.xaml

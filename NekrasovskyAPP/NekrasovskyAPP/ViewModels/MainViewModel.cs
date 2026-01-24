@@ -24,6 +24,8 @@ namespace NekrasovskyAPP.ViewModels
             Logs = new ObservableCollection<RequestLog>();
         }
 
+        public IApiService ApiService => _apiService;
+
         public ObservableCollection<User> Users { get; }
         public ObservableCollection<Product> Products { get; }
         public ObservableCollection<Material> Materials { get; }
@@ -804,18 +806,25 @@ namespace NekrasovskyAPP.ViewModels
                     pageNumber: pageNumber,
                     pageSize: 50);
 
-                if (result != null)
+                if (result == null)
                 {
+                    ErrorMessage = "Не удалось загрузить логи. Проверьте соединение с сервером.";
                     Logs.Clear();
-                    foreach (var log in result.Logs)
-                    {
-                        Logs.Add(log);
-                    }
-
-                    CurrentPage = result.PageNumber;
-                    TotalPages = result.TotalPages;
-                    TotalLogsCount = result.TotalCount;
+                    CurrentPage = 1;
+                    TotalPages = 1;
+                    TotalLogsCount = 0;
+                    return;
                 }
+
+                Logs.Clear();
+                foreach (var log in result.Logs)
+                {
+                    Logs.Add(log);
+                }
+
+                CurrentPage = result.PageNumber;
+                TotalPages = result.TotalPages;
+                TotalLogsCount = result.TotalCount;
             }
             catch (Exception ex)
             {

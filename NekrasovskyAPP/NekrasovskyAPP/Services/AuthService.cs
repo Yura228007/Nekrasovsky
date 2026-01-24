@@ -86,7 +86,7 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<bool> IsAdminAsync(int userId)
+        public Task<bool> IsAdminAsync(int userId)
         {
             try
             {
@@ -99,15 +99,15 @@ namespace NekrasovskyAPP.Services
                         roleName.Equals("Владелец", StringComparison.OrdinalIgnoreCase) ||
                         roleName.Equals("Администратор", StringComparison.OrdinalIgnoreCase))
                     {
-                        return true;
+                        return Task.FromResult(true);
                     }
                 }
 
-                return false;
+                return Task.FromResult(false);
             }
             catch
             {
-                return false;
+                return Task.FromResult(false);
             }
         }
 

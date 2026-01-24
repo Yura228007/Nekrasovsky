@@ -12,7 +12,7 @@ namespace NekrasovskyAPP.Services
         private readonly JsonSerializerOptions _jsonOptions;
         private int? _currentUserId;
         
-        private static async Task<string> GetBaseUrl()
+        private static string GetBaseUrl()
         {
 #if ANDROID
             //using var stream = await FileSystem.OpenAppPackageFileAsync("server_ip.txt");
@@ -28,7 +28,7 @@ namespace NekrasovskyAPP.Services
         public ApiService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri(GetBaseUrl().Result);
+            _httpClient.BaseAddress = new Uri(GetBaseUrl());
             _httpClient.Timeout = TimeSpan.FromSeconds(30);
             
             _jsonOptions = new JsonSerializerOptions
@@ -1002,12 +1002,19 @@ namespace NekrasovskyAPP.Services
 
                 var query = string.Join("&", queryParams);
                 var response = await _httpClient.GetAsync($"api/request-logs/advanced-search?{query}");
-                response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorBody = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine(
+                        $"RequestLogs advanced-search failed: {(int)response.StatusCode} {response.ReasonPhrase} | {errorBody}");
+                    return null;
+                }
 
                 return await response.Content.ReadFromJsonAsync<LogsSearchResult>(_jsonOptions);
             }
             catch
             {
+                System.Diagnostics.Debug.WriteLine("RequestLogs advanced-search failed: exception thrown");
                 return null;
             }
         }

@@ -122,7 +122,7 @@ namespace NekrasovskyAPP.ViewModels
 
                 var request = new Services.FinishWorkRequest
                 {
-                    FinishTime = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")
+                    FinishTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss")
                 };
 
                 var response = await _apiService.FinishWorkAsync(reportId, request);

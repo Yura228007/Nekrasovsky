@@ -10,7 +10,7 @@
         <ToolbarItem Text="Экспорт Excel" Clicked="OnExportExcelClicked" />
     </ContentPage.ToolbarItems>
 
-    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="10">
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Padding="10">
 
         <!-- Search Bar -->
         <Border Grid.Row="0"
@@ -39,8 +39,15 @@
             </Grid>
         </Border>
 
+        <!-- Error Message -->
+        <Label Grid.Row="1"
+               Text="{Binding ErrorMessage}"
+               TextColor="#FF6B6B"
+               FontSize="12"
+               Margin="4,0,4,6" />
+
         <!-- Filters Panel -->
-        <Border Grid.Row="1"
+        <Border Grid.Row="2"
                 BackgroundColor="{StaticResource BackgroundCard}"
                 StrokeThickness="1"
                 Stroke="{StaticResource BorderColor}"
@@ -165,7 +172,7 @@
         </Border>
 
         <!-- Logs List -->
-        <CollectionView Grid.Row="2"
+        <CollectionView Grid.Row="3"
                         x:Name="LogsCollectionView"
                         ItemsSource="{Binding Logs}"
                         SelectionMode="Single"
@@ -218,24 +225,24 @@
                                        TextColor="{StaticResource White}"
                                        LineBreakMode="TailTruncation" />
                                 <HorizontalStackLayout Spacing="8">
-                                    <Label Text="{Binding Controller}"
+                                    <Label Text="{Binding Controller, TargetNullValue='-'}"
                                            FontSize="11"
                                            TextColor="{StaticResource Gray400}" />
                                     <Label Text="/"
                                            FontSize="11"
                                            TextColor="{StaticResource Gray500}" />
-                                    <Label Text="{Binding Action}"
+                                    <Label Text="{Binding Action, TargetNullValue='-'}"
                                            FontSize="11"
                                            TextColor="{StaticResource Gray400}" />
                                 </HorizontalStackLayout>
-                                <Label Text="{Binding Timestamp, StringFormat='{0:dd.MM.yyyy HH:mm:ss}'}"
+                                <Label Text="{Binding RequestTime, StringFormat='{0:dd.MM.yyyy HH:mm:ss}'}"
                                        FontSize="10"
                                        TextColor="{StaticResource Gray500}" />
                             </VerticalStackLayout>
 
                             <!-- Status and Duration -->
                             <VerticalStackLayout Grid.Column="2" Spacing="4" HorizontalOptions="End">
-                                <Border BackgroundColor="{StaticResource Accent}"
+                                <Border BackgroundColor="{Binding StatusCodeColor}"
                                         Padding="6,3">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="4"/>
@@ -259,7 +266,7 @@
         </CollectionView>
 
         <!-- Pagination -->
-        <Border Grid.Row="3"
+        <Border Grid.Row="4"
                 BackgroundColor="{StaticResource BackgroundCard}"
                 StrokeThickness="1"
                 Stroke="{StaticResource BorderColor}"

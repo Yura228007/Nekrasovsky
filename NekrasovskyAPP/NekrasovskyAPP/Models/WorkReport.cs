@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -31,5 +31,10 @@ namespace NekrasovskyAPP.Models
 
         // 🔗 Навигационное свойство
         public virtual User User { get; set; } = null!;
+
+        public string DisplayStartTime => StartWork.ToLocalTime().ToString("HH:mm");
+        public string? DisplayFinishTime => FinishWork.HasValue
+            ? FinishWork.Value.ToLocalTime().ToString("HH:mm")
+            : null;
     }
 }

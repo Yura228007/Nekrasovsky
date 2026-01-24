@@ -1,0 +1,3890 @@
+﻿=======================================================
+Timestamp: 2026-01-24T00:47:52.0257421Z
+Method: GET
+URL: /
+Status: 404
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:00:45.6674239Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1634 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":null,"role":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:00:45.8954901Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"AHjPibaMeak40gW_1g-bGQ","connectionToken":"YSvG8yL3KEgGprLwjqg3RA","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:00:58.7889086Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 23 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:00:58.8949146Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 99 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:00:58.9943946Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:00:59.0314646Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 46 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:01:01.6629690Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":null,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:01:01.6682044Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 14 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:02:33.2181161Z
+Method: GET
+URL: /hubs/notifications?id=YSvG8yL3KEgGprLwjqg3RA
+Status: 101
+Duration: 107241 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:02:38.6451623Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 430 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:02:38.6959489Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"dWZwAvMeoui3jWaiLT6yag","connectionToken":"sYEDa0W_WdZFnG7dcqJhrA","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:03:04.0730787Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 36 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:03:04.1592043Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 128 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:03:04.2488745Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 138 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:03:26.2866737Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:03:29.0640001Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:03:29.6818204Z
+Method: POST
+URL: /api/users
+Status: 201
+Duration: 617 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: CreateUser
+Response Body: {"message":"User created successfully","user":{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.6081505Z","roleId":3,"role":null,"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:03:29.7253906Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:03:29.7260507Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 14 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:03:58.0469429Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 49 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:03:58.0490864Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 42 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:03.6943713Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:04.5178549Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:04.5703220Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 49 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:17.4446709Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1040 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":3,"login":"Adam","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:20.7184399Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 823 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:20.7257034Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 818 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:33.6049469Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 24 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:33.7756336Z
+Method: POST
+URL: /api/products
+Status: 201
+Duration: 191 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: CreateProduct
+Response Body: {"message":"Product created successfully","product":{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:33.8092626Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 25 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:33.8137192Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 14 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:49.1362110Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:49.2765148Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 163 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:49.2798315Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 141 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:58.6270891Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:58.7382125Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 16 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:58.7732420Z
+Method: POST
+URL: /api/materials
+Status: 201
+Duration: 143 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: CreateMaterial
+Response Body: {"message":"Material created successfully","material":{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:58.7917578Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:58.7957993Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:04:58.8030071Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:08.4674415Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 22 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:08.4714530Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:08.5771655Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 157 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:08.5796309Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 147 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:13.7372970Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 64 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:13.8691797Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:13.8835634Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 97 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:23.3544338Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 21 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:23.4246581Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 58 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:25.1954743Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 297 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:25.3488299Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 303 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:25.4155876Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 246 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:25.4640542Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 1352 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:25.4973773Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 611 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:31.2850380Z
+Method: GET
+URL: /api/WorkReports/user/3
+Status: 200
+Duration: 229 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:31.3093707Z
+Method: GET
+URL: /api/WorkReports/user/3
+Status: 200
+Duration: 236 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:31.9076835Z
+Method: GET
+URL: /api/WorkReports/user/3
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:32.3473402Z
+Method: POST
+URL: /api/WorkReports/start
+Status: 200
+Duration: 435 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: StartWork
+Response Body: {"message":"Work started successfully","report":{"id":1,"userId":3,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:31Z","finishWork":null,"note":null,"user":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:32.3760987Z
+Method: GET
+URL: /api/WorkReports/user/3
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":1,"userId":3,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:31Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:32.3780203Z
+Method: GET
+URL: /api/WorkReports/user/3
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":1,"userId":3,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:31Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:34.2554699Z
+Method: GET
+URL: /api/WorkReports/user/3
+Status: 200
+Duration: 13 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":1,"userId":3,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:31Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:34.3706059Z
+Method: POST
+URL: /api/WorkReports/1/finish
+Status: 200
+Duration: 139 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: FinishWork
+Response Body: {"message":"Work finished successfully","report":{"id":1,"userId":3,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:31Z","finishWork":"2026-01-24T05:05:34Z","note":null,"user":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:34.3982172Z
+Method: GET
+URL: /api/WorkReports/user/3
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":1,"userId":3,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:31Z","finishWork":"2026-01-24T05:05:34Z","note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:34.3999463Z
+Method: GET
+URL: /api/WorkReports/user/3
+Status: 200
+Duration: 14 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":1,"userId":3,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:31Z","finishWork":"2026-01-24T05:05:34Z","note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:40.1870865Z
+Method: GET
+URL: /hubs/notifications?id=sYEDa0W_WdZFnG7dcqJhrA
+Status: 101
+Duration: 181482 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:47.4296936Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 652 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":2,"login":"eva","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:47.6013676Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"5aVWaF2nUhIkwkRii2rBAg","connectionToken":"b1lEbTRI-J9WNNZPHgMRCw","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:52.5284291Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 511 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:52.6300396Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 16 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:53.2657942Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:53.3835280Z
+Method: POST
+URL: /api/WorkReports/start
+Status: 200
+Duration: 129 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: StartWork
+Response Body: {"message":"Work started successfully","report":{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":null,"note":null,"user":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:53.4124071Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 24 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:05:53.5835309Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 164 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:06:03.8956319Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:06:03.9043661Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 53 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:06:03.9113451Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 23 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:06:05.8706904Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:06:06.0928026Z
+Method: GET
+URL: /api/ShiftTransfers/user/2?sent=True
+Status: 200
+Duration: 192 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:06:06.1319733Z
+Method: GET
+URL: /api/ShiftTransfers/pending/2
+Status: 200
+Duration: 29 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: GetPending
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:06:17.8926086Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 19 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:06:18.0380665Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 29 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:06:18.2100241Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 40 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:06:33.7253702Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 267 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":1,"userId":2,"createdAt":"2026-01-24T01:06:33.4619754Z","message":"sd","location":"sd"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:06:52.2604481Z
+Method: GET
+URL: /hubs/notifications?id=b1lEbTRI-J9WNNZPHgMRCw
+Status: 101
+Duration: 64653 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:06:58.4664377Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 661 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:06:58.5902703Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"6-X6u7wUNKBTfentDftGFg","connectionToken":"Fjxe6c52BOUuY0C0aUuKXg","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:01.2343692Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 13 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:01.2424927Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 18 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:01.3395833Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 54 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:10.8110442Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 37 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:10.8155509Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 107 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:10.8182691Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 52 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:11.4132191Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 13 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:11.4203210Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:11.4336062Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:11.9024050Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:11.9454606Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 151 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:12.0385102Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 226 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:13.8560073Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:13.8640544Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 18 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:13.8672285Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 19 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:14.3295708Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 74 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:14.3538120Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 32 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:14.3600681Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 36 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:14.6255404Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 122 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:14.6287630Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 141 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:14.6392529Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 63 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:31.4979004Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 21 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:31.5092619Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 23 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:31.5139832Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 26 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:31.9313650Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 14 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:31.9781836Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 37 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.0029453Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.2444510Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 205 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.2522782Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.2578261Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 21 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.4408965Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 69 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.4454571Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 66 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.4466398Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 61 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.6031151Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.6266800Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.6328298Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 32 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.7812278Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.7857788Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.7903374Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 28 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.9806883Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 45 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.9832938Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 30 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:32.9913437Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 47 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:33.2416881Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:33.2628137Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 61 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:33.2699276Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 153 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:40.9184889Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:40.9238977Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 105 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:40.9360541Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 125 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:40.9883528Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 14 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:40.9941029Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 18 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:40.9966092Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 30 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:41.1942757Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 67 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:41.2019891Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:41.2062688Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 23 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:41.3263946Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:41.3537399Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 41 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:41.3651904Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 46 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:41.6387727Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 170 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:41.6535306Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 82 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:42.3326983Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 94 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:42.8522429Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 1041 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:42.9723856Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 400 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:42.9766863Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 553 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:43.0147042Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 128 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:45.3519793Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 21 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:45.3538762Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 20 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:45.3585982Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 25 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:45.5290470Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 16 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:45.5585992Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:45.5625649Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:45.7239722Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 29 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:45.7279355Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:45.7316347Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 16 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:45.8739170Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 18 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:45.8978709Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 19 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:45.8995251Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 14 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.2577571Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 68 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.2707655Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 159 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.2767608Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 27 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.4193488Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 28 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.4241047Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 55 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.4418511Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 54 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.5446769Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.5546752Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.5565663Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.7294551Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.7766290Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.9635823Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 49 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.9655886Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 33 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:46.9690806Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 66 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:47.1080325Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:47.1155536Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:47.1191741Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 39 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:47.2437193Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:47.2494490Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:47.2514473Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:48.2265554Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 194 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:48.2597123Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 138 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:48.2666575Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 116 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:48.2946890Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:48.3002071Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 37 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:48.3033998Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 25 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:48.3308327Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:48.3442475Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 13 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:48.3476591Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 19 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:48.9631545Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:48.9654287Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:48.9746954Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:49.1030932Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:49.1063975Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:49.1096121Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:49.2903165Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 19 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:49.2962487Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:49.2987405Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:49.5751624Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 31 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:49.5824089Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 24 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:49.6039298Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 41 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:49.6133738Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:49.6167007Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:49.6773863Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 98 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:51.2487153Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 510 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:51.2764227Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 72 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:07:51.2979791Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 198 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:00.2138298Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 56 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:00.3278343Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 88 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:00.3378672Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 50 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:00.3469212Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:00.8085182Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 128 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:00.8613743Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 172 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:00.8646557Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 271 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:05.8771886Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 22 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:05.8894965Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 21 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:05.9373389Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 23 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:14.9566757Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 81 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:15.0780640Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 42 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:15.1732023Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 75 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:15.3184502Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:15.3249111Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:15.3264935Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 23 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:15.4905496Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:15.4939824Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:15.5030940Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 21 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:15.6617784Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:15.6691002Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:15.6725055Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:15.8169428Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:15.8297966Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 16 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:16.6515216Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 275 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:16.6732114Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:16.6849025Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 37 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:20.8950907Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:20.8979551Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 18 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:20.9015785Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:21.0928649Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:21.0988418Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:21.2764864Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 13 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:21.2926373Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:21.2944001Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 24 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:21.4554299Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:21.4634105Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:21.4662623Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:21.6396710Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 21 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:21.6517895Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 22 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:21.8119470Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:21.8318535Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:21.8368219Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 41 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.1015228Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 63 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.1082008Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 21 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.1099121Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 106 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.1729580Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.2623314Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 23 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.3533542Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 36 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.3851837Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 47 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.4031635Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 50 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.4087719Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 31 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.5357051Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.5405002Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 40 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.5417778Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 47 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.7435210Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.7507520Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 24 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:08:22.7528572Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:10:25.0515456Z
+Method: GET
+URL: /hubs/notifications?id=Fjxe6c52BOUuY0C0aUuKXg
+Status: 101
+Duration: 206437 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:11:09.4513927Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 622 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:11:09.7187243Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"P2pEziXG3kH126U77xuhsw","connectionToken":"8WReqRp51Qa0oUjaLZnXiQ","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:23:28.7840195Z
+Method: GET
+URL: /
+Status: 404
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:23:51.4440518Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1550 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:23:53.4195776Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"Rap_HFXoP-A7jBBMEvODOA","connectionToken":"UyEBVn3E8-y0Zx9asmN-sg","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:29:53.3970755Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 217 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:29:53.5552709Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 66 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:29:53.5767443Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 91 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:33:51.1071318Z
+Method: GET
+URL: /hubs/notifications?id=UyEBVn3E8-y0Zx9asmN-sg
+Status: 101
+Duration: 597260 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:27.4412506Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 401
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Invalid login or password"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:31.0383182Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 401
+Duration: 31 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Invalid login or password"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:37.7107816Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 411 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":2,"login":"eva","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:37.9302563Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"Tv4YmlEbal_ybHF9Gag1_w","connectionToken":"xmiLE2hSMuxTh-4vkNLuvw","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:40.5498105Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 74 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:40.5671236Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 62 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:47.8537639Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:48.0673277Z
+Method: POST
+URL: /api/WorkReports/2/finish
+Status: 200
+Duration: 242 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: FinishWork
+Response Body: {"message":"Work finished successfully","report":{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":"2026-01-24T01:34:47Z","note":null,"user":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:48.1084744Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 19 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":"2026-01-24T01:34:47Z","note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:48.1139510Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 28 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":"2026-01-24T01:34:47Z","note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:49.0670714Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":"2026-01-24T01:34:47Z","note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:49.1375309Z
+Method: POST
+URL: /api/WorkReports/start
+Status: 200
+Duration: 82 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: StartWork
+Response Body: {"message":"Work started successfully","report":{"id":3,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:34:49Z","finishWork":null,"note":null,"user":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:49.1556501Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 13 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":"2026-01-24T01:34:47Z","note":null,"user":null},{"id":3,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:34:49Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:49.1591365Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 13 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":"2026-01-24T01:34:47Z","note":null,"user":null},{"id":3,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:34:49Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:51.4950565Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":"2026-01-24T01:34:47Z","note":null,"user":null},{"id":3,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:34:49Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:51.6305435Z
+Method: POST
+URL: /api/WorkReports/3/finish
+Status: 200
+Duration: 133 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: FinishWork
+Response Body: {"message":"Work finished successfully","report":{"id":3,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:34:49Z","finishWork":"2026-01-24T01:34:51Z","note":null,"user":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:51.6377680Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":"2026-01-24T01:34:47Z","note":null,"user":null},{"id":3,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:34:49Z","finishWork":"2026-01-24T01:34:51Z","note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:34:51.7188764Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 90 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":2,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:05:53Z","finishWork":"2026-01-24T01:34:47Z","note":null,"user":null},{"id":3,"userId":2,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T01:34:49Z","finishWork":"2026-01-24T01:34:51Z","note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:35:02.3234727Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:35:02.4772630Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 35 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:35:02.4880341Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:35:02.5056694Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 137 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T01:35:15.8758961Z
+Method: GET
+URL: /hubs/notifications?id=xmiLE2hSMuxTh-4vkNLuvw
+Status: 101
+Duration: 37896 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+

@@ -46,10 +46,10 @@
                                        FontSize="18"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource White}" />
-                                <Label Text="{Binding StartWork, StringFormat='Начало: {0:HH:mm}'}"
+                                <Label Text="{Binding DisplayStartTime, StringFormat='Начало: {0}'}"
                                        FontSize="14"
                                        TextColor="{StaticResource Gray400}" />
-                                <Label Text="{Binding FinishWork, StringFormat='Окончание: {0:HH:mm}'}"
+                                <Label Text="{Binding DisplayFinishTime, StringFormat='Окончание: {0}'}"
                                        FontSize="14"
                                        TextColor="{StaticResource Gray400}"
                                        IsVisible="{Binding FinishWork, Converter={StaticResource IsNotNullConverter}}" />

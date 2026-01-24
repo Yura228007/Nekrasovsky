@@ -565,6 +565,189 @@ namespace NekrasovskyAPP.Services
             }
         }
 
+        // Filling Warehouses
+        public async Task<List<FillingWarehouse>> GetAllFillingWarehousesAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/filling-warehouses");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<FillingWarehouse>>(_jsonOptions) ?? new List<FillingWarehouse>();
+            }
+            catch
+            {
+                return new List<FillingWarehouse>();
+            }
+        }
+
+        public async Task<FillingWarehouse?> GetFillingByMaterialAsync(int warehouseId, int materialId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/filling-warehouses/{warehouseId}/{materialId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<FillingWarehouse>(_jsonOptions);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<FillingWarehouse?> GetFillingByProductAsync(int warehouseId, int productId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/filling-warehouses/{warehouseId}/product/{productId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<FillingWarehouse>(_jsonOptions);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<FillingWarehouse>> GetFillingsByWarehouseAsync(int warehouseId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/filling-warehouses/warehouse/{warehouseId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<FillingWarehouse>>(_jsonOptions) ?? new List<FillingWarehouse>();
+            }
+            catch
+            {
+                return new List<FillingWarehouse>();
+            }
+        }
+
+        public async Task<List<FillingWarehouse>> GetFillingsByMaterialAsync(int materialId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/filling-warehouses/material/{materialId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<FillingWarehouse>>(_jsonOptions) ?? new List<FillingWarehouse>();
+            }
+            catch
+            {
+                return new List<FillingWarehouse>();
+            }
+        }
+
+        public async Task<List<FillingWarehouse>> GetFillingsByProductAsync(int productId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/filling-warehouses/product/{productId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<FillingWarehouse>>(_jsonOptions) ?? new List<FillingWarehouse>();
+            }
+            catch
+            {
+                return new List<FillingWarehouse>();
+            }
+        }
+
+        public async Task<ApiResponse<FillingWarehouse>> AddFillingWarehouseAsync(FillingWarehouse filling)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/filling-warehouses", filling, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<ApiResponse<FillingWarehouse>>(_jsonOptions) ?? new ApiResponse<FillingWarehouse>();
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<FillingWarehouse> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<FillingWarehouse>> EditFillingWarehouseByMaterialAsync(int warehouseId, int materialId, FillingWarehouse filling)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync($"api/filling-warehouses/edit/{warehouseId}/{materialId}", filling, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<ApiResponse<FillingWarehouse>>(_jsonOptions) ?? new ApiResponse<FillingWarehouse>();
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<FillingWarehouse> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<FillingWarehouse>> EditFillingWarehouseByProductAsync(int warehouseId, int productId, FillingWarehouse filling)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync($"api/filling-warehouses/edit-product/{warehouseId}/{productId}", filling, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<ApiResponse<FillingWarehouse>>(_jsonOptions) ?? new ApiResponse<FillingWarehouse>();
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<FillingWarehouse> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<object>> DeleteFillingWarehouseByMaterialAsync(int warehouseId, int materialId)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/filling-warehouses/delete/{warehouseId}/{materialId}", null);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<ApiResponse<object>>(_jsonOptions) ?? new ApiResponse<object>();
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<object>> DeleteFillingWarehouseByProductAsync(int warehouseId, int productId)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/filling-warehouses/delete-product/{warehouseId}/{productId}", null);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<ApiResponse<object>>(_jsonOptions) ?? new ApiResponse<object>();
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<FillingWarehouse>> UpdateFillingQuantityByMaterialAsync(FillingWarehouse filling)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/filling-warehouses/update-quantity", filling, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<ApiResponse<FillingWarehouse>>(_jsonOptions) ?? new ApiResponse<FillingWarehouse>();
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<FillingWarehouse> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<FillingWarehouse>> UpdateFillingQuantityByProductAsync(FillingWarehouse filling)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/filling-warehouses/update-quantity-product", filling, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<ApiResponse<FillingWarehouse>>(_jsonOptions) ?? new ApiResponse<FillingWarehouse>();
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<FillingWarehouse> { Message = ex.Message };
+            }
+        }
+
         // Work Reports
         public async Task<List<WorkReport>> GetAllWorkReportsAsync()
         {

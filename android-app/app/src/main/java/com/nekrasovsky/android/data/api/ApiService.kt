@@ -93,6 +93,66 @@ interface ApiService {
     
     @POST("api/warehouses/delete/{id}")
     suspend fun deleteWarehouse(@Path("id") id: Int): Response<ApiResponse<Unit>>
+
+    // Filling Warehouses
+    @GET("api/filling-warehouses")
+    suspend fun getAllFillingWarehouses(): Response<List<FillingWarehouse>>
+
+    @GET("api/filling-warehouses/{warehouseId}/{materialId}")
+    suspend fun getFillingByMaterial(
+        @Path("warehouseId") warehouseId: Int,
+        @Path("materialId") materialId: Int
+    ): Response<FillingWarehouse>
+
+    @GET("api/filling-warehouses/{warehouseId}/product/{productId}")
+    suspend fun getFillingByProduct(
+        @Path("warehouseId") warehouseId: Int,
+        @Path("productId") productId: Int
+    ): Response<FillingWarehouse>
+
+    @GET("api/filling-warehouses/warehouse/{warehouseId}")
+    suspend fun getFillingsByWarehouse(@Path("warehouseId") warehouseId: Int): Response<List<FillingWarehouse>>
+
+    @GET("api/filling-warehouses/material/{materialId}")
+    suspend fun getFillingsByMaterial(@Path("materialId") materialId: Int): Response<List<FillingWarehouse>>
+
+    @GET("api/filling-warehouses/product/{productId}")
+    suspend fun getFillingsByProduct(@Path("productId") productId: Int): Response<List<FillingWarehouse>>
+
+    @POST("api/filling-warehouses")
+    suspend fun addFillingWarehouse(@Body filling: FillingWarehouse): Response<ApiResponse<FillingWarehouse>>
+
+    @POST("api/filling-warehouses/edit/{warehouseId}/{materialId}")
+    suspend fun editFillingWarehouseByMaterial(
+        @Path("warehouseId") warehouseId: Int,
+        @Path("materialId") materialId: Int,
+        @Body filling: FillingWarehouse
+    ): Response<ApiResponse<FillingWarehouse>>
+
+    @POST("api/filling-warehouses/edit-product/{warehouseId}/{productId}")
+    suspend fun editFillingWarehouseByProduct(
+        @Path("warehouseId") warehouseId: Int,
+        @Path("productId") productId: Int,
+        @Body filling: FillingWarehouse
+    ): Response<ApiResponse<FillingWarehouse>>
+
+    @POST("api/filling-warehouses/delete/{warehouseId}/{materialId}")
+    suspend fun deleteFillingWarehouseByMaterial(
+        @Path("warehouseId") warehouseId: Int,
+        @Path("materialId") materialId: Int
+    ): Response<ApiResponse<Unit>>
+
+    @POST("api/filling-warehouses/delete-product/{warehouseId}/{productId}")
+    suspend fun deleteFillingWarehouseByProduct(
+        @Path("warehouseId") warehouseId: Int,
+        @Path("productId") productId: Int
+    ): Response<ApiResponse<Unit>>
+
+    @POST("api/filling-warehouses/update-quantity")
+    suspend fun updateFillingQuantityByMaterial(@Body filling: FillingWarehouse): Response<ApiResponse<FillingWarehouse>>
+
+    @POST("api/filling-warehouses/update-quantity-product")
+    suspend fun updateFillingQuantityByProduct(@Body filling: FillingWarehouse): Response<ApiResponse<FillingWarehouse>>
     
     // Work Reports
     @GET("api/work-reports")
@@ -148,6 +208,7 @@ data class ApiResponse<T>(
     val user: T? = null,
     val product: T? = null,
     val material: T? = null,
+    val filling: T? = null,
     val warehouse: T? = null,
     val report: T? = null,
     val request: T? = null,

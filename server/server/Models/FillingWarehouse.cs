@@ -11,13 +11,19 @@ namespace server.Models
     [Table("FillingWarehouse")]
     public class FillingWarehouse
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
         [Required]
         [ForeignKey(nameof(Warehouse))]
         public int WarehouseId { get; set; }
 
-        [Required]
         [ForeignKey(nameof(Material))]
-        public int MaterialId { get; set; }
+        public int? MaterialId { get; set; }
+
+        [ForeignKey(nameof(Product))]
+        public int? ProductId { get; set; }
 
         [Required]
         [Column(TypeName = "integer")]
@@ -28,6 +34,7 @@ namespace server.Models
 
         // ?? ????????????? ????????
         public virtual Warehouse Warehouse { get; set; } = null!;
-        public virtual Material Material { get; set; } = null!;
+        public virtual Material? Material { get; set; }
+        public virtual Product? Product { get; set; }
     }
 }

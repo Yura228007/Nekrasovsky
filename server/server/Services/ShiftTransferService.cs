@@ -82,17 +82,19 @@ namespace server.Services
                     .Where(fw => fw.WarehouseId == warehouse.Id)
                     .ToListAsync();
 
-                if (fillings == null || fillings.Count == 0)
+                var materialFillings = fillings.Where(f => f.MaterialId.HasValue).ToList();
+
+                if (materialFillings.Count == 0)
                 {
                     missingStock.Add($"Склад '{warehouse.Name}' (ID: {warehouse.Id}) не имеет информации об остатках");
                 }
                 else
                 {
                     // Проверяем наличие материалов с нулевым количеством (можно расширить логику)
-                    var zeroQuantity = fillings.Where(f => f.Quantity <= 0).ToList();
+                    var zeroQuantity = materialFillings.Where(f => f.Quantity <= 0).ToList();
                     if (zeroQuantity.Any())
                     {
-                        var materialIds = zeroQuantity.Select(f => f.MaterialId).ToList();
+                        var materialIds = zeroQuantity.Select(f => f.MaterialId!.Value).ToList();
                         var materials = await _context.Materials
                             .Where(m => materialIds.Contains(m.Id))
                             .ToListAsync();

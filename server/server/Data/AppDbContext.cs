@@ -45,7 +45,7 @@ public class AppDbContext : DbContext
             .HasKey(rp => new { rp.RoleId, rp.PermissionId });
 
         modelBuilder.Entity<FillingWarehouse>()
-            .HasKey(fw => new { fw.WarehouseId, fw.MaterialId });
+            .HasKey(fw => fw.Id);
 
         // =============================
         // User
@@ -204,6 +204,27 @@ public class AppDbContext : DbContext
             .WithMany()
             .HasForeignKey(fw => fw.MaterialId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<FillingWarehouse>()
+            .HasOne(fw => fw.Product)
+            .WithMany()
+            .HasForeignKey(fw => fw.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<FillingWarehouse>()
+            .HasIndex(fw => new { fw.WarehouseId, fw.MaterialId })
+            .IsUnique()
+            .HasFilter("\"MaterialId\" IS NOT NULL");
+
+        modelBuilder.Entity<FillingWarehouse>()
+            .HasIndex(fw => new { fw.WarehouseId, fw.ProductId })
+            .IsUnique()
+            .HasFilter("\"ProductId\" IS NOT NULL");
+
+        modelBuilder.Entity<FillingWarehouse>()
+            .HasCheckConstraint(
+                "CK_FillingWarehouse_MaterialOrProduct",
+                "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
 
         // =============================
         // WorkReport

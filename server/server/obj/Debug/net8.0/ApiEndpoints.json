@@ -608,7 +608,7 @@
   },
   {
     "ContainingType": "server.Controllers.FillingWarehousesController",
-    "Method": "GetFilling",
+    "Method": "GetFillingMaterial",
     "RelativePath": "api/FillingWarehouses/{warehouseId}/{materialId}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -639,7 +639,59 @@
   },
   {
     "ContainingType": "server.Controllers.FillingWarehousesController",
-    "Method": "DeleteFilling",
+    "Method": "GetFillingProduct",
+    "RelativePath": "api/FillingWarehouses/{warehouseId}/product/{productId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "warehouseId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "server.Models.FillingWarehouse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "server.Controllers.FillingWarehousesController",
+    "Method": "DeleteFillingProduct",
+    "RelativePath": "api/FillingWarehouses/delete-product/{warehouseId}/{productId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "warehouseId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.FillingWarehousesController",
+    "Method": "DeleteFillingMaterial",
     "RelativePath": "api/FillingWarehouses/delete/{warehouseId}/{materialId}",
     "HttpMethod": "POST",
     "IsController": true,
@@ -660,7 +712,33 @@
   },
   {
     "ContainingType": "server.Controllers.FillingWarehousesController",
-    "Method": "UpdateFilling",
+    "Method": "UpdateFillingProduct",
+    "RelativePath": "api/FillingWarehouses/edit-product/{warehouseId}/{productId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "warehouseId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updated",
+        "Type": "server.Models.FillingWarehouse",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.FillingWarehousesController",
+    "Method": "UpdateFillingMaterial",
     "RelativePath": "api/FillingWarehouses/edit/{warehouseId}/{materialId}",
     "HttpMethod": "POST",
     "IsController": true,
@@ -712,8 +790,50 @@
   },
   {
     "ContainingType": "server.Controllers.FillingWarehousesController",
-    "Method": "UpdateQuantity",
+    "Method": "GetByProduct",
+    "RelativePath": "api/FillingWarehouses/product/{productId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[server.Models.FillingWarehouse, server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "server.Controllers.FillingWarehousesController",
+    "Method": "UpdateQuantityMaterial",
     "RelativePath": "api/FillingWarehouses/update-quantity",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filling",
+        "Type": "server.Models.FillingWarehouse",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "server.Controllers.FillingWarehousesController",
+    "Method": "UpdateQuantityProduct",
+    "RelativePath": "api/FillingWarehouses/update-quantity-product",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -2752,6 +2872,27 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "server.Controllers.RolesController",
+    "Method": "UpdateRolePermissions",
+    "RelativePath": "api/Roles/{roleId}/permissions",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roleId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "permissionIds",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "server.Controllers.RolesController",

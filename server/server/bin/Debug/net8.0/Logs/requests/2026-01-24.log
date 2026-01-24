@@ -3888,3 +3888,1331 @@ Client IP: ::1
 User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
 =======================================================
 
+=======================================================
+Timestamp: 2026-01-24T14:57:00.4046097Z
+Method: GET
+URL: /
+Status: 404
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T14:58:09.0580828Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1141 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T14:58:09.2941222Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"7kxg89pdSjpMztM3z_A5Kw","connectionToken":"cpWRJ-PUIp8Gs2SBIC5PPQ","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T14:58:11.5658602Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 47 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T14:58:11.6347416Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 123 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T14:58:11.6731215Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T14:58:11.7301716Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 53 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T14:58:14.9165082Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T14:58:19.0698099Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 29 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T14:58:19.0886447Z
+Method: GET
+URL: /api/roles/5/permissions
+Status: 200
+Duration: 73 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:01:28.2236372Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 13 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:01:28.2602148Z
+Method: GET
+URL: /api/roles/1/permissions
+Status: 200
+Duration: 31 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:01:32.4762135Z
+Method: GET
+URL: /api/roles/2/permissions
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:01:32.5914979Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 19 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:01:43.0553722Z
+Method: GET
+URL: /api/roles/3/permissions
+Status: 200
+Duration: 16 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: [{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:01:43.1546980Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 34 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:01:49.5247033Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 14 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:01:49.5258925Z
+Method: GET
+URL: /api/roles/5/permissions
+Status: 200
+Duration: 14 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:02:00.0195410Z
+Method: GET
+URL: /api/roles/4/permissions
+Status: 200
+Duration: 106 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: [{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:02:00.0220570Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 106 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:02:03.6354102Z
+Method: GET
+URL: /api/roles/6/permissions
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:02:03.7494537Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 28 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:02:18.8820594Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 36 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:02:22.1186935Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 13 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:02:25.5169133Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:02:25.5314151Z
+Method: GET
+URL: /api/roles/9/permissions
+Status: 200
+Duration: 28 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:02:53.5982761Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 50 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:02:53.6056139Z
+Method: GET
+URL: /api/roles/10/permissions
+Status: 200
+Duration: 33 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:02:57.2162042Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 64 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:02:57.3251816Z
+Method: GET
+URL: /api/roles/11/permissions
+Status: 200
+Duration: 54 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: [{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:03:04.3064544Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:03:04.3095666Z
+Method: GET
+URL: /api/roles/1/permissions
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:04:07.6435050Z
+Method: GET
+URL: /api/database/check
+Status: 200
+Duration: 509 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Database, Action: CheckDatabase
+Response Body: {"success":true,"message":"Подключение к базе данных успешно","usersCount":3,"users":[{"id":1,"login":"admin","email":"admin@example.com","name":"Админ Системный","isPasswordEncrypted":false,"passwordLength":5},{"id":2,"login":"eva","email":"eva@dura.com","name":"Eva EvaEva","isPasswordEncrypted":false,"passwordLength":60},{"id":3,"login":"Adam","email":"first@people.world","name":"Адам Первый","isPasswordEncrypted":false,"passwordLength":60}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:04:15.8643864Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 57 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:04:16.1268620Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:06:09.8197610Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 20 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:06:12.6456265Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 27 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:06:12.6485767Z
+Method: GET
+URL: /api/roles/8/permissions
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:06:42.2551226Z
+Method: PUT
+URL: /api/roles/8/permissions
+Status: 200
+Duration: 530 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: UpdateRolePermissions
+Response Body: {"message":"Права роли обновлены","permissionCount":3}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:06:48.5185676Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:06:50.2864826Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 14 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:06:50.4402191Z
+Method: GET
+URL: /api/roles/8/permissions
+Status: 200
+Duration: 20 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: [{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:07:03.6608812Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 116 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:07:05.6668305Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:07:05.9626865Z
+Method: GET
+URL: /api/roles/8/permissions
+Status: 200
+Duration: 276 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: [{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:07:14.5547597Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 22 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:07:15.9476227Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:07:15.9487511Z
+Method: GET
+URL: /api/roles/7/permissions
+Status: 200
+Duration: 20 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:09:13.4927581Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 20 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:09:29.3468221Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:09:29.3501077Z
+Method: GET
+URL: /api/roles/11/permissions
+Status: 200
+Duration: 14 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: [{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:10:03.1453604Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 76 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:10:08.7964258Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:10:08.9494596Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 54 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:10:08.9528062Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 41 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:17:37.4954961Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 388 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":2,"userId":1,"createdAt":"2026-01-24T15:17:37.2325857Z","message":"вф","location":"фв"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:17:55.0313471Z
+Method: POST
+URL: /api/AlarmEvents
+Status: 201
+Duration: 29 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: AlarmEvents, Action: CreateAlarmEvent
+Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":3,"userId":1,"createdAt":"2026-01-24T15:17:54.9115962Z","message":"ыв","location":"ыв"}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:17:55.4476167Z
+Method: GET
+URL: /api/WorkReports/user/1
+Status: 200
+Duration: 91 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:17:55.4859229Z
+Method: GET
+URL: /api/WorkReports/user/1
+Status: 200
+Duration: 148 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:18:23.0755420Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 18 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:18:23.0822560Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:18:23.6432983Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 591 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:18:23.6460003Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 645 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"eva","encryptedPassword":"$2a$12$Y0uuNdgaJp09PIOQ9JIhPuJV4BppFS8G0Z9ifm.GeDCWuf/xdumAe","name":"Eva","surname":"EvaEva","email":"eva@dura.com","phone":"57","createdAt":"2026-01-24T01:03:29.60815Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"Adam","encryptedPassword":"$2a$12$iTkjevTNbrNYDPIRz.MUGuFN7TstoAQihCnmon3z9bQOiC.iBXRzq","name":"Адам","surname":"Первый","email":"first@people.world","phone":"555","createdAt":"2026-01-24T01:04:04.400925Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:18:23.6487095Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 600 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:20:05.1922548Z
+Method: GET
+URL: /hubs/notifications?id=cpWRJ-PUIp8Gs2SBIC5PPQ
+Status: 101
+Duration: 1315663 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:21:00.7865636Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 401
+Duration: 44 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Invalid login or password"}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:21:08.6125537Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 563 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:21:08.9017390Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"sZqXysZkhaDc6dGuzL-jNw","connectionToken":"3EMn3ulqqeyFIwG1tRa4Kw","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:21:11.1618632Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 40 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:21:11.1769862Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 25 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:29:30.1073332Z
+Method: GET
+URL: /hubs/notifications?id=3EMn3ulqqeyFIwG1tRa4Kw
+Status: 101
+Duration: 500767 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:58:53.4904478Z
+Method: GET
+URL: /
+Status: 404
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:39.1243020Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1366 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@example.com","phone":"+71234567890","createdAt":"2026-01-24T01:00:36.671391Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:39.3913824Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"d8JUzKB9ZjO-p_onZR0VaQ","connectionToken":"VdFsl36xugLgWiMjCvKj8A","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:44.8021586Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 66 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:44.8945896Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 131 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:47.3732409Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 19 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:47.5349286Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 53 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:47.5419503Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 74 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:49.4317185Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:49.4731806Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 29 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:49.5732887Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 37 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:49.8507314Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 279 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:55.9987069Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 18 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:56.0100744Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:56.1162641Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 22 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:56.3362256Z
+Method: POST
+URL: /api/warehouses
+Status: 201
+Duration: 338 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: CreateWarehouse
+Response Body: {"message":"Warehouse created successfully","warehouse":{"id":1,"name":"скр1","type":"Склад","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:56.3649781Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Косточка","description":"","code":"5214","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:56.3717141Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"скр1","type":"Склад","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:56.3751814Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 23 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко","description":"","code":"85412","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T15:59:56.3918519Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"скр1","type":"Склад","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T16:00:05.1230958Z
+Method: GET
+URL: /api/WorkReports/user/1
+Status: 200
+Duration: 53 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T16:00:06.0489583Z
+Method: GET
+URL: /api/WorkReports/user/1
+Status: 200
+Duration: 13 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T16:00:06.3529061Z
+Method: POST
+URL: /api/WorkReports/start
+Status: 200
+Duration: 165 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: StartWork
+Response Body: {"message":"Work started successfully","report":{"id":4,"userId":1,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T16:00:06Z","finishWork":null,"note":null,"user":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T16:00:06.4171627Z
+Method: GET
+URL: /api/WorkReports/user/1
+Status: 200
+Duration: 67 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":4,"userId":1,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T16:00:06Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T16:00:06.4229172Z
+Method: GET
+URL: /api/WorkReports/user/1
+Status: 200
+Duration: 24 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":4,"userId":1,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T16:00:06Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T16:00:07.5142928Z
+Method: GET
+URL: /api/WorkReports/user/1
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":4,"userId":1,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T16:00:06Z","finishWork":null,"note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T16:00:07.7185140Z
+Method: POST
+URL: /api/WorkReports/4/finish
+Status: 200
+Duration: 172 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: FinishWork
+Response Body: {"message":"Work finished successfully","report":{"id":4,"userId":1,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T16:00:06Z","finishWork":"2026-01-24T16:00:07Z","note":null,"user":null}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T16:00:07.7407355Z
+Method: GET
+URL: /api/WorkReports/user/1
+Status: 200
+Duration: 31 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":4,"userId":1,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T16:00:06Z","finishWork":"2026-01-24T16:00:07Z","note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T16:00:07.7939676Z
+Method: GET
+URL: /api/WorkReports/user/1
+Status: 200
+Duration: 69 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":4,"userId":1,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T16:00:06Z","finishWork":"2026-01-24T16:00:07Z","note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T16:00:11.1043253Z
+Method: GET
+URL: /api/WorkReports/user/1
+Status: 200
+Duration: 31 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":4,"userId":1,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T16:00:06Z","finishWork":"2026-01-24T16:00:07Z","note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T16:00:11.1370102Z
+Method: GET
+URL: /api/WorkReports/user/1
+Status: 200
+Duration: 28 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":4,"userId":1,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T16:00:06Z","finishWork":"2026-01-24T16:00:07Z","note":null,"user":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-24T16:00:11.1437566Z
+Method: GET
+URL: /api/WorkReports/user/1
+Status: 200
+Duration: 49 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: [{"id":4,"userId":1,"date":"2026-01-24T00:00:00","startWork":"2026-01-24T16:00:06Z","finishWork":"2026-01-24T16:00:07Z","note":null,"user":null}]
+=======================================================
+

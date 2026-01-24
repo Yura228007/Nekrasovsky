@@ -6,13 +6,6 @@
              Title="Продукты"
              BackgroundColor="{StaticResource BackgroundDark}">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:BoolToStatusTextConverter x:Key="BoolToStatusTextConverter" />
-            <converters:BoolToStatusColorConverter x:Key="BoolToStatusColorConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
         <ToolbarItem Text="Сканировать" Clicked="OnScanBarcodeClicked" />
@@ -133,17 +126,6 @@
                                            FontAttributes="Bold"
                                            TextColor="{StaticResource White}"
                                            VerticalOptions="Center" />
-                                    <Border BackgroundColor="{Binding IsActive, Converter={StaticResource BoolToStatusColorConverter}}"
-                                            Padding="8,4">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="6"/>
-                                        </Border.StrokeShape>
-                                        <Label Text="{Binding IsActive, Converter={StaticResource BoolToStatusTextConverter}}"
-                                               FontSize="12"
-                                               FontAttributes="Bold"
-                                               TextColor="{StaticResource White}"
-                                               VerticalOptions="Center" />
-                                    </Border>
                                 </HorizontalStackLayout>
                                 <Label Text="{Binding Code, StringFormat='Код: {0}'}"
                                        FontSize="14"

@@ -40,6 +40,29 @@ class AppRepository @Inject constructor(
     suspend fun addWarehouse(warehouse: Warehouse) = apiService.addWarehouse(warehouse)
     suspend fun editWarehouse(id: Int, warehouse: Warehouse) = apiService.editWarehouse(id, warehouse)
     suspend fun deleteWarehouse(id: Int) = apiService.deleteWarehouse(id)
+
+    // Filling Warehouses
+    suspend fun getAllFillingWarehouses() = apiService.getAllFillingWarehouses()
+    suspend fun getFillingByMaterial(warehouseId: Int, materialId: Int) =
+        apiService.getFillingByMaterial(warehouseId, materialId)
+    suspend fun getFillingByProduct(warehouseId: Int, productId: Int) =
+        apiService.getFillingByProduct(warehouseId, productId)
+    suspend fun getFillingsByWarehouse(warehouseId: Int) = apiService.getFillingsByWarehouse(warehouseId)
+    suspend fun getFillingsByMaterial(materialId: Int) = apiService.getFillingsByMaterial(materialId)
+    suspend fun getFillingsByProduct(productId: Int) = apiService.getFillingsByProduct(productId)
+    suspend fun addFillingWarehouse(filling: FillingWarehouse) = apiService.addFillingWarehouse(filling)
+    suspend fun editFillingWarehouseByMaterial(warehouseId: Int, materialId: Int, filling: FillingWarehouse) =
+        apiService.editFillingWarehouseByMaterial(warehouseId, materialId, filling)
+    suspend fun editFillingWarehouseByProduct(warehouseId: Int, productId: Int, filling: FillingWarehouse) =
+        apiService.editFillingWarehouseByProduct(warehouseId, productId, filling)
+    suspend fun deleteFillingWarehouseByMaterial(warehouseId: Int, materialId: Int) =
+        apiService.deleteFillingWarehouseByMaterial(warehouseId, materialId)
+    suspend fun deleteFillingWarehouseByProduct(warehouseId: Int, productId: Int) =
+        apiService.deleteFillingWarehouseByProduct(warehouseId, productId)
+    suspend fun updateFillingQuantityByMaterial(filling: FillingWarehouse) =
+        apiService.updateFillingQuantityByMaterial(filling)
+    suspend fun updateFillingQuantityByProduct(filling: FillingWarehouse) =
+        apiService.updateFillingQuantityByProduct(filling)
     
     // Work Reports
     suspend fun getAllWorkReports() = apiService.getAllWorkReports()

@@ -39,6 +39,21 @@ namespace NekrasovskyAPP.Services
         Task<ApiResponse<Warehouse>> StopWarehouseAsync(int id);
         Task<ApiResponse<Warehouse>> StartWarehouseAsync(int id);
 
+        // Filling Warehouses
+        Task<List<FillingWarehouse>> GetAllFillingWarehousesAsync();
+        Task<FillingWarehouse?> GetFillingByMaterialAsync(int warehouseId, int materialId);
+        Task<FillingWarehouse?> GetFillingByProductAsync(int warehouseId, int productId);
+        Task<List<FillingWarehouse>> GetFillingsByWarehouseAsync(int warehouseId);
+        Task<List<FillingWarehouse>> GetFillingsByMaterialAsync(int materialId);
+        Task<List<FillingWarehouse>> GetFillingsByProductAsync(int productId);
+        Task<ApiResponse<FillingWarehouse>> AddFillingWarehouseAsync(FillingWarehouse filling);
+        Task<ApiResponse<FillingWarehouse>> EditFillingWarehouseByMaterialAsync(int warehouseId, int materialId, FillingWarehouse filling);
+        Task<ApiResponse<FillingWarehouse>> EditFillingWarehouseByProductAsync(int warehouseId, int productId, FillingWarehouse filling);
+        Task<ApiResponse<object>> DeleteFillingWarehouseByMaterialAsync(int warehouseId, int materialId);
+        Task<ApiResponse<object>> DeleteFillingWarehouseByProductAsync(int warehouseId, int productId);
+        Task<ApiResponse<FillingWarehouse>> UpdateFillingQuantityByMaterialAsync(FillingWarehouse filling);
+        Task<ApiResponse<FillingWarehouse>> UpdateFillingQuantityByProductAsync(FillingWarehouse filling);
+
         // Work Reports
         Task<List<WorkReport>> GetAllWorkReportsAsync();
         Task<WorkReport?> GetWorkReportByIdAsync(int id);
@@ -109,6 +124,7 @@ namespace NekrasovskyAPP.Services
         public T? User { get; set; }
         public T? Product { get; set; }
         public T? Material { get; set; }
+        public T? Filling { get; set; }
         public T? Warehouse { get; set; }
         public T? Report { get; set; }
         public T? Request { get; set; }
@@ -117,7 +133,7 @@ namespace NekrasovskyAPP.Services
 
         public T? GetData()
         {
-            return User ?? Product ?? Material ?? Warehouse ?? Report ?? Request ?? AlarmEvent ?? Role;
+            return User ?? Product ?? Material ?? Filling ?? Warehouse ?? Report ?? Request ?? AlarmEvent ?? Role;
         }
     }
 

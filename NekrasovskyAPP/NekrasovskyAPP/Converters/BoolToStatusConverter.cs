@@ -8,6 +8,12 @@ namespace NekrasovskyAPP.Converters
         {
             if (value is bool isActive)
             {
+                var mode = parameter?.ToString()?.Trim().ToLowerInvariant();
+                if (mode == "active")
+                {
+                    return isActive ? "Активен" : "Неактивен";
+                }
+
                 return isActive ? "Работает" : "Остановлен";
             }
             return "Неизвестно";

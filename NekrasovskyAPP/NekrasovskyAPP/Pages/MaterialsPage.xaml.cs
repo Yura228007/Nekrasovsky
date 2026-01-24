@@ -1,5 +1,6 @@
 using NekrasovskyAPP.ViewModels;
 using NekrasovskyAPP.Models;
+using System.Linq;
 
 namespace NekrasovskyAPP.Pages
 {
@@ -47,6 +48,45 @@ namespace NekrasovskyAPP.Pages
         private async void OnFilterChanged(object? sender, EventArgs e)
         {
             await ApplyFiltersAsync();
+        }
+
+        private async void OnScanBarcodeClicked(object? sender, EventArgs e)
+        {
+#if ANDROID || IOS
+            try
+            {
+                var scannerPage = new BarcodeScannerPage();
+                scannerPage.BarcodeScanned += OnBarcodeScanned;
+                await Navigation.PushModalAsync(scannerPage);
+            }
+            catch
+            {
+                await DisplayAlert("Ошибка", "Не удалось открыть сканер. Убедитесь, что приложение имеет разрешение на использование камеры.", "OK");
+            }
+#else
+            await DisplayAlert("Недоступно", "Сканирование штрих-кодов доступно только на Android и iOS устройствах.", "OK");
+#endif
+        }
+
+        private async void OnBarcodeScanned(object? sender, string barcodeValue)
+        {
+#if ANDROID || IOS
+            if (sender is BarcodeScannerPage scannerPage)
+            {
+                scannerPage.BarcodeScanned -= OnBarcodeScanned;
+            }
+#endif
+
+            if (!string.IsNullOrWhiteSpace(barcodeValue))
+            {
+                SearchEntry.Text = barcodeValue;
+                await _viewModel.SearchMaterialsAsync(null, barcodeValue);
+
+                await DisplayAlert(
+                    "Штрих-код найден",
+                    $"Найден штрих-код: {barcodeValue}\nВыполняется поиск...",
+                    "OK");
+            }
         }
 
         private async Task ApplyFiltersAsync()
@@ -234,7 +274,36 @@ namespace NekrasovskyAPP.Pages
             }
             else
             {
-                success = await _viewModel.CreateMaterialAsync(material);
+                var selectedWarehouse = await SelectWarehouseAsync();
+                if (selectedWarehouse == null)
+                {
+                    return;
+                }
+
+                var createResponse = await _viewModel.ApiService.AddMaterialAsync(material);
+                var createdMaterial = createResponse.Material ?? createResponse.GetData();
+                if (createdMaterial == null)
+                {
+                    await DisplayAlert("Ошибка", createResponse.Message ?? "Ошибка создания материала", "OK");
+                    return;
+                }
+
+                var filling = new FillingWarehouse
+                {
+                    WarehouseId = selectedWarehouse.Id,
+                    MaterialId = createdMaterial.Id,
+                    Quantity = 0,
+                    MeasuringType = createdMaterial.MeasuringUnit
+                };
+
+                var fillingResponse = await _viewModel.ApiService.AddFillingWarehouseAsync(filling);
+                if (fillingResponse.GetData() == null && !string.IsNullOrEmpty(fillingResponse.Message))
+                {
+                    await DisplayAlert("Ошибка", $"Материал создан, но не удалось привязать склад: {fillingResponse.Message}", "OK");
+                }
+
+                await _viewModel.LoadMaterialsAsync();
+                success = true;
             }
 
             if (success)
@@ -245,6 +314,38 @@ namespace NekrasovskyAPP.Pages
             {
                 await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
             }
+        }
+
+        private async Task<Warehouse?> SelectWarehouseAsync()
+        {
+            if (_viewModel.Warehouses.Count == 0)
+            {
+                await _viewModel.LoadWarehousesAsync();
+            }
+
+            if (_viewModel.Warehouses.Count == 0)
+            {
+                await DisplayAlert("Ошибка", "Нет доступных складов для привязки материала.", "OK");
+                return null;
+            }
+
+            var options = _viewModel.Warehouses
+                .Select(w => $"{w.Name} ({w.Type})")
+                .ToArray();
+
+            var choice = await DisplayActionSheet("Выберите склад", "Отмена", null, options);
+            if (string.IsNullOrWhiteSpace(choice) || choice == "Отмена")
+            {
+                return null;
+            }
+
+            var index = Array.IndexOf(options, choice);
+            if (index < 0 || index >= _viewModel.Warehouses.Count)
+            {
+                return null;
+            }
+
+            return _viewModel.Warehouses[index];
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.Maui.ApplicationModel;
 using NekrasovskyAPP.Services;
 using NekrasovskyAPP.Models;
@@ -93,10 +94,82 @@ namespace NekrasovskyAPP.Pages
             });
         }
 
-        private async void OnUsersClicked(object sender, EventArgs e)
+        private async void OnScannerClicked(object sender, EventArgs e)
         {
-            // Относительная навигация к глобальному маршруту (без слешей)
-            await Shell.Current.GoToAsync("UsersPage");
+#if ANDROID || IOS
+            try
+            {
+                var scannerPage = new BarcodeScannerPage();
+                scannerPage.BarcodeScanned += OnBarcodeScanned;
+                await Navigation.PushModalAsync(scannerPage);
+            }
+            catch
+            {
+                await DisplayAlert("Ошибка", "Не удалось открыть сканер. Убедитесь, что приложение имеет разрешение на использование камеры.", "OK");
+            }
+#else
+            await DisplayAlert("Недоступно", "Сканирование штрих-кодов доступно только на Android и iOS устройствах.", "OK");
+#endif
+        }
+
+        private async void OnBarcodeScanned(object? sender, string barcodeValue)
+        {
+#if ANDROID || IOS
+            if (sender is BarcodeScannerPage scannerPage)
+            {
+                scannerPage.BarcodeScanned -= OnBarcodeScanned;
+            }
+#endif
+
+            if (string.IsNullOrWhiteSpace(barcodeValue))
+                return;
+
+            try
+            {
+                // Ищем по артикулу в продуктах
+                var products = await _apiService.SearchProductsAsync(null, barcodeValue);
+                var product = products.FirstOrDefault(p => p.Code == barcodeValue);
+
+                if (product != null)
+                {
+                    await DisplayAlert(
+                        "Продукт найден",
+                        $"Название: {product.Name}\n" +
+                        $"Артикул: {product.Code}\n" +
+                        $"Описание: {product.Description ?? "Не указано"}\n" +
+                        $"Единица измерения: {product.MeasuringUnit}\n" +
+                        $"Статус: {(product.IsActive ? "Активен" : "Неактивен")}",
+                        "OK");
+                    return;
+                }
+
+                // Ищем по артикулу в материалах
+                var materials = await _apiService.SearchMaterialsAsync(null, barcodeValue);
+                var material = materials.FirstOrDefault(m => m.Code == barcodeValue);
+
+                if (material != null)
+                {
+                    await DisplayAlert(
+                        "Материал найден",
+                        $"Название: {material.Name}\n" +
+                        $"Артикул: {material.Code}\n" +
+                        $"Описание: {material.Description ?? "Не указано"}\n" +
+                        $"Единица измерения: {material.MeasuringUnit}\n" +
+                        $"Статус: {(material.IsActive ? "Активен" : "Неактивен")}",
+                        "OK");
+                    return;
+                }
+
+                // Ничего не найдено
+                await DisplayAlert(
+                    "Не найдено",
+                    $"Артикул '{barcodeValue}' не найден среди продуктов и материалов.",
+                    "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Ошибка", $"Ошибка при поиске: {ex.Message}", "OK");
+            }
         }
 
         private async void OnProductsClicked(object sender, EventArgs e)

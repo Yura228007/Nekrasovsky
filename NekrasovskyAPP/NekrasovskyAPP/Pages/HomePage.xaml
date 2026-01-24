@@ -31,7 +31,7 @@
             <!-- Navigation Cards -->
             <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*" ColumnSpacing="15" RowSpacing="15">
                 
-                <!-- Users Card -->
+                <!-- Scanner Card -->
                 <Border Grid.Row="0" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="1"
@@ -42,14 +42,14 @@
                         <RoundRectangle CornerRadius="16"/>
                     </Border.StrokeShape>
                     <VerticalStackLayout Spacing="12">
-                        <Label Text="👥" FontSize="40" HorizontalOptions="Center" />
-                        <Label Text="Пользователи" 
-                               FontSize="16" 
+                        <Label Text="📷" FontSize="40" HorizontalOptions="Center" />
+                        <Label Text="Сканер"
+                               FontSize="16"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
                                HorizontalOptions="Center" />
-                        <Button Text="Открыть"
-                                Clicked="OnUsersClicked"
+                        <Button Text="Сканировать"
+                                Clicked="OnScannerClicked"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="{StaticResource White}"
                                 CornerRadius="10" />

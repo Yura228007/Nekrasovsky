@@ -40,6 +40,10 @@ namespace NekrasovskyAPP.Models
         [ForeignKey(nameof(Role))]
         public int? RoleId { get; set; }
 
+        // Вычисляемое свойство для отображения
+        [NotMapped]
+        public string FullName => $"{Name} {Surname}";
+
         // 🔗 Навигационные свойства (связи с другими таблицами)
         public virtual Role? Role { get; set; }
         public virtual ICollection<AlarmEvent> AlarmEvents { get; set; } = new List<AlarmEvent>();

@@ -89,6 +89,12 @@ namespace server.Seed
             var roleByName = dbContext.Roles.ToDictionary(r => r.Name, StringComparer.OrdinalIgnoreCase);
             var permissionByCode = dbContext.Permissions.ToDictionary(p => p.Code, StringComparer.OrdinalIgnoreCase);
 
+            // Очищаем существующие связи и пересоздаём
+            var existingRolePermissions = dbContext.RolePermissions.ToList();
+            dbContext.RolePermissions.RemoveRange(existingRolePermissions);
+            dbContext.SaveChanges();
+
+            // Добавляем права согласно конфигурации
             foreach (var permission in permissions)
             {
                 if (!permissionByCode.TryGetValue(permission.Code, out var permEntity))
@@ -103,14 +109,11 @@ namespace server.Seed
                         continue;
                     }
 
-                    if (!dbContext.RolePermissions.Any(rp => rp.RoleId == roleEntity.Id && rp.PermissionId == permEntity.Id))
+                    dbContext.RolePermissions.Add(new RolePermission
                     {
-                        dbContext.RolePermissions.Add(new RolePermission
-                        {
-                            RoleId = roleEntity.Id,
-                            PermissionId = permEntity.Id
-                        });
-                    }
+                        RoleId = roleEntity.Id,
+                        PermissionId = permEntity.Id
+                    });
                 }
             }
 
@@ -202,59 +205,74 @@ namespace server.Seed
                 new() { Code = "TransferMainToWorkshops", Name = "Перенос ТМЦ из Основного склада в цеха", Description = "Перенос со склада в цеха" },
                 new() { Code = "TransferWorkshopsToMain", Name = "Перенос ТМЦ из Цеха на Основной склад", Description = "Перенос из цеха на склад" },
                 new() { Code = "ShiftTransfer", Name = "Передача смены", Description = "Передача смены" },
-                new() { Code = "ManageRecipes", Name = "Создание и добавление рецептур, едениц храннения.", Description = "Управление рецептурами" },
+                new() { Code = "ManageRecipes", Name = "Создание и добавление рецептур, единиц хранения", Description = "Управление рецептурами и единицами хранения" },
                 new() { Code = "Inventory", Name = "Инвентаризация", Description = "Инвентаризация" },
                 new() { Code = "ManageUsers", Name = "Управление пользователями", Description = "Добавление/редактирование/удаление пользователей" },
                 new() { Code = "ManageResponsibility", Name = "Управление ответственностью", Description = "Назначение и изменение ответственных" }
             };
 
-            // По умолчанию: владелец имеет все права
-            var allRoles = new[] { "Владелец" };
-            foreach (var perm in permissions)
+            // Словарь прав по ролям
+            var rolePermissions = new Dictionary<string, string[]>
             {
-                perm.RoleNames.UnionWith(allRoles);
-            }
-
-            // Администратор: все кроме списания и удаления/рецептур
-            var adminRoles = new[] { "Администратор" };
-            foreach (var perm in permissions)
-            {
-                if (perm.Code is "WriteOff" or "SendToScrap" or "ManageRecipes")
+                ["Владелец"] = new[]
                 {
-                    continue;
+                    "AddUsersAll", "AddUsersLower", "ReceiveGoods", "AssignBarcode",
+                    "SendToScrap", "SendToSDH", "SendToSale", "WriteOff",
+                    "TransferMainToWorkshops", "TransferWorkshopsToMain", "ShiftTransfer",
+                    "ManageRecipes", "Inventory", "ManageUsers", "ManageResponsibility"
+                },
+                ["Администратор"] = new[]
+                {
+                    "AddUsersLower", "ReceiveGoods", "AssignBarcode",
+                    "SendToScrap", "SendToSDH", "SendToSale",
+                    "TransferMainToWorkshops", "TransferWorkshopsToMain", "ShiftTransfer",
+                    "ManageRecipes", "Inventory", "ManageUsers", "ManageResponsibility"
+                },
+                ["Старший экструзионщик"] = new[]
+                {
+                    "ReceiveGoods", "SendToScrap", "TransferMainToWorkshops"
+                },
+                ["Экструзионщик"] = new[]
+                {
+                    "SendToScrap", "ShiftTransfer"
+                },
+                ["Старший кладовщик"] = new[]
+                {
+                    "AssignBarcode", "SendToScrap", "TransferMainToWorkshops", "TransferWorkshopsToMain"
+                },
+                ["Кладовщик"] = new[]
+                {
+                    "SendToScrap", "TransferMainToWorkshops"
+                },
+                ["Покрасочник"] = new[]
+                {
+                    "AssignBarcode", "SendToScrap", "ShiftTransfer"
+                },
+                ["Старшая упаковщица"] = new[]
+                {
+                    "AssignBarcode", "SendToScrap", "SendToSale", "TransferWorkshopsToMain", "ShiftTransfer"
+                },
+                ["Кладовщик готовой продукции"] = new[]
+                {
+                    "AssignBarcode", "SendToScrap", "SendToSale", "TransferWorkshopsToMain"
+                },
+                ["ТПА"] = new[]
+                {
+                    "AssignBarcode", "SendToScrap", "TransferWorkshopsToMain", "ShiftTransfer"
+                },
+                ["Утиль"] = new[]
+                {
+                    "SendToScrap", "SendToSale", "WriteOff"
                 }
-                perm.RoleNames.UnionWith(adminRoles);
-            }
+            };
 
-            // Старший экструзионщик: как админ, но без пользователей и новых позиций
-            foreach (var perm in permissions)
+            // Назначаем права ролям
+            foreach (var (roleName, permCodes) in rolePermissions)
             {
-                if (perm.Code is "AddUsersAll" or "AddUsersLower" or "ManageUsers" or "AssignBarcode")
+                foreach (var permCode in permCodes)
                 {
-                    continue;
-                }
-                if (perm.Code is "WriteOff" or "SendToScrap" or "ManageRecipes")
-                {
-                    continue;
-                }
-                perm.RoleNames.Add("Старший экструзионщик");
-            }
-
-            // Старший кладовщик: склады/цеха
-            foreach (var perm in permissions)
-            {
-                if (perm.Code is "ReceiveGoods" or "AssignBarcode" or "TransferMainToWorkshops" or "TransferWorkshopsToMain" or "Inventory")
-                {
-                    perm.RoleNames.Add("Старший кладовщик");
-                }
-            }
-
-            // Утиль: утилизация
-            foreach (var perm in permissions)
-            {
-                if (perm.Code is "SendToScrap" or "WriteOff")
-                {
-                    perm.RoleNames.Add("Утиль");
+                    var perm = permissions.FirstOrDefault(p => p.Code == permCode);
+                    perm?.RoleNames.Add(roleName);
                 }
             }
 

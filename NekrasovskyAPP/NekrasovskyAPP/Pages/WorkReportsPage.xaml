@@ -18,74 +18,152 @@
         <ToolbarItem Text="Начать работу" Clicked="OnStartWorkClicked" />
     </ContentPage.ToolbarItems>
     
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        
+    <Grid RowDefinitions="Auto,*,Auto" Padding="16">
+
+        <!-- Header -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,4,0,12">
+            <VerticalStackLayout>
+                <Label Text="Рабочие отчеты"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource White}" />
+                <Label Text="Учет рабочего времени"
+                       FontSize="12"
+                       TextColor="{StaticResource Gray500}" />
+            </VerticalStackLayout>
+            <Border Grid.Column="1"
+                    BackgroundColor="{StaticResource CardReports}"
+                    WidthRequest="44"
+                    HeightRequest="44"
+                    StrokeThickness="0"
+                    VerticalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <Label Text="📊" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Border>
+        </Grid>
+
         <!-- Work Reports List -->
-        <RefreshView Grid.Row="0" 
+        <RefreshView Grid.Row="1"
                      IsRefreshing="{Binding IsLoading}"
                      Refreshing="OnRefreshing">
             <CollectionView x:Name="WorkReportsCollectionView"
-                          ItemsSource="{Binding WorkReports}">
+                            ItemsSource="{Binding WorkReports}">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Spacing="12">
+                        <Border BackgroundColor="{StaticResource BackgroundCard}"
+                                WidthRequest="80"
+                                HeightRequest="80"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape>
+                            <Label Text="📋" FontSize="36" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Text="Нет отчетов"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Gray400}"
+                               HorizontalOptions="Center" />
+                        <Label Text="Начните работу, чтобы создать отчет"
+                               FontSize="13"
+                               TextColor="{StaticResource Gray500}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border BackgroundColor="{StaticResource BackgroundCard}"
-                                StrokeThickness="1"
-                                Stroke="{StaticResource BorderColor}"
-                                Margin="15,8"
-                                Padding="18">
+                                StrokeThickness="0"
+                                Margin="0,0,0,10"
+                                Padding="16">
                             <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="12"/>
+                                <RoundRectangle CornerRadius="16"/>
                             </Border.StrokeShape>
-                            <VerticalStackLayout Spacing="6">
-                                <Label Text="{Binding Date, StringFormat='Дата: {0:dd.MM.yyyy}'}"
-                                       FontSize="18"
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource White}" />
-                                <Label Text="{Binding DisplayStartTime, StringFormat='Начало: {0}'}"
-                                       FontSize="14"
-                                       TextColor="{StaticResource Gray400}" />
-                                <Label Text="{Binding DisplayFinishTime, StringFormat='Окончание: {0}'}"
-                                       FontSize="14"
-                                       TextColor="{StaticResource Gray400}"
-                                       IsVisible="{Binding FinishWork, Converter={StaticResource IsNotNullConverter}}" />
-                                <Label Text="{Binding Note, StringFormat='Примечание: {0}'}"
-                                       FontSize="12"
-                                       TextColor="{StaticResource Gray600}"
-                                       IsVisible="{Binding Note, Converter={StaticResource IsStringNotEmpty}}" />
-                                <Button Text="Завершить работу"
-                                        Clicked="OnFinishWorkClicked"
-                                        BackgroundColor="{StaticResource Warning}"
-                                        TextColor="{StaticResource White}"
-                                        CornerRadius="8"
-                                        Margin="0,10,0,0"
-                                        IsVisible="{Binding FinishWork, Converter={StaticResource IsNullConverter}}"
-                                        CommandParameter="{Binding .}" />
-                            </VerticalStackLayout>
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                                <Border Grid.Column="0"
+                                        BackgroundColor="{StaticResource CardReports}"
+                                        WidthRequest="48"
+                                        HeightRequest="48"
+                                        StrokeThickness="0"
+                                        VerticalOptions="Start">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12"/>
+                                    </Border.StrokeShape>
+                                    <Label Text="📊" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                    <Label Text="{Binding Date, StringFormat='{0:dd.MM.yyyy}'}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource White}" />
+                                    <HorizontalStackLayout Spacing="16">
+                                        <HorizontalStackLayout Spacing="4">
+                                            <Label Text="▶"
+                                                   FontSize="12"
+                                                   TextColor="{StaticResource Success}" />
+                                            <Label Text="{Binding DisplayStartTime}"
+                                                   FontSize="13"
+                                                   TextColor="{StaticResource Gray400}" />
+                                        </HorizontalStackLayout>
+                                        <HorizontalStackLayout Spacing="4"
+                                                               IsVisible="{Binding FinishWork, Converter={StaticResource IsNotNullConverter}}">
+                                            <Label Text="■"
+                                                   FontSize="12"
+                                                   TextColor="{StaticResource Error}" />
+                                            <Label Text="{Binding DisplayFinishTime}"
+                                                   FontSize="13"
+                                                   TextColor="{StaticResource Gray400}" />
+                                        </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
+                                    <Label Text="{Binding Note}"
+                                           FontSize="12"
+                                           TextColor="{StaticResource Gray500}"
+                                           IsVisible="{Binding Note, Converter={StaticResource IsStringNotEmpty}}"
+                                           LineBreakMode="TailTruncation" />
+                                    <Button Text="Завершить работу"
+                                            Clicked="OnFinishWorkClicked"
+                                            BackgroundColor="{StaticResource Warning}"
+                                            TextColor="{StaticResource White}"
+                                            CornerRadius="10"
+                                            HeightRequest="40"
+                                            FontSize="13"
+                                            Margin="0,6,0,0"
+                                            IsVisible="{Binding FinishWork, Converter={StaticResource IsNullConverter}}"
+                                            CommandParameter="{Binding .}" />
+                                </VerticalStackLayout>
+                            </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-        
+
         <!-- Loading Indicator -->
-        <ActivityIndicator Grid.Row="0"
-                          IsRunning="{Binding IsLoading}"
-                          IsVisible="{Binding IsLoading}"
-                          Color="{StaticResource Accent}"
-                          VerticalOptions="Center"
-                          HorizontalOptions="Center" />
-        
+        <ActivityIndicator Grid.Row="1"
+                           IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           Color="{StaticResource Primary}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
+
         <!-- Error Message -->
-        <Label Grid.Row="1"
-               Text="{Binding ErrorMessage}"
-               TextColor="{StaticResource Error}"
-               IsVisible="{Binding ErrorMessage, Converter={StaticResource IsStringNotEmpty}}"
-               Margin="15"
-               HorizontalOptions="Center" />
+        <Border Grid.Row="2"
+                BackgroundColor="#33EF4444"
+                StrokeThickness="0"
+                Padding="12,8"
+                IsVisible="{Binding ErrorMessage, Converter={StaticResource IsStringNotEmpty}}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8"/>
+            </Border.StrokeShape>
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="{StaticResource Error}"
+                   FontSize="13"
+                   HorizontalTextAlignment="Center" />
+        </Border>
     </Grid>
     
 </ContentPage>

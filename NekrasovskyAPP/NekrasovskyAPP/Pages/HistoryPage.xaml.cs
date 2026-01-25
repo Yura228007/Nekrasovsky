@@ -16,12 +16,23 @@ namespace NekrasovskyAPP.Pages
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+            await _viewModel.LoadFiltersDataAsync();
             await _viewModel.LoadHistoryAsync();
         }
 
         private async void OnRefreshClicked(object sender, EventArgs e)
         {
             await _viewModel.LoadHistoryAsync();
+        }
+
+        private async void OnSearchCompleted(object sender, EventArgs e)
+        {
+            await _viewModel.ApplyFiltersAsync();
+        }
+
+        private void OnResetFiltersClicked(object sender, EventArgs e)
+        {
+            _viewModel.ResetFilters();
         }
     }
 }

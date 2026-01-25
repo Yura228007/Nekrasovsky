@@ -17,97 +17,217 @@
         <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
     </ContentPage.ToolbarItems>
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="16">
-            <Label Text="Ожидают подтверждения"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="{StaticResource White}" />
+    <Grid RowDefinitions="Auto,*,Auto" Padding="16">
 
-            <CollectionView ItemsSource="{Binding PendingTransfers}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border BackgroundColor="{StaticResource BackgroundCard}"
-                                StrokeThickness="1"
-                                Stroke="{StaticResource BorderColor}"
-                                Margin="0,6"
-                                Padding="16">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="12"/>
-                            </Border.StrokeShape>
-                            <VerticalStackLayout Spacing="6">
-                                <Label Text="{Binding TransferDate, StringFormat='Дата: {0:dd.MM.yyyy HH:mm}'}"
-                                       FontSize="12"
-                                       TextColor="{StaticResource Gray400}" />
-                                <Label Text="{Binding FromUserDisplay, StringFormat='От: {0}'}"
-                                       FontSize="14"
-                                       TextColor="{StaticResource Gray200}" />
-                                <Label Text="{Binding ToUserDisplay, StringFormat='Кому: {0}'}"
-                                       FontSize="14"
-                                       TextColor="{StaticResource Gray200}" />
-                                <Button Text="Подтвердить"
-                                        Clicked="OnConfirmClicked"
-                                        CommandParameter="{Binding .}"
-                                        BackgroundColor="{StaticResource Primary}"
-                                        TextColor="{StaticResource White}"
-                                        CornerRadius="10" />
-                            </VerticalStackLayout>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+        <!-- Header -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,4,0,12">
+            <VerticalStackLayout>
+                <Label Text="Передача смены"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource White}" />
+                <Label Text="Управление сменами"
+                       FontSize="12"
+                       TextColor="{StaticResource Gray500}" />
+            </VerticalStackLayout>
+            <Border Grid.Column="1"
+                    BackgroundColor="{StaticResource CardShift}"
+                    WidthRequest="44"
+                    HeightRequest="44"
+                    StrokeThickness="0"
+                    VerticalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <Label Text="🔄" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Border>
+        </Grid>
 
-            <Label Text="Отправленные передачи"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="{StaticResource White}"
-                   Margin="0,16,0,0" />
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="16">
+                <!-- Pending Section -->
+                <Border BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="0"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <HorizontalStackLayout Spacing="10">
+                            <Border BackgroundColor="{StaticResource Warning}"
+                                    WidthRequest="32"
+                                    HeightRequest="32"
+                                    StrokeThickness="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="8"/>
+                                </Border.StrokeShape>
+                                <Label Text="⏳" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Ожидают подтверждения"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource White}"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                        <CollectionView ItemsSource="{Binding PendingTransfers}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BackgroundColor="{StaticResource BackgroundElevated}"
+                                            StrokeThickness="0"
+                                            Margin="0,4"
+                                            Padding="14">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="12"/>
+                                        </Border.StrokeShape>
+                                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                            <Border Grid.Column="0"
+                                                    BackgroundColor="{StaticResource CardShift}"
+                                                    WidthRequest="44"
+                                                    HeightRequest="44"
+                                                    StrokeThickness="0"
+                                                    VerticalOptions="Start">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="10"/>
+                                                </Border.StrokeShape>
+                                                <Label Text="🔄" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                            </Border>
+                                            <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                                <Label Text="{Binding TransferDate, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
+                                                       FontSize="12"
+                                                       TextColor="{StaticResource Gray500}" />
+                                                <Label Text="{Binding FromUserDisplay, StringFormat='От: {0}'}"
+                                                       FontSize="14"
+                                                       TextColor="{StaticResource White}" />
+                                                <Label Text="{Binding ToUserDisplay, StringFormat='Кому: {0}'}"
+                                                       FontSize="13"
+                                                       TextColor="{StaticResource Gray400}" />
+                                                <Button Text="Подтвердить"
+                                                        Clicked="OnConfirmClicked"
+                                                        CommandParameter="{Binding .}"
+                                                        BackgroundColor="{StaticResource Primary}"
+                                                        TextColor="{StaticResource White}"
+                                                        CornerRadius="10"
+                                                        HeightRequest="38"
+                                                        FontSize="13"
+                                                        Margin="0,4,0,0" />
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
 
-            <CollectionView ItemsSource="{Binding SentTransfers}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border BackgroundColor="{StaticResource BackgroundCard}"
-                                StrokeThickness="1"
-                                Stroke="{StaticResource BorderColor}"
-                                Margin="0,6"
-                                Padding="16">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="12"/>
-                            </Border.StrokeShape>
-                            <VerticalStackLayout Spacing="6">
-                                <Label Text="{Binding TransferDate, StringFormat='Дата: {0:dd.MM.yyyy HH:mm}'}"
-                                       FontSize="12"
-                                       TextColor="{StaticResource Gray400}" />
-                                <Label Text="{Binding ToUserDisplay, StringFormat='Кому: {0}'}"
-                                       FontSize="14"
-                                       TextColor="{StaticResource Gray200}" />
-                                <Label Text="{Binding IsConfirmed, StringFormat='Подтверждено: {0}'}"
-                                       FontSize="12"
-                                       TextColor="{StaticResource Gray500}" />
-                                <Button Text="Отменить"
-                                        Clicked="OnCancelClicked"
-                                        CommandParameter="{Binding .}"
-                                        BackgroundColor="{StaticResource Error}"
-                                        TextColor="{StaticResource White}"
-                                        CornerRadius="10"
-                                        IsVisible="{Binding IsConfirmed, Converter={StaticResource IsFalseConverter}}" />
-                            </VerticalStackLayout>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                <!-- Sent Section -->
+                <Border BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="0"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <HorizontalStackLayout Spacing="10">
+                            <Border BackgroundColor="{StaticResource Primary}"
+                                    WidthRequest="32"
+                                    HeightRequest="32"
+                                    StrokeThickness="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="8"/>
+                                </Border.StrokeShape>
+                                <Label Text="📤" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Отправленные передачи"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource White}"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                        <CollectionView ItemsSource="{Binding SentTransfers}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BackgroundColor="{StaticResource BackgroundElevated}"
+                                            StrokeThickness="0"
+                                            Margin="0,4"
+                                            Padding="14">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="12"/>
+                                        </Border.StrokeShape>
+                                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                            <Border Grid.Column="0"
+                                                    BackgroundColor="{StaticResource CardShift}"
+                                                    WidthRequest="44"
+                                                    HeightRequest="44"
+                                                    StrokeThickness="0"
+                                                    VerticalOptions="Center">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="10"/>
+                                                </Border.StrokeShape>
+                                                <Label Text="📤" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                            </Border>
+                                            <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                                <Label Text="{Binding ToUserDisplay}"
+                                                       FontSize="14"
+                                                       TextColor="{StaticResource White}" />
+                                                <Label Text="{Binding TransferDate, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
+                                                       FontSize="12"
+                                                       TextColor="{StaticResource Gray500}" />
+                                            </VerticalStackLayout>
+                                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="4">
+                                                <Border BackgroundColor="{StaticResource Success}"
+                                                        StrokeThickness="0"
+                                                        Padding="8,4"
+                                                        IsVisible="{Binding IsConfirmed}">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="6"/>
+                                                    </Border.StrokeShape>
+                                                    <Label Text="✓"
+                                                           FontSize="12"
+                                                           TextColor="{StaticResource White}"
+                                                           HorizontalOptions="Center"/>
+                                                </Border>
+                                                <Button Text="✕"
+                                                        Clicked="OnCancelClicked"
+                                                        CommandParameter="{Binding .}"
+                                                        BackgroundColor="{StaticResource Error}"
+                                                        TextColor="{StaticResource White}"
+                                                        CornerRadius="8"
+                                                        WidthRequest="36"
+                                                        HeightRequest="36"
+                                                        Padding="0"
+                                                        FontSize="14"
+                                                        IsVisible="{Binding IsConfirmed, Converter={StaticResource IsFalseConverter}}" />
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
 
-            <ActivityIndicator IsRunning="{Binding IsLoading}"
-                               IsVisible="{Binding IsLoading}"
-                               Color="{StaticResource Accent}"
-                               VerticalOptions="Center"
-                               HorizontalOptions="Center" />
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   IsVisible="{Binding IsLoading}"
+                                   Color="{StaticResource Primary}"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </ScrollView>
 
+        <!-- Error Message -->
+        <Border Grid.Row="2"
+                BackgroundColor="#33EF4444"
+                StrokeThickness="0"
+                Padding="12,8"
+                IsVisible="{Binding ErrorMessage, Converter={StaticResource IsStringNotEmpty}}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8"/>
+            </Border.StrokeShape>
             <Label Text="{Binding ErrorMessage}"
                    TextColor="{StaticResource Error}"
-                   IsVisible="{Binding ErrorMessage, Converter={StaticResource IsStringNotEmpty}}"
-                   HorizontalOptions="Center" />
-        </VerticalStackLayout>
-    </ScrollView>
+                   FontSize="13"
+                   HorizontalTextAlignment="Center" />
+        </Border>
+    </Grid>
 
 </ContentPage>

@@ -9,279 +9,355 @@
     </ContentPage.ToolbarItems>
     
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="20">
-            
-            <!-- Header -->
-            <Label Text="Панель администратора"
-                   FontSize="28"
-                   FontAttributes="Bold"
-                   TextColor="{StaticResource White}"
-                   HorizontalOptions="Center"
-                   Margin="0,10,0,10" />
-            
-            <StackLayout Padding="10,5">
-                <Label Text="{Binding CurrentUserName}"
-                    FontSize="12"
-                    TextColor="{StaticResource Gray400}"
-                    HorizontalOptions="End"
-                    Margin="0,0,10,0" />
-            </StackLayout>
-            
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <!-- Header Section -->
+            <Grid ColumnDefinitions="*,Auto" Margin="4,8,4,16">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label Text="Администрирование"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
+                    <Label Text="{Binding CurrentUserName, StringFormat='Добро пожаловать, {0}'}"
+                           FontSize="14"
+                           TextColor="{StaticResource Gray400}" />
+                </VerticalStackLayout>
+                <Border Grid.Column="1"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="0"
+                        WidthRequest="48"
+                        HeightRequest="48"
+                        VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="24"/>
+                    </Border.StrokeShape>
+                    <Label Text="⚙️"
+                           FontSize="24"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Border>
+            </Grid>
+
             <!-- Admin Navigation Cards -->
-            <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*" ColumnSpacing="15" RowSpacing="15">
-                
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+
                 <!-- Users Management -->
                 <Border Grid.Row="0" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource BorderColor}"
-                        Padding="20">
+                        StrokeThickness="0"
+                        Padding="16">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="16"/>
+                        <RoundRectangle CornerRadius="20"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="12">
-                        <Label Text="👥" FontSize="40" HorizontalOptions="Center" />
-                        <Label Text="Управление пользователями" 
-                               FontSize="16" 
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnUsersClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource Primary}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="👥" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Пользователи"
+                               FontSize="18"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
-                        <Button Text="Открыть"
-                                Clicked="OnUsersClicked"
-                                BackgroundColor="{StaticResource Primary}"
-                                TextColor="{StaticResource White}"
-                                CornerRadius="10" />
-                    </VerticalStackLayout>
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Управление аккаунтами"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
                 </Border>
-                
+
                 <!-- Products Management -->
                 <Border Grid.Row="0" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource BorderColor}"
-                        Padding="20">
+                        StrokeThickness="0"
+                        Padding="16">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="16"/>
+                        <RoundRectangle CornerRadius="20"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="12">
-                        <Label Text="📦" FontSize="40" HorizontalOptions="Center" />
-                        <Label Text="Управление продуктами" 
-                               FontSize="16" 
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnProductsClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource CardProducts}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="📦" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Продукты"
+                               FontSize="18"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
-                        <Button Text="Открыть"
-                                Clicked="OnProductsClicked"
-                                BackgroundColor="{StaticResource Primary}"
-                                TextColor="{StaticResource White}"
-                                CornerRadius="10" />
-                    </VerticalStackLayout>
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Готовая продукция"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
                 </Border>
-                
+
                 <!-- Materials Management -->
                 <Border Grid.Row="1" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource BorderColor}"
-                        Padding="20">
+                        StrokeThickness="0"
+                        Padding="16">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="16"/>
+                        <RoundRectangle CornerRadius="20"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="12">
-                        <Label Text="🔧" FontSize="40" HorizontalOptions="Center" />
-                        <Label Text="Управление материалами" 
-                               FontSize="16" 
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnMaterialsClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource CardMaterials}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="🔧" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Материалы"
+                               FontSize="18"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
-                        <Button Text="Открыть"
-                                Clicked="OnMaterialsClicked"
-                                BackgroundColor="{StaticResource Primary}"
-                                TextColor="{StaticResource White}"
-                                CornerRadius="10" />
-                    </VerticalStackLayout>
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Сырье и компоненты"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
                 </Border>
-                
+
                 <!-- Warehouses Management -->
                 <Border Grid.Row="1" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource BorderColor}"
-                        Padding="20">
+                        StrokeThickness="0"
+                        Padding="16">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="16"/>
+                        <RoundRectangle CornerRadius="20"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="12">
-                        <Label Text="🏭" FontSize="40" HorizontalOptions="Center" />
-                        <Label Text="Управление складами" 
-                               FontSize="16" 
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnWarehousesClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource CardWarehouses}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="🏭" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Склады"
+                               FontSize="18"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
-                        <Button Text="Открыть"
-                                Clicked="OnWarehousesClicked"
-                                BackgroundColor="{StaticResource Primary}"
-                                TextColor="{StaticResource White}"
-                                CornerRadius="10" />
-                    </VerticalStackLayout>
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Управление складами"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
                 </Border>
-                
+
                 <!-- Reports -->
                 <Border Grid.Row="2" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource BorderColor}"
-                        Padding="20">
+                        StrokeThickness="0"
+                        Padding="16">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="16"/>
+                        <RoundRectangle CornerRadius="20"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="12">
-                        <Label Text="📊" FontSize="40" HorizontalOptions="Center" />
-                        <Label Text="Отчеты" 
-                               FontSize="16" 
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnReportsClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource CardReports}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="📊" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Отчеты"
+                               FontSize="18"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
-                        <Button Text="Открыть"
-                                Clicked="OnReportsClicked"
-                                BackgroundColor="{StaticResource Primary}"
-                                TextColor="{StaticResource White}"
-                                CornerRadius="10" />
-                    </VerticalStackLayout>
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Аналитика и статистика"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
                 </Border>
-                
+
                 <!-- System Settings -->
                 <Border Grid.Row="2" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource BorderColor}"
-                        Padding="20">
+                        StrokeThickness="0"
+                        Padding="16">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="16"/>
+                        <RoundRectangle CornerRadius="20"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="12">
-                        <Label Text="⚙️" FontSize="40" HorizontalOptions="Center" />
-                        <Label Text="Настройки системы"
-                               FontSize="16"
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSettingsClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource Gray700}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="⚙️" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Настройки"
+                               FontSize="18"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
-                        <Button Text="Открыть"
-                                Clicked="OnSettingsClicked"
-                                BackgroundColor="{StaticResource Primary}"
-                                TextColor="{StaticResource White}"
-                                CornerRadius="10" />
-                    </VerticalStackLayout>
-                </Border>
-
-                <!-- Logs Management -->
-                <Border Grid.Row="3" Grid.Column="0"
-                        BackgroundColor="{StaticResource BackgroundCard}"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource BorderColor}"
-                        Padding="20">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="16"/>
-                    </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="12">
-                        <Label Text="📋" FontSize="40" HorizontalOptions="Center" />
-                        <Label Text="Системные логи"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource White}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
-                        <Button Text="Открыть"
-                                Clicked="OnLogsClicked"
-                                BackgroundColor="{StaticResource Primary}"
-                                TextColor="{StaticResource White}"
-                                CornerRadius="10" />
-                    </VerticalStackLayout>
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Параметры системы"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
                 </Border>
 
                 <!-- Role Permissions Management (только для Owner) -->
                 <Border x:Name="RolePermissionsCard"
-                        Grid.Row="3" Grid.Column="1"
+                        Grid.Row="3" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource BorderColor}"
-                        Padding="20"
+                        StrokeThickness="0"
+                        Padding="16"
                         IsVisible="False">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="16"/>
+                        <RoundRectangle CornerRadius="20"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="12">
-                        <Label Text="🔐" FontSize="40" HorizontalOptions="Center" />
-                        <Label Text="Управление ролями"
-                               FontSize="16"
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnRolePermissionsClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource Secondary}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="🔐" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Роли"
+                               FontSize="18"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
-                        <Button Text="Открыть"
-                                Clicked="OnRolePermissionsClicked"
-                                BackgroundColor="{StaticResource Primary}"
-                                TextColor="{StaticResource White}"
-                                CornerRadius="10" />
-                    </VerticalStackLayout>
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Управление правами"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
                 </Border>
 
                 <!-- History -->
-                <Border Grid.Row="4" Grid.Column="0"
+                <Border Grid.Row="3" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource BorderColor}"
-                        Padding="20">
+                        StrokeThickness="0"
+                        Padding="16">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="16"/>
+                        <RoundRectangle CornerRadius="20"/>
                     </Border.StrokeShape>
-                    <VerticalStackLayout Spacing="12">
-                        <Label Text="🧾" FontSize="40" HorizontalOptions="Center" />
-                        <Label Text="История действий"
-                               FontSize="16"
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnHistoryClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource CardShift}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="📜" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="История"
+                               FontSize="18"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
-                               HorizontalOptions="Center"
-                               HorizontalTextAlignment="Center" />
-                        <Button Text="Открыть"
-                                Clicked="OnHistoryClicked"
-                                BackgroundColor="{StaticResource Primary}"
-                                TextColor="{StaticResource White}"
-                                CornerRadius="10" />
-                    </VerticalStackLayout>
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Журнал действий"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
                 </Border>
 
             </Grid>
 
             <!-- Alarm Button -->
-            <Border Margin="0,20,0,0"
-                    BackgroundColor="#DC3545"
-                    StrokeThickness="2"
-                    Stroke="#FF6B6B"
-                    Padding="25"
+            <Border Margin="0,8,0,16"
+                    BackgroundColor="{StaticResource Error}"
+                    StrokeThickness="0"
+                    Padding="0"
+                    HeightRequest="72"
                     HorizontalOptions="Fill">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="20"/>
                 </Border.StrokeShape>
-                <Button x:Name="AlarmButton"
-                        Text="🚨 ТРЕВОГА"
-                        FontSize="24"
-                        FontAttributes="Bold"
-                        BackgroundColor="Transparent"
-                        TextColor="{StaticResource White}"
-                        BorderColor="Transparent"
-                        BorderWidth="0"
-                        Clicked="OnAlarmClicked"
-                        HorizontalOptions="Fill"
-                        HeightRequest="80" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnAlarmClicked"/>
+                </Border.GestureRecognizers>
+                <Grid>
+                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="12">
+                        <Label Text="🚨" FontSize="28" VerticalOptions="Center"/>
+                        <Label Text="ТРЕВОГА"
+                               FontSize="22"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Grid>
             </Border>
-            
+
         </VerticalStackLayout>
     </ScrollView>
     

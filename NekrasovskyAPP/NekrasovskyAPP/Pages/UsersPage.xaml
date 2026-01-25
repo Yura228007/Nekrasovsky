@@ -16,86 +16,142 @@
         <ToolbarItem Text="Добавить" Clicked="OnAddClicked" />
     </ContentPage.ToolbarItems>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16">
+
+        <!-- Header -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,4,0,12">
+            <VerticalStackLayout>
+                <Label Text="Пользователи"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource White}" />
+                <Label Text="Управление аккаунтами"
+                       FontSize="12"
+                       TextColor="{StaticResource Gray500}" />
+            </VerticalStackLayout>
+            <Border Grid.Column="1"
+                    BackgroundColor="{StaticResource Primary}"
+                    WidthRequest="44"
+                    HeightRequest="44"
+                    StrokeThickness="0"
+                    VerticalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <Label Text="👥" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Border>
+        </Grid>
 
         <!-- Search Bar -->
-        <Border Grid.Row="0" 
+        <Border Grid.Row="1"
                 BackgroundColor="{StaticResource BackgroundCard}"
-                StrokeThickness="1"
-                Stroke="{StaticResource BorderColor}"
-                Padding="15,12"
-                Margin="15,15,15,10">
+                StrokeThickness="0"
+                Padding="0"
+                HeightRequest="48"
+                Margin="0,0,0,12">
             <Border.StrokeShape>
-                <RoundRectangle CornerRadius="12"/>
+                <RoundRectangle CornerRadius="14"/>
             </Border.StrokeShape>
-            <Entry x:Name="SearchEntry"
-                   Placeholder="Поиск по имени или фамилии..."
-                   TextChanged="OnSearchTextChanged"
-                   TextColor="{StaticResource Gray200}"
-                   PlaceholderColor="{StaticResource Gray600}"
-                   BackgroundColor="Transparent" />
+            <Grid ColumnDefinitions="48,*" VerticalOptions="Center">
+                <Label Text="🔍"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+                <Entry Grid.Column="1"
+                       x:Name="SearchEntry"
+                       Placeholder="Поиск по имени или фамилии..."
+                       TextChanged="OnSearchTextChanged"
+                       TextColor="{StaticResource White}"
+                       PlaceholderColor="{StaticResource Gray600}"
+                       BackgroundColor="Transparent"
+                       VerticalOptions="Center" />
+            </Grid>
         </Border>
 
         <!-- Users List -->
-        <RefreshView Grid.Row="1" 
+        <RefreshView Grid.Row="2"
                      IsRefreshing="{Binding IsLoading}"
                      Refreshing="OnRefreshing">
             <CollectionView x:Name="UsersCollectionView"
                             ItemsSource="{Binding Users}"
                             SelectionMode="Single"
                             SelectionChanged="OnUserSelected">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Spacing="12">
+                        <Border BackgroundColor="{StaticResource BackgroundCard}"
+                                WidthRequest="80"
+                                HeightRequest="80"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape>
+                            <Label Text="📭" FontSize="36" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Text="Пользователи не найдены"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Gray400}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border BackgroundColor="{StaticResource BackgroundCard}"
-                                StrokeThickness="1"
-                                Stroke="{StaticResource BorderColor}"
-                                Margin="15,8"
-                                Padding="18">
+                                StrokeThickness="0"
+                                Margin="0,0,0,10"
+                                Padding="16">
                             <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="12"/>
+                                <RoundRectangle CornerRadius="16"/>
                             </Border.StrokeShape>
-                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
-                                <Label Grid.Row="0" Grid.Column="0"
-                                       FontSize="18"
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource White}">
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="{Binding Name}" />
-                                            <Span Text=" " />
-                                            <Span Text="{Binding Surname}" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                </Label>
-                                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                       Text="{Binding Email}"
-                                       FontSize="14"
-                                       TextColor="{StaticResource Gray400}"
-                                       Margin="0,5,0,0" />
-                                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                                       Text="{Binding Login, StringFormat='Логин: {0}'}"
-                                       FontSize="12"
-                                       TextColor="{StaticResource Gray600}"
-                                       Margin="0,3,0,0" />
-                                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
-                                       FontSize="12"
-                                       TextColor="{StaticResource Gray500}"
-                                       Margin="0,5,0,0">
-                                    <Label.Text>
-                                        <Binding Path="Role.Name">
-                                            <Binding.StringFormat>Роль: {0}</Binding.StringFormat>
-                                            <Binding.FallbackValue>Роль: Не назначена</Binding.FallbackValue>
-                                        </Binding>
-                                    </Label.Text>
-                                </Label>
-                                <Label Grid.Row="0" Grid.Column="1"
-                                       Text="→"
-                                       FontSize="20"
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                <Border Grid.Column="0"
+                                        BackgroundColor="{StaticResource BackgroundElevated}"
+                                        WidthRequest="48"
+                                        HeightRequest="48"
+                                        StrokeThickness="0"
+                                        VerticalOptions="Center">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="24"/>
+                                    </Border.StrokeShape>
+                                    <Label Text="👤" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                    <Label FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource White}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Name}" />
+                                                <Span Text=" " />
+                                                <Span Text="{Binding Surname}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Text="{Binding Email}"
+                                           FontSize="13"
+                                           TextColor="{StaticResource Gray400}" />
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Label Text="{Binding Login}"
+                                               FontSize="12"
+                                               TextColor="{StaticResource Gray500}" />
+                                        <Label Text="•"
+                                               FontSize="12"
+                                               TextColor="{StaticResource Gray600}" />
+                                        <Label FontSize="12"
+                                               TextColor="{StaticResource Primary}">
+                                            <Label.Text>
+                                                <Binding Path="Role.Name">
+                                                    <Binding.FallbackValue>Без роли</Binding.FallbackValue>
+                                                </Binding>
+                                            </Label.Text>
+                                        </Label>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                                <Label Grid.Column="2"
+                                       Text="›"
+                                       FontSize="24"
                                        VerticalOptions="Center"
                                        TextColor="{StaticResource Gray500}" />
                             </Grid>
@@ -106,20 +162,27 @@
         </RefreshView>
 
         <!-- Loading Indicator -->
-        <ActivityIndicator Grid.Row="1"
+        <ActivityIndicator Grid.Row="2"
                            IsRunning="{Binding IsLoading}"
                            IsVisible="{Binding IsLoading}"
-                           Color="{StaticResource Accent}"
+                           Color="{StaticResource Primary}"
                            VerticalOptions="Center"
                            HorizontalOptions="Center" />
 
         <!-- Error Message -->
-        <Label Grid.Row="2"
-               Text="{Binding ErrorMessage}"
-               TextColor="{StaticResource Error}"
-               IsVisible="{Binding ErrorMessage, Converter={StaticResource IsStringNotEmpty}}"
-               Margin="15"
-               HorizontalOptions="Center" />
+        <Border Grid.Row="3"
+                BackgroundColor="#33EF4444"
+                StrokeThickness="0"
+                Padding="12,8"
+                IsVisible="{Binding ErrorMessage, Converter={StaticResource IsStringNotEmpty}}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8"/>
+            </Border.StrokeShape>
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="{StaticResource Error}"
+                   FontSize="13"
+                   HorizontalTextAlignment="Center" />
+        </Border>
     </Grid>
 
 </ContentPage>

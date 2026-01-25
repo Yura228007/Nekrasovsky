@@ -23,7 +23,6 @@ namespace NekrasovskyAPP.ViewModels
             Materials = new ObservableCollection<Material>();
             Warehouses = new ObservableCollection<Warehouse>();
             Roles = new ObservableCollection<Role>();
-            Logs = new ObservableCollection<RequestLog>();
         }
 
         public IApiService ApiService => _apiService;
@@ -33,7 +32,6 @@ namespace NekrasovskyAPP.ViewModels
         public ObservableCollection<Material> Materials { get; }
         public ObservableCollection<Warehouse> Warehouses { get; }
         public ObservableCollection<Role> Roles { get; }
-        public ObservableCollection<RequestLog> Logs { get; }
 
         public bool IsLoading
         {
@@ -744,159 +742,6 @@ namespace NekrasovskyAPP.ViewModels
             {
                 IsLoading = false;
             }
-        }
-
-        // Logs filter properties
-        private int? _selectedUserIdFilter;
-        private int? _selectedWarehouseIdFilter;
-        private int? _selectedMaterialIdFilter;
-        private int? _selectedProductIdFilter;
-        private DateTime? _startDateFilter;
-        private DateTime? _endDateFilter;
-        private int _currentPage = 1;
-        private int _totalPages = 1;
-        private int _totalLogsCount = 0;
-
-        public int? SelectedUserIdFilter
-        {
-            get => _selectedUserIdFilter;
-            set
-            {
-                _selectedUserIdFilter = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int? SelectedWarehouseIdFilter
-        {
-            get => _selectedWarehouseIdFilter;
-            set
-            {
-                _selectedWarehouseIdFilter = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int? SelectedMaterialIdFilter
-        {
-            get => _selectedMaterialIdFilter;
-            set
-            {
-                _selectedMaterialIdFilter = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int? SelectedProductIdFilter
-        {
-            get => _selectedProductIdFilter;
-            set
-            {
-                _selectedProductIdFilter = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public DateTime? StartDateFilter
-        {
-            get => _startDateFilter;
-            set
-            {
-                _startDateFilter = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public DateTime? EndDateFilter
-        {
-            get => _endDateFilter;
-            set
-            {
-                _endDateFilter = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int CurrentPage
-        {
-            get => _currentPage;
-            set
-            {
-                _currentPage = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int TotalPages
-        {
-            get => _totalPages;
-            set
-            {
-                _totalPages = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int TotalLogsCount
-        {
-            get => _totalLogsCount;
-            set
-            {
-                _totalLogsCount = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public async Task LoadLogsAsync(int pageNumber = 1)
-        {
-            try
-            {
-                IsLoading = true;
-                ErrorMessage = string.Empty;
-
-                var result = await _apiService.AdvancedSearchLogsAsync(
-                    userId: SelectedUserIdFilter,
-                    warehouseId: SelectedWarehouseIdFilter,
-                    materialId: SelectedMaterialIdFilter,
-                    productId: SelectedProductIdFilter,
-                    startDate: StartDateFilter,
-                    endDate: EndDateFilter,
-                    pageNumber: pageNumber,
-                    pageSize: 50);
-
-                if (result == null)
-                {
-                    ErrorMessage = "Не удалось загрузить логи. Проверьте соединение с сервером.";
-                    Logs.Clear();
-                    CurrentPage = 1;
-                    TotalPages = 1;
-                    TotalLogsCount = 0;
-                    return;
-                }
-
-                Logs.Clear();
-                foreach (var log in result.Logs)
-                {
-                    Logs.Add(log);
-                }
-
-                CurrentPage = result.PageNumber;
-                TotalPages = result.TotalPages;
-                TotalLogsCount = result.TotalCount;
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = $"Ошибка загрузки логов: {ex.Message}";
-            }
-            finally
-            {
-                IsLoading = false;
-            }
-        }
-
-        public async Task SearchLogsAsync()
-        {
-            await LoadLogsAsync(1);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

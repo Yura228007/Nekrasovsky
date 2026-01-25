@@ -13,6 +13,9 @@
 		<!-- Suppress EOL warnings for net8.0 -->
 		<NoWarn>$(NoWarn);NETSDK1202</NoWarn>
 
+		<!-- Java SDK from Android Studio -->
+		<JavaSdkDirectory>/Applications/Android Studio.app/Contents/jbr/Contents/Home</JavaSdkDirectory>
+
 		<OutputType>Exe</OutputType>
 		<RootNamespace>NekrasovskyAPP</RootNamespace>
 		<UseMaui>true</UseMaui>

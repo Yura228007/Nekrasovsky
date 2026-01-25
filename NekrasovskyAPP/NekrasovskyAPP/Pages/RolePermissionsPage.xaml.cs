@@ -103,8 +103,9 @@ namespace NekrasovskyAPP.Pages
                     IsSelected = rolePermissionIds.Contains(p.Id)
                 }).ToList();
 
-                PermissionsCollectionView.ItemsSource = null;
-                PermissionsCollectionView.ItemsSource = _permissions;
+                // Обновляем BindableLayout
+                BindableLayout.SetItemsSource(PermissionsList, null);
+                BindableLayout.SetItemsSource(PermissionsList, _permissions);
 
                 PermissionsContainer.IsVisible = true;
                 SaveButton.IsVisible = true;

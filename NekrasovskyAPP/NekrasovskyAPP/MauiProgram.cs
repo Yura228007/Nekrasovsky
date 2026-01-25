@@ -77,8 +77,6 @@ namespace NekrasovskyAPP
                 new ReprocessingPage(sp.GetRequiredService<IApiService>(), sp.GetRequiredService<IAuthService>()));
             builder.Services.AddTransient<SettingsPage>(sp =>
                 new SettingsPage(sp.GetRequiredService<IApiService>()));
-            builder.Services.AddTransient<LogsPage>(sp =>
-                new LogsPage(sp.GetRequiredService<MainViewModel>()));
             builder.Services.AddTransient<ViewModels.HistoryViewModel>();
             builder.Services.AddTransient<HistoryPage>(sp =>
                 new HistoryPage(sp.GetRequiredService<ViewModels.HistoryViewModel>()));

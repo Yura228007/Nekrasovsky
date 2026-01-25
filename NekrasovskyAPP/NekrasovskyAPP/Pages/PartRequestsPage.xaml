@@ -17,129 +17,229 @@
         <ToolbarItem Text="Создать запрос" Clicked="OnAddClicked" />
     </ContentPage.ToolbarItems>
     
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        
+    <Grid RowDefinitions="Auto,*,Auto" Padding="16">
+
+        <!-- Header -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,4,0,12">
+            <VerticalStackLayout>
+                <Label Text="Запросы деталей"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource White}" />
+                <Label Text="Входящие и отправленные"
+                       FontSize="12"
+                       TextColor="{StaticResource Gray500}" />
+            </VerticalStackLayout>
+            <Border Grid.Column="1"
+                    BackgroundColor="{StaticResource CardRequests}"
+                    WidthRequest="44"
+                    HeightRequest="44"
+                    StrokeThickness="0"
+                    VerticalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <Label Text="📋" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Border>
+        </Grid>
+
         <!-- Part Requests Lists -->
-        <RefreshView Grid.Row="0" 
+        <RefreshView Grid.Row="1"
                      IsRefreshing="{Binding IsLoading}"
                      Refreshing="OnRefreshing">
             <ScrollView>
                 <VerticalStackLayout Spacing="12">
-                    <Label Text="Входящие запросы"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource White}"
-                           Margin="15,10,15,0" />
-                    <CollectionView ItemsSource="{Binding IncomingRequests}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Border BackgroundColor="{StaticResource BackgroundCard}"
-                                        StrokeThickness="1"
-                                        Stroke="{StaticResource BorderColor}"
-                                        Margin="15,8"
-                                        Padding="18">
+                    <!-- Incoming Section -->
+                    <Border BackgroundColor="{StaticResource BackgroundCard}"
+                            StrokeThickness="0"
+                            Padding="16">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="16"/>
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="12">
+                            <HorizontalStackLayout Spacing="10">
+                                <Border BackgroundColor="{StaticResource Success}"
+                                        WidthRequest="32"
+                                        HeightRequest="32"
+                                        StrokeThickness="0">
                                     <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="12"/>
+                                        <RoundRectangle CornerRadius="8"/>
                                     </Border.StrokeShape>
-                                    <VerticalStackLayout Spacing="6">
-                                        <Label Text="{Binding MaterialId, StringFormat='Материал ID: {0}'}"
-                                               FontSize="14"
-                                               TextColor="{StaticResource Gray400}" />
-                                        <Label Text="{Binding Quantity, StringFormat='Количество: {0}'}"
-                                               FontSize="14"
-                                               TextColor="{StaticResource Gray400}" />
-                                        <Label Text="{Binding Status, StringFormat='Статус: {0}'}"
-                                               FontSize="14"
-                                               TextColor="{StaticResource Gray400}" />
-                                        <Label Text="{Binding CreatedAt, StringFormat='Создан: {0:dd.MM.yyyy HH:mm}'}"
-                                               FontSize="12"
-                                               TextColor="{StaticResource Gray600}" />
-                                        <HorizontalStackLayout Spacing="10" Margin="0,10,0,0">
-                                            <Button Text="Одобрить"
-                                                    Clicked="OnApproveClicked"
-                                                    BackgroundColor="{StaticResource Success}"
-                                                    TextColor="{StaticResource White}"
-                                                    CornerRadius="8"
-                                                    IsVisible="{Binding Status, Converter={StaticResource IsPendingConverter}}"
-                                                    CommandParameter="{Binding .}" />
-                                            <Button Text="Отклонить"
-                                                    Clicked="OnRejectClicked"
-                                                    BackgroundColor="{StaticResource Error}"
-                                                    TextColor="{StaticResource White}"
-                                                    CornerRadius="8"
-                                                    IsVisible="{Binding Status, Converter={StaticResource IsPendingConverter}}"
-                                                    CommandParameter="{Binding .}" />
-                                        </HorizontalStackLayout>
-                                    </VerticalStackLayout>
+                                    <Label Text="📥" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                                <Label Text="Входящие запросы"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource White}"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <CollectionView ItemsSource="{Binding IncomingRequests}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BackgroundColor="{StaticResource BackgroundElevated}"
+                                                StrokeThickness="0"
+                                                Margin="0,4"
+                                                Padding="14">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="12"/>
+                                            </Border.StrokeShape>
+                                            <VerticalStackLayout Spacing="8">
+                                                <HorizontalStackLayout Spacing="12">
+                                                    <Label Text="{Binding MaterialId, StringFormat='Материал #{0}'}"
+                                                           FontSize="15"
+                                                           FontAttributes="Bold"
+                                                           TextColor="{StaticResource White}" />
+                                                    <Border BackgroundColor="{StaticResource BackgroundCard}"
+                                                            StrokeThickness="0"
+                                                            Padding="8,4">
+                                                        <Border.StrokeShape>
+                                                            <RoundRectangle CornerRadius="6"/>
+                                                        </Border.StrokeShape>
+                                                        <Label Text="{Binding Quantity, StringFormat='×{0}'}"
+                                                               FontSize="13"
+                                                               TextColor="{StaticResource Primary}" />
+                                                    </Border>
+                                                </HorizontalStackLayout>
+                                                <HorizontalStackLayout Spacing="8">
+                                                    <Label Text="{Binding Status}"
+                                                           FontSize="12"
+                                                           TextColor="{StaticResource Gray400}" />
+                                                    <Label Text="•" FontSize="12" TextColor="{StaticResource Gray600}"/>
+                                                    <Label Text="{Binding CreatedAt, StringFormat='{0:dd.MM HH:mm}'}"
+                                                           FontSize="12"
+                                                           TextColor="{StaticResource Gray500}" />
+                                                </HorizontalStackLayout>
+                                                <Grid ColumnDefinitions="*,*" ColumnSpacing="10"
+                                                      IsVisible="{Binding Status, Converter={StaticResource IsPendingConverter}}">
+                                                    <Button Grid.Column="0"
+                                                            Text="Одобрить"
+                                                            Clicked="OnApproveClicked"
+                                                            BackgroundColor="{StaticResource Success}"
+                                                            TextColor="{StaticResource White}"
+                                                            CornerRadius="10"
+                                                            HeightRequest="38"
+                                                            FontSize="13"
+                                                            CommandParameter="{Binding .}" />
+                                                    <Button Grid.Column="1"
+                                                            Text="Отклонить"
+                                                            Clicked="OnRejectClicked"
+                                                            BackgroundColor="{StaticResource Error}"
+                                                            TextColor="{StaticResource White}"
+                                                            CornerRadius="10"
+                                                            HeightRequest="38"
+                                                            FontSize="13"
+                                                            CommandParameter="{Binding .}" />
+                                                </Grid>
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
 
-                    <Label Text="Отправленные запросы"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource White}"
-                           Margin="15,10,15,0" />
-                    <CollectionView ItemsSource="{Binding SentRequests}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Border BackgroundColor="{StaticResource BackgroundCard}"
-                                        StrokeThickness="1"
-                                        Stroke="{StaticResource BorderColor}"
-                                        Margin="15,8"
-                                        Padding="18">
+                    <!-- Sent Section -->
+                    <Border BackgroundColor="{StaticResource BackgroundCard}"
+                            StrokeThickness="0"
+                            Padding="16">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="16"/>
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="12">
+                            <HorizontalStackLayout Spacing="10">
+                                <Border BackgroundColor="{StaticResource Primary}"
+                                        WidthRequest="32"
+                                        HeightRequest="32"
+                                        StrokeThickness="0">
                                     <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="12"/>
+                                        <RoundRectangle CornerRadius="8"/>
                                     </Border.StrokeShape>
-                                    <VerticalStackLayout Spacing="6">
-                                        <Label Text="{Binding MaterialId, StringFormat='Материал ID: {0}'}"
-                                               FontSize="14"
-                                               TextColor="{StaticResource Gray400}" />
-                                        <Label Text="{Binding Quantity, StringFormat='Количество: {0}'}"
-                                               FontSize="14"
-                                               TextColor="{StaticResource Gray400}" />
-                                        <Label Text="{Binding Status, StringFormat='Статус: {0}'}"
-                                               FontSize="14"
-                                               TextColor="{StaticResource Gray400}" />
-                                        <Label Text="{Binding CreatedAt, StringFormat='Создан: {0:dd.MM.yyyy HH:mm}'}"
-                                               FontSize="12"
-                                               TextColor="{StaticResource Gray600}" />
-                                        <Button Text="Отменить"
-                                                Clicked="OnCancelClicked"
-                                                BackgroundColor="{StaticResource Error}"
-                                                TextColor="{StaticResource White}"
-                                                CornerRadius="8"
-                                                IsVisible="{Binding Status, Converter={StaticResource IsPendingConverter}}"
-                                                CommandParameter="{Binding .}" />
-                                    </VerticalStackLayout>
+                                    <Label Text="📤" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                                <Label Text="Отправленные запросы"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource White}"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <CollectionView ItemsSource="{Binding SentRequests}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BackgroundColor="{StaticResource BackgroundElevated}"
+                                                StrokeThickness="0"
+                                                Margin="0,4"
+                                                Padding="14">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="12"/>
+                                            </Border.StrokeShape>
+                                            <VerticalStackLayout Spacing="8">
+                                                <HorizontalStackLayout Spacing="12">
+                                                    <Label Text="{Binding MaterialId, StringFormat='Материал #{0}'}"
+                                                           FontSize="15"
+                                                           FontAttributes="Bold"
+                                                           TextColor="{StaticResource White}" />
+                                                    <Border BackgroundColor="{StaticResource BackgroundCard}"
+                                                            StrokeThickness="0"
+                                                            Padding="8,4">
+                                                        <Border.StrokeShape>
+                                                            <RoundRectangle CornerRadius="6"/>
+                                                        </Border.StrokeShape>
+                                                        <Label Text="{Binding Quantity, StringFormat='×{0}'}"
+                                                               FontSize="13"
+                                                               TextColor="{StaticResource Primary}" />
+                                                    </Border>
+                                                </HorizontalStackLayout>
+                                                <HorizontalStackLayout Spacing="8">
+                                                    <Label Text="{Binding Status}"
+                                                           FontSize="12"
+                                                           TextColor="{StaticResource Gray400}" />
+                                                    <Label Text="•" FontSize="12" TextColor="{StaticResource Gray600}"/>
+                                                    <Label Text="{Binding CreatedAt, StringFormat='{0:dd.MM HH:mm}'}"
+                                                           FontSize="12"
+                                                           TextColor="{StaticResource Gray500}" />
+                                                </HorizontalStackLayout>
+                                                <Button Text="Отменить"
+                                                        Clicked="OnCancelClicked"
+                                                        BackgroundColor="{StaticResource Error}"
+                                                        TextColor="{StaticResource White}"
+                                                        CornerRadius="10"
+                                                        HeightRequest="38"
+                                                        FontSize="13"
+                                                        IsVisible="{Binding Status, Converter={StaticResource IsPendingConverter}}"
+                                                        CommandParameter="{Binding .}" />
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
                 </VerticalStackLayout>
             </ScrollView>
         </RefreshView>
-        
+
         <!-- Loading Indicator -->
-        <ActivityIndicator Grid.Row="0"
-                          IsRunning="{Binding IsLoading}"
-                          IsVisible="{Binding IsLoading}"
-                          Color="{StaticResource Accent}"
-                          VerticalOptions="Center"
-                          HorizontalOptions="Center" />
-        
+        <ActivityIndicator Grid.Row="1"
+                           IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           Color="{StaticResource Primary}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
+
         <!-- Error Message -->
-        <Label Grid.Row="1"
-               Text="{Binding ErrorMessage}"
-               TextColor="{StaticResource Error}"
-               IsVisible="{Binding ErrorMessage, Converter={StaticResource IsStringNotEmpty}}"
-               Margin="15"
-               HorizontalOptions="Center" />
+        <Border Grid.Row="2"
+                BackgroundColor="#33EF4444"
+                StrokeThickness="0"
+                Padding="12,8"
+                IsVisible="{Binding ErrorMessage, Converter={StaticResource IsStringNotEmpty}}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8"/>
+            </Border.StrokeShape>
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="{StaticResource Error}"
+                   FontSize="13"
+                   HorizontalTextAlignment="Center" />
+        </Border>
     </Grid>
     
 </ContentPage>

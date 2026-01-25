@@ -135,11 +135,6 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("SettingsPage");
         }
 
-        private async void OnLogsClicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync("LogsPage");
-        }
-
         private async void OnHistoryClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("HistoryPage");

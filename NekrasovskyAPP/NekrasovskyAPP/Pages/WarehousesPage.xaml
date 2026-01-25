@@ -17,149 +17,226 @@
         <ToolbarItem Text="Добавить" Clicked="OnAddClicked" />
     </ContentPage.ToolbarItems>
     
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        
+    <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="16">
+
+        <!-- Header -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,4,0,12">
+            <VerticalStackLayout>
+                <Label Text="Склады"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource White}" />
+                <Label Text="Управление складами"
+                       FontSize="12"
+                       TextColor="{StaticResource Gray500}" />
+            </VerticalStackLayout>
+            <Border Grid.Column="1"
+                    BackgroundColor="{StaticResource CardWarehouses}"
+                    WidthRequest="44"
+                    HeightRequest="44"
+                    StrokeThickness="0"
+                    VerticalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <Label Text="🏭" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Border>
+        </Grid>
+
         <!-- Search Bar -->
-        <Border Grid.Row="0" 
+        <Border Grid.Row="1"
                 BackgroundColor="{StaticResource BackgroundCard}"
-                StrokeThickness="1"
-                Stroke="{StaticResource BorderColor}"
-                Padding="15,12"
-                Margin="15,15,15,10">
+                StrokeThickness="0"
+                Padding="0"
+                HeightRequest="48"
+                Margin="0,0,0,10">
             <Border.StrokeShape>
-                <RoundRectangle CornerRadius="12"/>
+                <RoundRectangle CornerRadius="14"/>
             </Border.StrokeShape>
-            <Entry x:Name="SearchEntry"
-                   Placeholder="Поиск по названию или типу..."
-                   TextChanged="OnSearchTextChanged"
-                   TextColor="{StaticResource Gray200}"
-                   PlaceholderColor="{StaticResource Gray600}"
-                   BackgroundColor="Transparent" />
+            <Grid ColumnDefinitions="48,*" VerticalOptions="Center">
+                <Label Text="🔍"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+                <Entry Grid.Column="1"
+                       x:Name="SearchEntry"
+                       Placeholder="Поиск по названию или типу..."
+                       TextChanged="OnSearchTextChanged"
+                       TextColor="{StaticResource White}"
+                       PlaceholderColor="{StaticResource Gray600}"
+                       BackgroundColor="Transparent"
+                       VerticalOptions="Center" />
+            </Grid>
         </Border>
 
         <!-- Filter Panel -->
-        <Border Grid.Row="1"
+        <Border Grid.Row="2"
                 BackgroundColor="{StaticResource BackgroundCard}"
-                StrokeThickness="1"
-                Stroke="{StaticResource BorderColor}"
-                Padding="15,10"
-                Margin="15,0,15,10">
+                StrokeThickness="0"
+                Padding="12"
+                Margin="0,0,0,12">
             <Border.StrokeShape>
-                <RoundRectangle CornerRadius="12"/>
+                <RoundRectangle CornerRadius="14"/>
             </Border.StrokeShape>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
                 <!-- Фильтр по типу -->
-                <Picker Grid.Column="0"
-                        x:Name="TypePicker"
-                        Title="Тип склада"
-                        SelectedIndexChanged="OnFilterChanged"
-                        TextColor="{StaticResource Gray200}"
-                        TitleColor="{StaticResource Gray600}">
-                    <Picker.Items>
-                        <x:String>Все</x:String>
-                        <x:String>Цех</x:String>
-                        <x:String>Склад</x:String>
-                        <x:String>Производство</x:String>
-                    </Picker.Items>
-                </Picker>
+                <Border Grid.Column="0"
+                        BackgroundColor="{StaticResource BackgroundInput}"
+                        StrokeThickness="0"
+                        Padding="6,0"
+                        HeightRequest="40">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    <Picker x:Name="TypePicker"
+                            Title="Тип"
+                            SelectedIndexChanged="OnFilterChanged"
+                            TextColor="{StaticResource White}"
+                            TitleColor="{StaticResource Gray500}"
+                            FontSize="12">
+                        <Picker.Items>
+                            <x:String>Все</x:String>
+                            <x:String>Цех</x:String>
+                            <x:String>Склад</x:String>
+                            <x:String>Производство</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </Border>
 
                 <!-- Фильтр по статусу -->
-                <Picker Grid.Column="1"
-                        x:Name="StatusPicker"
-                        Title="Статус"
-                        SelectedIndexChanged="OnFilterChanged"
-                        TextColor="{StaticResource Gray200}"
-                        TitleColor="{StaticResource Gray600}"
-                        Margin="5,0">
-                    <Picker.Items>
-                        <x:String>Все</x:String>
-                        <x:String>Активные</x:String>
-                        <x:String>Остановлены</x:String>
-                    </Picker.Items>
-                </Picker>
+                <Border Grid.Column="1"
+                        BackgroundColor="{StaticResource BackgroundInput}"
+                        StrokeThickness="0"
+                        Padding="6,0"
+                        HeightRequest="40">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    <Picker x:Name="StatusPicker"
+                            Title="Статус"
+                            SelectedIndexChanged="OnFilterChanged"
+                            TextColor="{StaticResource White}"
+                            TitleColor="{StaticResource Gray500}"
+                            FontSize="12">
+                        <Picker.Items>
+                            <x:String>Все</x:String>
+                            <x:String>Активные</x:String>
+                            <x:String>Остановлены</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </Border>
 
                 <!-- Сортировка -->
-                <Picker Grid.Column="2"
-                        x:Name="SortPicker"
-                        Title="Сортировка"
-                        SelectedIndexChanged="OnFilterChanged"
-                        TextColor="{StaticResource Gray200}"
-                        TitleColor="{StaticResource Gray600}">
-                    <Picker.Items>
-                        <x:String>По имени ↑</x:String>
-                        <x:String>По имени ↓</x:String>
-                        <x:String>По типу ↑</x:String>
-                        <x:String>По типу ↓</x:String>
-                    </Picker.Items>
-                </Picker>
+                <Border Grid.Column="2"
+                        BackgroundColor="{StaticResource BackgroundInput}"
+                        StrokeThickness="0"
+                        Padding="6,0"
+                        HeightRequest="40">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    <Picker x:Name="SortPicker"
+                            Title="Сортировка"
+                            SelectedIndexChanged="OnFilterChanged"
+                            TextColor="{StaticResource White}"
+                            TitleColor="{StaticResource Gray500}"
+                            FontSize="12">
+                        <Picker.Items>
+                            <x:String>По имени ↑</x:String>
+                            <x:String>По имени ↓</x:String>
+                            <x:String>По типу ↑</x:String>
+                            <x:String>По типу ↓</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </Border>
             </Grid>
         </Border>
 
         <!-- Warehouses List -->
-        <RefreshView Grid.Row="2" 
+        <RefreshView Grid.Row="3"
                      IsRefreshing="{Binding IsLoading}"
                      Refreshing="OnRefreshing">
             <CollectionView x:Name="WarehousesCollectionView"
-                          ItemsSource="{Binding Warehouses}"
-                          SelectionMode="Single"
-                          SelectionChanged="OnWarehouseSelected">
+                            ItemsSource="{Binding Warehouses}"
+                            SelectionMode="Single"
+                            SelectionChanged="OnWarehouseSelected">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Spacing="12">
+                        <Border BackgroundColor="{StaticResource BackgroundCard}"
+                                WidthRequest="80"
+                                HeightRequest="80"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"/>
+                            </Border.StrokeShape>
+                            <Label Text="📭" FontSize="36" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Text="Склады не найдены"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Gray400}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border BackgroundColor="{StaticResource BackgroundCard}"
-                                StrokeThickness="1"
-                                Stroke="{StaticResource BorderColor}"
-                                Margin="15,8"
-                                Padding="18">
+                                StrokeThickness="0"
+                                Margin="0,0,0,10"
+                                Padding="16">
                             <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="12"/>
+                                <RoundRectangle CornerRadius="16"/>
                             </Border.StrokeShape>
-                            <VerticalStackLayout Spacing="6">
-                                <HorizontalStackLayout Spacing="10">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                <Border Grid.Column="0"
+                                        BackgroundColor="{StaticResource CardWarehouses}"
+                                        WidthRequest="48"
+                                        HeightRequest="48"
+                                        StrokeThickness="0"
+                                        VerticalOptions="Center">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12"/>
+                                    </Border.StrokeShape>
+                                    <Label Text="🏭" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
                                     <Label Text="{Binding Name}"
-                                           FontSize="18"
+                                           FontSize="16"
                                            FontAttributes="Bold"
-                                           TextColor="{StaticResource White}"
-                                           VerticalOptions="Center" />
-                                    <Border BackgroundColor="{Binding IsActive, Converter={StaticResource BoolToStatusColorConverter}}"
-                                            Padding="8,4">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="6"/>
-                                        </Border.StrokeShape>
-                                        <Label Text="{Binding IsActive, Converter={StaticResource BoolToStatusTextConverter}}"
-                                               FontSize="12"
-                                               FontAttributes="Bold"
-                                               TextColor="{StaticResource White}"
-                                               VerticalOptions="Center" />
-                                    </Border>
-                                </HorizontalStackLayout>
-                                <Label Text="{Binding Type, StringFormat='Тип: {0}'}"
-                                       FontSize="14"
-                                       TextColor="{StaticResource Gray400}" />
-                            </VerticalStackLayout>
+                                           TextColor="{StaticResource White}" />
+                                    <Label Text="{Binding Type, StringFormat='Тип: {0}'}"
+                                           FontSize="13"
+                                           TextColor="{StaticResource Gray400}" />
+                                </VerticalStackLayout>
+                                <Border Grid.Column="2"
+                                        BackgroundColor="{Binding IsActive, Converter={StaticResource BoolToStatusColorConverter}}"
+                                        StrokeThickness="0"
+                                        Padding="10,6"
+                                        VerticalOptions="Center">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8"/>
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding IsActive, Converter={StaticResource BoolToStatusTextConverter}}"
+                                           FontSize="12"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource White}" />
+                                </Border>
+                            </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-        
+
         <!-- Loading Indicator -->
-        <ActivityIndicator Grid.Row="2"
-                          IsRunning="{Binding IsLoading}"
-                          IsVisible="{Binding IsLoading}"
-                          Color="{StaticResource Accent}"
-                          VerticalOptions="Center"
-                          HorizontalOptions="Center" />
+        <ActivityIndicator Grid.Row="3"
+                           IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           Color="{StaticResource Primary}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
     </Grid>
     
 </ContentPage>

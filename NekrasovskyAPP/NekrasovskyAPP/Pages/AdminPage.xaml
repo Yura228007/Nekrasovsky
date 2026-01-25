@@ -28,7 +28,7 @@
             </StackLayout>
             
             <!-- Admin Navigation Cards -->
-            <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*" ColumnSpacing="15" RowSpacing="15">
+            <Grid ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*" ColumnSpacing="15" RowSpacing="15">
                 
                 <!-- Users Management -->
                 <Border Grid.Row="0" Grid.Column="0"
@@ -226,6 +226,31 @@
                                HorizontalTextAlignment="Center" />
                         <Button Text="Открыть"
                                 Clicked="OnRolePermissionsClicked"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="{StaticResource White}"
+                                CornerRadius="10" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- History -->
+                <Border Grid.Row="4" Grid.Column="0"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="1"
+                        Stroke="{StaticResource BorderColor}"
+                        Padding="20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="🧾" FontSize="40" HorizontalOptions="Center" />
+                        <Label Text="История действий"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center" />
+                        <Button Text="Открыть"
+                                Clicked="OnHistoryClicked"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="{StaticResource White}"
                                 CornerRadius="10" />

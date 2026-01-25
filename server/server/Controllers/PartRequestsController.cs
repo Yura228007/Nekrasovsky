@@ -15,17 +15,20 @@ namespace server.Controllers
         private readonly ILogger<PartRequestsController> _logger;
         private readonly IHubContext<NotificationHub> _hubContext;
         private readonly IUserPermissionsService _userPermissionsService;
+        private readonly IHistoryService _historyService;
 
         public PartRequestsController(
             IPartRequestService partRequestService, 
             ILogger<PartRequestsController> logger,
             IHubContext<NotificationHub> hubContext,
-            IUserPermissionsService userPermissionsService)
+            IUserPermissionsService userPermissionsService,
+            IHistoryService historyService)
         {
             _partRequestService = partRequestService;
             _logger = logger;
             _hubContext = hubContext;
             _userPermissionsService = userPermissionsService;
+            _historyService = historyService;
         }
 
         // GET: api/part-requests
@@ -168,6 +171,16 @@ namespace server.Controllers
             {
                 var createdRequest = await _partRequestService.CreatePartRequestAsync(request);
                 _logger.LogInformation("PartRequest created successfully with ID: {PartRequestId}", createdRequest.Id);
+                await TryLogAsync(GetUserIdFromHeader() ?? request.FromUserId, new HistoryEvent
+                {
+                    Action = "PartRequest.Created",
+                    EntityType = "PartRequest",
+                    EntityId = createdRequest.Id,
+                    MaterialId = createdRequest.MaterialId,
+                    WarehouseId = createdRequest.FromWarehouseId,
+                    RelatedUserId = createdRequest.ToUserId,
+                    Description = $"Создан запрос на материал ID {createdRequest.MaterialId} (кол-во {createdRequest.Quantity})"
+                });
                 return CreatedAtAction(nameof(GetById), new { id = createdRequest.Id },
                     new { message = "PartRequest created successfully", request = createdRequest });
             }
@@ -238,6 +251,16 @@ namespace server.Controllers
 
                 var request = await _partRequestService.ApprovePartRequestAsync(id);
                 _logger.LogInformation("PartRequest approved successfully with ID: {PartRequestId}", id);
+                await TryLogAsync(GetUserIdFromHeader() ?? request.ToUserId, new HistoryEvent
+                {
+                    Action = "PartRequest.Approved",
+                    EntityType = "PartRequest",
+                    EntityId = request.Id,
+                    MaterialId = request.MaterialId,
+                    WarehouseId = request.ToWarehouseId,
+                    RelatedUserId = request.FromUserId,
+                    Description = $"Одобрен запрос ID {request.Id} на материал {request.MaterialId}"
+                });
                 return Ok(new { message = "PartRequest approved successfully", request });
             }
             catch (KeyNotFoundException ex)
@@ -303,6 +326,16 @@ namespace server.Controllers
                 }
 
                 _logger.LogInformation("PartRequest rejected successfully with ID: {PartRequestId}", id);
+                await TryLogAsync(GetUserIdFromHeader() ?? request.ToUserId, new HistoryEvent
+                {
+                    Action = "PartRequest.Rejected",
+                    EntityType = "PartRequest",
+                    EntityId = request.Id,
+                    MaterialId = request.MaterialId,
+                    WarehouseId = request.ToWarehouseId,
+                    RelatedUserId = request.FromUserId,
+                    Description = $"Отклонен запрос ID {request.Id} на материал {request.MaterialId}"
+                });
                 return Ok(new { message = "PartRequest rejected successfully", request, rejectionCount });
             }
             catch (KeyNotFoundException ex)
@@ -356,6 +389,16 @@ namespace server.Controllers
                     return NotFound(new { message = $"PartRequest with ID {id} not found" });
                 }
 
+                await TryLogAsync(userId, new HistoryEvent
+                {
+                    Action = "PartRequest.Cancelled",
+                    EntityType = "PartRequest",
+                    EntityId = id,
+                    MaterialId = request.MaterialId,
+                    WarehouseId = request.FromWarehouseId,
+                    RelatedUserId = request.ToUserId,
+                    Description = $"Отменен запрос ID {id} на материал {request.MaterialId}"
+                });
                 return Ok(new { message = "PartRequest cancelled successfully" });
             }
             catch (Exception ex)
@@ -405,6 +448,13 @@ namespace server.Controllers
                 }
 
                 _logger.LogInformation("PartRequest deleted successfully with ID: {PartRequestId}", id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "PartRequest.Deleted",
+                    EntityType = "PartRequest",
+                    EntityId = id,
+                    Description = $"Удален запрос ID {id}"
+                });
                 return Ok(new { message = "PartRequest deleted successfully" });
             }
             catch (DbUpdateException ex)
@@ -416,6 +466,34 @@ namespace server.Controllers
             {
                 _logger.LogError(ex, "Unexpected error while deleting part request with ID {PartRequestId}", id);
                 return StatusCode(500, new { message = "An unexpected error occurred while deleting the part request" });
+            }
+        }
+
+        private int? GetUserIdFromHeader()
+        {
+            if (Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) &&
+                int.TryParse(userIdHeader.ToString(), out var userId))
+            {
+                return userId;
+            }
+            return null;
+        }
+
+        private async Task TryLogAsync(int? userId, HistoryEvent historyEvent)
+        {
+            if (!userId.HasValue || userId.Value <= 0)
+            {
+                return;
+            }
+
+            historyEvent.UserId = userId.Value;
+            try
+            {
+                await _historyService.AddEventAsync(historyEvent);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to write history event");
             }
         }
     }

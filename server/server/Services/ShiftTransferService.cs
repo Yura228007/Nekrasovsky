@@ -8,11 +8,13 @@ namespace server.Services
     {
         private readonly AppDbContext _context;
         private readonly ILogger<ShiftTransferService> _logger;
+        private readonly IResponsibilityService _responsibilityService;
 
-        public ShiftTransferService(AppDbContext context, ILogger<ShiftTransferService> logger)
+        public ShiftTransferService(AppDbContext context, ILogger<ShiftTransferService> logger, IResponsibilityService responsibilityService)
         {
             _context = context;
             _logger = logger;
+            _responsibilityService = responsibilityService;
         }
 
         public async Task<IEnumerable<ShiftTransfer>> GetAllShiftTransfersAsync()
@@ -148,6 +150,8 @@ namespace server.Services
 
             transfer.IsConfirmed = true;
             await _context.SaveChangesAsync();
+
+            await _responsibilityService.TransferAllAsync(transfer.FromUserId, transfer.ToUserId);
 
             _logger.LogInformation("ShiftTransfer {TransferId} confirmed", id);
             return transfer;

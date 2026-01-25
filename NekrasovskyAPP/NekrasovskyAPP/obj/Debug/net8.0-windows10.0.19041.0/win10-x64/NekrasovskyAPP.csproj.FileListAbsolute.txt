@@ -445,3 +445,4 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.SignalR.Common.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Microsoft.Extensions.Features.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\System.Windows.Extensions.dll

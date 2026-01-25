@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,6 +26,12 @@ namespace NekrasovskyAPP.Models
         [Required]
         [Column(TypeName = "boolean")]
         public bool IsConfirmed { get; set; } = false;
+
+        [NotMapped]
+        public string FromUserDisplay { get; set; } = string.Empty;
+
+        [NotMapped]
+        public string ToUserDisplay { get; set; } = string.Empty;
 
         // 🔗 Навигационные свойства
         public virtual User FromUser { get; set; } = null!;

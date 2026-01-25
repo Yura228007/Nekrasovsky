@@ -1253,3 +1253,4 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\stamp\_ResolveLibraryProjectImports.stamp
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\android\assets\AppDynamics.Agent.dll
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\android\assets\AppDynamics.Agent.pdb
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\android\assets\System.Windows.Extensions.dll

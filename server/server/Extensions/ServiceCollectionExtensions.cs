@@ -54,6 +54,15 @@ namespace server.Extensions
             // Register request log service
             services.AddScoped<IRequestLogService, RequestLogService>();
 
+            // Register history service
+            services.AddScoped<IHistoryService, HistoryService>();
+
+            // Register responsibility service
+            services.AddScoped<IResponsibilityService, ResponsibilityService>();
+
+            // Register reprocessing service
+            services.AddScoped<IReprocessingService, ReprocessingService>();
+
             // Register backup service
             services.AddScoped<IBackupService, BackupService>();
 

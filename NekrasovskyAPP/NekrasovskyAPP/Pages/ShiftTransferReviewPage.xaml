@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NekrasovskyAPP.Pages.ShiftTransferReviewPage"
+             BackgroundColor="{StaticResource BackgroundDark}"
+             Title="Проверка остатков">
+
+    <VerticalStackLayout Padding="20" Spacing="12">
+        <Label Text="Проверьте остатки перед подтверждением"
+               FontSize="16"
+               TextColor="{StaticResource White}" />
+
+        <CollectionView ItemsSource="{Binding StockItems}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border BackgroundColor="{StaticResource BackgroundCard}"
+                            StrokeThickness="1"
+                            Stroke="{StaticResource BorderColor}"
+                            Padding="12"
+                            Margin="0,6">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="6">
+                            <HorizontalStackLayout Spacing="8">
+                                <CheckBox IsChecked="{Binding IsChecked}" CheckedChanged="OnCheckChanged" />
+                                <Label Text="{Binding Name}"
+                                       FontSize="14"
+                                       TextColor="{StaticResource Gray200}" />
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding TotalQuantity, StringFormat='Итого: {0}'}"
+                                   FontSize="12"
+                                   TextColor="{StaticResource Gray400}" />
+                            <CollectionView ItemsSource="{Binding Warehouses}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Text="{Binding WarehouseName, StringFormat='{0}'}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource Gray500}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding WarehouseName}" />
+                                                    <Span Text=": " />
+                                                    <Span Text="{Binding Quantity}" />
+                                                    <Span Text=" " />
+                                                    <Span Text="{Binding MeasuringType}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <HorizontalStackLayout Spacing="12" HorizontalOptions="End">
+            <Button Text="Отмена" Clicked="OnCancelClicked" />
+            <Button x:Name="ConfirmButton"
+                    Text="Подтвердить"
+                    IsEnabled="{Binding AllChecked}"
+                    Clicked="OnConfirmClicked"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="{StaticResource White}" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

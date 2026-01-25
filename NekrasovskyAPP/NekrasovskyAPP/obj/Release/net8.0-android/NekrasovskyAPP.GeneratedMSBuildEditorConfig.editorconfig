@@ -48,6 +48,12 @@ build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.Barco
 build_metadata.AdditionalFiles.TargetPath = Pages\BarcodeScannerPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\BarcodeScannerPage.xaml
 
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/HistoryPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.HistoryPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Pages\HistoryPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Pages\HistoryPage.xaml
+
 [D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/HomePage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.HomePage.xaml
@@ -84,6 +90,12 @@ build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.Produ
 build_metadata.AdditionalFiles.TargetPath = Pages\ProductsPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\ProductsPage.xaml
 
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/ReprocessingPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.ReprocessingPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Pages\ReprocessingPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Pages\ReprocessingPage.xaml
+
 [D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/RolePermissionsPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.RolePermissionsPage.xaml
@@ -95,6 +107,12 @@ build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.SettingsPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\SettingsPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\SettingsPage.xaml
+
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/ShiftTransferReviewPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.ShiftTransferReviewPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Pages\ShiftTransferReviewPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Pages\ShiftTransferReviewPage.xaml
 
 [D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/ShiftTransfersPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml

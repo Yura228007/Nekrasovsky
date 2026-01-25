@@ -11,11 +11,13 @@ namespace server.Controllers
     {
         private readonly IShiftTransferService _shiftTransferService;
         private readonly ILogger<ShiftTransfersController> _logger;
+        private readonly IHistoryService _historyService;
 
-        public ShiftTransfersController(IShiftTransferService shiftTransferService, ILogger<ShiftTransfersController> logger)
+        public ShiftTransfersController(IShiftTransferService shiftTransferService, ILogger<ShiftTransfersController> logger, IHistoryService historyService)
         {
             _shiftTransferService = shiftTransferService;
             _logger = logger;
+            _historyService = historyService;
         }
 
         // GET: api/shift-transfers
@@ -148,6 +150,14 @@ namespace server.Controllers
 
                 var createdTransfer = await _shiftTransferService.CreateShiftTransferAsync(transfer);
                 _logger.LogInformation("ShiftTransfer created successfully with ID: {ShiftTransferId}", createdTransfer.Id);
+                await TryLogAsync(GetUserIdFromHeader() ?? createdTransfer.FromUserId, new HistoryEvent
+                {
+                    Action = "ShiftTransfer.Created",
+                    EntityType = "ShiftTransfer",
+                    EntityId = createdTransfer.Id,
+                    RelatedUserId = createdTransfer.ToUserId,
+                    Description = $"Создана передача смены (от {createdTransfer.FromUserId} к {createdTransfer.ToUserId})"
+                });
                 return CreatedAtAction(nameof(GetById), new { id = createdTransfer.Id },
                     new { message = "ShiftTransfer created successfully", transfer = createdTransfer });
             }
@@ -229,6 +239,14 @@ namespace server.Controllers
 
                 var transfer = await _shiftTransferService.ConfirmShiftTransferAsync(id);
                 _logger.LogInformation("ShiftTransfer confirmed successfully with ID: {ShiftTransferId}", id);
+                await TryLogAsync(GetUserIdFromHeader() ?? transfer.ToUserId, new HistoryEvent
+                {
+                    Action = "ShiftTransfer.Confirmed",
+                    EntityType = "ShiftTransfer",
+                    EntityId = transfer.Id,
+                    RelatedUserId = transfer.FromUserId,
+                    Description = $"Подтверждена передача смены (от {transfer.FromUserId} к {transfer.ToUserId})"
+                });
                 return Ok(new { message = "ShiftTransfer confirmed successfully", transfer });
             }
             catch (KeyNotFoundException ex)
@@ -282,6 +300,14 @@ namespace server.Controllers
                     return NotFound(new { message = $"ShiftTransfer with ID {id} not found" });
                 }
 
+                await TryLogAsync(userId, new HistoryEvent
+                {
+                    Action = "ShiftTransfer.Cancelled",
+                    EntityType = "ShiftTransfer",
+                    EntityId = id,
+                    RelatedUserId = transfer.ToUserId,
+                    Description = $"Отменена передача смены ID {id}"
+                });
                 return Ok(new { message = "ShiftTransfer cancelled successfully" });
             }
             catch (Exception ex)
@@ -310,6 +336,13 @@ namespace server.Controllers
                 }
 
                 _logger.LogInformation("ShiftTransfer deleted successfully with ID: {ShiftTransferId}", id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "ShiftTransfer.Deleted",
+                    EntityType = "ShiftTransfer",
+                    EntityId = id,
+                    Description = $"Удалена передача смены ID {id}"
+                });
                 return Ok(new { message = "ShiftTransfer deleted successfully" });
             }
             catch (DbUpdateException ex)
@@ -321,6 +354,34 @@ namespace server.Controllers
             {
                 _logger.LogError(ex, "Unexpected error while deleting shift transfer with ID {ShiftTransferId}", id);
                 return StatusCode(500, new { message = "An unexpected error occurred while deleting the shift transfer" });
+            }
+        }
+
+        private int? GetUserIdFromHeader()
+        {
+            if (Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) &&
+                int.TryParse(userIdHeader.ToString(), out var userId))
+            {
+                return userId;
+            }
+            return null;
+        }
+
+        private async Task TryLogAsync(int? userId, HistoryEvent historyEvent)
+        {
+            if (!userId.HasValue || userId.Value <= 0)
+            {
+                return;
+            }
+
+            historyEvent.UserId = userId.Value;
+            try
+            {
+                await _historyService.AddEventAsync(historyEvent);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to write history event");
             }
         }
     }

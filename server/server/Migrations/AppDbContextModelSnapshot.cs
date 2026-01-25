@@ -113,6 +113,61 @@ namespace server.Migrations
                         });
                 });
 
+            modelBuilder.Entity("server.Models.HistoryEvent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("EntityId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("EntityType")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int?>("MaterialId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("RelatedUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("WarehouseId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("RelatedUserId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("HistoryEvent");
+                });
+
             modelBuilder.Entity("server.Models.Material", b =>
                 {
                     b.Property<int>("Id")
@@ -269,6 +324,77 @@ namespace server.Migrations
                     b.ToTable("Recipe");
                 });
 
+            modelBuilder.Entity("server.Models.Reprocessing", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("SourceMaterialId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SourceQuantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WarehouseId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SourceMaterialId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("Reprocessing");
+                });
+
+            modelBuilder.Entity("server.Models.ReprocessingItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("MaterialId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MeasuringType")
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ReprocessingId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ReprocessingId");
+
+                    b.ToTable("ReprocessingItem", t =>
+                        {
+                            t.HasCheckConstraint("CK_ReprocessingItem_MaterialOrProduct", "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
+                        });
+                });
+
             modelBuilder.Entity("server.Models.RequestLog", b =>
                 {
                     b.Property<int>("Id")
@@ -335,6 +461,50 @@ namespace server.Migrations
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("RequestLogs");
+                });
+
+            modelBuilder.Entity("server.Models.Responsibility", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AssignedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("MaterialId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ReleasedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaterialId")
+                        .IsUnique()
+                        .HasFilter("\"IsActive\" = true AND \"MaterialId\" IS NOT NULL");
+
+                    b.HasIndex("ProductId")
+                        .IsUnique()
+                        .HasFilter("\"IsActive\" = true AND \"ProductId\" IS NOT NULL");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Responsibility", t =>
+                        {
+                            t.HasCheckConstraint("CK_Responsibility_MaterialOrProduct", "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
+                        });
                 });
 
             modelBuilder.Entity("server.Models.Role", b =>
@@ -591,6 +761,45 @@ namespace server.Migrations
                     b.Navigation("Warehouse");
                 });
 
+            modelBuilder.Entity("server.Models.HistoryEvent", b =>
+                {
+                    b.HasOne("server.Models.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("server.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("server.Models.User", "RelatedUser")
+                        .WithMany()
+                        .HasForeignKey("RelatedUserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("server.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("server.Models.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Material");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("RelatedUser");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Warehouse");
+                });
+
             modelBuilder.Entity("server.Models.PartRequest", b =>
                 {
                     b.HasOne("server.Models.User", "FromUser")
@@ -653,6 +862,58 @@ namespace server.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("server.Models.Reprocessing", b =>
+                {
+                    b.HasOne("server.Models.Material", "SourceMaterial")
+                        .WithMany()
+                        .HasForeignKey("SourceMaterialId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("server.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("server.Models.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("SourceMaterial");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("server.Models.ReprocessingItem", b =>
+                {
+                    b.HasOne("server.Models.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("server.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("server.Models.Reprocessing", "Reprocessing")
+                        .WithMany("Items")
+                        .HasForeignKey("ReprocessingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Material");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Reprocessing");
+                });
+
             modelBuilder.Entity("server.Models.RequestLog", b =>
                 {
                     b.HasOne("server.Models.Material", "Material")
@@ -682,6 +943,31 @@ namespace server.Migrations
                     b.Navigation("User");
 
                     b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("server.Models.Responsibility", b =>
+                {
+                    b.HasOne("server.Models.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("server.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("server.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Material");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("server.Models.RolePermission", b =>
@@ -760,6 +1046,11 @@ namespace server.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("server.Models.Reprocessing", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("server.Models.Role", b =>

@@ -22,11 +22,13 @@ namespace server.Controllers
     {
         private readonly IWorkReportService _workReportService;
         private readonly ILogger<WorkReportsController> _logger;
+        private readonly IHistoryService _historyService;
 
-        public WorkReportsController(IWorkReportService workReportService, ILogger<WorkReportsController> logger)
+        public WorkReportsController(IWorkReportService workReportService, ILogger<WorkReportsController> logger, IHistoryService historyService)
         {
             _workReportService = workReportService;
             _logger = logger;
+            _historyService = historyService;
         }
 
         // GET: api/work-reports
@@ -305,6 +307,7 @@ namespace server.Controllers
         [HttpPost("start")]
         public async Task<IActionResult> StartWork([FromBody] StartWorkRequest? request)
         {
+            var userIdForLog = request?.UserId;
             try
             {
                 if (request == null)
@@ -331,6 +334,13 @@ namespace server.Controllers
 
                 var report = await _workReportService.StartWorkAsync(request.UserId, parsedStartTime);
                 _logger.LogInformation("Work started successfully for user {UserId}, WorkReport ID: {WorkReportId}", request.UserId, report.Id);
+                await TryLogAsync(request.UserId, new HistoryEvent
+                {
+                    Action = "Shift.Started",
+                    EntityType = "WorkReport",
+                    EntityId = report.Id,
+                    Description = $"Начало смены (отчет ID {report.Id})"
+                });
                 return Ok(new { message = "Work started successfully", report });
             }
             catch (KeyNotFoundException ex)
@@ -340,7 +350,7 @@ namespace server.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while starting work for user {UserId}", request.UserId);
+                _logger.LogError(ex, "Unexpected error while starting work for user {UserId}", userIdForLog);
                 return StatusCode(500, new { message = "An unexpected error occurred while starting work" });
             }
         }
@@ -370,6 +380,13 @@ namespace server.Controllers
 
                 var report = await _workReportService.FinishWorkAsync(id, parsedFinishTime);
                 _logger.LogInformation("Work finished successfully for WorkReport ID: {WorkReportId}", id);
+                await TryLogAsync(report.UserId, new HistoryEvent
+                {
+                    Action = "Shift.Finished",
+                    EntityType = "WorkReport",
+                    EntityId = report.Id,
+                    Description = $"Завершение смены (отчет ID {report.Id})"
+                });
                 return Ok(new { message = "Work finished successfully", report });
             }
             catch (KeyNotFoundException ex)
@@ -419,6 +436,24 @@ namespace server.Controllers
             {
                 _logger.LogError(ex, "Unexpected error while deleting work report with ID {WorkReportId}", id);
                 return StatusCode(500, new { message = "An unexpected error occurred while deleting the work report" });
+            }
+        }
+
+        private async Task TryLogAsync(int userId, HistoryEvent historyEvent)
+        {
+            if (userId <= 0)
+            {
+                return;
+            }
+
+            historyEvent.UserId = userId;
+            try
+            {
+                await _historyService.AddEventAsync(historyEvent);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to write history event");
             }
         }
     }

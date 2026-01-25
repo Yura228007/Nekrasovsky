@@ -11,11 +11,13 @@ namespace server.Controllers
     {
         private readonly IMaterialService _materialService;
         private readonly ILogger<MaterialsController> _logger;
+        private readonly IHistoryService _historyService;
 
-        public MaterialsController(IMaterialService materialService, ILogger<MaterialsController> logger)
+        public MaterialsController(IMaterialService materialService, ILogger<MaterialsController> logger, IHistoryService historyService)
         {
             _materialService = materialService;
             _logger = logger;
+            _historyService = historyService;
         }
 
         // GET: api/materials
@@ -113,8 +115,23 @@ namespace server.Controllers
 
             try
             {
-                var createdMaterial = await _materialService.CreateMaterialAsync(material);
+                if (!Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) ||
+                    !int.TryParse(userIdHeader.ToString(), out var userId) || userId <= 0)
+                {
+                    return BadRequest(new { message = "X-User-Id header is required" });
+                }
+
+                var createdMaterial = await _materialService.CreateMaterialAsync(material, userId);
                 _logger.LogInformation("Material created successfully with ID: {MaterialId}", createdMaterial.Id);
+                await TryLogAsync(userId, new HistoryEvent
+                {
+                    UserId = userId,
+                    Action = "Material.Created",
+                    EntityType = "Material",
+                    EntityId = createdMaterial.Id,
+                    MaterialId = createdMaterial.Id,
+                    Description = $"Создан материал: {createdMaterial.Name}"
+                });
                 return CreatedAtAction(nameof(GetById), new { id = createdMaterial.Id },
                     new { message = "Material created successfully", material = createdMaterial });
             }
@@ -153,6 +170,15 @@ namespace server.Controllers
             {
                 var material = await _materialService.UpdateMaterialAsync(id, updated);
                 _logger.LogInformation("Material updated successfully with ID: {MaterialId}", id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    UserId = GetUserIdFromHeader() ?? 0,
+                    Action = "Material.Updated",
+                    EntityType = "Material",
+                    EntityId = material.Id,
+                    MaterialId = material.Id,
+                    Description = $"Обновлен материал: {material.Name}"
+                });
                 return Ok(new { message = "Material updated successfully", material });
             }
             catch (KeyNotFoundException ex)
@@ -196,6 +222,15 @@ namespace server.Controllers
                 }
 
                 _logger.LogInformation("Material deleted successfully with ID: {MaterialId}", id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    UserId = GetUserIdFromHeader() ?? 0,
+                    Action = "Material.Deleted",
+                    EntityType = "Material",
+                    EntityId = id,
+                    MaterialId = id,
+                    Description = $"Удален материал ID: {id}"
+                });
                 return Ok(new { message = "Material deleted successfully" });
             }
             catch (DbUpdateException ex)
@@ -249,6 +284,34 @@ namespace server.Controllers
             {
                 _logger.LogError(ex, "Error occurred while getting usage for material {MaterialId}", id);
                 return StatusCode(500, new { message = "An error occurred while retrieving usage" });
+            }
+        }
+
+        private int? GetUserIdFromHeader()
+        {
+            if (Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) &&
+                int.TryParse(userIdHeader.ToString(), out var userId))
+            {
+                return userId;
+            }
+            return null;
+        }
+
+        private async Task TryLogAsync(int? userId, HistoryEvent historyEvent)
+        {
+            if (!userId.HasValue || userId.Value <= 0)
+            {
+                return;
+            }
+
+            historyEvent.UserId = userId.Value;
+            try
+            {
+                await _historyService.AddEventAsync(historyEvent);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to write history event");
             }
         }
     }

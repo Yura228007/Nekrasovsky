@@ -35,7 +35,7 @@ namespace NekrasovskyAPP.Services
                 }
 
                 // Fallback: ToneGenerator
-                _toneGenerator = new ToneGenerator(Stream.Alarm, 100);
+                _toneGenerator = new ToneGenerator(Android.Media.Stream.Alarm, 100);
 
                 Task.Run(async () =>
                 {

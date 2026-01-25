@@ -88,6 +88,15 @@ namespace NekrasovskyAPP.Services
         Task<List<Permission>> GetUserPermissionsAsync(int userId);
         Task<bool> CheckPermissionAsync(int userId, string permissionCode);
 
+        // Responsibilities
+        Task<List<Responsibility>> GetResponsibilitiesByUserAsync(int userId, bool activeOnly = true);
+        Task<Responsibility?> GetResponsibilityByMaterialAsync(int materialId, bool activeOnly = true);
+        Task<Responsibility?> GetResponsibilityByProductAsync(int productId, bool activeOnly = true);
+        Task<List<ResponsibilityStockItem>> GetResponsibilityStockAsync(int userId);
+
+        // Reprocessing
+        Task<ApiResponse<Reprocessing>> CreateReprocessingAsync(ReprocessingCreateRequest request);
+
         // Roles
         Task<List<Role>> GetAllRolesAsync();
         Task<Role?> GetRoleByIdAsync(int id);
@@ -116,6 +125,18 @@ namespace NekrasovskyAPP.Services
             DateTime? startDate = null, DateTime? endDate = null,
             int? warehouseId = null, int? materialId = null, int? productId = null,
             long? minDurationMs = null, long? maxDurationMs = null);
+
+        // History
+        Task<List<HistoryEvent>?> GetHistoryAsync(
+            int? userId = null,
+            int? relatedUserId = null,
+            string? action = null,
+            string? entityType = null,
+            int? warehouseId = null,
+            int? materialId = null,
+            int? productId = null,
+            DateTime? startDate = null,
+            DateTime? endDate = null);
     }
 
     public class ApiResponse<T>
@@ -130,10 +151,13 @@ namespace NekrasovskyAPP.Services
         public T? Request { get; set; }
         public T? AlarmEvent { get; set; }
         public T? Role { get; set; }
+        public T? Responsibility { get; set; }
+        public T? Reprocessing { get; set; }
+        public T? Transfer { get; set; }
 
         public T? GetData()
         {
-            return User ?? Product ?? Material ?? Filling ?? Warehouse ?? Report ?? Request ?? AlarmEvent ?? Role;
+            return User ?? Product ?? Material ?? Filling ?? Warehouse ?? Report ?? Request ?? AlarmEvent ?? Role ?? Responsibility ?? Reprocessing ?? Transfer;
         }
     }
 

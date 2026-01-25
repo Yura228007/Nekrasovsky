@@ -58,6 +58,22 @@ namespace NekrasovskyAPP.Pages
         {
             if (sender is Button button && button.CommandParameter is ShiftTransfer transfer)
             {
+                var stockItems = await _viewModel.LoadResponsibilityStockAsync(transfer.FromUserId);
+                if (stockItems.Count == 0)
+                {
+                    await DisplayAlert("Проверка остатков", "У отправителя нет остатков. Подтверждаю смену.", "OK");
+                }
+                else
+                {
+                    var reviewPage = new ShiftTransferReviewPage(stockItems);
+                    await Navigation.PushModalAsync(reviewPage);
+                    var confirmed = await reviewPage.ConfirmationTask;
+                    if (!confirmed)
+                    {
+                        return;
+                    }
+                }
+
                 var success = await _viewModel.ConfirmShiftTransferAsync(transfer.Id);
                 if (!success)
                 {

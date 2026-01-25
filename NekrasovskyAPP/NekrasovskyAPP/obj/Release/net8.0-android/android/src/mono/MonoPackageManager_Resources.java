@@ -37,6 +37,7 @@ public class MonoPackageManager_Resources {
 		"Npgsql.dll",
 		"Npgsql.EntityFrameworkCore.PostgreSQL.dll",
 		"System.IO.Pipelines.dll",
+		"System.Windows.Extensions.dll",
 		"Xamarin.Android.Glide.dll",
 		"Xamarin.Android.Glide.Annotations.dll",
 		"Xamarin.Android.Glide.DiskLruCache.dll",

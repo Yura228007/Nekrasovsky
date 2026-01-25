@@ -8,13 +8,15 @@ namespace server.Services
     {
         private readonly AppDbContext _context;
         private readonly ILogger<PartRequestService> _logger;
+        private readonly IResponsibilityService _responsibilityService;
         // Хранилище для подсчета отказов: ключ - комбинация fromUserId-toUserId, значение - количество отказов
         private static readonly Dictionary<string, int> _rejectionCounts = new Dictionary<string, int>();
 
-        public PartRequestService(AppDbContext context, ILogger<PartRequestService> logger)
+        public PartRequestService(AppDbContext context, ILogger<PartRequestService> logger, IResponsibilityService responsibilityService)
         {
             _context = context;
             _logger = logger;
+            _responsibilityService = responsibilityService;
         }
 
         public async Task<IEnumerable<PartRequest>> GetAllPartRequestsAsync()
@@ -129,6 +131,8 @@ namespace server.Services
 
             request.Status = PartRequestStatus.Approved;
             await _context.SaveChangesAsync();
+
+            await _responsibilityService.AssignMaterialAsync(request.MaterialId, request.ToUserId);
 
             // Сбрасываем счетчик отказов при одобрении запроса
             var rejectionKey = $"{request.FromUserId}-{request.ToUserId}";

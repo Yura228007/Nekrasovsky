@@ -1110,6 +1110,90 @@ namespace NekrasovskyAPP.Services
             }
         }
 
+        // Responsibilities
+        public async Task<List<Responsibility>> GetResponsibilitiesByUserAsync(int userId, bool activeOnly = true)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/responsibilities/user/{userId}?activeOnly={activeOnly.ToString().ToLower()}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<Responsibility>>(_jsonOptions) ?? new List<Responsibility>();
+            }
+            catch
+            {
+                return new List<Responsibility>();
+            }
+        }
+
+        public async Task<Responsibility?> GetResponsibilityByMaterialAsync(int materialId, bool activeOnly = true)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/responsibilities/material/{materialId}?activeOnly={activeOnly.ToString().ToLower()}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<Responsibility>(_jsonOptions);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<Responsibility?> GetResponsibilityByProductAsync(int productId, bool activeOnly = true)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/responsibilities/product/{productId}?activeOnly={activeOnly.ToString().ToLower()}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<Responsibility>(_jsonOptions);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<ResponsibilityStockItem>> GetResponsibilityStockAsync(int userId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/responsibilities/user/{userId}/stock");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<ResponsibilityStockItem>>(_jsonOptions) ?? new List<ResponsibilityStockItem>();
+            }
+            catch
+            {
+                return new List<ResponsibilityStockItem>();
+            }
+        }
+
+        // Reprocessing
+        public async Task<ApiResponse<Reprocessing>> CreateReprocessingAsync(ReprocessingCreateRequest request)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/reprocessings", request, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("reprocessing"))
+                {
+                    var payload = System.Text.Json.JsonSerializer.Serialize(result["reprocessing"]);
+                    var reprocessing = System.Text.Json.JsonSerializer.Deserialize<Reprocessing>(payload, _jsonOptions);
+                    return new ApiResponse<Reprocessing>
+                    {
+                        Reprocessing = reprocessing,
+                        Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Reprocessing created successfully" : "Reprocessing created successfully"
+                    };
+                }
+                return new ApiResponse<Reprocessing> { Message = "Failed to parse response" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<Reprocessing> { Message = ex.Message };
+            }
+        }
+
         // Database
         // Roles
         public async Task<List<Role>> GetAllRolesAsync()
@@ -1275,6 +1359,46 @@ namespace NekrasovskyAPP.Services
                 response.EnsureSuccessStatusCode();
 
                 return await response.Content.ReadAsByteArrayAsync();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<HistoryEvent>?> GetHistoryAsync(
+            int? userId = null,
+            int? relatedUserId = null,
+            string? action = null,
+            string? entityType = null,
+            int? warehouseId = null,
+            int? materialId = null,
+            int? productId = null,
+            DateTime? startDate = null,
+            DateTime? endDate = null)
+        {
+            try
+            {
+                var queryParams = new List<string>();
+
+                if (userId.HasValue) queryParams.Add($"userId={userId.Value}");
+                if (relatedUserId.HasValue) queryParams.Add($"relatedUserId={relatedUserId.Value}");
+                if (!string.IsNullOrEmpty(action)) queryParams.Add($"action={Uri.EscapeDataString(action)}");
+                if (!string.IsNullOrEmpty(entityType)) queryParams.Add($"entityType={Uri.EscapeDataString(entityType)}");
+                if (warehouseId.HasValue) queryParams.Add($"warehouseId={warehouseId.Value}");
+                if (materialId.HasValue) queryParams.Add($"materialId={materialId.Value}");
+                if (productId.HasValue) queryParams.Add($"productId={productId.Value}");
+                if (startDate.HasValue) queryParams.Add($"startDate={startDate.Value:O}");
+                if (endDate.HasValue) queryParams.Add($"endDate={endDate.Value:O}");
+
+                var query = queryParams.Count > 0 ? "?" + string.Join("&", queryParams) : string.Empty;
+                var response = await _httpClient.GetAsync($"api/history{query}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return null;
+                }
+
+                return await response.Content.ReadFromJsonAsync<List<HistoryEvent>>(_jsonOptions);
             }
             catch
             {

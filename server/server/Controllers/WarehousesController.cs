@@ -12,11 +12,13 @@ namespace server.Controllers
     {
         private readonly IWarehouseService _warehouseService;
         private readonly ILogger<WarehousesController> _logger;
+        private readonly IHistoryService _historyService;
 
-        public WarehousesController(IWarehouseService warehouseService, ILogger<WarehousesController> logger)
+        public WarehousesController(IWarehouseService warehouseService, ILogger<WarehousesController> logger, IHistoryService historyService)
         {
             _warehouseService = warehouseService;
             _logger = logger;
+            _historyService = historyService;
         }
 
         // GET: api/warehouses
@@ -117,6 +119,14 @@ namespace server.Controllers
             {
                 var createdWarehouse = await _warehouseService.CreateWarehouseAsync(warehouse);
                 _logger.LogInformation("Warehouse created successfully with ID: {WarehouseId}", createdWarehouse.Id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "Warehouse.Created",
+                    EntityType = "Warehouse",
+                    EntityId = createdWarehouse.Id,
+                    WarehouseId = createdWarehouse.Id,
+                    Description = $"Создан склад: {createdWarehouse.Name}"
+                });
                 return CreatedAtAction(nameof(GetById), new { id = createdWarehouse.Id },
                     new { message = "Warehouse created successfully", warehouse = createdWarehouse });
             }
@@ -151,6 +161,14 @@ namespace server.Controllers
             {
                 var warehouse = await _warehouseService.UpdateWarehouseAsync(id, updated);
                 _logger.LogInformation("Warehouse updated successfully with ID: {WarehouseId}", id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "Warehouse.Updated",
+                    EntityType = "Warehouse",
+                    EntityId = warehouse.Id,
+                    WarehouseId = warehouse.Id,
+                    Description = $"Обновлен склад: {warehouse.Name}"
+                });
                 return Ok(new { message = "Warehouse updated successfully", warehouse });
             }
             catch (KeyNotFoundException ex)
@@ -190,6 +208,14 @@ namespace server.Controllers
                 }
 
                 _logger.LogInformation("Warehouse deleted successfully with ID: {WarehouseId}", id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "Warehouse.Deleted",
+                    EntityType = "Warehouse",
+                    EntityId = id,
+                    WarehouseId = id,
+                    Description = $"Удален склад ID {id}"
+                });
                 return Ok(new { message = "Warehouse deleted successfully" });
             }
             catch (DbUpdateException ex)
@@ -260,6 +286,14 @@ namespace server.Controllers
 
                 var warehouse = await _warehouseService.StopWarehouseAsync(id);
                 _logger.LogInformation("Warehouse stopped successfully with ID: {WarehouseId}", id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "Warehouse.Stopped",
+                    EntityType = "Warehouse",
+                    EntityId = warehouse.Id,
+                    WarehouseId = warehouse.Id,
+                    Description = $"Остановлен склад: {warehouse.Name}"
+                });
                 return Ok(new { message = "Warehouse stopped successfully", warehouse });
             }
             catch (KeyNotFoundException ex)
@@ -293,6 +327,14 @@ namespace server.Controllers
 
                 var warehouse = await _warehouseService.StartWarehouseAsync(id);
                 _logger.LogInformation("Warehouse started successfully with ID: {WarehouseId}", id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "Warehouse.Started",
+                    EntityType = "Warehouse",
+                    EntityId = warehouse.Id,
+                    WarehouseId = warehouse.Id,
+                    Description = $"Запущен склад: {warehouse.Name}"
+                });
                 return Ok(new { message = "Warehouse started successfully", warehouse });
             }
             catch (KeyNotFoundException ex)
@@ -309,6 +351,34 @@ namespace server.Controllers
             {
                 _logger.LogError(ex, "Unexpected error while starting warehouse with ID {WarehouseId}", id);
                 return StatusCode(500, new { message = "An unexpected error occurred while starting the warehouse" });
+            }
+        }
+
+        private int? GetUserIdFromHeader()
+        {
+            if (Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) &&
+                int.TryParse(userIdHeader.ToString(), out var userId))
+            {
+                return userId;
+            }
+            return null;
+        }
+
+        private async Task TryLogAsync(int? userId, HistoryEvent historyEvent)
+        {
+            if (!userId.HasValue || userId.Value <= 0)
+            {
+                return;
+            }
+
+            historyEvent.UserId = userId.Value;
+            try
+            {
+                await _historyService.AddEventAsync(historyEvent);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to write history event");
             }
         }
     }

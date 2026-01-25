@@ -169,6 +169,11 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("ShiftTransfersPage");
         }
 
+        private async void OnReprocessingClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("ReprocessingPage");
+        }
+
         private async void OnAlarmClicked(object sender, EventArgs e)
         {
             if (_authService.CurrentUser == null)

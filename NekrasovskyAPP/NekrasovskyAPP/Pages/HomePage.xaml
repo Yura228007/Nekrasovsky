@@ -204,6 +204,31 @@
                                 CornerRadius="10" />
                     </VerticalStackLayout>
                 </Border>
+
+                <!-- Reprocessing Card -->
+                <Border Grid.Row="3" Grid.Column="1"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="1"
+                        Stroke="{StaticResource BorderColor}"
+                        Padding="20"
+                        Margin="0,0,0,0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="♻️" FontSize="40" HorizontalOptions="Center" />
+                        <Label Text="Переработать"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               HorizontalOptions="Center" />
+                        <Button Text="Открыть"
+                                Clicked="OnReprocessingClicked"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="{StaticResource White}"
+                                CornerRadius="10" />
+                    </VerticalStackLayout>
+                </Border>
                 
             </Grid>
             

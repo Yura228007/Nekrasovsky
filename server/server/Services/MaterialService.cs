@@ -8,11 +8,13 @@ namespace server.Services
     {
         private readonly AppDbContext _context;
         private readonly ILogger<MaterialService> _logger;
+        private readonly IResponsibilityService _responsibilityService;
 
-        public MaterialService(AppDbContext context, ILogger<MaterialService> logger)
+        public MaterialService(AppDbContext context, ILogger<MaterialService> logger, IResponsibilityService responsibilityService)
         {
             _context = context;
             _logger = logger;
+            _responsibilityService = responsibilityService;
         }
 
         public async Task<IEnumerable<Material>> GetAllMaterialsAsync()
@@ -58,7 +60,7 @@ namespace server.Services
                 .ToListAsync();
         }
 
-        public async Task<Material> CreateMaterialAsync(Material material)
+        public async Task<Material> CreateMaterialAsync(Material material, int userId)
         {
             // Проверка уникальности артикула
             if (!string.IsNullOrWhiteSpace(material.Code))
@@ -73,6 +75,8 @@ namespace server.Services
 
             _context.Materials.Add(material);
             await _context.SaveChangesAsync();
+
+            await _responsibilityService.AssignMaterialAsync(material.Id, userId);
 
             _logger.LogInformation("Material created with ID: {MaterialId}, Name: {Name}", material.Id, material.Name);
             return material;

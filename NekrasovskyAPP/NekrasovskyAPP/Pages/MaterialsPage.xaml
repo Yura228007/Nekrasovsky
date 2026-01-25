@@ -103,21 +103,34 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="12"/>
                             </Border.StrokeShape>
-                            <VerticalStackLayout Spacing="6">
-                                <HorizontalStackLayout Spacing="10">
-                                    <Label Text="{Binding Name}"
-                                           FontSize="18"
-                                           FontAttributes="Bold"
-                                           TextColor="{StaticResource White}"
-                                           VerticalOptions="Center" />
-                                </HorizontalStackLayout>
-                                <Label Text="{Binding Code, StringFormat='Код: {0}'}"
-                                       FontSize="14"
-                                       TextColor="{StaticResource Gray400}" />
-                                <Label Text="{Binding MeasuringUnit, StringFormat='Ед. измерения: {0}'}"
+                            <Grid ColumnDefinitions="*,Auto"
+                                  RowDefinitions="Auto"
+                                  ColumnSpacing="12">
+                                <VerticalStackLayout Spacing="6" Grid.Column="0">
+                                    <HorizontalStackLayout Spacing="10">
+                                        <Label Text="{Binding Name}"
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource White}"
+                                               VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                    <Label Text="{Binding Code, StringFormat='Код: {0}'}"
+                                           FontSize="14"
+                                           TextColor="{StaticResource Gray400}" />
+                                    <Label Text="{Binding MeasuringUnit, StringFormat='Ед. измерения: {0}'}"
+                                           FontSize="12"
+                                           TextColor="{StaticResource Gray600}" />
+                                </VerticalStackLayout>
+
+                                <Label Grid.Column="1"
+                                       Text="{Binding StockSummary}"
                                        FontSize="12"
-                                       TextColor="{StaticResource Gray600}" />
-                            </VerticalStackLayout>
+                                       TextColor="{StaticResource Gray500}"
+                                       HorizontalTextAlignment="End"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalOptions="End"
+                                       VerticalOptions="Center" />
+                            </Grid>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

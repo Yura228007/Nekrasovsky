@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NekrasovskyAPP.Pages.ReprocessingPage"
+             BackgroundColor="{StaticResource BackgroundDark}"
+             Title="Переработать">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <Label Text="Переработка материала"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource White}"
+                   HorizontalOptions="Center" />
+
+            <Label Text="Склад"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray400}" />
+            <Picker x:Name="WarehousePicker"
+                    Title="Выберите склад"
+                    ItemDisplayBinding="{Binding Name}" />
+
+            <Label Text="Исходный материал"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray400}" />
+            <Picker x:Name="SourceMaterialPicker"
+                    Title="Выберите материал"
+                    ItemDisplayBinding="{Binding Name}" />
+
+            <Label Text="Количество переработки"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray400}" />
+            <Entry x:Name="SourceQuantityEntry"
+                   Keyboard="Numeric"
+                   Placeholder="0" />
+
+            <Label Text="Результат 1"
+                   FontSize="16"
+                   TextColor="{StaticResource White}" />
+
+            <Picker x:Name="Target1TypePicker"
+                    Title="Тип результата"
+                    SelectedIndexChanged="OnTarget1TypeChanged" />
+            <Picker x:Name="Target1Picker"
+                    Title="Выберите материал или продукт" />
+            <Entry x:Name="Target1QuantityEntry"
+                   Keyboard="Numeric"
+                   Placeholder="Количество результата 1" />
+
+            <HorizontalStackLayout Spacing="12">
+                <Label Text="Второй результат"
+                       FontSize="14"
+                       TextColor="{StaticResource Gray400}"
+                       VerticalOptions="Center" />
+                <Switch x:Name="SecondOutputSwitch"
+                        Toggled="OnSecondOutputToggled" />
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout x:Name="SecondOutputBlock" IsVisible="False" Spacing="8">
+                <Picker x:Name="Target2TypePicker"
+                        Title="Тип результата 2"
+                        SelectedIndexChanged="OnTarget2TypeChanged" />
+                <Picker x:Name="Target2Picker"
+                        Title="Выберите материал или продукт" />
+                <Entry x:Name="Target2QuantityEntry"
+                       Keyboard="Numeric"
+                       Placeholder="Количество результата 2" />
+            </VerticalStackLayout>
+
+            <Button Text="Переработать"
+                    Clicked="OnSubmitClicked"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="{StaticResource White}"
+                    CornerRadius="10" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

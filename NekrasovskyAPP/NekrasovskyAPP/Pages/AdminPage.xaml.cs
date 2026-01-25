@@ -140,6 +140,11 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("LogsPage");
         }
 
+        private async void OnHistoryClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("HistoryPage");
+        }
+
         private async void OnRolePermissionsClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("RolePermissionsPage");

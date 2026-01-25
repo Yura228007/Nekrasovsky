@@ -19,6 +19,7 @@
           "Microsoft.Maui.Controls": "8.0.100",
           "Microsoft.Maui.Controls.Compatibility": "8.0.100",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.10",
+          "System.Windows.Extensions": "10.0.2",
           "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.19041.57"
         },
         "runtime": {
@@ -759,7 +760,15 @@
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         }
       },
-      "System.Threading.Channels/8.0.0": {}
+      "System.Threading.Channels/8.0.0": {},
+      "System.Windows.Extensions/10.0.2": {
+        "runtime": {
+          "runtimes/win/lib/net8.0/System.Windows.Extensions.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.225.61305"
+          }
+        }
+      }
     }
   },
   "libraries": {
@@ -1227,6 +1236,13 @@
       "sha512": "sha512-CMaFr7v+57RW7uZfZkPExsPB6ljwzhjACWW1gfU35Y56rk72B/Wu+sTqxVmGSk4SFUlPc3cjeKND0zktziyjBA==",
       "path": "system.threading.channels/8.0.0",
       "hashPath": "system.threading.channels.8.0.0.nupkg.sha512"
+    },
+    "System.Windows.Extensions/10.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FJEb7THQLoYQDSIfu656zidYmLFZTBE9gi/IdKpPV9KhGuMZL/xLpLpRNLr7WDt2oLNldae8Jp/1e2H+MPCxGg==",
+      "path": "system.windows.extensions/10.0.2",
+      "hashPath": "system.windows.extensions.10.0.2.nupkg.sha512"
     }
   }
 }

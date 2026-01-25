@@ -10,12 +10,14 @@ namespace NekrasovskyAPP.ViewModels
     public class MainViewModel : INotifyPropertyChanged
     {
         private readonly IApiService _apiService;
+        private readonly IAuthService _authService;
         private bool _isLoading;
         private string _errorMessage = string.Empty;
 
-        public MainViewModel(IApiService apiService)
+        public MainViewModel(IApiService apiService, IAuthService authService)
         {
             _apiService = apiService;
+            _authService = authService;
             Users = new ObservableCollection<User>();
             Products = new ObservableCollection<Product>();
             Materials = new ObservableCollection<Material>();
@@ -83,8 +85,9 @@ namespace NekrasovskyAPP.ViewModels
                 IsLoading = true;
                 ErrorMessage = string.Empty;
                 var products = await _apiService.GetAllProductsAsync();
+                var filtered = await FilterProductsByResponsibilityAsync(products);
                 Products.Clear();
-                foreach (var product in products)
+                foreach (var product in filtered)
                 {
                     Products.Add(product);
                 }
@@ -106,8 +109,10 @@ namespace NekrasovskyAPP.ViewModels
                 IsLoading = true;
                 ErrorMessage = string.Empty;
                 var materials = await _apiService.GetAllMaterialsAsync();
+                var filtered = await FilterMaterialsByResponsibilityAsync(materials);
+                await ApplyMaterialStockAsync(filtered);
                 Materials.Clear();
-                foreach (var material in materials)
+                foreach (var material in filtered)
                 {
                     Materials.Add(material);
                 }
@@ -198,8 +203,9 @@ namespace NekrasovskyAPP.ViewModels
                 IsLoading = true;
                 ErrorMessage = string.Empty;
                 var products = await _apiService.SearchProductsAsync(name, code, isActive, sortBy);
+                var filtered = await FilterProductsByResponsibilityAsync(products);
                 Products.Clear();
-                foreach (var product in products)
+                foreach (var product in filtered)
                 {
                     Products.Add(product);
                 }
@@ -221,8 +227,10 @@ namespace NekrasovskyAPP.ViewModels
                 IsLoading = true;
                 ErrorMessage = string.Empty;
                 var materials = await _apiService.SearchMaterialsAsync(name, code, isActive, sortBy);
+                var filtered = await FilterMaterialsByResponsibilityAsync(materials);
+                await ApplyMaterialStockAsync(filtered);
                 Materials.Clear();
-                foreach (var material in materials)
+                foreach (var material in filtered)
                 {
                     Materials.Add(material);
                 }
@@ -258,6 +266,52 @@ namespace NekrasovskyAPP.ViewModels
             {
                 IsLoading = false;
             }
+        }
+
+        private async Task<List<Material>> FilterMaterialsByResponsibilityAsync(IEnumerable<Material> materials)
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null)
+            {
+                return new List<Material>();
+            }
+
+            var hasManageResponsibility = await _apiService.CheckPermissionAsync(currentUser.Id, "ManageResponsibility");
+            if (hasManageResponsibility)
+            {
+                return materials.ToList();
+            }
+
+            var responsibilities = await _apiService.GetResponsibilitiesByUserAsync(currentUser.Id, true);
+            var allowedIds = responsibilities
+                .Where(r => r.MaterialId.HasValue)
+                .Select(r => r.MaterialId!.Value)
+                .ToHashSet();
+
+            return materials.Where(m => allowedIds.Contains(m.Id)).ToList();
+        }
+
+        private async Task<List<Product>> FilterProductsByResponsibilityAsync(IEnumerable<Product> products)
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null)
+            {
+                return new List<Product>();
+            }
+
+            var hasManageResponsibility = await _apiService.CheckPermissionAsync(currentUser.Id, "ManageResponsibility");
+            if (hasManageResponsibility)
+            {
+                return products.ToList();
+            }
+
+            var responsibilities = await _apiService.GetResponsibilitiesByUserAsync(currentUser.Id, true);
+            var allowedIds = responsibilities
+                .Where(r => r.ProductId.HasValue)
+                .Select(r => r.ProductId!.Value)
+                .ToHashSet();
+
+            return products.Where(p => allowedIds.Contains(p.Id)).ToList();
         }
 
         // User management methods
@@ -424,16 +478,18 @@ namespace NekrasovskyAPP.ViewModels
                 ErrorMessage = string.Empty;
 
                 var response = await _apiService.DeleteProductAsync(id);
-                if (response.GetData() != null || string.IsNullOrEmpty(response.Message))
+                var message = response.Message ?? string.Empty;
+                var isError = message.Contains("error", StringComparison.OrdinalIgnoreCase) ||
+                              message.Contains("ошибка", StringComparison.OrdinalIgnoreCase);
+
+                if (!isError)
                 {
                     await LoadProductsAsync();
                     return true;
                 }
-                else
-                {
-                    ErrorMessage = response.Message ?? "Ошибка удаления продукта";
-                    return false;
-                }
+
+                ErrorMessage = string.IsNullOrWhiteSpace(message) ? "Ошибка удаления продукта" : message;
+                return false;
             }
             catch (Exception ex)
             {
@@ -515,16 +571,18 @@ namespace NekrasovskyAPP.ViewModels
                 ErrorMessage = string.Empty;
 
                 var response = await _apiService.DeleteMaterialAsync(id);
-                if (response.GetData() != null || string.IsNullOrEmpty(response.Message))
+                var message = response.Message ?? string.Empty;
+                var isError = message.Contains("error", StringComparison.OrdinalIgnoreCase) ||
+                              message.Contains("ошибка", StringComparison.OrdinalIgnoreCase);
+
+                if (!isError)
                 {
                     await LoadMaterialsAsync();
                     return true;
                 }
-                else
-                {
-                    ErrorMessage = response.Message ?? "Ошибка удаления материала";
-                    return false;
-                }
+
+                ErrorMessage = string.IsNullOrWhiteSpace(message) ? "Ошибка удаления материала" : message;
+                return false;
             }
             catch (Exception ex)
             {
@@ -846,6 +904,63 @@ namespace NekrasovskyAPP.ViewModels
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private async Task ApplyMaterialStockAsync(List<Material> materials)
+        {
+            if (materials.Count == 0)
+            {
+                return;
+            }
+
+            var warehouses = await EnsureWarehousesLoadedAsync();
+            var warehouseMap = warehouses.ToDictionary(w => w.Id, w => $"{w.Name} ({w.Type})");
+
+            var fillings = await _apiService.GetAllFillingWarehousesAsync();
+            var byMaterial = fillings
+                .Where(f => f.MaterialId.HasValue)
+                .GroupBy(f => f.MaterialId!.Value)
+                .ToDictionary(g => g.Key, g => g.ToList());
+
+            foreach (var material in materials)
+            {
+                if (!byMaterial.TryGetValue(material.Id, out var materialFillings) || materialFillings.Count == 0)
+                {
+                    material.StockSummary = "Склад: —";
+                    continue;
+                }
+
+                var parts = new List<string>();
+                foreach (var filling in materialFillings)
+                {
+                    var warehouseLabel = warehouseMap.TryGetValue(filling.WarehouseId, out var name)
+                        ? name
+                        : $"Склад #{filling.WarehouseId}";
+                    var unit = string.IsNullOrWhiteSpace(filling.MeasuringType)
+                        ? material.MeasuringUnit
+                        : filling.MeasuringType!;
+                    parts.Add($"{warehouseLabel}: {filling.Quantity} {unit}");
+                }
+
+                material.StockSummary = $"Склады: {string.Join("; ", parts)}";
+            }
+        }
+
+        private async Task<List<Warehouse>> EnsureWarehousesLoadedAsync()
+        {
+            if (Warehouses.Count > 0)
+            {
+                return Warehouses.ToList();
+            }
+
+            var warehouses = await _apiService.GetAllWarehousesAsync();
+            Warehouses.Clear();
+            foreach (var warehouse in warehouses)
+            {
+                Warehouses.Add(warehouse);
+            }
+
+            return warehouses;
         }
     }
 }

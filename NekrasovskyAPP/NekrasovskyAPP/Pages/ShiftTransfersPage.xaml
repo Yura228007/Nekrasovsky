@@ -39,10 +39,10 @@
                                 <Label Text="{Binding TransferDate, StringFormat='Дата: {0:dd.MM.yyyy HH:mm}'}"
                                        FontSize="12"
                                        TextColor="{StaticResource Gray400}" />
-                                <Label Text="{Binding FromUserId, StringFormat='От: {0}'}"
+                                <Label Text="{Binding FromUserDisplay, StringFormat='От: {0}'}"
                                        FontSize="14"
                                        TextColor="{StaticResource Gray200}" />
-                                <Label Text="{Binding ToUserId, StringFormat='Кому: {0}'}"
+                                <Label Text="{Binding ToUserDisplay, StringFormat='Кому: {0}'}"
                                        FontSize="14"
                                        TextColor="{StaticResource Gray200}" />
                                 <Button Text="Подтвердить"
@@ -78,7 +78,7 @@
                                 <Label Text="{Binding TransferDate, StringFormat='Дата: {0:dd.MM.yyyy HH:mm}'}"
                                        FontSize="12"
                                        TextColor="{StaticResource Gray400}" />
-                                <Label Text="{Binding ToUserId, StringFormat='Кому: {0}'}"
+                                <Label Text="{Binding ToUserDisplay, StringFormat='Кому: {0}'}"
                                        FontSize="14"
                                        TextColor="{StaticResource Gray200}" />
                                 <Label Text="{Binding IsConfirmed, StringFormat='Подтверждено: {0}'}"

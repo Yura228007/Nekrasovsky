@@ -204,7 +204,8 @@ namespace server.Seed
                 new() { Code = "ShiftTransfer", Name = "Передача смены", Description = "Передача смены" },
                 new() { Code = "ManageRecipes", Name = "Создание и добавление рецептур, едениц храннения.", Description = "Управление рецептурами" },
                 new() { Code = "Inventory", Name = "Инвентаризация", Description = "Инвентаризация" },
-                new() { Code = "ManageUsers", Name = "Управление пользователями", Description = "Добавление/редактирование/удаление пользователей" }
+                new() { Code = "ManageUsers", Name = "Управление пользователями", Description = "Добавление/редактирование/удаление пользователей" },
+                new() { Code = "ManageResponsibility", Name = "Управление ответственностью", Description = "Назначение и изменение ответственных" }
             };
 
             // По умолчанию: владелец имеет все права
@@ -341,6 +342,19 @@ namespace server.Seed
                     manageUsers.RoleNames.Add("Владелец");
                     manageUsers.RoleNames.Add("Администратор");
                     permissions.Add(manageUsers);
+                }
+
+                if (permissions.All(p => !p.Code.Equals("ManageResponsibility", StringComparison.OrdinalIgnoreCase)))
+                {
+                    var manageResponsibility = new PermissionSeed
+                    {
+                        Code = "ManageResponsibility",
+                        Name = "Управление ответственностью",
+                        Description = "Назначение и изменение ответственных"
+                    };
+                    manageResponsibility.RoleNames.Add("Владелец");
+                    manageResponsibility.RoleNames.Add("Администратор");
+                    permissions.Add(manageResponsibility);
                 }
 
                 ApplyDefaultRanksAndDescriptions(roles);

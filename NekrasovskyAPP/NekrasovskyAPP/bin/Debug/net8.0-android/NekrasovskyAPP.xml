@@ -9,6 +9,21 @@
             Устанавливает ID текущего пользователя для добавления в заголовки запросов
             </summary>
         </member>
+        <member name="M:NekrasovskyAPP.Services.IAlarmNotificationService.InitializeAsync">
+            <summary>
+            Инициализирует сервис и подключается к SignalR
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.Services.IAlarmNotificationService.SendAlarmAsync(System.String,System.String)">
+            <summary>
+            Отправляет тревогу на сервер
+            </summary>
+        </member>
+        <member name="E:NekrasovskyAPP.Services.IAlarmNotificationService.AlarmReceived">
+            <summary>
+            Событие при получении тревоги от другого пользователя
+            </summary>
+        </member>
         <member name="M:NekrasovskyAPP.ViewModels.LoginViewModel.ClearState">
             <summary>
             Очищает состояние ViewModel (используется при выходе или возврате на страницу входа)

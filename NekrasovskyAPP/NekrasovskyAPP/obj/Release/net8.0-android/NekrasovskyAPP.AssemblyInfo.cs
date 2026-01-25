@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NekrasovskyAPP")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+616ac3cdab06cd8e93b162a9005bbb27b0b9479f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+b7abb0cc57e8f76ae6daa0045b8d93c196b41bfd")]
 [assembly: System.Reflection.AssemblyProductAttribute("NekrasovskyAPP")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NekrasovskyAPP")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

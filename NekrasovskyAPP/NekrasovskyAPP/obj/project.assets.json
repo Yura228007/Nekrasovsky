@@ -1454,6 +1454,25 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
+      "System.Windows.Extensions/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net8.0/System.Windows.Extensions.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      },
       "Xamarin.Android.Glide/4.15.1.2": {
         "type": "package",
         "dependencies": {
@@ -5269,6 +5288,19 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Windows.Extensions/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
         }
       },
       "Xamarin.Android.Glide/4.15.1.2": {
@@ -9088,6 +9120,19 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
+      "System.Windows.Extensions/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Xamarin.Android.Glide/4.15.1.2": {
         "type": "package",
         "dependencies": {
@@ -12903,6 +12948,19 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Windows.Extensions/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
         }
       },
       "Xamarin.Android.Glide/4.15.1.2": {
@@ -16722,6 +16780,19 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
+      "System.Windows.Extensions/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Xamarin.Android.Glide/4.15.1.2": {
         "type": "package",
         "dependencies": {
@@ -20537,6 +20608,19 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Windows.Extensions/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
         }
       },
       "Xamarin.Android.Glide/4.15.1.2": {
@@ -24634,6 +24718,25 @@
         "build": {
           "buildTransitive/net6.0/_._": {}
         }
+      },
+      "System.Windows.Extensions/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net8.0/System.Windows.Extensions.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
       }
     },
     "net8.0-windows10.0.19041/android-arm": {
@@ -26038,6 +26141,19 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Windows.Extensions/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
         }
       }
     },
@@ -27444,6 +27560,19 @@
         "build": {
           "buildTransitive/net6.0/_._": {}
         }
+      },
+      "System.Windows.Extensions/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        }
       }
     },
     "net8.0-windows10.0.19041/android-x64": {
@@ -28849,6 +28978,19 @@
         "build": {
           "buildTransitive/net6.0/_._": {}
         }
+      },
+      "System.Windows.Extensions/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        }
       }
     },
     "net8.0-windows10.0.19041/android-x86": {
@@ -30253,6 +30395,19 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Windows.Extensions/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
         }
       }
     },
@@ -31664,6 +31819,19 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Windows.Extensions/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "runtimes/win/lib/net8.0/System.Windows.Extensions.dll": {
+            "related": ".xml"
+          }
         }
       }
     }
@@ -35200,6 +35368,33 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "System.Windows.Extensions/10.0.2": {
+      "sha512": "FJEb7THQLoYQDSIfu656zidYmLFZTBE9gi/IdKpPV9KhGuMZL/xLpLpRNLr7WDt2oLNldae8Jp/1e2H+MPCxGg==",
+      "type": "package",
+      "path": "system.windows.extensions/10.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net10.0/System.Windows.Extensions.dll",
+        "lib/net10.0/System.Windows.Extensions.xml",
+        "lib/net8.0/System.Windows.Extensions.dll",
+        "lib/net8.0/System.Windows.Extensions.xml",
+        "lib/net9.0/System.Windows.Extensions.dll",
+        "lib/net9.0/System.Windows.Extensions.xml",
+        "runtimes/win/lib/net10.0/System.Windows.Extensions.dll",
+        "runtimes/win/lib/net10.0/System.Windows.Extensions.xml",
+        "runtimes/win/lib/net8.0/System.Windows.Extensions.dll",
+        "runtimes/win/lib/net8.0/System.Windows.Extensions.xml",
+        "runtimes/win/lib/net9.0/System.Windows.Extensions.dll",
+        "runtimes/win/lib/net9.0/System.Windows.Extensions.xml",
+        "system.windows.extensions.10.0.2.nupkg.sha512",
+        "system.windows.extensions.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "Xamarin.Android.Glide/4.15.1.2": {
       "sha512": "DcekP+BXm4jFMV7zjHEltj01uiXcItq1kjGa79pj/Vx1rk3Ac2VXdmwGw06HXDP8n2XZsDh8dAoSI48G4KODRA==",
       "type": "package",
@@ -37959,7 +38154,8 @@
       "Microsoft.Maui.Controls >= 8.0.100",
       "Microsoft.Maui.Controls.Compatibility >= 8.0.100",
       "Microsoft.NET.ILLink.Tasks >= 8.0.22",
-      "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.10"
+      "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.10",
+      "System.Windows.Extensions >= 10.0.2"
     ],
     "net8.0-windows10.0.19041": [
       "AppDynamics.Agent >= 2025.10.0",
@@ -37971,7 +38167,8 @@
       "Microsoft.Extensions.Logging.Debug >= 8.0.1",
       "Microsoft.Maui.Controls >= 8.0.100",
       "Microsoft.Maui.Controls.Compatibility >= 8.0.100",
-      "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.10"
+      "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.10",
+      "System.Windows.Extensions >= 10.0.2"
     ]
   },
   "packageFolders": {
@@ -38080,6 +38277,10 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
             "version": "[8.0.10, )"
+          },
+          "System.Windows.Extensions": {
+            "target": "Package",
+            "version": "[10.0.2, )"
           }
         },
         "imports": [
@@ -38171,6 +38372,10 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
             "version": "[8.0.10, )"
+          },
+          "System.Windows.Extensions": {
+            "target": "Package",
+            "version": "[10.0.2, )"
           }
         },
         "imports": [

@@ -484,6 +484,9 @@
     <AppxPackagedFile Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\R2R\System.IO.Pipelines.dll">
       <PackagePath>System.IO.Pipelines.dll</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\R2R\System.Windows.Extensions.dll">
+      <PackagePath>System.Windows.Extensions.dll</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\R2R\NekrasovskyAPP.dll">
       <PackagePath>NekrasovskyAPP.dll</PackagePath>
     </AppxPackagedFile>

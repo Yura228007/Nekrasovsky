@@ -11,11 +11,13 @@ namespace server.Controllers
     {
         private readonly IProductService _productService;
         private readonly ILogger<ProductsController> _logger;
+        private readonly IHistoryService _historyService;
 
-        public ProductsController(IProductService productService, ILogger<ProductsController> logger)
+        public ProductsController(IProductService productService, ILogger<ProductsController> logger, IHistoryService historyService)
         {
             _productService = productService;
             _logger = logger;
+            _historyService = historyService;
         }
 
         // GET: api/products
@@ -92,8 +94,23 @@ namespace server.Controllers
 
             try
             {
-                var createdProduct = await _productService.CreateProductAsync(product);
+                if (!Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) ||
+                    !int.TryParse(userIdHeader.ToString(), out var userId) || userId <= 0)
+                {
+                    return BadRequest(new { message = "X-User-Id header is required" });
+                }
+
+                var createdProduct = await _productService.CreateProductAsync(product, userId);
                 _logger.LogInformation("Product created successfully with ID: {ProductId}", createdProduct.Id);
+                await TryLogAsync(userId, new HistoryEvent
+                {
+                    UserId = userId,
+                    Action = "Product.Created",
+                    EntityType = "Product",
+                    EntityId = createdProduct.Id,
+                    ProductId = createdProduct.Id,
+                    Description = $"Создан продукт: {createdProduct.Name}"
+                });
                 return CreatedAtAction(nameof(GetById), new { id = createdProduct.Id },
                     new { message = "Product created successfully", product = createdProduct });
             }
@@ -132,6 +149,15 @@ namespace server.Controllers
             {
                 var product = await _productService.UpdateProductAsync(id, updated);
                 _logger.LogInformation("Product updated successfully with ID: {ProductId}", id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    UserId = GetUserIdFromHeader() ?? 0,
+                    Action = "Product.Updated",
+                    EntityType = "Product",
+                    EntityId = product.Id,
+                    ProductId = product.Id,
+                    Description = $"Обновлен продукт: {product.Name}"
+                });
                 return Ok(new { message = "Product updated successfully", product });
             }
             catch (KeyNotFoundException ex)
@@ -175,6 +201,15 @@ namespace server.Controllers
                 }
 
                 _logger.LogInformation("Product deleted successfully with ID: {ProductId}", id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    UserId = GetUserIdFromHeader() ?? 0,
+                    Action = "Product.Deleted",
+                    EntityType = "Product",
+                    EntityId = id,
+                    ProductId = id,
+                    Description = $"Удален продукт ID: {id}"
+                });
                 return Ok(new { message = "Product deleted successfully" });
             }
             catch (DbUpdateException ex)
@@ -228,6 +263,34 @@ namespace server.Controllers
             {
                 _logger.LogError(ex, "Error occurred while getting products using material {MaterialId}", materialId);
                 return StatusCode(500, new { message = "An error occurred while retrieving products" });
+            }
+        }
+
+        private int? GetUserIdFromHeader()
+        {
+            if (Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) &&
+                int.TryParse(userIdHeader.ToString(), out var userId))
+            {
+                return userId;
+            }
+            return null;
+        }
+
+        private async Task TryLogAsync(int? userId, HistoryEvent historyEvent)
+        {
+            if (!userId.HasValue || userId.Value <= 0)
+            {
+                return;
+            }
+
+            historyEvent.UserId = userId.Value;
+            try
+            {
+                await _historyService.AddEventAsync(historyEvent);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to write history event");
             }
         }
     }

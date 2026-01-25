@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Linq;
 using NekrasovskyAPP.Models;
 using NekrasovskyAPP.Services;
 
@@ -83,10 +84,13 @@ namespace NekrasovskyAPP.ViewModels
                     return;
                 }
 
+                await EnsureUsersLoadedAsync();
+
                 var sent = await _apiService.GetShiftTransfersByUserAsync(currentUser.Id, sent: true);
                 SentTransfers.Clear();
                 foreach (var transfer in sent)
                 {
+                    ApplyUserDisplay(transfer);
                     SentTransfers.Add(transfer);
                 }
 
@@ -94,6 +98,7 @@ namespace NekrasovskyAPP.ViewModels
                 PendingTransfers.Clear();
                 foreach (var transfer in pending)
                 {
+                    ApplyUserDisplay(transfer);
                     PendingTransfers.Add(transfer);
                 }
             }
@@ -178,6 +183,19 @@ namespace NekrasovskyAPP.ViewModels
             }
         }
 
+        public async Task<List<ResponsibilityStockItem>> LoadResponsibilityStockAsync(int fromUserId)
+        {
+            try
+            {
+                return await _apiService.GetResponsibilityStockAsync(fromUserId);
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка загрузки остатков: {ex.Message}";
+                return new List<ResponsibilityStockItem>();
+            }
+        }
+
         public async Task<bool> CancelShiftTransferAsync(int transferId)
         {
             try
@@ -212,6 +230,28 @@ namespace NekrasovskyAPP.ViewModels
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private async Task EnsureUsersLoadedAsync()
+        {
+            if (Users.Count == 0)
+            {
+                await LoadUsersAsync();
+            }
+        }
+
+        private void ApplyUserDisplay(ShiftTransfer transfer)
+        {
+            var fromUser = Users.FirstOrDefault(u => u.Id == transfer.FromUserId);
+            var toUser = Users.FirstOrDefault(u => u.Id == transfer.ToUserId);
+
+            transfer.FromUserDisplay = fromUser != null
+                ? $"{fromUser.Name} {fromUser.Surname}"
+                : $"ID {transfer.FromUserId}";
+
+            transfer.ToUserDisplay = toUser != null
+                ? $"{toUser.Name} {toUser.Surname}"
+                : $"ID {transfer.ToUserId}";
         }
     }
 }

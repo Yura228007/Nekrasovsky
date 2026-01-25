@@ -22,6 +22,10 @@ namespace NekrasovskyAPP.Domain
         public DbSet<ShiftTransfer> ShiftTransfers { get; set; } = null!;
         public DbSet<FillingWarehouse> FillingWarehouses { get; set; } = null!;
         public DbSet<WorkReport> WorkReports { get; set; } = null!;
+        public DbSet<Responsibility> Responsibilities { get; set; } = null!;
+        public DbSet<Reprocessing> Reprocessings { get; set; } = null!;
+        public DbSet<ReprocessingItem> ReprocessingItems { get; set; } = null!;
+        public DbSet<HistoryEvent> HistoryEvents { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -192,9 +196,28 @@ namespace NekrasovskyAPP.Domain
                 .HasFilter("\"ProductId\" IS NOT NULL");
 
             modelBuilder.Entity<FillingWarehouse>()
-                .HasCheckConstraint(
+                .ToTable(t => t.HasCheckConstraint(
                     "CK_FillingWarehouse_MaterialOrProduct",
-                    "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
+                    "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)"));
+
+            // =============================
+            // 🔸 Responsibility
+            // =============================
+
+            modelBuilder.Entity<Responsibility>()
+                .HasIndex(r => new { r.MaterialId })
+                .IsUnique()
+                .HasFilter("\"IsActive\" = true AND \"MaterialId\" IS NOT NULL");
+
+            modelBuilder.Entity<Responsibility>()
+                .HasIndex(r => new { r.ProductId })
+                .IsUnique()
+                .HasFilter("\"IsActive\" = true AND \"ProductId\" IS NOT NULL");
+
+            modelBuilder.Entity<Responsibility>()
+                .ToTable(t => t.HasCheckConstraint(
+                    "CK_Responsibility_MaterialOrProduct",
+                    "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)"));
 
             // =============================
             // 🔸 WorkReport
@@ -205,6 +228,15 @@ namespace NekrasovskyAPP.Domain
                 .WithMany()
                 .HasForeignKey(wr => wr.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // =============================
+            // 🔸 Reprocessing
+            // =============================
+
+            modelBuilder.Entity<ReprocessingItem>()
+                .ToTable(t => t.HasCheckConstraint(
+                    "CK_ReprocessingItem_MaterialOrProduct",
+                    "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)"));
         }
     }
 }

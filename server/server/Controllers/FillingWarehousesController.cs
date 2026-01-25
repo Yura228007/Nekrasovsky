@@ -12,11 +12,13 @@ namespace server.Controllers
     {
         private readonly IFillingWarehouseService _fillingWarehouseService;
         private readonly ILogger<FillingWarehousesController> _logger;
+        private readonly IHistoryService _historyService;
 
-        public FillingWarehousesController(IFillingWarehouseService fillingWarehouseService, ILogger<FillingWarehousesController> logger)
+        public FillingWarehousesController(IFillingWarehouseService fillingWarehouseService, ILogger<FillingWarehousesController> logger, IHistoryService historyService)
         {
             _fillingWarehouseService = fillingWarehouseService;
             _logger = logger;
+            _historyService = historyService;
         }
 
         // GET: api/filling-warehouses
@@ -180,6 +182,16 @@ namespace server.Controllers
 
                 var createdFilling = await _fillingWarehouseService.CreateFillingWarehouseAsync(filling);
                 _logger.LogInformation("FillingWarehouse created successfully for WarehouseId {WarehouseId}, MaterialId {MaterialId}, ProductId {ProductId}", filling.WarehouseId, filling.MaterialId, filling.ProductId);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "Stock.Created",
+                    EntityType = "FillingWarehouse",
+                    EntityId = createdFilling.Id,
+                    WarehouseId = createdFilling.WarehouseId,
+                    MaterialId = createdFilling.MaterialId,
+                    ProductId = createdFilling.ProductId,
+                    Description = $"Добавлен остаток на склад ID {createdFilling.WarehouseId} (кол-во {createdFilling.Quantity})"
+                });
                 return Ok(new { message = "FillingWarehouse created successfully", filling = createdFilling });
             }
             catch (KeyNotFoundException ex)
@@ -222,6 +234,15 @@ namespace server.Controllers
             {
                 var filling = await _fillingWarehouseService.UpdateFillingWarehouseByMaterialAsync(warehouseId, materialId, updated);
                 _logger.LogInformation("FillingWarehouse updated successfully for WarehouseId {WarehouseId} and MaterialId {MaterialId}", warehouseId, materialId);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "Stock.Updated",
+                    EntityType = "FillingWarehouse",
+                    EntityId = filling.Id,
+                    WarehouseId = filling.WarehouseId,
+                    MaterialId = filling.MaterialId,
+                    Description = $"Обновлен остаток материала ID {materialId} на складе ID {warehouseId} (кол-во {filling.Quantity})"
+                });
                 return Ok(new { message = "FillingWarehouse updated successfully", filling });
             }
             catch (KeyNotFoundException ex)
@@ -259,6 +280,15 @@ namespace server.Controllers
             {
                 var filling = await _fillingWarehouseService.UpdateFillingWarehouseByProductAsync(warehouseId, productId, updated);
                 _logger.LogInformation("FillingWarehouse updated successfully for WarehouseId {WarehouseId} and ProductId {ProductId}", warehouseId, productId);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "Stock.Updated",
+                    EntityType = "FillingWarehouse",
+                    EntityId = filling.Id,
+                    WarehouseId = filling.WarehouseId,
+                    ProductId = filling.ProductId,
+                    Description = $"Обновлен остаток продукта ID {productId} на складе ID {warehouseId} (кол-во {filling.Quantity})"
+                });
                 return Ok(new { message = "FillingWarehouse updated successfully", filling });
             }
             catch (KeyNotFoundException ex)
@@ -297,6 +327,14 @@ namespace server.Controllers
                 }
 
                 _logger.LogInformation("FillingWarehouse deleted successfully for WarehouseId {WarehouseId} and MaterialId {MaterialId}", warehouseId, materialId);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "Stock.Deleted",
+                    EntityType = "FillingWarehouse",
+                    WarehouseId = warehouseId,
+                    MaterialId = materialId,
+                    Description = $"Удален остаток материала ID {materialId} на складе ID {warehouseId}"
+                });
                 return Ok(new { message = "FillingWarehouse deleted successfully" });
             }
             catch (DbUpdateException ex)
@@ -330,6 +368,14 @@ namespace server.Controllers
                 }
 
                 _logger.LogInformation("FillingWarehouse deleted successfully for WarehouseId {WarehouseId} and ProductId {ProductId}", warehouseId, productId);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "Stock.Deleted",
+                    EntityType = "FillingWarehouse",
+                    WarehouseId = warehouseId,
+                    ProductId = productId,
+                    Description = $"Удален остаток продукта ID {productId} на складе ID {warehouseId}"
+                });
                 return Ok(new { message = "FillingWarehouse deleted successfully" });
             }
             catch (DbUpdateException ex)
@@ -365,6 +411,15 @@ namespace server.Controllers
                     filling.MaterialId.Value,
                     filling.Quantity);
                 _logger.LogInformation("Quantity updated successfully for WarehouseId {WarehouseId} and MaterialId {MaterialId}", filling.WarehouseId, filling.MaterialId);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "Stock.QuantityUpdated",
+                    EntityType = "FillingWarehouse",
+                    EntityId = updatedFilling.Id,
+                    WarehouseId = updatedFilling.WarehouseId,
+                    MaterialId = updatedFilling.MaterialId,
+                    Description = $"Изменено количество материала ID {filling.MaterialId} на складе ID {filling.WarehouseId} (кол-во {updatedFilling.Quantity})"
+                });
                 return Ok(new { message = "Quantity updated successfully", filling = updatedFilling });
             }
             catch (KeyNotFoundException ex)
@@ -400,6 +455,15 @@ namespace server.Controllers
                     filling.ProductId.Value,
                     filling.Quantity);
                 _logger.LogInformation("Quantity updated successfully for WarehouseId {WarehouseId} and ProductId {ProductId}", filling.WarehouseId, filling.ProductId);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "Stock.QuantityUpdated",
+                    EntityType = "FillingWarehouse",
+                    EntityId = updatedFilling.Id,
+                    WarehouseId = updatedFilling.WarehouseId,
+                    ProductId = updatedFilling.ProductId,
+                    Description = $"Изменено количество продукта ID {filling.ProductId} на складе ID {filling.WarehouseId} (кол-во {updatedFilling.Quantity})"
+                });
                 return Ok(new { message = "Quantity updated successfully", filling = updatedFilling });
             }
             catch (KeyNotFoundException ex)
@@ -438,6 +502,34 @@ namespace server.Controllers
         private static bool IsValidXor(int? materialId, int? productId)
         {
             return (materialId.HasValue && !productId.HasValue) || (!materialId.HasValue && productId.HasValue);
+        }
+
+        private int? GetUserIdFromHeader()
+        {
+            if (Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) &&
+                int.TryParse(userIdHeader.ToString(), out var userId))
+            {
+                return userId;
+            }
+            return null;
+        }
+
+        private async Task TryLogAsync(int? userId, HistoryEvent historyEvent)
+        {
+            if (!userId.HasValue || userId.Value <= 0)
+            {
+                return;
+            }
+
+            historyEvent.UserId = userId.Value;
+            try
+            {
+                await _historyService.AddEventAsync(historyEvent);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to write history event");
+            }
         }
     }
 }

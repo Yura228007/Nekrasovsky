@@ -40,7 +40,10 @@ namespace NekrasovskyAPP
             builder.Services.AddSingleton<ISignalRService, SignalRService>();
             builder.Services.AddSingleton<IAlarmSoundService, AlarmSoundService>();
             builder.Services.AddSingleton<IAlarmNotificationService, AlarmNotificationService>();
-            builder.Services.AddSingleton<MainViewModel>();
+            builder.Services.AddSingleton<MainViewModel>(sp =>
+                new MainViewModel(
+                    sp.GetRequiredService<IApiService>(),
+                    sp.GetRequiredService<IAuthService>()));
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddSingleton<ViewModels.WorkReportsViewModel>();
             builder.Services.AddSingleton<ViewModels.PartRequestsViewModel>(sp =>
@@ -69,10 +72,16 @@ namespace NekrasovskyAPP
                 new PartRequestsPage(sp.GetRequiredService<ViewModels.PartRequestsViewModel>()));
             builder.Services.AddTransient<ShiftTransfersPage>(sp =>
                 new ShiftTransfersPage(sp.GetRequiredService<ViewModels.ShiftTransfersViewModel>()));
+            builder.Services.AddTransient<ShiftTransferReviewPage>();
+            builder.Services.AddTransient<ReprocessingPage>(sp =>
+                new ReprocessingPage(sp.GetRequiredService<IApiService>(), sp.GetRequiredService<IAuthService>()));
             builder.Services.AddTransient<SettingsPage>(sp =>
                 new SettingsPage(sp.GetRequiredService<IApiService>()));
             builder.Services.AddTransient<LogsPage>(sp =>
                 new LogsPage(sp.GetRequiredService<MainViewModel>()));
+            builder.Services.AddTransient<ViewModels.HistoryViewModel>();
+            builder.Services.AddTransient<HistoryPage>(sp =>
+                new HistoryPage(sp.GetRequiredService<ViewModels.HistoryViewModel>()));
             builder.Services.AddTransient<RolePermissionsPage>(sp =>
                 new RolePermissionsPage(
                     sp.GetRequiredService<IApiService>(),

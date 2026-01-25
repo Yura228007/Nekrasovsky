@@ -13,12 +13,14 @@ namespace server.Controllers
         private readonly IUserService _userService;
         private readonly IPasswordService _passwordService;
         private readonly ILogger<UsersController> _logger;
+        private readonly IHistoryService _historyService;
 
-        public UsersController(IUserService userService, IPasswordService passwordService, ILogger<UsersController> logger)
+        public UsersController(IUserService userService, IPasswordService passwordService, ILogger<UsersController> logger, IHistoryService historyService)
         {
             _userService = userService;
             _passwordService = passwordService;
             _logger = logger;
+            _historyService = historyService;
         }
 
         public class LoginRequest
@@ -193,6 +195,14 @@ namespace server.Controllers
             {
                 var createdUser = await _userService.CreateUserAsync(user);
                 _logger.LogInformation("User created successfully with ID: {UserId}", createdUser.Id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "User.Created",
+                    EntityType = "User",
+                    EntityId = createdUser.Id,
+                    RelatedUserId = createdUser.Id,
+                    Description = $"Создан пользователь: {createdUser.Name} {createdUser.Surname} (ID {createdUser.Id})"
+                });
                 return CreatedAtAction(nameof(GetById), new { id = createdUser.Id }, 
                     new { message = "User created successfully", user = createdUser });
             }
@@ -232,6 +242,14 @@ namespace server.Controllers
             {
                 var user = await _userService.UpdateUserAsync(id, updated);
                 _logger.LogInformation("User updated successfully with ID: {UserId}", id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "User.Updated",
+                    EntityType = "User",
+                    EntityId = user.Id,
+                    RelatedUserId = user.Id,
+                    Description = $"Обновлен пользователь: {user.Name} {user.Surname} (ID {user.Id})"
+                });
                 return Ok(new { message = "User updated successfully", user });
             }
             catch (KeyNotFoundException ex)
@@ -276,6 +294,14 @@ namespace server.Controllers
                 }
 
                 _logger.LogInformation("User deleted successfully with ID: {UserId}", id);
+                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                {
+                    Action = "User.Deleted",
+                    EntityType = "User",
+                    EntityId = id,
+                    RelatedUserId = id,
+                    Description = $"Удален пользователь ID {id}"
+                });
                 return Ok(new { message = "User deleted successfully" });
             }
             catch (DbUpdateException ex)
@@ -287,6 +313,34 @@ namespace server.Controllers
             {
                 _logger.LogError(ex, "Unexpected error while deleting user with ID {UserId}", id);
                 return StatusCode(500, new { message = "An unexpected error occurred while deleting the user" });
+            }
+        }
+
+        private int? GetUserIdFromHeader()
+        {
+            if (Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) &&
+                int.TryParse(userIdHeader.ToString(), out var userId))
+            {
+                return userId;
+            }
+            return null;
+        }
+
+        private async Task TryLogAsync(int? userId, HistoryEvent historyEvent)
+        {
+            if (!userId.HasValue || userId.Value <= 0)
+            {
+                return;
+            }
+
+            historyEvent.UserId = userId.Value;
+            try
+            {
+                await _historyService.AddEventAsync(historyEvent);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to write history event");
             }
         }
     }

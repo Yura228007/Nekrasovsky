@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NekrasovskyAPP.Pages.HistoryPage"
+             BackgroundColor="{StaticResource BackgroundDark}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="10">
+
+        <Label Grid.Row="0"
+               Text="История действий"
+               FontSize="20"
+               FontAttributes="Bold"
+               TextColor="{StaticResource White}"
+               Margin="4,0,4,10" />
+
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Events}">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                    <Label Text="История пуста"
+                           FontSize="16"
+                           TextColor="{StaticResource Gray400}"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border BackgroundColor="{StaticResource BackgroundCard}"
+                            StrokeThickness="1"
+                            Stroke="{StaticResource BorderColor}"
+                            Margin="0,0,0,8"
+                            Padding="12">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8"/>
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                            <Label Grid.Column="0"
+                                   Text="{Binding DisplayTime}"
+                                   FontSize="10"
+                                   TextColor="{StaticResource Gray400}"
+                                   VerticalOptions="Start" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="{Binding ActorDisplay}"
+                                       FontSize="12"
+                                       TextColor="{StaticResource Gray400}" />
+                                <Label Text="{Binding Description}"
+                                       FontSize="13"
+                                       TextColor="{StaticResource White}" />
+                                <Label Text="{Binding Action}"
+                                       FontSize="10"
+                                       TextColor="{StaticResource Gray500}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Label Grid.Row="2"
+               Text="{Binding ErrorMessage}"
+               TextColor="#FF6B6B"
+               FontSize="12"
+               Margin="4,6,4,0" />
+    </Grid>
+</ContentPage>

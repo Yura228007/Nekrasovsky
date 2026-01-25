@@ -23,6 +23,10 @@ public class AppDbContext : DbContext
     public DbSet<FillingWarehouse> FillingWarehouses { get; set; } = null!;
     public DbSet<WorkReport> WorkReports { get; set; } = null!;
     public DbSet<RequestLog> RequestLogs { get; set; } = null!;
+    public DbSet<Responsibility> Responsibilities { get; set; } = null!;
+    public DbSet<Reprocessing> Reprocessings { get; set; } = null!;
+    public DbSet<ReprocessingItem> ReprocessingItems { get; set; } = null!;
+    public DbSet<HistoryEvent> HistoryEvents { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -222,9 +226,46 @@ public class AppDbContext : DbContext
             .HasFilter("\"ProductId\" IS NOT NULL");
 
         modelBuilder.Entity<FillingWarehouse>()
-            .HasCheckConstraint(
+            .ToTable(t => t.HasCheckConstraint(
                 "CK_FillingWarehouse_MaterialOrProduct",
-                "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
+                "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)"));
+
+        // =============================
+        // Responsibility
+        // =============================
+
+        modelBuilder.Entity<Responsibility>()
+            .HasOne(r => r.User)
+            .WithMany()
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Responsibility>()
+            .HasOne(r => r.Material)
+            .WithMany()
+            .HasForeignKey(r => r.MaterialId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Responsibility>()
+            .HasOne(r => r.Product)
+            .WithMany()
+            .HasForeignKey(r => r.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Responsibility>()
+            .HasIndex(r => new { r.MaterialId })
+            .IsUnique()
+            .HasFilter("\"IsActive\" = true AND \"MaterialId\" IS NOT NULL");
+
+        modelBuilder.Entity<Responsibility>()
+            .HasIndex(r => new { r.ProductId })
+            .IsUnique()
+            .HasFilter("\"IsActive\" = true AND \"ProductId\" IS NOT NULL");
+
+        modelBuilder.Entity<Responsibility>()
+            .ToTable(t => t.HasCheckConstraint(
+                "CK_Responsibility_MaterialOrProduct",
+                "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)"));
 
         // =============================
         // WorkReport
@@ -235,6 +276,51 @@ public class AppDbContext : DbContext
             .WithMany()
             .HasForeignKey(wr => wr.UserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // =============================
+        // Reprocessing
+        // =============================
+
+        modelBuilder.Entity<Reprocessing>()
+            .HasOne(r => r.User)
+            .WithMany()
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Reprocessing>()
+            .HasOne(r => r.Warehouse)
+            .WithMany()
+            .HasForeignKey(r => r.WarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Reprocessing>()
+            .HasOne(r => r.SourceMaterial)
+            .WithMany()
+            .HasForeignKey(r => r.SourceMaterialId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ReprocessingItem>()
+            .HasOne(ri => ri.Reprocessing)
+            .WithMany(r => r.Items)
+            .HasForeignKey(ri => ri.ReprocessingId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ReprocessingItem>()
+            .HasOne(ri => ri.Material)
+            .WithMany()
+            .HasForeignKey(ri => ri.MaterialId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ReprocessingItem>()
+            .HasOne(ri => ri.Product)
+            .WithMany()
+            .HasForeignKey(ri => ri.ProductId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ReprocessingItem>()
+            .ToTable(t => t.HasCheckConstraint(
+                "CK_ReprocessingItem_MaterialOrProduct",
+                "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)"));
 
         // =============================
         // RequestLogs
@@ -262,6 +348,40 @@ public class AppDbContext : DbContext
             .HasOne(rl => rl.Product)
             .WithMany()
             .HasForeignKey(rl => rl.ProductId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        // =============================
+        // HistoryEvent
+        // =============================
+
+        modelBuilder.Entity<HistoryEvent>()
+            .HasOne(he => he.User)
+            .WithMany()
+            .HasForeignKey(he => he.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<HistoryEvent>()
+            .HasOne(he => he.RelatedUser)
+            .WithMany()
+            .HasForeignKey(he => he.RelatedUserId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<HistoryEvent>()
+            .HasOne(he => he.Warehouse)
+            .WithMany()
+            .HasForeignKey(he => he.WarehouseId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<HistoryEvent>()
+            .HasOne(he => he.Material)
+            .WithMany()
+            .HasForeignKey(he => he.MaterialId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<HistoryEvent>()
+            .HasOne(he => he.Product)
+            .WithMany()
+            .HasForeignKey(he => he.ProductId)
             .OnDelete(DeleteBehavior.SetNull);
     }
 }

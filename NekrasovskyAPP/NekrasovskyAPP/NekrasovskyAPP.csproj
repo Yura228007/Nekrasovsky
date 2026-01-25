@@ -88,6 +88,7 @@
 		<!-- Использует native API: Google ML Kit (Android) и Apple Vision (iOS) -->
 		<PackageReference Include="BarcodeScanning.Native.Maui" Version="1.7.8" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.0" />
+		<PackageReference Include="System.Windows.Extensions" Version="10.0.2" />
 	</ItemGroup>
 	
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net8.0-android'">

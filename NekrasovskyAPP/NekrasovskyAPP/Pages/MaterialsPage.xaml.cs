@@ -151,6 +151,7 @@ namespace NekrasovskyAPP.Pages
                     null,
                     "Просмотр",
                     "Редактировать",
+                    "Изменить количество",
                     "Удалить");
 
                 switch (action)
@@ -166,6 +167,10 @@ namespace NekrasovskyAPP.Pages
 
                     case "Редактировать":
                         await ShowMaterialDialogAsync(selectedMaterial);
+                        break;
+
+                    case "Изменить количество":
+                        await ShowMaterialQuantityDialogAsync(selectedMaterial);
                         break;
 
                     case "Удалить":
@@ -194,6 +199,108 @@ namespace NekrasovskyAPP.Pages
             }
         }
 
+        private async Task ShowMaterialQuantityDialogAsync(Material material)
+        {
+            var fillings = await _viewModel.ApiService.GetFillingsByMaterialAsync(material.Id);
+            if (fillings.Count == 0)
+            {
+                await DisplayAlert("Нет остатков", "Для этого материала нет записей по складам.", "OK");
+                return;
+            }
+
+            if (_viewModel.Warehouses.Count == 0)
+            {
+                await _viewModel.LoadWarehousesAsync();
+            }
+
+            var warehouseMap = _viewModel.Warehouses.ToDictionary(
+                w => w.Id,
+                w => $"{w.Name} ({w.Type})");
+
+            var options = fillings.Select(filling =>
+            {
+                var name = warehouseMap.TryGetValue(filling.WarehouseId, out var label)
+                    ? label
+                    : $"Склад #{filling.WarehouseId}";
+                var unit = string.IsNullOrWhiteSpace(filling.MeasuringType)
+                    ? material.MeasuringUnit
+                    : filling.MeasuringType;
+                return $"{name}: {filling.Quantity} {unit}";
+            }).ToArray();
+
+            var choice = await DisplayActionSheet("Выберите склад", "Отмена", null, options);
+            if (string.IsNullOrWhiteSpace(choice) || choice == "Отмена")
+            {
+                return;
+            }
+
+            var index = Array.IndexOf(options, choice);
+            if (index < 0 || index >= fillings.Count)
+            {
+                return;
+            }
+
+            var selectedFilling = fillings[index];
+            var quantityText = await DisplayPromptAsync(
+                "Изменить количество",
+                $"Новое количество (сейчас {selectedFilling.Quantity}):",
+                "Сохранить",
+                "Отмена",
+                selectedFilling.Quantity.ToString(),
+                -1,
+                Keyboard.Numeric);
+
+            if (quantityText == null)
+            {
+                return;
+            }
+
+            if (!int.TryParse(quantityText, out var quantity))
+            {
+                await DisplayAlert("Ошибка", "Количество должно быть числом.", "OK");
+                return;
+            }
+
+            if (quantity < 0)
+            {
+                await DisplayAlert("Ошибка", "Количество не может быть отрицательным.", "OK");
+                return;
+            }
+
+            if (quantity == 0)
+            {
+                var confirmZero = await DisplayAlert(
+                    "Подтверждение",
+                    "Количество = 0. Оставить так?",
+                    "Да",
+                    "Изменить");
+                if (!confirmZero)
+                {
+                    return;
+                }
+            }
+
+            var update = new FillingWarehouse
+            {
+                WarehouseId = selectedFilling.WarehouseId,
+                MaterialId = material.Id,
+                Quantity = quantity,
+                MeasuringType = string.IsNullOrWhiteSpace(selectedFilling.MeasuringType)
+                    ? material.MeasuringUnit
+                    : selectedFilling.MeasuringType
+            };
+
+            var response = await _viewModel.ApiService.UpdateFillingQuantityByMaterialAsync(update);
+            if (response.GetData() == null && !string.IsNullOrEmpty(response.Message))
+            {
+                await DisplayAlert("Ошибка", response.Message, "OK");
+                return;
+            }
+
+            await _viewModel.LoadMaterialsAsync();
+            await DisplayAlert("Успех", "Количество обновлено", "OK");
+        }
+
         private async Task<(string? code, bool cancelled)> GetCodeAsync(string title, string? existingCode)
         {
 #if ANDROID || IOS
@@ -205,7 +312,7 @@ namespace NekrasovskyAPP.Pages
                 "Сканировать QR-код");
 
             if (action == "Отмена" || action == null)
-                return (existingCode, false);
+                return (existingCode, true);
 
             if (action == "Сканировать QR-код")
             {
@@ -235,12 +342,16 @@ namespace NekrasovskyAPP.Pages
                 }
 
                 // Если сканирование не удалось, предложить ввести вручную
-                var manualCode = await DisplayPromptAsync(title, "Код (необязательно):", "Далее", "Отмена", "Код", -1, Keyboard.Default, existingCode ?? "");
+                var manualCode = await DisplayPromptAsync(title, "Код (обязательно):", "Далее", "Отмена", "Код", -1, Keyboard.Default, existingCode ?? "");
+                if (manualCode == null)
+                    return (existingCode, true);
                 return (manualCode, false);
             }
 #endif
             // Ручной ввод
-            var code = await DisplayPromptAsync(title, "Код (необязательно):", "Далее", "Отмена", "Код", -1, Keyboard.Default, existingCode ?? "");
+            var code = await DisplayPromptAsync(title, "Код (обязательно):", "Далее", "Отмена", "Код", -1, Keyboard.Default, existingCode ?? "");
+            if (code == null)
+                return (existingCode, true);
             return (code, false);
         }
 
@@ -253,11 +364,22 @@ namespace NekrasovskyAPP.Pages
             if (string.IsNullOrWhiteSpace(name))
                 return;
 
-            var (code, _) = await GetCodeAsync(title, existingMaterial?.Code);
+            var (code, cancelled) = await GetCodeAsync(title, existingMaterial?.Code);
+            if (cancelled)
+                return;
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                await DisplayAlert("Ошибка", "Код обязателен для заполнения.", "OK");
+                return;
+            }
             
             var description = await DisplayPromptAsync(title, "Описание (необязательно):", "Далее", "Отмена", "Описание", -1, Keyboard.Default, existingMaterial?.Description ?? "");
+            if (description == null)
+                return;
             
             var measuringUnit = await DisplayPromptAsync(title, "Единица измерения (шт, кг, л и т.д.):", "Сохранить", "Отмена", "Единица измерения", -1, Keyboard.Default, existingMaterial?.MeasuringUnit ?? "шт");
+            if (measuringUnit == null)
+                return;
             if (string.IsNullOrWhiteSpace(measuringUnit))
                 measuringUnit = "шт";
 
@@ -280,6 +402,40 @@ namespace NekrasovskyAPP.Pages
                     return;
                 }
 
+                var quantityText = await DisplayPromptAsync(
+                    title,
+                    "Количество (по умолчанию 0):",
+                    "Далее",
+                    "Отмена",
+                    "0",
+                    -1,
+                    Keyboard.Numeric);
+
+                if (quantityText == null)
+                {
+                    return;
+                }
+
+                var quantity = 0;
+                if (!string.IsNullOrWhiteSpace(quantityText) && !int.TryParse(quantityText, out quantity))
+                {
+                    await DisplayAlert("Ошибка", "Количество должно быть числом.", "OK");
+                    return;
+                }
+
+                if (quantity == 0)
+                {
+                    var confirmZero = await DisplayAlert(
+                        "Подтверждение",
+                        "Количество = 0. Оставить так?",
+                        "Да",
+                        "Изменить");
+                    if (!confirmZero)
+                    {
+                        return;
+                    }
+                }
+
                 var createResponse = await _viewModel.ApiService.AddMaterialAsync(material);
                 var createdMaterial = createResponse.Material ?? createResponse.GetData();
                 if (createdMaterial == null)
@@ -292,7 +448,7 @@ namespace NekrasovskyAPP.Pages
                 {
                     WarehouseId = selectedWarehouse.Id,
                     MaterialId = createdMaterial.Id,
-                    Quantity = 0,
+                    Quantity = Math.Max(0, quantity),
                     MeasuringType = createdMaterial.MeasuringUnit
                 };
 

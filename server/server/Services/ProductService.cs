@@ -8,11 +8,13 @@ namespace server.Services
     {
         private readonly AppDbContext _context;
         private readonly ILogger<ProductService> _logger;
+        private readonly IResponsibilityService _responsibilityService;
 
-        public ProductService(AppDbContext context, ILogger<ProductService> logger)
+        public ProductService(AppDbContext context, ILogger<ProductService> logger, IResponsibilityService responsibilityService)
         {
             _context = context;
             _logger = logger;
+            _responsibilityService = responsibilityService;
         }
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
@@ -51,7 +53,7 @@ namespace server.Services
             return await query.ToListAsync();
         }
 
-        public async Task<Product> CreateProductAsync(Product product)
+        public async Task<Product> CreateProductAsync(Product product, int userId)
         {
             // Проверка уникальности артикула
             if (!string.IsNullOrWhiteSpace(product.Code))
@@ -66,6 +68,8 @@ namespace server.Services
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
+
+            await _responsibilityService.AssignProductAsync(product.Id, userId);
 
             _logger.LogInformation("Product created with ID: {ProductId}, Name: {Name}", product.Id, product.Name);
             return product;

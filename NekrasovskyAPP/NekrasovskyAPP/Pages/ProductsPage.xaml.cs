@@ -222,7 +222,7 @@ namespace NekrasovskyAPP.Pages
                 "Сканировать QR-код");
 
             if (action == "Отмена" || action == null)
-                return (existingCode, false);
+                return (existingCode, true);
 
             if (action == "Сканировать QR-код")
             {
@@ -252,12 +252,16 @@ namespace NekrasovskyAPP.Pages
                 }
 
                 // Если сканирование не удалось, предложить ввести вручную
-                var manualCode = await DisplayPromptAsync(title, "Код (необязательно):", "Далее", "Отмена", "Код", -1, Keyboard.Default, existingCode ?? "");
+                var manualCode = await DisplayPromptAsync(title, "Код (обязательно):", "Далее", "Отмена", "Код", -1, Keyboard.Default, existingCode ?? "");
+                if (manualCode == null)
+                    return (existingCode, true);
                 return (manualCode, false);
             }
 #endif
             // Ручной ввод
-            var code = await DisplayPromptAsync(title, "Код (необязательно):", "Далее", "Отмена", "Код", -1, Keyboard.Default, existingCode ?? "");
+            var code = await DisplayPromptAsync(title, "Код (обязательно):", "Далее", "Отмена", "Код", -1, Keyboard.Default, existingCode ?? "");
+            if (code == null)
+                return (existingCode, true);
             return (code, false);
         }
 
@@ -270,11 +274,22 @@ namespace NekrasovskyAPP.Pages
             if (string.IsNullOrWhiteSpace(name))
                 return;
 
-            var (code, _) = await GetCodeAsync(title, existingProduct?.Code);
+            var (code, cancelled) = await GetCodeAsync(title, existingProduct?.Code);
+            if (cancelled)
+                return;
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                await DisplayAlert("Ошибка", "Код обязателен для заполнения.", "OK");
+                return;
+            }
             
             var description = await DisplayPromptAsync(title, "Описание (необязательно):", "Далее", "Отмена", "Описание", -1, Keyboard.Default, existingProduct?.Description ?? "");
+            if (description == null)
+                return;
             
             var measuringUnit = await DisplayPromptAsync(title, "Единица измерения (шт, кг, л и т.д.):", "Сохранить", "Отмена", "Единица измерения", -1, Keyboard.Default, existingProduct?.MeasuringUnit ?? "шт");
+            if (measuringUnit == null)
+                return;
             if (string.IsNullOrWhiteSpace(measuringUnit))
                 measuringUnit = "шт";
 

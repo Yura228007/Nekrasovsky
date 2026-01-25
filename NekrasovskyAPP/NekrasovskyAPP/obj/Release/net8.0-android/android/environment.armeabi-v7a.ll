@@ -104,7 +104,7 @@ target triple = "armv7-unknown-linux-android21"
 	i32 3, ; uint32_t package_naming_policy (0x3)
 	i32 8, ; uint32_t environment_variable_count (0x8)
 	i32 0, ; uint32_t system_property_count (0x0)
-	i32 359, ; uint32_t number_of_assemblies_in_apk (0x167)
+	i32 360, ; uint32_t number_of_assemblies_in_apk (0x168)
 	i32 0, ; uint32_t bundled_assembly_name_width (0x0)
 	i32 2, ; uint32_t number_of_assembly_store_files (0x2)
 	i32 40, ; uint32_t number_of_dso_cache_entries (0x28)
@@ -364,7 +364,7 @@ target triple = "armv7-unknown-linux-android21"
 ; Bundled assembly name buffers, all empty (unused when assembly stores are enabled)
 @bundled_assemblies = dso_local local_unnamed_addr global [0 x %struct.XamarinAndroidBundledAssembly] zeroinitializer, align 4
 
-@assembly_store_bundled_assemblies = dso_local local_unnamed_addr global [359 x %struct.AssemblyStoreSingleAssemblyRuntimeData] zeroinitializer, align 4
+@assembly_store_bundled_assemblies = dso_local local_unnamed_addr global [360 x %struct.AssemblyStoreSingleAssemblyRuntimeData] zeroinitializer, align 4
 
 @assembly_stores = dso_local local_unnamed_addr global [2 x %struct.AssemblyStoreRuntimeData] zeroinitializer, align 4
 
@@ -375,7 +375,7 @@ target triple = "armv7-unknown-linux-android21"
 @.env.0 = private unnamed_addr constant [15 x i8] c"MONO_GC_PARAMS\00", align 1
 @.env.1 = private unnamed_addr constant [21 x i8] c"major=marksweep-conc\00", align 1
 @.env.2 = private unnamed_addr constant [17 x i8] c"XAMARIN_BUILD_ID\00", align 1
-@.env.3 = private unnamed_addr constant [37 x i8] c"7a528509-896f-4f4f-aabe-e880f3314102\00", align 1
+@.env.3 = private unnamed_addr constant [37 x i8] c"aaed40f6-4ea4-48ce-8e21-e4a80cd03ff7\00", align 1
 @.env.4 = private unnamed_addr constant [28 x i8] c"XA_HTTP_CLIENT_HANDLER_TYPE\00", align 1
 @.env.5 = private unnamed_addr constant [42 x i8] c"Xamarin.Android.Net.AndroidMessageHandler\00", align 1
 @.env.6 = private unnamed_addr constant [29 x i8] c"__XA_PACKAGE_NAMING_POLICY__\00", align 1

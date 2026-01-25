@@ -1,4 +1,4 @@
-﻿using NekrasovskyAPP.Pages;
+using NekrasovskyAPP.Pages;
 
 namespace NekrasovskyAPP
 {
@@ -19,8 +19,10 @@ namespace NekrasovskyAPP
             Routing.RegisterRoute("WorkReportsPage", typeof(WorkReportsPage));
             Routing.RegisterRoute("PartRequestsPage", typeof(PartRequestsPage));
             Routing.RegisterRoute("ShiftTransfersPage", typeof(ShiftTransfersPage));
+            Routing.RegisterRoute("ReprocessingPage", typeof(ReprocessingPage));
             Routing.RegisterRoute("SettingsPage", typeof(SettingsPage));
             Routing.RegisterRoute("LogsPage", typeof(LogsPage));
+            Routing.RegisterRoute("HistoryPage", typeof(HistoryPage));
             Routing.RegisterRoute("RolePermissionsPage", typeof(RolePermissionsPage));
         }
     }

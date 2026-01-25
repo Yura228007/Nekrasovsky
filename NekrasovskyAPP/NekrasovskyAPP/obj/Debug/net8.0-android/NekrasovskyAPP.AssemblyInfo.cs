@@ -13,12 +13,12 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NekrasovskyAPP")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+50f6cf4f9d3ade9cfa08a46c6ac3a63629fb6d2b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+b7abb0cc57e8f76ae6daa0045b8d93c196b41bfd")]
 [assembly: System.Reflection.AssemblyProductAttribute("NekrasovskyAPP")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NekrasovskyAPP")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
-[assembly: System.Runtime.Versioning.TargetPlatformAttribute("android21.0")]
-[assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("android21.0")]
+[assembly: System.Runtime.Versioning.TargetPlatformAttribute("Android34.0")]
+[assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Android21.0")]
 
 // Создано классом WriteCodeFragment MSBuild.
 

@@ -116,6 +116,14 @@ namespace server.Services
                 throw new KeyNotFoundException($"User with ID {userId} not found");
             }
 
+            var hasActiveShift = await _context.WorkReports
+                .AnyAsync(wr => wr.UserId == userId && wr.FinishWork == null);
+
+            if (hasActiveShift)
+            {
+                throw new InvalidOperationException("Work already started for this user");
+            }
+
             var normalizedStart = startTime ?? DateTime.UtcNow;
             if (normalizedStart.Kind == DateTimeKind.Unspecified)
             {

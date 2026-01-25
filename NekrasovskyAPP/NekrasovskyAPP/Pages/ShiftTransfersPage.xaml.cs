@@ -29,20 +29,43 @@ namespace NekrasovskyAPP.Pages
 
         private async void OnCreateClicked(object? sender, EventArgs e)
         {
+            if (_viewModel.CurrentUser == null)
+            {
+                await DisplayAlert("Ошибка", "Пользователь не авторизован", "OK");
+                return;
+            }
+
+            var activeReports = await _viewModel.ApiService.GetActiveWorkReportsAsync(_viewModel.CurrentUser.Id);
+            if (!activeReports.Any())
+            {
+                await DisplayAlert("Смена не начата", "Нельзя передать смену без активной смены.", "OK");
+                return;
+            }
+
             if (!_viewModel.Users.Any())
             {
                 await DisplayAlert("Ошибка", "Нет доступных пользователей", "OK");
                 return;
             }
 
-            var options = _viewModel.Users.Select(u => $"{u.Name} {u.Surname} ({u.Login})").ToArray();
+            var availableUsers = _viewModel.Users
+                .Where(u => u.Id != _viewModel.CurrentUser.Id)
+                .ToList();
+
+            if (!availableUsers.Any())
+            {
+                await DisplayAlert("Ошибка", "Нет других пользователей для передачи смены", "OK");
+                return;
+            }
+
+            var options = availableUsers.Select(u => $"{u.Name} {u.Surname} ({u.Login})").ToArray();
             var selected = await DisplayActionSheet("Выберите пользователя для передачи смены:", "Отмена", null, options);
             if (selected == "Отмена" || string.IsNullOrWhiteSpace(selected))
             {
                 return;
             }
 
-            var user = _viewModel.Users.ElementAt(Array.IndexOf(options, selected));
+            var user = availableUsers.ElementAt(Array.IndexOf(options, selected));
             var success = await _viewModel.CreateShiftTransferAsync(user.Id);
             if (success)
             {

@@ -1,6 +1,7 @@
 using NekrasovskyAPP.ViewModels;
 using NekrasovskyAPP.Models;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace NekrasovskyAPP.Pages
 {
@@ -145,14 +146,25 @@ namespace NekrasovskyAPP.Pages
         {
             if (e.CurrentSelection.FirstOrDefault() is Material selectedMaterial)
             {
+                var isPrivileged = await _viewModel.IsPrivilegedUserAsync();
+                var actions = new List<string>
+                {
+                    "Просмотр",
+                    "Редактировать",
+                    "Изменить количество",
+                    "Удалить"
+                };
+                if (isPrivileged)
+                {
+                    actions.Add("Изменить ответственное лицо");
+                    actions.Add("Снять ответственность");
+                }
+
                 var action = await DisplayActionSheet(
                     $"Материал: {selectedMaterial.Name}",
                     "Отмена",
                     null,
-                    "Просмотр",
-                    "Редактировать",
-                    "Изменить количество",
-                    "Удалить");
+                    actions.ToArray());
 
                 switch (action)
                 {
@@ -193,6 +205,12 @@ namespace NekrasovskyAPP.Pages
                             }
                         }
                         break;
+                    case "Изменить ответственное лицо":
+                        await ChangeMaterialResponsibilityAsync(selectedMaterial);
+                        break;
+                    case "Снять ответственность":
+                        await ReleaseMaterialResponsibilityAsync(selectedMaterial);
+                        break;
                 }
 
                 MaterialsCollectionView.SelectedItem = null;
@@ -208,16 +226,14 @@ namespace NekrasovskyAPP.Pages
                 return;
             }
 
-            if (_viewModel.Warehouses.Count == 0)
-            {
-                await _viewModel.LoadWarehousesAsync();
-            }
-
-            var warehouseMap = _viewModel.Warehouses.ToDictionary(
+            var activeWarehouses = await GetActiveWarehousesAsync();
+            var warehouseMap = activeWarehouses.ToDictionary(
                 w => w.Id,
                 w => $"{w.Name} ({w.Type})");
 
-            var options = fillings.Select(filling =>
+            var options = fillings
+                .Where(filling => warehouseMap.ContainsKey(filling.WarehouseId))
+                .Select(filling =>
             {
                 var name = warehouseMap.TryGetValue(filling.WarehouseId, out var label)
                     ? label
@@ -227,6 +243,12 @@ namespace NekrasovskyAPP.Pages
                     : filling.MeasuringType;
                 return $"{name}: {filling.Quantity} {unit}";
             }).ToArray();
+
+            if (options.Length == 0)
+            {
+                await DisplayAlert("Нет доступных складов", "Все склады с остатками остановлены. Нельзя изменять количество.", "OK");
+                return;
+            }
 
             var choice = await DisplayActionSheet("Выберите склад", "Отмена", null, options);
             if (string.IsNullOrWhiteSpace(choice) || choice == "Отмена")
@@ -299,6 +321,70 @@ namespace NekrasovskyAPP.Pages
 
             await _viewModel.LoadMaterialsAsync();
             await DisplayAlert("Успех", "Количество обновлено", "OK");
+        }
+
+        private async Task ChangeMaterialResponsibilityAsync(Material material)
+        {
+            if (_viewModel.Users.Count == 0)
+            {
+                await _viewModel.LoadUsersAsync();
+            }
+
+            if (_viewModel.Users.Count == 0)
+            {
+                await DisplayAlert("Ошибка", "Нет доступных пользователей для назначения ответственности.", "OK");
+                return;
+            }
+
+            var options = _viewModel.Users
+                .Select(u => $"{u.Surname} {u.Name}")
+                .ToArray();
+
+            var choice = await DisplayActionSheet("Выберите ответственное лицо:", "Отмена", null, options);
+            if (string.IsNullOrWhiteSpace(choice) || choice == "Отмена")
+            {
+                return;
+            }
+
+            var index = Array.IndexOf(options, choice);
+            if (index < 0 || index >= _viewModel.Users.Count)
+            {
+                return;
+            }
+
+            var selectedUser = _viewModel.Users[index];
+            var response = await _viewModel.ApiService.AssignMaterialResponsibilityAsync(material.Id, selectedUser.Id);
+            if (response.GetData() == null && !string.IsNullOrEmpty(response.Message))
+            {
+                await DisplayAlert("Ошибка", response.Message, "OK");
+                return;
+            }
+
+            await DisplayAlert("Успех", "Ответственное лицо обновлено", "OK");
+        }
+
+        private async Task ReleaseMaterialResponsibilityAsync(Material material)
+        {
+            var confirm = await DisplayAlert(
+                "Снять ответственность",
+                $"Снять ответственность с материала {material.Name}?",
+                "Снять",
+                "Отмена");
+            if (!confirm)
+            {
+                return;
+            }
+
+            var response = await _viewModel.ApiService.ReleaseMaterialResponsibilityAsync(material.Id);
+            if (!string.IsNullOrEmpty(response.Message) &&
+                (response.Message.Contains("error", StringComparison.OrdinalIgnoreCase) ||
+                 response.Message.Contains("ошибка", StringComparison.OrdinalIgnoreCase)))
+            {
+                await DisplayAlert("Ошибка", response.Message, "OK");
+                return;
+            }
+
+            await DisplayAlert("Успех", "Ответственность снята", "OK");
         }
 
         private async Task<(string? code, bool cancelled)> GetCodeAsync(string title, string? existingCode)
@@ -474,18 +560,14 @@ namespace NekrasovskyAPP.Pages
 
         private async Task<Warehouse?> SelectWarehouseAsync()
         {
-            if (_viewModel.Warehouses.Count == 0)
+            var activeWarehouses = await GetActiveWarehousesAsync();
+            if (activeWarehouses.Count == 0)
             {
-                await _viewModel.LoadWarehousesAsync();
-            }
-
-            if (_viewModel.Warehouses.Count == 0)
-            {
-                await DisplayAlert("Ошибка", "Нет доступных складов для привязки материала.", "OK");
+                await DisplayAlert("Ошибка", "Нет активных складов для привязки материала.", "OK");
                 return null;
             }
 
-            var options = _viewModel.Warehouses
+            var options = activeWarehouses
                 .Select(w => $"{w.Name} ({w.Type})")
                 .ToArray();
 
@@ -496,12 +578,18 @@ namespace NekrasovskyAPP.Pages
             }
 
             var index = Array.IndexOf(options, choice);
-            if (index < 0 || index >= _viewModel.Warehouses.Count)
+            if (index < 0 || index >= activeWarehouses.Count)
             {
                 return null;
             }
 
-            return _viewModel.Warehouses[index];
+            return activeWarehouses[index];
+        }
+
+        private async Task<List<Warehouse>> GetActiveWarehousesAsync()
+        {
+            var warehouses = await _viewModel.ApiService.GetAllWarehousesAsync();
+            return warehouses.Where(w => w.IsActive).ToList();
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Linq;
 using NekrasovskyAPP.Models;
 using NekrasovskyAPP.Services;
 
@@ -182,7 +183,9 @@ namespace NekrasovskyAPP.ViewModels
                     Users.Add(user);
                 }
 
-                var warehouses = await _apiService.GetAllWarehousesAsync();
+                var warehouses = (await _apiService.GetAllWarehousesAsync())
+                    .Where(w => w.IsActive)
+                    .ToList();
                 Warehouses.Clear();
                 foreach (var warehouse in warehouses)
                 {

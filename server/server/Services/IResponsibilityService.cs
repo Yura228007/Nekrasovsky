@@ -11,7 +11,10 @@ namespace server.Services
         Task<Responsibility> AssignProductAsync(int productId, int userId);
         Task<bool> IsResponsibleForMaterialAsync(int materialId, int userId);
         Task<bool> ReleaseMaterialAsync(int materialId);
+        Task<bool> ReleaseProductAsync(int productId);
         Task<int> TransferAllAsync(int fromUserId, int toUserId);
         Task<List<ResponsibilityStockItem>> GetResponsibilityStockAsync(int userId);
+        Task<List<ResponsibilityAssignment>> GetActiveMaterialAssignmentsAsync();
+        Task<List<ResponsibilityAssignment>> GetActiveProductAssignmentsAsync();
     }
 }

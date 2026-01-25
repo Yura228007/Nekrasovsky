@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
 using server.Attributes;
+using System.Linq;
 
 namespace server.Controllers
 {
@@ -12,11 +13,19 @@ namespace server.Controllers
     {
         private readonly IUserPermissionsService _userPermissionsService;
         private readonly ILogger<UserPermissionsController> _logger;
+        private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
 
-        public UserPermissionsController(IUserPermissionsService userPermissionsService, ILogger<UserPermissionsController> logger)
+        public UserPermissionsController(
+            IUserPermissionsService userPermissionsService,
+            ILogger<UserPermissionsController> logger,
+            IUserService userService,
+            IRoleService roleService)
         {
             _userPermissionsService = userPermissionsService;
             _logger = logger;
+            _userService = userService;
+            _roleService = roleService;
         }
 
         // GET: api/user-permissions/user/5
@@ -163,7 +172,7 @@ namespace server.Controllers
                     return BadRequest(new { message = "PermissionCode cannot be empty" });
                 }
 
-                var hasPermission = await _userPermissionsService.HasPermissionAsync(userId, permissionCode);
+                var hasPermission = await HasPermissionAsync(userId, permissionCode);
                 return Ok(new { hasPermission });
             }
             catch (Exception ex)
@@ -171,6 +180,45 @@ namespace server.Controllers
                 _logger.LogError(ex, "Error occurred while checking permission for user {UserId}", userId);
                 return StatusCode(500, new { message = "An error occurred while checking permission" });
             }
+        }
+
+        private async Task<bool> HasPermissionAsync(int userId, string permissionCode)
+        {
+            var user = await _userService.GetUserByIdAsync(userId);
+            if (user == null)
+            {
+                return false;
+            }
+
+            if (user.RoleId.HasValue)
+            {
+                var rolePermissions = await _roleService.GetRolePermissionsAsync(user.RoleId.Value);
+                if (rolePermissions.Any(p => p.Code == permissionCode))
+                {
+                    return true;
+                }
+            }
+
+            if (await _userPermissionsService.HasPermissionAsync(userId, permissionCode))
+            {
+                return true;
+            }
+
+            if (user.Login.Equals("admin", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            if (user.RoleId.HasValue)
+            {
+                var role = await _roleService.GetRoleByIdAsync(user.RoleId.Value);
+                if (role != null && (role.Code == "Owner" || role.Code == "Admin"))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         // PUT: api/user-permissions/5

@@ -1,5 +1,6 @@
 using NekrasovskyAPP.Models;
 using NekrasovskyAPP.Services;
+using System.Linq;
 
 namespace NekrasovskyAPP.Pages
 {
@@ -39,7 +40,8 @@ namespace NekrasovskyAPP.Pages
             _products.Clear();
             _responsibleMaterials.Clear();
 
-            _warehouses.AddRange(await _apiService.GetAllWarehousesAsync());
+            _warehouses.AddRange((await _apiService.GetAllWarehousesAsync())
+                .Where(w => w.IsActive));
             _materials.AddRange(await _apiService.GetAllMaterialsAsync());
             _products.AddRange(await _apiService.GetAllProductsAsync());
 

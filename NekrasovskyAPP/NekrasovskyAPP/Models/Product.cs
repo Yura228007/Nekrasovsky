@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NekrasovskyAPP.Models
@@ -27,5 +27,8 @@ namespace NekrasovskyAPP.Models
         [Required]
         [Column(TypeName = "boolean")]
         public bool IsActive { get; set; } = true;
+
+        [NotMapped]
+        public string ResponsibilityDisplay { get; set; } = "Ответственный: —";
     }
 }

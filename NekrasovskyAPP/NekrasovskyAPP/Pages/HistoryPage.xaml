@@ -231,7 +231,7 @@
                                 </VerticalStackLayout>
                             </Border>
                             <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
-                                <Label Text="{Binding Description}"
+                                <Label Text="{Binding DisplayDescription}"
                                        FontSize="14"
                                        TextColor="{StaticResource White}"
                                        LineBreakMode="WordWrap" />

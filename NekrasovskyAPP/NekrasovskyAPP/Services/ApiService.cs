@@ -18,7 +18,7 @@ namespace NekrasovskyAPP.Services
             //using var stream = await FileSystem.OpenAppPackageFileAsync("server_ip.txt");
             //using var reader = new StreamReader(stream);
             //return (await reader.ReadToEndAsync()).Trim().ToString();
-            return "http://192.168.0.47:9000/";
+            return "http://192.168.1.128:9000/";
 #else 
             return "http://localhost:9000/";
 #endif
@@ -1167,6 +1167,126 @@ namespace NekrasovskyAPP.Services
             }
         }
 
+        public async Task<List<ResponsibilityAssignment>> GetActiveMaterialAssignmentsAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/responsibilities/materials/active");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<ResponsibilityAssignment>>(_jsonOptions) ?? new List<ResponsibilityAssignment>();
+            }
+            catch
+            {
+                return new List<ResponsibilityAssignment>();
+            }
+        }
+
+        public async Task<List<ResponsibilityAssignment>> GetActiveProductAssignmentsAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/responsibilities/products/active");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<ResponsibilityAssignment>>(_jsonOptions) ?? new List<ResponsibilityAssignment>();
+            }
+            catch
+            {
+                return new List<ResponsibilityAssignment>();
+            }
+        }
+
+        public async Task<ApiResponse<Responsibility>> AssignMaterialResponsibilityAsync(int materialId, int userId)
+        {
+            try
+            {
+                var payload = new { userId };
+                var response = await _httpClient.PostAsJsonAsync($"api/responsibilities/material/{materialId}/assign", payload, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("responsibility"))
+                {
+                    var responsibilityJson = System.Text.Json.JsonSerializer.Serialize(result["responsibility"]);
+                    var responsibility = System.Text.Json.JsonSerializer.Deserialize<Responsibility>(responsibilityJson, _jsonOptions);
+                    return new ApiResponse<Responsibility>
+                    {
+                        Responsibility = responsibility,
+                        Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Responsibility assigned" : "Responsibility assigned"
+                    };
+                }
+                return new ApiResponse<Responsibility> { Message = "Failed to parse response" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<Responsibility> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<Responsibility>> AssignProductResponsibilityAsync(int productId, int userId)
+        {
+            try
+            {
+                var payload = new { userId };
+                var response = await _httpClient.PostAsJsonAsync($"api/responsibilities/product/{productId}/assign", payload, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("responsibility"))
+                {
+                    var responsibilityJson = System.Text.Json.JsonSerializer.Serialize(result["responsibility"]);
+                    var responsibility = System.Text.Json.JsonSerializer.Deserialize<Responsibility>(responsibilityJson, _jsonOptions);
+                    return new ApiResponse<Responsibility>
+                    {
+                        Responsibility = responsibility,
+                        Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Responsibility assigned" : "Responsibility assigned"
+                    };
+                }
+                return new ApiResponse<Responsibility> { Message = "Failed to parse response" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<Responsibility> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<object>> ReleaseMaterialResponsibilityAsync(int materialId)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/responsibilities/material/{materialId}/release", null);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object>
+                {
+                    Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "Responsibility released" : "Responsibility released"
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
+        public async Task<ApiResponse<object>> ReleaseProductResponsibilityAsync(int productId)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/responsibilities/product/{productId}/release", null);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object>
+                {
+                    Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "Responsibility released" : "Responsibility released"
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
         // Reprocessing
         public async Task<ApiResponse<Reprocessing>> CreateReprocessingAsync(ReprocessingCreateRequest request)
         {
@@ -1278,91 +1398,6 @@ namespace NekrasovskyAPP.Services
             catch
             {
                 return new Dictionary<string, object> { { "success", false }, { "message", "Ошибка подключения к серверу" } };
-            }
-        }
-
-        public async Task<LogsSearchResult?> AdvancedSearchLogsAsync(
-            int? userId = null, string? controller = null, string? action = null,
-            string? httpMethod = null, int? statusCode = null, string? url = null,
-            DateTime? startDate = null, DateTime? endDate = null,
-            int? warehouseId = null, int? materialId = null, int? productId = null,
-            long? minDurationMs = null, long? maxDurationMs = null,
-            int pageNumber = 1, int pageSize = 100)
-        {
-            try
-            {
-                var queryParams = new List<string>();
-
-                if (userId.HasValue) queryParams.Add($"userId={userId.Value}");
-                if (!string.IsNullOrEmpty(controller)) queryParams.Add($"controller={Uri.EscapeDataString(controller)}");
-                if (!string.IsNullOrEmpty(action)) queryParams.Add($"action={Uri.EscapeDataString(action)}");
-                if (!string.IsNullOrEmpty(httpMethod)) queryParams.Add($"httpMethod={Uri.EscapeDataString(httpMethod)}");
-                if (statusCode.HasValue) queryParams.Add($"statusCode={statusCode.Value}");
-                if (!string.IsNullOrEmpty(url)) queryParams.Add($"url={Uri.EscapeDataString(url)}");
-                if (startDate.HasValue) queryParams.Add($"startDate={startDate.Value:yyyy-MM-dd}");
-                if (endDate.HasValue) queryParams.Add($"endDate={endDate.Value:yyyy-MM-dd}");
-                if (warehouseId.HasValue) queryParams.Add($"warehouseId={warehouseId.Value}");
-                if (materialId.HasValue) queryParams.Add($"materialId={materialId.Value}");
-                if (productId.HasValue) queryParams.Add($"productId={productId.Value}");
-                if (minDurationMs.HasValue) queryParams.Add($"minDurationMs={minDurationMs.Value}");
-                if (maxDurationMs.HasValue) queryParams.Add($"maxDurationMs={maxDurationMs.Value}");
-                queryParams.Add($"pageNumber={pageNumber}");
-                queryParams.Add($"pageSize={pageSize}");
-
-                var query = string.Join("&", queryParams);
-                var response = await _httpClient.GetAsync($"api/request-logs/advanced-search?{query}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorBody = await response.Content.ReadAsStringAsync();
-                    System.Diagnostics.Debug.WriteLine(
-                        $"RequestLogs advanced-search failed: {(int)response.StatusCode} {response.ReasonPhrase} | {errorBody}");
-                    return null;
-                }
-
-                return await response.Content.ReadFromJsonAsync<LogsSearchResult>(_jsonOptions);
-            }
-            catch
-            {
-                System.Diagnostics.Debug.WriteLine("RequestLogs advanced-search failed: exception thrown");
-                return null;
-            }
-        }
-
-        public async Task<byte[]?> ExportLogsAsync(
-            string format,
-            int? userId = null, string? controller = null, string? action = null,
-            string? httpMethod = null, int? statusCode = null, string? url = null,
-            DateTime? startDate = null, DateTime? endDate = null,
-            int? warehouseId = null, int? materialId = null, int? productId = null,
-            long? minDurationMs = null, long? maxDurationMs = null)
-        {
-            try
-            {
-                var queryParams = new List<string> { $"format={format}" };
-
-                if (userId.HasValue) queryParams.Add($"userId={userId.Value}");
-                if (!string.IsNullOrEmpty(controller)) queryParams.Add($"controller={Uri.EscapeDataString(controller)}");
-                if (!string.IsNullOrEmpty(action)) queryParams.Add($"action={Uri.EscapeDataString(action)}");
-                if (!string.IsNullOrEmpty(httpMethod)) queryParams.Add($"httpMethod={Uri.EscapeDataString(httpMethod)}");
-                if (statusCode.HasValue) queryParams.Add($"statusCode={statusCode.Value}");
-                if (!string.IsNullOrEmpty(url)) queryParams.Add($"url={Uri.EscapeDataString(url)}");
-                if (startDate.HasValue) queryParams.Add($"startDate={startDate.Value:yyyy-MM-dd}");
-                if (endDate.HasValue) queryParams.Add($"endDate={endDate.Value:yyyy-MM-dd}");
-                if (warehouseId.HasValue) queryParams.Add($"warehouseId={warehouseId.Value}");
-                if (materialId.HasValue) queryParams.Add($"materialId={materialId.Value}");
-                if (productId.HasValue) queryParams.Add($"productId={productId.Value}");
-                if (minDurationMs.HasValue) queryParams.Add($"minDurationMs={minDurationMs.Value}");
-                if (maxDurationMs.HasValue) queryParams.Add($"maxDurationMs={maxDurationMs.Value}");
-
-                var query = string.Join("&", queryParams);
-                var response = await _httpClient.GetAsync($"api/request-logs/export?{query}");
-                response.EnsureSuccessStatusCode();
-
-                return await response.Content.ReadAsByteArrayAsync();
-            }
-            catch
-            {
-                return null;
             }
         }
 

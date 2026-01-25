@@ -1627,3 +1627,1115 @@ Controller: AlarmEvents, Action: CreateAlarmEvent
 Response Body: {"message":"AlarmEvent created successfully","alarmEvent":{"id":5,"userId":2,"createdAt":"2026-01-25T09:53:30.459703Z","message":"аа","location":"ааа"}}
 =======================================================
 
+=======================================================
+Timestamp: 2026-01-25T16:22:24.6191634Z
+Method: GET
+URL: /
+Status: 404
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:28.4737434Z
+Method: GET
+URL: /
+Status: 404
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:40.3885831Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 1045 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:40.5267726Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"ATDrl6nElwGTTLa4pqSLpw","connectionToken":"CeLmJ33J3j9JajOO5Z-2Vw","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:51.7245947Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 47 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$12$tHajODslr0Bt7EkVBCn8IO7SogqHBeXBbyeI0y0OQbH3tvVz.I6I6","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"$2a$12$GNCHO3FxT0/UNKA4WQPFp.4h7ld8bhhjgwmBRx2y1ouNwUp5NZxsO","name":"Ева","surname":"Женщина","email":"rebro@from.men","phone":"14523688","createdAt":"2026-01-25T03:54:14.683876Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:51.7797806Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 111 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$12$tHajODslr0Bt7EkVBCn8IO7SogqHBeXBbyeI0y0OQbH3tvVz.I6I6","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"$2a$12$GNCHO3FxT0/UNKA4WQPFp.4h7ld8bhhjgwmBRx2y1ouNwUp5NZxsO","name":"Ева","surname":"Женщина","email":"rebro@from.men","phone":"14523688","createdAt":"2026-01-25T03:54:14.683876Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:51.9714511Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 16 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$12$tHajODslr0Bt7EkVBCn8IO7SogqHBeXBbyeI0y0OQbH3tvVz.I6I6","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"$2a$12$GNCHO3FxT0/UNKA4WQPFp.4h7ld8bhhjgwmBRx2y1ouNwUp5NZxsO","name":"Ева","surname":"Женщина","email":"rebro@from.men","phone":"14523688","createdAt":"2026-01-25T03:54:14.683876Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:51.9978529Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 38 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:56.2482949Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 18 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$12$tHajODslr0Bt7EkVBCn8IO7SogqHBeXBbyeI0y0OQbH3tvVz.I6I6","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"$2a$12$GNCHO3FxT0/UNKA4WQPFp.4h7ld8bhhjgwmBRx2y1ouNwUp5NZxsO","name":"Ева","surname":"Женщина","email":"rebro@from.men","phone":"14523688","createdAt":"2026-01-25T03:54:14.683876Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:56.2624221Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 110 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко Искушения","description":"не очень святое","code":"521463","measuringUnit":"тератонны","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:56.3154220Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 86 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко Искушения","description":"не очень святое","code":"521463","measuringUnit":"тератонны","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:56.4099793Z
+Method: GET
+URL: /api/user-permissions/check?userId=1&permissionCode=ManageResponsibility
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:56.4144952Z
+Method: GET
+URL: /api/user-permissions/check?userId=1&permissionCode=ManageResponsibility
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:56.6503121Z
+Method: GET
+URL: /api/responsibilities/user/1?activeOnly=true
+Status: 200
+Duration: 163 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Responsibilities, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:47:56.6521561Z
+Method: GET
+URL: /api/responsibilities/user/1?activeOnly=true
+Status: 200
+Duration: 186 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Responsibilities, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:09.8510715Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$12$tHajODslr0Bt7EkVBCn8IO7SogqHBeXBbyeI0y0OQbH3tvVz.I6I6","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"$2a$12$GNCHO3FxT0/UNKA4WQPFp.4h7ld8bhhjgwmBRx2y1ouNwUp5NZxsO","name":"Ева","surname":"Женщина","email":"rebro@from.men","phone":"14523688","createdAt":"2026-01-25T03:54:14.683876Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:09.9381744Z
+Method: GET
+URL: /api/user-permissions/check?userId=1&permissionCode=ManageResponsibility
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:09.9423596Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 19 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко Искушения","description":"не очень святое","code":"521463","measuringUnit":"тератонны","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:09.9682298Z
+Method: GET
+URL: /api/responsibilities/user/1?activeOnly=true
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Responsibilities, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:10.0365978Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 220 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Кожурка","description":"","code":"12313","measuringUnit":"шт","isActive":true},{"id":2,"name":"Бам","description":"цв","code":"17852436","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:10.2192362Z
+Method: GET
+URL: /api/user-permissions/check?userId=1&permissionCode=ManageResponsibility
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:10.2263731Z
+Method: GET
+URL: /api/user-permissions/check?userId=1&permissionCode=ManageResponsibility
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:10.2409942Z
+Method: GET
+URL: /api/responsibilities/user/1?activeOnly=true
+Status: 200
+Duration: 71 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Responsibilities, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:10.2481302Z
+Method: GET
+URL: /api/responsibilities/user/1?activeOnly=true
+Status: 200
+Duration: 32 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Responsibilities, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:16.3101912Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 33 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Кожурка","description":"","code":"12313","measuringUnit":"шт","isActive":true},{"id":2,"name":"Бам","description":"цв","code":"17852436","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:16.3166213Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 31 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$12$tHajODslr0Bt7EkVBCn8IO7SogqHBeXBbyeI0y0OQbH3tvVz.I6I6","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"$2a$12$GNCHO3FxT0/UNKA4WQPFp.4h7ld8bhhjgwmBRx2y1ouNwUp5NZxsO","name":"Ева","surname":"Женщина","email":"rebro@from.men","phone":"14523688","createdAt":"2026-01-25T03:54:14.683876Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:16.3281763Z
+Method: GET
+URL: /api/user-permissions/check?userId=1&permissionCode=ManageResponsibility
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:16.3800340Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 99 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Сад Эдема","type":"Склад","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]},{"id":2,"name":"Земля","type":"Склад","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:16.3974777Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 107 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Сад Эдема","type":"Склад","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]},{"id":2,"name":"Земля","type":"Склад","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:16.4384402Z
+Method: GET
+URL: /api/responsibilities/user/1?activeOnly=true
+Status: 200
+Duration: 5 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Responsibilities, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:20.8979210Z
+Method: GET
+URL: /api/WorkReports/user/1
+Status: 200
+Duration: 158 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:31.2735529Z
+Method: GET
+URL: /api/database/check
+Status: 200
+Duration: 444 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Database, Action: CheckDatabase
+Response Body: {"success":true,"message":"Подключение к базе данных успешно","usersCount":3,"users":[{"id":1,"login":"admin","email":"admin@wd.com","name":"Админ Системный","isPasswordEncrypted":false,"passwordLength":5},{"id":2,"login":"adam","email":"first@people.world","name":"Адам Мужчинский","isPasswordEncrypted":false,"passwordLength":60},{"id":3,"login":"eva","email":"rebro@from.men","name":"Ева Женщина","isPasswordEncrypted":false,"passwordLength":60}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:41.6749121Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 14 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко Искушения","description":"не очень святое","code":"521463","measuringUnit":"тератонны","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:41.6770924Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 18 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Сад Эдема","type":"Склад","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]},{"id":2,"name":"Земля","type":"Склад","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:41.6817813Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 20 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Кожурка","description":"","code":"12313","measuringUnit":"шт","isActive":true},{"id":2,"name":"Бам","description":"цв","code":"17852436","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:41.6831813Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$12$tHajODslr0Bt7EkVBCn8IO7SogqHBeXBbyeI0y0OQbH3tvVz.I6I6","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"$2a$12$GNCHO3FxT0/UNKA4WQPFp.4h7ld8bhhjgwmBRx2y1ouNwUp5NZxsO","name":"Ева","surname":"Женщина","email":"rebro@from.men","phone":"14523688","createdAt":"2026-01-25T03:54:14.683876Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:48:41.9613830Z
+Method: GET
+URL: /api/history
+Status: 200
+Duration: 242 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: History, Action: GetHistory
+Response Body: [{"id":4,"userId":3,"relatedUserId":2,"action":"ShiftTransfer.Confirmed","entityType":"ShiftTransfer","entityId":2,"description":"Подтверждена передача смены (от 2 к 3)","createdAt":"2026-01-25T16:15:27.049968Z","warehouseId":null,"materialId":null,"productId":null},{"id":3,"userId":2,"relatedUserId":3,"action":"ShiftTransfer.Created","entityType":"ShiftTransfer","entityId":2,"description":"Создана передача смены (от 2 к 3)","createdAt":"2026-01-25T16:15:07.471574Z","warehouseId":null,"materialId":null,"productId":null},{"id":2,"userId":2,"relatedUserId":null,"action":"Stock.Created","entityType":"FillingWarehouse","entityId":3,"description":"Добавлен остаток на склад ID 1 (кол-во 154)","createdAt":"2026-01-25T05:35:08.485391Z","warehouseId":1,"materialId":2,"productId":null},{"id":1,"userId":2,"relatedUserId":null,"action":"Material.Created","entityType":"Material","entityId":2,"description":"Создан материал: Бам","createdAt":"2026-01-25T05:35:08.134632Z","warehouseId":null,"materialId":2,"productId":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:49:21.3743728Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 393 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":2,"login":"adam","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:49:28.7167316Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко Искушения","description":"не очень святое","code":"521463","measuringUnit":"тератонны","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:49:28.7195381Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$12$tHajODslr0Bt7EkVBCn8IO7SogqHBeXBbyeI0y0OQbH3tvVz.I6I6","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"$2a$12$GNCHO3FxT0/UNKA4WQPFp.4h7ld8bhhjgwmBRx2y1ouNwUp5NZxsO","name":"Ева","surname":"Женщина","email":"rebro@from.men","phone":"14523688","createdAt":"2026-01-25T03:54:14.683876Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:49:28.7216787Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко Искушения","description":"не очень святое","code":"521463","measuringUnit":"тератонны","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:49:28.8347084Z
+Method: GET
+URL: /api/user-permissions/check?userId=2&permissionCode=ManageResponsibility
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:49:28.8451086Z
+Method: GET
+URL: /api/user-permissions/check?userId=2&permissionCode=ManageResponsibility
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:49:28.8539105Z
+Method: GET
+URL: /api/responsibilities/user/2?activeOnly=true
+Status: 200
+Duration: 20 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Responsibilities, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:49:28.8735292Z
+Method: GET
+URL: /api/responsibilities/user/2?activeOnly=true
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Responsibilities, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:49:36.3292955Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$12$tHajODslr0Bt7EkVBCn8IO7SogqHBeXBbyeI0y0OQbH3tvVz.I6I6","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"$2a$12$GNCHO3FxT0/UNKA4WQPFp.4h7ld8bhhjgwmBRx2y1ouNwUp5NZxsO","name":"Ева","surname":"Женщина","email":"rebro@from.men","phone":"14523688","createdAt":"2026-01-25T03:54:14.683876Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:49:36.5738152Z
+Method: GET
+URL: /api/ShiftTransfers/user/2?sent=True
+Status: 200
+Duration: 215 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: GetByUser
+Response Body: [{"id":1,"fromUserId":2,"toUserId":3,"transferDate":"2026-01-25T04:30:26.337509Z","isConfirmed":true},{"id":2,"fromUserId":2,"toUserId":3,"transferDate":"2026-01-25T16:15:07.195864Z","isConfirmed":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T17:49:36.7196503Z
+Method: GET
+URL: /api/ShiftTransfers/pending/2
+Status: 200
+Duration: 31 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: GetPending
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:10:42.9040995Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 477 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:10:44.3654976Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$12$tHajODslr0Bt7EkVBCn8IO7SogqHBeXBbyeI0y0OQbH3tvVz.I6I6","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"$2a$12$GNCHO3FxT0/UNKA4WQPFp.4h7ld8bhhjgwmBRx2y1ouNwUp5NZxsO","name":"Ева","surname":"Женщина","email":"rebro@from.men","phone":"14523688","createdAt":"2026-01-25T03:54:14.683876Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:10:44.3999754Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Сад Эдема","type":"Склад","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]},{"id":2,"name":"Земля","type":"Склад","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:10:44.4848186Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко Искушения","description":"не очень святое","code":"521463","measuringUnit":"тератонны","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:10:44.5998676Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 197 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Кожурка","description":"","code":"12313","measuringUnit":"шт","isActive":true},{"id":2,"name":"Бам","description":"цв","code":"17852436","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:10:44.6140121Z
+Method: GET
+URL: /api/history
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: History, Action: GetHistory
+Response Body: [{"id":4,"userId":3,"relatedUserId":2,"action":"ShiftTransfer.Confirmed","entityType":"ShiftTransfer","entityId":2,"description":"Подтверждена передача смены (от 2 к 3)","createdAt":"2026-01-25T16:15:27.049968Z","warehouseId":null,"materialId":null,"productId":null},{"id":3,"userId":2,"relatedUserId":3,"action":"ShiftTransfer.Created","entityType":"ShiftTransfer","entityId":2,"description":"Создана передача смены (от 2 к 3)","createdAt":"2026-01-25T16:15:07.471574Z","warehouseId":null,"materialId":null,"productId":null},{"id":2,"userId":2,"relatedUserId":null,"action":"Stock.Created","entityType":"FillingWarehouse","entityId":3,"description":"Добавлен остаток на склад ID 1 (кол-во 154)","createdAt":"2026-01-25T05:35:08.485391Z","warehouseId":1,"materialId":2,"productId":null},{"id":1,"userId":2,"relatedUserId":null,"action":"Material.Created","entityType":"Material","entityId":2,"description":"Создан материал: Бам","createdAt":"2026-01-25T05:35:08.134632Z","warehouseId":null,"materialId":2,"productId":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:10:50.6729806Z
+Method: GET
+URL: /api/history?userId=2
+Status: 200
+Duration: 23 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: History, Action: GetHistory
+Response Body: [{"id":3,"userId":2,"relatedUserId":3,"action":"ShiftTransfer.Created","entityType":"ShiftTransfer","entityId":2,"description":"Создана передача смены (от 2 к 3)","createdAt":"2026-01-25T16:15:07.471574Z","warehouseId":null,"materialId":null,"productId":null},{"id":2,"userId":2,"relatedUserId":null,"action":"Stock.Created","entityType":"FillingWarehouse","entityId":3,"description":"Добавлен остаток на склад ID 1 (кол-во 154)","createdAt":"2026-01-25T05:35:08.485391Z","warehouseId":1,"materialId":2,"productId":null},{"id":1,"userId":2,"relatedUserId":null,"action":"Material.Created","entityType":"Material","entityId":2,"description":"Создан материал: Бам","createdAt":"2026-01-25T05:35:08.134632Z","warehouseId":null,"materialId":2,"productId":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:11:19.1201800Z
+Method: GET
+URL: /api/history
+Status: 200
+Duration: 19 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: History, Action: GetHistory
+Response Body: [{"id":4,"userId":3,"relatedUserId":2,"action":"ShiftTransfer.Confirmed","entityType":"ShiftTransfer","entityId":2,"description":"Подтверждена передача смены (от 2 к 3)","createdAt":"2026-01-25T16:15:27.049968Z","warehouseId":null,"materialId":null,"productId":null},{"id":3,"userId":2,"relatedUserId":3,"action":"ShiftTransfer.Created","entityType":"ShiftTransfer","entityId":2,"description":"Создана передача смены (от 2 к 3)","createdAt":"2026-01-25T16:15:07.471574Z","warehouseId":null,"materialId":null,"productId":null},{"id":2,"userId":2,"relatedUserId":null,"action":"Stock.Created","entityType":"FillingWarehouse","entityId":3,"description":"Добавлен остаток на склад ID 1 (кол-во 154)","createdAt":"2026-01-25T05:35:08.485391Z","warehouseId":1,"materialId":2,"productId":null},{"id":1,"userId":2,"relatedUserId":null,"action":"Material.Created","entityType":"Material","entityId":2,"description":"Создан материал: Бам","createdAt":"2026-01-25T05:35:08.134632Z","warehouseId":null,"materialId":2,"productId":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:11:19.1211116Z
+Method: GET
+URL: /api/history
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: History, Action: GetHistory
+Response Body: [{"id":4,"userId":3,"relatedUserId":2,"action":"ShiftTransfer.Confirmed","entityType":"ShiftTransfer","entityId":2,"description":"Подтверждена передача смены (от 2 к 3)","createdAt":"2026-01-25T16:15:27.049968Z","warehouseId":null,"materialId":null,"productId":null},{"id":3,"userId":2,"relatedUserId":3,"action":"ShiftTransfer.Created","entityType":"ShiftTransfer","entityId":2,"description":"Создана передача смены (от 2 к 3)","createdAt":"2026-01-25T16:15:07.471574Z","warehouseId":null,"materialId":null,"productId":null},{"id":2,"userId":2,"relatedUserId":null,"action":"Stock.Created","entityType":"FillingWarehouse","entityId":3,"description":"Добавлен остаток на склад ID 1 (кол-во 154)","createdAt":"2026-01-25T05:35:08.485391Z","warehouseId":1,"materialId":2,"productId":null},{"id":1,"userId":2,"relatedUserId":null,"action":"Material.Created","entityType":"Material","entityId":2,"description":"Создан материал: Бам","createdAt":"2026-01-25T05:35:08.134632Z","warehouseId":null,"materialId":2,"productId":null}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:11:40.7077434Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:11:49.2160072Z
+Method: GET
+URL: /api/Roles
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetAll
+Response Body: [{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},{"id":2,"name":"Администратор","code":"Admin","description":"Руководитель предприятия","rank":2},{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},{"id":5,"name":"Кладовщик готовой продукции","code":"FinishedGoodsWarehouseman","description":"Склад готовой продукции","rank":3},{"id":6,"name":"Экструзионщик","code":"Extruder","description":"Производство","rank":4},{"id":7,"name":"Кладовщик","code":"Warehouseman","description":"Склад","rank":4},{"id":8,"name":"Покрасочник","code":"Painter","description":"Цех покраски","rank":4},{"id":9,"name":"Старшая упаковщица","code":"SeniorPacker","description":"Упаковка","rank":4},{"id":10,"name":"ТПА","code":"TPA","description":"ТПА","rank":4},{"id":11,"name":"Утиль","code":"Utilization","description":"Цех утилизации","rank":4}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:11:52.8186518Z
+Method: GET
+URL: /api/permissions
+Status: 200
+Duration: 15 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Permissions, Action: GetAll
+Response Body: [{"id":1,"code":"AddUsersAll","name":"Добавление пользователей всех рангов","description":"Создание пользователей любых рангов"},{"id":2,"code":"AddUsersLower","name":"Добавление пользователей ниже рангом","description":"Создание пользователей ниже рангом"},{"id":3,"code":"ReceiveGoods","name":"Приемка","description":"Приемка сырья/станков/товаров"},{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":6,"code":"SendToSDH","name":"Отправка на СДХ","description":"Отправка на СДХ"},{"id":7,"code":"SendToSale","name":"Отправка на реализацию","description":"Отправка на реализацию"},{"id":8,"code":"WriteOff","name":"Списание","description":"Списание/выброс"},{"id":9,"code":"TransferMainToWorkshops","name":"Перенос ТМЦ из Основного склада в цеха","description":"Перенос со склада в цеха"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"},{"id":12,"code":"ManageRecipes","name":"Создание и добавление рецептур, едениц храннения.","description":"Управление рецептурами"},{"id":13,"code":"Inventory","name":"Инвентаризация","description":"Инвентаризация"},{"id":14,"code":"ManageUsers","name":"Управление пользователями","description":"Добавление/редактирование/удаление пользователей"},{"id":15,"code":"ManageResponsibility","name":"Управление ответственностью","description":"Назначение и изменение ответственных"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:11:52.8326127Z
+Method: GET
+URL: /api/roles/10/permissions
+Status: 200
+Duration: 25 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Roles, Action: GetPermissions
+Response Body: [{"id":4,"code":"AssignBarcode","name":"Назначение штрихкода","description":"Назначение штрихкодов позициям"},{"id":5,"code":"SendToScrap","name":"Отправка на Утиль","description":"Отправка на утилизацию"},{"id":10,"code":"TransferWorkshopsToMain","name":"Перенос ТМЦ из Цеха на Основной склад","description":"Перенос из цеха на склад"},{"id":11,"code":"ShiftTransfer","name":"Передача смены","description":"Передача смены"}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:12:26.2331580Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 379 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":2,"login":"adam","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3}}}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:12:29.3171403Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 7 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:12:29.3197992Z
+Method: GET
+URL: /api/WorkReports/user/2
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: WorkReports, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:12:32.7054248Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 4 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$12$tHajODslr0Bt7EkVBCn8IO7SogqHBeXBbyeI0y0OQbH3tvVz.I6I6","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"$2a$12$GNCHO3FxT0/UNKA4WQPFp.4h7ld8bhhjgwmBRx2y1ouNwUp5NZxsO","name":"Ева","surname":"Женщина","email":"rebro@from.men","phone":"14523688","createdAt":"2026-01-25T03:54:14.683876Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:12:32.7663048Z
+Method: GET
+URL: /api/ShiftTransfers/user/2?sent=True
+Status: 200
+Duration: 16 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: GetByUser
+Response Body: [{"id":1,"fromUserId":2,"toUserId":3,"transferDate":"2026-01-25T04:30:26.337509Z","isConfirmed":true},{"id":2,"fromUserId":2,"toUserId":3,"transferDate":"2026-01-25T16:15:07.195864Z","isConfirmed":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:12:32.9091220Z
+Method: GET
+URL: /api/ShiftTransfers/pending/2
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: ShiftTransfers, Action: GetPending
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:19.8108313Z
+Method: GET
+URL: /api/warehouses
+Status: 200
+Duration: 12 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Warehouses, Action: GetAll
+Response Body: [{"id":1,"name":"Сад Эдема","type":"Склад","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]},{"id":2,"name":"Земля","type":"Склад","isActive":true,"fromMovements":[],"toMovements":[],"fromRequests":[],"toRequests":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:19.8859931Z
+Method: GET
+URL: /api/materials
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Materials, Action: GetAll
+Response Body: [{"id":1,"name":"Кожурка","description":"","code":"12313","measuringUnit":"шт","isActive":true},{"id":2,"name":"Бам","description":"цв","code":"17852436","measuringUnit":"шт","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:19.8968233Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 10 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко Искушения","description":"не очень святое","code":"521463","measuringUnit":"тератонны","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:19.9877248Z
+Method: GET
+URL: /api/responsibilities/user/2?activeOnly=true
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Responsibilities, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:23.8666615Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 8 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко Искушения","description":"не очень святое","code":"521463","measuringUnit":"тератонны","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:23.8871007Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$12$tHajODslr0Bt7EkVBCn8IO7SogqHBeXBbyeI0y0OQbH3tvVz.I6I6","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"$2a$12$GNCHO3FxT0/UNKA4WQPFp.4h7ld8bhhjgwmBRx2y1ouNwUp5NZxsO","name":"Ева","surname":"Женщина","email":"rebro@from.men","phone":"14523688","createdAt":"2026-01-25T03:54:14.683876Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:23.8884182Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 11 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко Искушения","description":"не очень святое","code":"521463","measuringUnit":"тератонны","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:23.9119533Z
+Method: GET
+URL: /api/user-permissions/check?userId=2&permissionCode=ManageResponsibility
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:23.9266807Z
+Method: GET
+URL: /api/user-permissions/check?userId=2&permissionCode=ManageResponsibility
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:24.0094193Z
+Method: GET
+URL: /api/responsibilities/user/2?activeOnly=true
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Responsibilities, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:24.0600728Z
+Method: GET
+URL: /api/responsibilities/user/2?activeOnly=true
+Status: 200
+Duration: 6 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Responsibilities, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:36.6606596Z
+Method: GET
+URL: /api/products
+Status: 200
+Duration: 17 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: GetAll
+Response Body: [{"id":1,"name":"Яблоко Искушения","description":"не очень святое","code":"521463","measuringUnit":"тератонны","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:36.6732650Z
+Method: GET
+URL: /api/user-permissions/check?userId=2&permissionCode=ManageResponsibility
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:36.7700443Z
+Method: GET
+URL: /api/users
+Status: 200
+Duration: 30 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: GetAll
+Response Body: [{"id":1,"login":"admin","encryptedPassword":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":2,"login":"adam","encryptedPassword":"$2a$12$tHajODslr0Bt7EkVBCn8IO7SogqHBeXBbyeI0y0OQbH3tvVz.I6I6","name":"Адам","surname":"Мужчинский","email":"first@people.world","phone":"5212367","createdAt":"2026-01-25T03:53:38.392552Z","roleId":3,"role":{"id":3,"name":"Старший экструзионщик","code":"SeniorExtruder","description":"Замещение администратора","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]},{"id":3,"login":"eva","encryptedPassword":"$2a$12$GNCHO3FxT0/UNKA4WQPFp.4h7ld8bhhjgwmBRx2y1ouNwUp5NZxsO","name":"Ева","surname":"Женщина","email":"rebro@from.men","phone":"14523688","createdAt":"2026-01-25T03:54:14.683876Z","roleId":4,"role":{"id":4,"name":"Старший кладовщик","code":"SeniorWarehouseman","description":"Склады и цеха","rank":3},"alarmEvents":[],"sentPartRequests":[],"receivedPartRequests":[],"sentShiftTransfers":[],"receivedShiftTransfers":[]}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:36.7769961Z
+Method: GET
+URL: /api/user-permissions/check?userId=2&permissionCode=ManageResponsibility
+Status: 404
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:36.7805030Z
+Method: GET
+URL: /api/products/search?isActive=true
+Status: 200
+Duration: 46 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Products, Action: Search
+Response Body: [{"id":1,"name":"Яблоко Искушения","description":"не очень святое","code":"521463","measuringUnit":"тератонны","isActive":true}]
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:36.8080457Z
+Method: GET
+URL: /api/responsibilities/user/2?activeOnly=true
+Status: 200
+Duration: 9 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Responsibilities, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:14:36.8771714Z
+Method: GET
+URL: /api/responsibilities/user/2?activeOnly=true
+Status: 200
+Duration: 118 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Responsibilities, Action: GetByUser
+Response Body: []
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:15:50.7692987Z
+Method: GET
+URL: /hubs/notifications?id=CeLmJ33J3j9JajOO5Z-2Vw
+Status: 101
+Duration: 1690182 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:17:04.5511940Z
+Method: POST
+URL: /hubs/notifications/negotiate?negotiateVersion=1
+Status: 200
+Duration: 0 ms
+UserId: 
+Client IP: ::1
+User-Agent: Microsoft SignalR/8.0 (8.0.0+3f1acb59718cadf111a0a796681e3d3509bb3381; Windows NT; .NET; .NET 8.0.22)
+Response Body: {"negotiateVersion":1,"connectionId":"eeojXsTsbOAitvAVmR4clA","connectionToken":"Vs7G7ycDVGPxpqegDcvRbQ","availableTransports":[{"transport":"WebSockets","transferFormats":["Text","Binary"]},{"transport":"ServerSentEvents","transferFormats":["Text"]},{"transport":"LongPolling","transferFormats":["Text","Binary"]}]}
+=======================================================
+
+=======================================================
+Timestamp: 2026-01-25T18:17:11.3022626Z
+Method: POST
+URL: /api/Users/authenticate
+Status: 200
+Duration: 381 ms
+UserId: 
+Client IP: ::1
+User-Agent: 
+Controller: Users, Action: Authenticate
+Response Body: {"message":"Login successful","user":{"id":1,"login":"admin","name":"Админ","surname":"Системный","email":"admin@wd.com","phone":"+71234567890","createdAt":"2026-01-25T03:49:21.67517Z","roleId":1,"role":{"id":1,"name":"Владелец","code":"Owner","description":"Полный доступ","rank":1}}}
+=======================================================
+

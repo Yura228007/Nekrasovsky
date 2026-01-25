@@ -186,7 +186,8 @@
                 </Border>
 
                 <!-- Reports Card -->
-                <Border Grid.Row="2" Grid.Column="0"
+                <Border x:Name="WorkReportsCard"
+                        Grid.Row="2" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">

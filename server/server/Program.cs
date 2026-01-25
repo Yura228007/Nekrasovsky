@@ -141,6 +141,26 @@ using (var scope = app.Services.CreateScope())
         {
             logger.LogError(seedEx, "Failed to seed roles and permissions.");
         }
+
+        try
+        {
+            var activeReports = dbContext.WorkReports.Where(wr => wr.FinishWork == null).ToList();
+            if (activeReports.Count > 0)
+            {
+                var finishTime = DateTime.UtcNow;
+                foreach (var report in activeReports)
+                {
+                    report.FinishWork = finishTime;
+                }
+
+                dbContext.SaveChanges();
+                logger.LogWarning("Server restart: closed {Count} active shift(s).", activeReports.Count);
+            }
+        }
+        catch (Exception closeEx)
+        {
+            logger.LogError(closeEx, "Failed to close active shifts on startup.");
+        }
     }
     catch (Exception ex)
     {
@@ -157,7 +177,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<AuditMiddleware>();
+app.UseMiddleware<ShiftAccessMiddleware>();
 
 //app.UseHttpsRedirection();
 

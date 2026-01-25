@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Linq;
 using NekrasovskyAPP.Models;
 using NekrasovskyAPP.Services;
 
@@ -13,6 +14,7 @@ namespace NekrasovskyAPP.ViewModels
         private readonly IAuthService _authService;
         private bool _isLoading;
         private string _errorMessage = string.Empty;
+        private bool _showResponsibility;
 
         public MainViewModel(IApiService apiService, IAuthService authService)
         {
@@ -32,6 +34,16 @@ namespace NekrasovskyAPP.ViewModels
         public ObservableCollection<Material> Materials { get; }
         public ObservableCollection<Warehouse> Warehouses { get; }
         public ObservableCollection<Role> Roles { get; }
+
+        public bool ShowResponsibility
+        {
+            get => _showResponsibility;
+            private set
+            {
+                _showResponsibility = value;
+                OnPropertyChanged();
+            }
+        }
 
         public bool IsLoading
         {
@@ -84,6 +96,8 @@ namespace NekrasovskyAPP.ViewModels
                 ErrorMessage = string.Empty;
                 var products = await _apiService.GetAllProductsAsync();
                 var filtered = await FilterProductsByResponsibilityAsync(products);
+                ShowResponsibility = true;
+                await ApplyProductResponsibilityAsync(filtered, true);
                 Products.Clear();
                 foreach (var product in filtered)
                 {
@@ -109,6 +123,8 @@ namespace NekrasovskyAPP.ViewModels
                 var materials = await _apiService.GetAllMaterialsAsync();
                 var filtered = await FilterMaterialsByResponsibilityAsync(materials);
                 await ApplyMaterialStockAsync(filtered);
+                ShowResponsibility = true;
+                await ApplyMaterialResponsibilityAsync(filtered, true);
                 Materials.Clear();
                 foreach (var material in filtered)
                 {
@@ -202,6 +218,8 @@ namespace NekrasovskyAPP.ViewModels
                 ErrorMessage = string.Empty;
                 var products = await _apiService.SearchProductsAsync(name, code, isActive, sortBy);
                 var filtered = await FilterProductsByResponsibilityAsync(products);
+                ShowResponsibility = true;
+                await ApplyProductResponsibilityAsync(filtered, true);
                 Products.Clear();
                 foreach (var product in filtered)
                 {
@@ -227,6 +245,8 @@ namespace NekrasovskyAPP.ViewModels
                 var materials = await _apiService.SearchMaterialsAsync(name, code, isActive, sortBy);
                 var filtered = await FilterMaterialsByResponsibilityAsync(materials);
                 await ApplyMaterialStockAsync(filtered);
+                ShowResponsibility = true;
+                await ApplyMaterialResponsibilityAsync(filtered, true);
                 Materials.Clear();
                 foreach (var material in filtered)
                 {
@@ -274,6 +294,11 @@ namespace NekrasovskyAPP.ViewModels
                 return new List<Material>();
             }
 
+            if (await IsPrivilegedUserAsync())
+            {
+                return materials.ToList();
+            }
+
             var hasManageResponsibility = await _apiService.CheckPermissionAsync(currentUser.Id, "ManageResponsibility");
             if (hasManageResponsibility)
             {
@@ -295,6 +320,11 @@ namespace NekrasovskyAPP.ViewModels
             if (currentUser == null)
             {
                 return new List<Product>();
+            }
+
+            if (await IsPrivilegedUserAsync())
+            {
+                return products.ToList();
             }
 
             var hasManageResponsibility = await _apiService.CheckPermissionAsync(currentUser.Id, "ManageResponsibility");
@@ -759,7 +789,9 @@ namespace NekrasovskyAPP.ViewModels
             }
 
             var warehouses = await EnsureWarehousesLoadedAsync();
-            var warehouseMap = warehouses.ToDictionary(w => w.Id, w => $"{w.Name} ({w.Type})");
+            var warehouseMap = warehouses
+                .Where(w => w.IsActive)
+                .ToDictionary(w => w.Id, w => $"{w.Name} ({w.Type})");
 
             var fillings = await _apiService.GetAllFillingWarehousesAsync();
             var byMaterial = fillings
@@ -778,6 +810,10 @@ namespace NekrasovskyAPP.ViewModels
                 var parts = new List<string>();
                 foreach (var filling in materialFillings)
                 {
+                    if (!warehouseMap.ContainsKey(filling.WarehouseId))
+                    {
+                        continue;
+                    }
                     var warehouseLabel = warehouseMap.TryGetValue(filling.WarehouseId, out var name)
                         ? name
                         : $"Склад #{filling.WarehouseId}";
@@ -787,7 +823,133 @@ namespace NekrasovskyAPP.ViewModels
                     parts.Add($"{warehouseLabel}: {filling.Quantity} {unit}");
                 }
 
-                material.StockSummary = $"Склады: {string.Join("; ", parts)}";
+                material.StockSummary = parts.Count == 0
+                    ? "Склад: —"
+                    : $"Склады: {string.Join("; ", parts)}";
+            }
+        }
+
+        private async Task ApplyMaterialResponsibilityAsync(List<Material> materials, bool includeResponsibility)
+        {
+            foreach (var material in materials)
+            {
+                material.ResponsibilityDisplay = "Ответственный: —";
+            }
+
+            if (!includeResponsibility || materials.Count == 0)
+            {
+                return;
+            }
+
+            var assignments = await _apiService.GetActiveMaterialAssignmentsAsync();
+            if (assignments.Count == 0)
+            {
+                await ApplyMaterialResponsibilityFallbackAsync(materials);
+                return;
+            }
+
+            var assignmentMap = assignments.ToDictionary(a => a.ItemId, a => a.UserName);
+
+            foreach (var material in materials)
+            {
+                if (assignmentMap.TryGetValue(material.Id, out var userName))
+                {
+                    material.ResponsibilityDisplay = $"Ответственный: {userName}";
+                }
+            }
+        }
+
+        private async Task ApplyProductResponsibilityAsync(List<Product> products, bool includeResponsibility)
+        {
+            foreach (var product in products)
+            {
+                product.ResponsibilityDisplay = "Ответственный: —";
+            }
+
+            if (!includeResponsibility || products.Count == 0)
+            {
+                return;
+            }
+
+            var assignments = await _apiService.GetActiveProductAssignmentsAsync();
+            if (assignments.Count == 0)
+            {
+                await ApplyProductResponsibilityFallbackAsync(products);
+                return;
+            }
+
+            var assignmentMap = assignments.ToDictionary(a => a.ItemId, a => a.UserName);
+
+            foreach (var product in products)
+            {
+                if (assignmentMap.TryGetValue(product.Id, out var userName))
+                {
+                    product.ResponsibilityDisplay = $"Ответственный: {userName}";
+                }
+            }
+        }
+
+        private async Task ApplyMaterialResponsibilityFallbackAsync(List<Material> materials)
+        {
+            var users = await _apiService.GetAllUsersAsync();
+            var userMap = users.ToDictionary(u => u.Id, u => $"{u.Surname} {u.Name}");
+
+            foreach (var material in materials)
+            {
+                var responsibility = await _apiService.GetResponsibilityByMaterialAsync(material.Id, true)
+                    ?? await _apiService.GetResponsibilityByMaterialAsync(material.Id, false);
+
+                if (responsibility == null)
+                {
+                    continue;
+                }
+
+                if (!userMap.TryGetValue(responsibility.UserId, out var name))
+                {
+                    var user = await _apiService.GetUserByIdAsync(responsibility.UserId);
+                    if (user != null)
+                    {
+                        name = $"{user.Surname} {user.Name}";
+                        userMap[responsibility.UserId] = name;
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    material.ResponsibilityDisplay = $"Ответственный: {name}";
+                }
+            }
+        }
+
+        private async Task ApplyProductResponsibilityFallbackAsync(List<Product> products)
+        {
+            var users = await _apiService.GetAllUsersAsync();
+            var userMap = users.ToDictionary(u => u.Id, u => $"{u.Surname} {u.Name}");
+
+            foreach (var product in products)
+            {
+                var responsibility = await _apiService.GetResponsibilityByProductAsync(product.Id, true)
+                    ?? await _apiService.GetResponsibilityByProductAsync(product.Id, false);
+
+                if (responsibility == null)
+                {
+                    continue;
+                }
+
+                if (!userMap.TryGetValue(responsibility.UserId, out var name))
+                {
+                    var user = await _apiService.GetUserByIdAsync(responsibility.UserId);
+                    if (user != null)
+                    {
+                        name = $"{user.Surname} {user.Name}";
+                        userMap[responsibility.UserId] = name;
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    product.ResponsibilityDisplay = $"Ответственный: {name}";
+                }
             }
         }
 
@@ -806,6 +968,76 @@ namespace NekrasovskyAPP.ViewModels
             }
 
             return warehouses;
+        }
+
+        public async Task<bool> IsPrivilegedUserAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null)
+            {
+                return false;
+            }
+
+            if (currentUser.Login.Equals("admin", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            if (await _authService.IsAdminAsync(currentUser.Id))
+            {
+                return true;
+            }
+
+            var (roleCode, roleName) = await GetRoleInfoAsync(currentUser);
+            return roleCode.Equals("Owner", StringComparison.OrdinalIgnoreCase) ||
+                   roleCode.Equals("Admin", StringComparison.OrdinalIgnoreCase) ||
+                   roleName.Equals("Владелец", StringComparison.OrdinalIgnoreCase) ||
+                   roleName.Equals("Администратор", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private async Task<bool> HasManageResponsibilityAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null)
+            {
+                return false;
+            }
+
+            return await _apiService.CheckPermissionAsync(currentUser.Id, "ManageResponsibility");
+        }
+
+        private async Task<(string Code, string Name)> GetRoleInfoAsync(User user)
+        {
+            if (user.Role != null)
+            {
+                return (user.Role.Code ?? string.Empty, user.Role.Name ?? string.Empty);
+            }
+
+            if (user.RoleId.HasValue)
+            {
+                var role = await _apiService.GetRoleByIdAsync(user.RoleId.Value);
+                if (role != null)
+                {
+                    return (role.Code ?? string.Empty, role.Name ?? string.Empty);
+                }
+            }
+
+            var fullUser = await _apiService.GetUserByIdAsync(user.Id);
+            if (fullUser?.Role != null)
+            {
+                return (fullUser.Role.Code ?? string.Empty, fullUser.Role.Name ?? string.Empty);
+            }
+
+            if (fullUser?.RoleId.HasValue == true)
+            {
+                var role = await _apiService.GetRoleByIdAsync(fullUser.RoleId.Value);
+                if (role != null)
+                {
+                    return (role.Code ?? string.Empty, role.Name ?? string.Empty);
+                }
+            }
+
+            return (string.Empty, string.Empty);
         }
     }
 }

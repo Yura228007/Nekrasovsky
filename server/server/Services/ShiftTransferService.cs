@@ -153,6 +153,15 @@ namespace server.Services
 
             await _responsibilityService.TransferAllAsync(transfer.FromUserId, transfer.ToUserId);
 
+            var activeReport = await _context.WorkReports
+                .FirstOrDefaultAsync(wr => wr.UserId == transfer.FromUserId && wr.FinishWork == null);
+
+            if (activeReport != null)
+            {
+                activeReport.FinishWork = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+            }
+
             _logger.LogInformation("ShiftTransfer {TransferId} confirmed", id);
             return transfer;
         }

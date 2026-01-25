@@ -1,5 +1,6 @@
 using NekrasovskyAPP.ViewModels;
 using NekrasovskyAPP.Models;
+using System.Linq;
 
 namespace NekrasovskyAPP.Pages
 {
@@ -139,9 +140,13 @@ namespace NekrasovskyAPP.Pages
                         break;
 
                     case "Остановить работу":
+                        var hasStock = await HasWarehouseStockAsync(selectedWarehouse.Id);
+                        var stopMessage = hasStock
+                            ? $"На складе {selectedWarehouse.Name} есть остатки. Если остановить склад, с этими остатками нельзя будет взаимодействовать. Остановить склад?"
+                            : $"Вы уверены, что хотите остановить работу склада {selectedWarehouse.Name}?";
                         var stopConfirm = await DisplayAlert(
                             "Подтверждение остановки",
-                            $"Вы уверены, что хотите остановить работу склада {selectedWarehouse.Name}?",
+                            stopMessage,
                             "Остановить",
                             "Отмена");
 
@@ -244,6 +249,19 @@ namespace NekrasovskyAPP.Pages
             else
             {
                 await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+            }
+        }
+
+        private async Task<bool> HasWarehouseStockAsync(int warehouseId)
+        {
+            try
+            {
+                var fillings = await _viewModel.ApiService.GetFillingsByWarehouseAsync(warehouseId);
+                return fillings.Any(f => f.Quantity > 0);
+            }
+            catch
+            {
+                return false;
             }
         }
     }

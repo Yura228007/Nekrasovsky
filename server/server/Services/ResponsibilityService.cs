@@ -92,6 +92,24 @@ namespace server.Services
             return true;
         }
 
+        public async Task<bool> ReleaseProductAsync(int productId)
+        {
+            var responsibility = await _context.Responsibilities
+                .Where(r => r.IsActive && r.ProductId == productId)
+                .OrderByDescending(r => r.AssignedAt)
+                .FirstOrDefaultAsync();
+
+            if (responsibility == null)
+            {
+                return false;
+            }
+
+            responsibility.IsActive = false;
+            responsibility.ReleasedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<int> TransferAllAsync(int fromUserId, int toUserId)
         {
             if (fromUserId == toUserId)
@@ -223,6 +241,66 @@ namespace server.Services
             }
 
             return result;
+        }
+
+        public async Task<List<ResponsibilityAssignment>> GetActiveMaterialAssignmentsAsync()
+        {
+            var responsibilities = await _context.Responsibilities
+                .Where(r => r.MaterialId.HasValue)
+                .OrderByDescending(r => r.AssignedAt)
+                .ToListAsync();
+
+            if (responsibilities.Count == 0)
+            {
+                return new List<ResponsibilityAssignment>();
+            }
+
+            var userMap = await _context.Users
+                .ToDictionaryAsync(u => u.Id, u => $"{u.Surname} {u.Name}");
+
+            return responsibilities
+                .GroupBy(r => r.MaterialId!.Value)
+                .Select(g => g
+                    .OrderByDescending(r => r.IsActive)
+                    .ThenByDescending(r => r.AssignedAt)
+                    .First())
+                .Select(r => new ResponsibilityAssignment
+                {
+                    ItemId = r.MaterialId!.Value,
+                    UserId = r.UserId,
+                    UserName = userMap.TryGetValue(r.UserId, out var name) ? name : $"Пользователь #{r.UserId}"
+                })
+                .ToList();
+        }
+
+        public async Task<List<ResponsibilityAssignment>> GetActiveProductAssignmentsAsync()
+        {
+            var responsibilities = await _context.Responsibilities
+                .Where(r => r.ProductId.HasValue)
+                .OrderByDescending(r => r.AssignedAt)
+                .ToListAsync();
+
+            if (responsibilities.Count == 0)
+            {
+                return new List<ResponsibilityAssignment>();
+            }
+
+            var userMap = await _context.Users
+                .ToDictionaryAsync(u => u.Id, u => $"{u.Surname} {u.Name}");
+
+            return responsibilities
+                .GroupBy(r => r.ProductId!.Value)
+                .Select(g => g
+                    .OrderByDescending(r => r.IsActive)
+                    .ThenByDescending(r => r.AssignedAt)
+                    .First())
+                .Select(r => new ResponsibilityAssignment
+                {
+                    ItemId = r.ProductId!.Value,
+                    UserId = r.UserId,
+                    UserName = userMap.TryGetValue(r.UserId, out var name) ? name : $"Пользователь #{r.UserId}"
+                })
+                .ToList();
         }
 
         private async Task<Responsibility> AssignAsync(int userId, int? materialId, int? productId)

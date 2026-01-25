@@ -18,6 +18,7 @@ namespace NekrasovskyAPP.Pages
         {
             base.OnAppearing();
             await _viewModel.LoadWorkReportsAsync();
+            UpdateStartWorkVisibility();
         }
 
         private async void OnRefreshing(object? sender, EventArgs e)
@@ -28,6 +29,7 @@ namespace NekrasovskyAPP.Pages
         private async void OnRefreshClicked(object? sender, EventArgs e)
         {
             await _viewModel.LoadWorkReportsAsync();
+            UpdateStartWorkVisibility();
         }
 
         private async void OnStartWorkClicked(object? sender, EventArgs e)
@@ -40,6 +42,24 @@ namespace NekrasovskyAPP.Pages
             if (sender is Button button && button.CommandParameter is WorkReport report)
             {
                 await _viewModel.FinishWorkAsync(report.Id);
+            }
+        }
+
+        private void UpdateStartWorkVisibility()
+        {
+            if (_viewModel.CanManageShiftManually)
+            {
+                if (!ToolbarItems.Contains(StartWorkToolbarItem))
+                {
+                    ToolbarItems.Add(StartWorkToolbarItem);
+                }
+            }
+            else
+            {
+                if (ToolbarItems.Contains(StartWorkToolbarItem))
+                {
+                    ToolbarItems.Remove(StartWorkToolbarItem);
+                }
             }
         }
     }

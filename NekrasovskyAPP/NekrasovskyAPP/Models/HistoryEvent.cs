@@ -27,5 +27,8 @@ namespace NekrasovskyAPP.Models
 
         [NotMapped]
         public string ActorDisplay { get; set; } = string.Empty;
+
+        [NotMapped]
+        public string DisplayDescription { get; set; } = string.Empty;
     }
 }

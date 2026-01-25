@@ -51,9 +51,6 @@ namespace server.Extensions
             // Register work report service
             services.AddScoped<IWorkReportService, WorkReportService>();
 
-            // Register request log service
-            services.AddScoped<IRequestLogService, RequestLogService>();
-
             // Register history service
             services.AddScoped<IHistoryService, HistoryService>();
 

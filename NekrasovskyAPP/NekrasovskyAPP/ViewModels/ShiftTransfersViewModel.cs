@@ -26,6 +26,8 @@ namespace NekrasovskyAPP.ViewModels
         public ObservableCollection<ShiftTransfer> SentTransfers { get; }
         public ObservableCollection<ShiftTransfer> PendingTransfers { get; }
         public ObservableCollection<User> Users { get; }
+        public User? CurrentUser => _authService.CurrentUser;
+        public IApiService ApiService => _apiService;
 
         public bool IsLoading
         {
@@ -123,6 +125,13 @@ namespace NekrasovskyAPP.ViewModels
                 if (currentUser == null)
                 {
                     ErrorMessage = "Пользователь не авторизован";
+                    return false;
+                }
+
+                var activeReports = await _apiService.GetActiveWorkReportsAsync(currentUser.Id);
+                if (!activeReports.Any())
+                {
+                    ErrorMessage = "Нельзя передать смену без активной смены";
                     return false;
                 }
 

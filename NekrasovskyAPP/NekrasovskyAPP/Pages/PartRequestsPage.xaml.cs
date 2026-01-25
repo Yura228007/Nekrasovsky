@@ -51,15 +51,16 @@ namespace NekrasovskyAPP.Pages
                 await _viewModel.LoadDependenciesAsync();
             }
 
-            if (!_viewModel.Users.Any())
+            var currentUser = _viewModel.CurrentUser;
+            if (currentUser == null)
             {
-                await DisplayAlert("Ошибка", "Нет доступных пользователей. Убедитесь, что в системе есть пользователи.", "OK");
+                await DisplayAlert("Ошибка", "Пользователь не авторизован", "OK");
                 return;
             }
 
             if (!_viewModel.Warehouses.Any())
             {
-                await DisplayAlert("Ошибка", "Нет доступных складов. Убедитесь, что в системе есть склады.", "OK");
+                await DisplayAlert("Ошибка", "Нет активных складов. Запросы можно создавать только по работающим складам.", "OK");
                 return;
             }
 
@@ -69,13 +70,22 @@ namespace NekrasovskyAPP.Pages
                 return;
             }
 
+            var availableUsers = _viewModel.Users
+                .Where(u => u.Id != currentUser.Id)
+                .ToList();
+            if (!availableUsers.Any())
+            {
+                await DisplayAlert("Ошибка", "Нет доступных пользователей для выбора получателя.", "OK");
+                return;
+            }
+
             // Выбор пользователя-получателя
-            var toUserOptions = _viewModel.Users.Select(u => $"{u.Name} {u.Surname} ({u.Login})").ToArray();
+            var toUserOptions = availableUsers.Select(u => $"{u.Name} {u.Surname} ({u.Login})").ToArray();
             var toUserIndex = await DisplayActionSheet("Выберите получателя:", "Отмена", null, toUserOptions);
             if (toUserIndex == "Отмена" || string.IsNullOrEmpty(toUserIndex))
                 return;
 
-            var toUser = _viewModel.Users.ElementAt(Array.IndexOf(toUserOptions, toUserIndex));
+            var toUser = availableUsers.ElementAt(Array.IndexOf(toUserOptions, toUserIndex));
             if (toUser == null)
                 return;
 

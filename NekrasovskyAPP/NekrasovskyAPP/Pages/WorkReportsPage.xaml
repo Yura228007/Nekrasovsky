@@ -15,7 +15,9 @@
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
-        <ToolbarItem Text="Начать работу" Clicked="OnStartWorkClicked" />
+        <ToolbarItem x:Name="StartWorkToolbarItem"
+                     Text="Начать работу"
+                     Clicked="OnStartWorkClicked" />
     </ContentPage.ToolbarItems>
     
     <Grid RowDefinitions="Auto,*,Auto" Padding="16">

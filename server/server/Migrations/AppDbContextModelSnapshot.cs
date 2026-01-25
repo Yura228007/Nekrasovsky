@@ -395,74 +395,6 @@ namespace server.Migrations
                         });
                 });
 
-            modelBuilder.Entity("server.Models.RequestLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Action")
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("ClientIp")
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Controller")
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<long>("DurationMs")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("HttpMethod")
-                        .IsRequired()
-                        .HasColumnType("varchar(10)");
-
-                    b.Property<int?>("MaterialId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("RequestBody")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("RequestTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ResponseBody")
-                        .HasColumnType("text");
-
-                    b.Property<int>("StatusCode")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("UserAgent")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("WarehouseId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MaterialId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("WarehouseId");
-
-                    b.ToTable("RequestLogs");
-                });
-
             modelBuilder.Entity("server.Models.Responsibility", b =>
                 {
                     b.Property<int>("Id")
@@ -912,37 +844,6 @@ namespace server.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Reprocessing");
-                });
-
-            modelBuilder.Entity("server.Models.RequestLog", b =>
-                {
-                    b.HasOne("server.Models.Material", "Material")
-                        .WithMany()
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("server.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("server.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("server.Models.Warehouse", "Warehouse")
-                        .WithMany()
-                        .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Material");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
-
-                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("server.Models.Responsibility", b =>

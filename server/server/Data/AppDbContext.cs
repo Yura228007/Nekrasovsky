@@ -22,7 +22,6 @@ public class AppDbContext : DbContext
     public DbSet<ShiftTransfer> ShiftTransfers { get; set; } = null!;
     public DbSet<FillingWarehouse> FillingWarehouses { get; set; } = null!;
     public DbSet<WorkReport> WorkReports { get; set; } = null!;
-    public DbSet<RequestLog> RequestLogs { get; set; } = null!;
     public DbSet<Responsibility> Responsibilities { get; set; } = null!;
     public DbSet<Reprocessing> Reprocessings { get; set; } = null!;
     public DbSet<ReprocessingItem> ReprocessingItems { get; set; } = null!;
@@ -321,34 +320,6 @@ public class AppDbContext : DbContext
             .ToTable(t => t.HasCheckConstraint(
                 "CK_ReprocessingItem_MaterialOrProduct",
                 "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)"));
-
-        // =============================
-        // RequestLogs
-        // =============================
-
-        modelBuilder.Entity<RequestLog>()
-            .HasOne(rl => rl.User)
-            .WithMany()
-            .HasForeignKey(rl => rl.UserId)
-            .OnDelete(DeleteBehavior.SetNull);
-
-        modelBuilder.Entity<RequestLog>()
-            .HasOne(rl => rl.Warehouse)
-            .WithMany()
-            .HasForeignKey(rl => rl.WarehouseId)
-            .OnDelete(DeleteBehavior.SetNull);
-
-        modelBuilder.Entity<RequestLog>()
-            .HasOne(rl => rl.Material)
-            .WithMany()
-            .HasForeignKey(rl => rl.MaterialId)
-            .OnDelete(DeleteBehavior.SetNull);
-
-        modelBuilder.Entity<RequestLog>()
-            .HasOne(rl => rl.Product)
-            .WithMany()
-            .HasForeignKey(rl => rl.ProductId)
-            .OnDelete(DeleteBehavior.SetNull);
 
         // =============================
         // HistoryEvent

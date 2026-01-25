@@ -11,6 +11,9 @@ namespace NekrasovskyAPP.Pages
         private readonly IAuthService _authService;
         private readonly IApiService _apiService;
         private readonly IAlarmNotificationService _alarmNotificationService;
+        private bool _hasActiveShift;
+        private bool _hasShiftTransferPermission;
+        private bool _isPrivilegedUser;
 
         public string CurrentUserName => _authService.CurrentUser != null
             ? $"Добро пожаловать, {_authService.CurrentUser.Name} {_authService.CurrentUser.Surname}!"
@@ -36,6 +39,7 @@ namespace NekrasovskyAPP.Pages
 
             // Инициализируем сервис уведомлений
             await _alarmNotificationService.InitializeAsync();
+            await RefreshShiftStateAsync();
         }
 
         protected override void OnDisappearing()
@@ -59,10 +63,15 @@ namespace NekrasovskyAPP.Pages
         private void OnCurrentUserChanged(object? sender, EventArgs e)
         {
             MainThread.BeginInvokeOnMainThread(RefreshCurrentUserName);
+            MainThread.BeginInvokeOnMainThread(async () => await RefreshShiftStateAsync());
         }
 
         private async void OnScannerClicked(object sender, EventArgs e)
         {
+            if (!await EnsureShiftAccessAsync("Scanner"))
+            {
+                return;
+            }
 #if ANDROID || IOS
             try
             {
@@ -141,26 +150,46 @@ namespace NekrasovskyAPP.Pages
 
         private async void OnProductsClicked(object sender, EventArgs e)
         {
+            if (!await EnsureShiftAccessAsync("ProductsPage"))
+            {
+                return;
+            }
             await Shell.Current.GoToAsync("ProductsPage");
         }
 
         private async void OnMaterialsClicked(object sender, EventArgs e)
         {
+            if (!await EnsureShiftAccessAsync("MaterialsPage"))
+            {
+                return;
+            }
             await Shell.Current.GoToAsync("MaterialsPage");
         }
 
         private async void OnWarehousesClicked(object sender, EventArgs e)
         {
+            if (!await EnsureShiftAccessAsync("WarehousesPage"))
+            {
+                return;
+            }
             await Shell.Current.GoToAsync("WarehousesPage");
         }
 
         private async void OnWorkReportsClicked(object sender, EventArgs e)
         {
+            if (!await EnsureShiftAccessAsync("WorkReportsPage"))
+            {
+                return;
+            }
             await Shell.Current.GoToAsync("WorkReportsPage");
         }
 
         private async void OnPartRequestsClicked(object sender, EventArgs e)
         {
+            if (!await EnsureShiftAccessAsync("PartRequestsPage"))
+            {
+                return;
+            }
             await Shell.Current.GoToAsync("PartRequestsPage");
         }
 
@@ -171,6 +200,10 @@ namespace NekrasovskyAPP.Pages
 
         private async void OnReprocessingClicked(object sender, EventArgs e)
         {
+            if (!await EnsureShiftAccessAsync("ReprocessingPage"))
+            {
+                return;
+            }
             await Shell.Current.GoToAsync("ReprocessingPage");
         }
 
@@ -218,6 +251,100 @@ namespace NekrasovskyAPP.Pages
         {
             _authService.Logout();
             await Shell.Current.GoToAsync("///LoginPage");
+        }
+
+        private async Task RefreshShiftStateAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null)
+            {
+                _hasActiveShift = false;
+                _hasShiftTransferPermission = false;
+                UpdateShiftVisibility();
+                return;
+            }
+
+            try
+            {
+                var activeReports = await _apiService.GetActiveWorkReportsAsync(currentUser.Id);
+                _hasActiveShift = activeReports.Any();
+                _isPrivilegedUser = IsPrivilegedUser(currentUser);
+                _hasShiftTransferPermission = await HasShiftTransferPermissionAsync(currentUser);
+                UpdateShiftVisibility();
+            }
+            catch
+            {
+                _hasActiveShift = false;
+                _hasShiftTransferPermission = false;
+                _isPrivilegedUser = false;
+                UpdateShiftVisibility();
+            }
+        }
+
+        private async Task<bool> HasShiftTransferPermissionAsync(User user)
+        {
+            if (user.RoleId.HasValue)
+            {
+                var rolePermissions = await _apiService.GetRolePermissionsAsync(user.RoleId.Value);
+                if (rolePermissions.Any(p => p.Code == "ShiftTransfer"))
+                {
+                    return true;
+                }
+            }
+
+            var userPermissions = await _apiService.GetUserPermissionsAsync(user.Id);
+            return userPermissions.Any(p => p.Code == "ShiftTransfer");
+        }
+
+        private void UpdateShiftVisibility()
+        {
+            WorkReportsCard.IsVisible = !_hasShiftTransferPermission || _isPrivilegedUser;
+        }
+
+        private async Task<bool> EnsureShiftAccessAsync(string destination)
+        {
+            await RefreshShiftStateAsync();
+
+            if (_hasActiveShift)
+            {
+                return true;
+            }
+
+            if (destination == "ShiftTransfersPage")
+            {
+                return true;
+            }
+
+            if (destination == "WorkReportsPage" && !_hasShiftTransferPermission)
+            {
+                return true;
+            }
+
+            if (destination == "WorkReportsPage" && _isPrivilegedUser)
+            {
+                return true;
+            }
+
+            var message = _hasShiftTransferPermission && !_isPrivilegedUser
+                ? "Смена не начата. Доступна только передача смены."
+                : "Смена не начата. Доступно только начало смены или передача смены.";
+            await DisplayAlert("Смена не начата", message, "OK");
+            return false;
+        }
+
+        private static bool IsPrivilegedUser(User user)
+        {
+            if (user.Login.Equals("admin", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            var roleCode = user.Role?.Code ?? string.Empty;
+            var roleName = user.Role?.Name ?? string.Empty;
+            return roleCode.Equals("Owner", StringComparison.OrdinalIgnoreCase) ||
+                   roleCode.Equals("Admin", StringComparison.OrdinalIgnoreCase) ||
+                   roleName.Equals("Владелец", StringComparison.OrdinalIgnoreCase) ||
+                   roleName.Equals("Администратор", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

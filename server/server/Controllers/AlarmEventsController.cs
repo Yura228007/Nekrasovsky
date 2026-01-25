@@ -14,15 +14,18 @@ namespace server.Controllers
         private readonly IAlarmEventService _alarmEventService;
         private readonly ILogger<AlarmEventsController> _logger;
         private readonly IHubContext<NotificationHub> _hubContext;
+        private readonly IHistoryService _historyService;
 
         public AlarmEventsController(
             IAlarmEventService alarmEventService, 
             ILogger<AlarmEventsController> logger,
-            IHubContext<NotificationHub> hubContext)
+            IHubContext<NotificationHub> hubContext,
+            IHistoryService historyService)
         {
             _alarmEventService = alarmEventService;
             _logger = logger;
             _hubContext = hubContext;
+            _historyService = historyService;
         }
 
         // GET: api/alarm-events
@@ -202,6 +205,14 @@ namespace server.Controllers
                     "AlarmEvent created and notification sent to all users. Event ID: {AlarmEventId}, Location: {Location}, User: {UserId}",
                     createdEvent.Id, createdEvent.Location, createdEvent.UserId);
 
+                await TryLogAsync(createdEvent.UserId, new HistoryEvent
+                {
+                    Action = "AlarmEvent.Created",
+                    EntityType = "AlarmEvent",
+                    EntityId = createdEvent.Id,
+                    Description = $"СОБЫТИЕ ТРЕВОГИ: {createdEvent.Location}. {createdEvent.Message ?? "Требуется внимание"}"
+                });
+
                 _logger.LogInformation("AlarmEvent created successfully with ID: {AlarmEventId}", createdEvent.Id);
                 return CreatedAtAction(nameof(GetById), new { id = createdEvent.Id },
                     new { message = "AlarmEvent created successfully", alarmEvent = createdEvent });
@@ -302,6 +313,24 @@ namespace server.Controllers
             {
                 _logger.LogError(ex, "Unexpected error while deleting alarm event with ID {AlarmEventId}", id);
                 return StatusCode(500, new { message = "An unexpected error occurred while deleting the alarm event" });
+            }
+        }
+
+        private async Task TryLogAsync(int? userId, HistoryEvent historyEvent)
+        {
+            if (!userId.HasValue || userId.Value <= 0)
+            {
+                return;
+            }
+
+            historyEvent.UserId = userId.Value;
+            try
+            {
+                await _historyService.AddEventAsync(historyEvent);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to write history event");
             }
         }
     }

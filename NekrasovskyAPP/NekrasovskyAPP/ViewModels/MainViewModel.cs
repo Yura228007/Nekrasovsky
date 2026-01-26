@@ -1061,6 +1061,125 @@ namespace NekrasovskyAPP.ViewModels
             // Проверяем право WriteOff
             return await _apiService.CheckPermissionAsync(currentUser.Id, "WriteOff");
         }
+
+        /// <summary>
+        /// Проверяет право на сканирование/назначение штрих-кодов
+        /// </summary>
+        public async Task<bool> HasAssignBarcodePermissionAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null) return false;
+            if (await IsPrivilegedUserAsync()) return true;
+            return await _apiService.CheckPermissionAsync(currentUser.Id, "AssignBarcode");
+        }
+
+        /// <summary>
+        /// Проверяет право на приемку товаров (добавление продуктов/материалов)
+        /// </summary>
+        public async Task<bool> HasReceiveGoodsPermissionAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null) return false;
+            if (await IsPrivilegedUserAsync()) return true;
+            return await _apiService.CheckPermissionAsync(currentUser.Id, "ReceiveGoods");
+        }
+
+        /// <summary>
+        /// Проверяет право на управление рецептурами (переработка, редактирование)
+        /// </summary>
+        public async Task<bool> HasManageRecipesPermissionAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null) return false;
+            if (await IsPrivilegedUserAsync()) return true;
+            return await _apiService.CheckPermissionAsync(currentUser.Id, "ManageRecipes");
+        }
+
+        /// <summary>
+        /// Проверяет право на передачу смены
+        /// </summary>
+        public async Task<bool> HasShiftTransferPermissionAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null) return false;
+            if (await IsPrivilegedUserAsync()) return true;
+            return await _apiService.CheckPermissionAsync(currentUser.Id, "ShiftTransfer");
+        }
+
+        /// <summary>
+        /// Проверяет право на отправку в утиль
+        /// </summary>
+        public async Task<bool> HasSendToScrapPermissionAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null) return false;
+            if (await IsPrivilegedUserAsync()) return true;
+            return await _apiService.CheckPermissionAsync(currentUser.Id, "SendToScrap");
+        }
+
+        /// <summary>
+        /// Проверяет право на списание
+        /// </summary>
+        public async Task<bool> HasWriteOffPermissionAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null) return false;
+            if (await IsPrivilegedUserAsync()) return true;
+            return await _apiService.CheckPermissionAsync(currentUser.Id, "WriteOff");
+        }
+
+        /// <summary>
+        /// Проверяет право на управление пользователями
+        /// </summary>
+        public async Task<bool> HasManageUsersPermissionAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null) return false;
+            if (await IsPrivilegedUserAsync()) return true;
+            return await _apiService.CheckPermissionAsync(currentUser.Id, "ManageUsers");
+        }
+
+        /// <summary>
+        /// Проверяет право на перенос ТМЦ (изменение количества на складах)
+        /// </summary>
+        public async Task<bool> HasTransferPermissionAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null) return false;
+            if (await IsPrivilegedUserAsync()) return true;
+
+            var hasMainToWorkshops = await _apiService.CheckPermissionAsync(currentUser.Id, "TransferMainToWorkshops");
+            var hasWorkshopsToMain = await _apiService.CheckPermissionAsync(currentUser.Id, "TransferWorkshopsToMain");
+            return hasMainToWorkshops || hasWorkshopsToMain;
+        }
+
+        /// <summary>
+        /// Проверяет право на доступ к утилю (SendToScrap или WriteOff)
+        /// </summary>
+        public async Task<bool> HasDisposalAccessAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null) return false;
+            if (await IsPrivilegedUserAsync()) return true;
+
+            var hasSendToScrap = await _apiService.CheckPermissionAsync(currentUser.Id, "SendToScrap");
+            var hasWriteOff = await _apiService.CheckPermissionAsync(currentUser.Id, "WriteOff");
+            return hasSendToScrap || hasWriteOff;
+        }
+
+        /// <summary>
+        /// Проверяет право на добавление/редактирование (ReceiveGoods или ManageRecipes)
+        /// </summary>
+        public async Task<bool> CanAddOrEditItemsAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null) return false;
+            if (await IsPrivilegedUserAsync()) return true;
+
+            var hasReceiveGoods = await _apiService.CheckPermissionAsync(currentUser.Id, "ReceiveGoods");
+            var hasManageRecipes = await _apiService.CheckPermissionAsync(currentUser.Id, "ManageRecipes");
+            return hasReceiveGoods || hasManageRecipes;
+        }
     }
 }
 

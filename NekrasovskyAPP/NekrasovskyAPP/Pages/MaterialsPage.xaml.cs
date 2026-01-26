@@ -8,6 +8,7 @@ namespace NekrasovskyAPP.Pages
     public partial class MaterialsPage : ContentPage
     {
         private readonly MainViewModel _viewModel;
+        private bool _permissionsChecked;
 
         public MaterialsPage(MainViewModel viewModel)
         {
@@ -19,7 +20,32 @@ namespace NekrasovskyAPP.Pages
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            // Проверяем права один раз при открытии страницы
+            if (!_permissionsChecked)
+            {
+                await UpdateToolbarPermissionsAsync();
+                _permissionsChecked = true;
+            }
+
             await _viewModel.LoadMaterialsAsync();
+        }
+
+        private async Task UpdateToolbarPermissionsAsync()
+        {
+            var canAdd = await _viewModel.CanAddOrEditItemsAsync();
+            var canScan = await _viewModel.HasAssignBarcodePermissionAsync();
+
+            // ToolbarItem не поддерживает IsVisible, поэтому удаляем элементы
+            if (!canScan && ToolbarItems.Contains(ScanToolbarItem))
+            {
+                ToolbarItems.Remove(ScanToolbarItem);
+            }
+
+            if (!canAdd && ToolbarItems.Contains(AddToolbarItem))
+            {
+                ToolbarItems.Remove(AddToolbarItem);
+            }
         }
 
         private async void OnRefreshing(object? sender, EventArgs e)
@@ -148,12 +174,19 @@ namespace NekrasovskyAPP.Pages
             {
                 var isPrivileged = await _viewModel.IsPrivilegedUserAsync();
                 var canDelete = await _viewModel.CanDeleteItemsAsync();
-                var actions = new List<string>
+                var canEdit = await _viewModel.CanAddOrEditItemsAsync();
+                var canTransfer = await _viewModel.HasTransferPermissionAsync();
+
+                var actions = new List<string> { "Просмотр" };
+
+                if (canEdit)
                 {
-                    "Просмотр",
-                    "Редактировать",
-                    "Изменить количество"
-                };
+                    actions.Add("Редактировать");
+                }
+                if (canTransfer)
+                {
+                    actions.Add("Изменить количество");
+                }
                 if (canDelete)
                 {
                     actions.Add("Удалить");

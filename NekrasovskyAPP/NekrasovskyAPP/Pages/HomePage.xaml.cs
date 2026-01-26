@@ -14,6 +14,9 @@ namespace NekrasovskyAPP.Pages
         private bool _hasActiveShift;
         private bool _hasShiftTransferPermission;
         private bool _isPrivilegedUser;
+        private bool _hasAssignBarcodePermission;
+        private bool _hasManageRecipesPermission;
+        private bool _hasDisposalPermission;
 
         public string CurrentUserName => _authService.CurrentUser != null
             ? $"Добро пожаловать, {_authService.CurrentUser.Name} {_authService.CurrentUser.Surname}!"
@@ -269,7 +272,10 @@ namespace NekrasovskyAPP.Pages
             {
                 _hasActiveShift = false;
                 _hasShiftTransferPermission = false;
-                UpdateShiftVisibility();
+                _hasAssignBarcodePermission = false;
+                _hasManageRecipesPermission = false;
+                _hasDisposalPermission = false;
+                UpdateCardVisibility();
                 return;
             }
 
@@ -278,36 +284,67 @@ namespace NekrasovskyAPP.Pages
                 var activeReports = await _apiService.GetActiveWorkReportsAsync(currentUser.Id);
                 _hasActiveShift = activeReports.Any();
                 _isPrivilegedUser = IsPrivilegedUser(currentUser);
-                _hasShiftTransferPermission = await HasShiftTransferPermissionAsync(currentUser);
-                UpdateShiftVisibility();
+
+                // Загружаем все права параллельно
+                var shiftTask = CheckPermissionAsync(currentUser, "ShiftTransfer");
+                var barcodeTask = CheckPermissionAsync(currentUser, "AssignBarcode");
+                var recipesTask = CheckPermissionAsync(currentUser, "ManageRecipes");
+                var scrapTask = CheckPermissionAsync(currentUser, "SendToScrap");
+                var writeOffTask = CheckPermissionAsync(currentUser, "WriteOff");
+
+                await Task.WhenAll(shiftTask, barcodeTask, recipesTask, scrapTask, writeOffTask);
+
+                _hasShiftTransferPermission = shiftTask.Result;
+                _hasAssignBarcodePermission = barcodeTask.Result;
+                _hasManageRecipesPermission = recipesTask.Result;
+                _hasDisposalPermission = scrapTask.Result || writeOffTask.Result;
+
+                UpdateCardVisibility();
             }
             catch
             {
                 _hasActiveShift = false;
                 _hasShiftTransferPermission = false;
-                _isPrivilegedUser = false;
-                UpdateShiftVisibility();
+                _hasAssignBarcodePermission = false;
+                _hasManageRecipesPermission = false;
+                _hasDisposalPermission = false;
+                UpdateCardVisibility();
             }
         }
 
-        private async Task<bool> HasShiftTransferPermissionAsync(User user)
+        private async Task<bool> CheckPermissionAsync(User user, string permissionCode)
         {
+            if (_isPrivilegedUser) return true;
+
             if (user.RoleId.HasValue)
             {
                 var rolePermissions = await _apiService.GetRolePermissionsAsync(user.RoleId.Value);
-                if (rolePermissions.Any(p => p.Code == "ShiftTransfer"))
+                if (rolePermissions.Any(p => p.Code == permissionCode))
                 {
                     return true;
                 }
             }
 
             var userPermissions = await _apiService.GetUserPermissionsAsync(user.Id);
-            return userPermissions.Any(p => p.Code == "ShiftTransfer");
+            return userPermissions.Any(p => p.Code == permissionCode);
         }
 
-        private void UpdateShiftVisibility()
+        private void UpdateCardVisibility()
         {
+            // Сканер - только с правом AssignBarcode
+            ScannerCard.IsVisible = _hasAssignBarcodePermission || _isPrivilegedUser;
+
+            // Отчеты - скрываем если есть право на передачу смены (кроме привилегированных)
             WorkReportsCard.IsVisible = !_hasShiftTransferPermission || _isPrivilegedUser;
+
+            // Передача смены - только с правом ShiftTransfer
+            ShiftTransfersCard.IsVisible = _hasShiftTransferPermission || _isPrivilegedUser;
+
+            // Переработка - только с правом ManageRecipes
+            ReprocessingCard.IsVisible = _hasManageRecipesPermission || _isPrivilegedUser;
+
+            // Утиль - только с правом SendToScrap или WriteOff
+            DisposalCard.IsVisible = _hasDisposalPermission || _isPrivilegedUser;
         }
 
         private async Task<bool> EnsureShiftAccessAsync(string destination)

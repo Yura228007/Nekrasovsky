@@ -7,6 +7,7 @@ namespace NekrasovskyAPP.Pages
     public partial class ProductsPage : ContentPage
     {
         private readonly MainViewModel _viewModel;
+        private bool _permissionsChecked;
 
         public ProductsPage(MainViewModel viewModel)
         {
@@ -18,9 +19,34 @@ namespace NekrasovskyAPP.Pages
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            // Проверяем права один раз при открытии страницы
+            if (!_permissionsChecked)
+            {
+                await UpdateToolbarPermissionsAsync();
+                _permissionsChecked = true;
+            }
+
             if (_viewModel.Products?.Any() == false)
             {
-                await _viewModel.LoadProductsAsync();   
+                await _viewModel.LoadProductsAsync();
+            }
+        }
+
+        private async Task UpdateToolbarPermissionsAsync()
+        {
+            var canAdd = await _viewModel.CanAddOrEditItemsAsync();
+            var canScan = await _viewModel.HasAssignBarcodePermissionAsync();
+
+            // ToolbarItem не поддерживает IsVisible, поэтому удаляем элементы
+            if (!canScan && ToolbarItems.Contains(ScanToolbarItem))
+            {
+                ToolbarItems.Remove(ScanToolbarItem);
+            }
+
+            if (!canAdd && ToolbarItems.Contains(AddToolbarItem))
+            {
+                ToolbarItems.Remove(AddToolbarItem);
             }
         }
 
@@ -165,11 +191,14 @@ namespace NekrasovskyAPP.Pages
             {
                 var isPrivileged = await _viewModel.IsPrivilegedUserAsync();
                 var canDelete = await _viewModel.CanDeleteItemsAsync();
-                var actions = new List<string>
+                var canEdit = await _viewModel.CanAddOrEditItemsAsync();
+
+                var actions = new List<string> { "Просмотр" };
+
+                if (canEdit)
                 {
-                    "Просмотр",
-                    "Редактировать"
-                };
+                    actions.Add("Редактировать");
+                }
                 if (canDelete)
                 {
                     actions.Add("Удалить");

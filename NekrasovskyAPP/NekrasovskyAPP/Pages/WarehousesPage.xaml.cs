@@ -7,6 +7,7 @@ namespace NekrasovskyAPP.Pages
     public partial class WarehousesPage : ContentPage
     {
         private readonly MainViewModel _viewModel;
+        private bool _permissionsChecked;
 
         public WarehousesPage(MainViewModel viewModel)
         {
@@ -18,7 +19,26 @@ namespace NekrasovskyAPP.Pages
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            // Проверяем права один раз при открытии страницы
+            if (!_permissionsChecked)
+            {
+                await UpdateToolbarPermissionsAsync();
+                _permissionsChecked = true;
+            }
+
             await _viewModel.LoadWarehousesAsync();
+        }
+
+        private async Task UpdateToolbarPermissionsAsync()
+        {
+            // Добавление складов только для привилегированных или с правом ManageRecipes
+            var canAdd = await _viewModel.HasManageRecipesPermissionAsync();
+
+            if (!canAdd && ToolbarItems.Contains(AddToolbarItem))
+            {
+                ToolbarItems.Remove(AddToolbarItem);
+            }
         }
 
         private async void OnRefreshing(object? sender, EventArgs e)
@@ -114,15 +134,28 @@ namespace NekrasovskyAPP.Pages
         {
             if (e.CurrentSelection.FirstOrDefault() is Warehouse selectedWarehouse)
             {
-                var statusAction = selectedWarehouse.IsActive ? "Остановить работу" : "Запустить работу";
+                var canManage = await _viewModel.HasManageRecipesPermissionAsync();
+                var canDelete = await _viewModel.CanDeleteItemsAsync();
+
+                var actions = new List<string> { "Просмотр" };
+
+                if (canManage)
+                {
+                    actions.Add("Редактировать");
+                    var statusAction = selectedWarehouse.IsActive ? "Остановить работу" : "Запустить работу";
+                    actions.Add(statusAction);
+                }
+
+                if (canDelete)
+                {
+                    actions.Add("Удалить");
+                }
+
                 var action = await DisplayActionSheet(
                     $"Склад: {selectedWarehouse.Name}",
                     "Отмена",
                     null,
-                    "Просмотр",
-                    "Редактировать",
-                    statusAction,
-                    "Удалить");
+                    actions.ToArray());
 
                 switch (action)
                 {

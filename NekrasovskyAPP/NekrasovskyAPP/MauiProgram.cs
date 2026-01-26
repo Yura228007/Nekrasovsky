@@ -84,6 +84,12 @@ namespace NekrasovskyAPP
                 new RolePermissionsPage(
                     sp.GetRequiredService<IApiService>(),
                     sp.GetRequiredService<IAuthService>()));
+            builder.Services.AddTransient<ViewModels.DisposalViewModel>(sp =>
+                new ViewModels.DisposalViewModel(
+                    sp.GetRequiredService<IApiService>(),
+                    sp.GetRequiredService<IAuthService>()));
+            builder.Services.AddTransient<DisposalPage>(sp =>
+                new DisposalPage(sp.GetRequiredService<ViewModels.DisposalViewModel>()));
 #if ANDROID || IOS
             // BarcodeScannerPage доступна только на Android и iOS
             builder.Services.AddTransient<BarcodeScannerPage>();

@@ -164,12 +164,16 @@ namespace NekrasovskyAPP.Pages
             if (e.CurrentSelection.FirstOrDefault() is Product selectedProduct)
             {
                 var isPrivileged = await _viewModel.IsPrivilegedUserAsync();
+                var canDelete = await _viewModel.CanDeleteItemsAsync();
                 var actions = new List<string>
                 {
                     "Просмотр",
-                    "Редактировать",
-                    "Удалить"
+                    "Редактировать"
                 };
+                if (canDelete)
+                {
+                    actions.Add("Удалить");
+                }
                 if (isPrivileged)
                 {
                     actions.Add("Изменить ответственное лицо");

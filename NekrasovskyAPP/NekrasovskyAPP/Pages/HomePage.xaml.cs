@@ -207,6 +207,15 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("ReprocessingPage");
         }
 
+        private async void OnDisposalClicked(object sender, EventArgs e)
+        {
+            if (!await EnsureShiftAccessAsync("DisposalPage"))
+            {
+                return;
+            }
+            await Shell.Current.GoToAsync("DisposalPage");
+        }
+
         private async void OnAlarmClicked(object sender, EventArgs e)
         {
             if (_authService.CurrentUser == null)

@@ -23,6 +23,7 @@ namespace NekrasovskyAPP
             Routing.RegisterRoute("SettingsPage", typeof(SettingsPage));
             Routing.RegisterRoute("HistoryPage", typeof(HistoryPage));
             Routing.RegisterRoute("RolePermissionsPage", typeof(RolePermissionsPage));
+            Routing.RegisterRoute("DisposalPage", typeof(DisposalPage));
         }
     }
 }

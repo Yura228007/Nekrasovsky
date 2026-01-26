@@ -1039,6 +1039,28 @@ namespace NekrasovskyAPP.ViewModels
 
             return (string.Empty, string.Empty);
         }
+
+        /// <summary>
+        /// Проверяет, может ли текущий пользователь удалять продукты/материалы.
+        /// Удаление разрешено привилегированным пользователям или с правом WriteOff.
+        /// </summary>
+        public async Task<bool> CanDeleteItemsAsync()
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null)
+            {
+                return false;
+            }
+
+            // Привилегированные пользователи могут удалять
+            if (await IsPrivilegedUserAsync())
+            {
+                return true;
+            }
+
+            // Проверяем право WriteOff
+            return await _apiService.CheckPermissionAsync(currentUser.Id, "WriteOff");
+        }
     }
 }
 

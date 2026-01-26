@@ -52,6 +52,7 @@
     <Color x:Key="CardRequests">#EC4899</Color>
     <Color x:Key="CardShift">#14B8A6</Color>
     <Color x:Key="CardReprocess">#84CC16</Color>
+    <Color x:Key="CardDisposal">#F43F5E</Color>
 
     <!-- Borders -->
     <Color x:Key="BorderColor">#252532</Color>

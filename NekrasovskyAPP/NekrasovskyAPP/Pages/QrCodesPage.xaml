@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NekrasovskyAPP.Pages.QrCodesPage"
+             BackgroundColor="{StaticResource BackgroundDark}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <!-- Header -->
+            <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,12">
+                <VerticalStackLayout>
+                    <Label Text="Генерация QR-кодов"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
+                    <Label Text="Создание QR по тексту и пакетами"
+                           FontSize="12"
+                           TextColor="{StaticResource Gray500}" />
+                </VerticalStackLayout>
+                <Border Grid.Column="1"
+                        BackgroundColor="{StaticResource CardProducts}"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        StrokeThickness="0"
+                        VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Label Text="🔳" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+            </Grid>
+
+            <!-- Single QR -->
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
+                    StrokeThickness="0"
+                    Padding="20">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="QR по тексту"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
+                    <Editor x:Name="TextInput"
+                            Placeholder="Введите текст для QR-кода"
+                            AutoSize="TextChanges"
+                            TextColor="{StaticResource White}"
+                            BackgroundColor="{StaticResource BackgroundDark}"
+                            MinimumHeightRequest="80" />
+                    <Button Text="Сгенерировать и сохранить PNG"
+                            Clicked="OnGenerateTextClicked"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="{StaticResource White}"
+                            CornerRadius="12"
+                            HeightRequest="44" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Batch QR -->
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
+                    StrokeThickness="0"
+                    Padding="20">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Пакет noname QR-кодов"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
+                    <Label Text="Каждый QR содержит уникальный идентификатор"
+                           FontSize="12"
+                           TextColor="{StaticResource Gray500}" />
+                    <Entry x:Name="BatchCountInput"
+                           Placeholder="Количество"
+                           Keyboard="Numeric"
+                           TextColor="{StaticResource White}"
+                           BackgroundColor="{StaticResource BackgroundDark}" />
+                    <Button Text="Сгенерировать пакет и сохранить ZIP"
+                            Clicked="OnGenerateBatchClicked"
+                            BackgroundColor="{StaticResource Secondary}"
+                            TextColor="{StaticResource White}"
+                            CornerRadius="12"
+                            HeightRequest="44" />
+                </VerticalStackLayout>
+            </Border>
+
+            <ActivityIndicator x:Name="BusyIndicator"
+                               IsVisible="False"
+                               IsRunning="False"
+                               Color="{StaticResource Primary}"
+                               HeightRequest="32" />
+
+            <Label x:Name="StatusLabel"
+                   Text=""
+                   FontSize="12"
+                   TextColor="{StaticResource Gray500}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

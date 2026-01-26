@@ -232,6 +232,12 @@
     <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\barcodescanning.native.maui\1.7.8\lib\net8.0\BarcodeScanning.Native.Maui.dll">
       <PackagePath>BarcodeScanning.Native.Maui.dll</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\communitytoolkit.maui\9.0.0\lib\net8.0-windows10.0.19041\CommunityToolkit.Maui.dll">
+      <PackagePath>CommunityToolkit.Maui.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\communitytoolkit.maui.core\9.0.0\lib\net8.0-windows10.0.19041\CommunityToolkit.Maui.Core.dll">
+      <PackagePath>CommunityToolkit.Maui.Core.dll</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\microsoft.aspnetcore.connections.abstractions\8.0.0\lib\net8.0\Microsoft.AspNetCore.Connections.Abstractions.dll">
       <PackagePath>Microsoft.AspNetCore.Connections.Abstractions.dll</PackagePath>
     </AppxPackagedFile>
@@ -376,11 +382,20 @@
     <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\npgsql.entityframeworkcore.postgresql\8.0.10\lib\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll">
       <PackagePath>Npgsql.EntityFrameworkCore.PostgreSQL.dll</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\skiasharp\3.119.1\lib\net8.0-windows10.0.19041\SkiaSharp.dll">
+      <PackagePath>SkiaSharp.dll</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\system.io.pipelines\8.0.0\lib\net8.0\System.IO.Pipelines.dll">
       <PackagePath>System.IO.Pipelines.dll</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\system.speech\8.0.0\runtimes\win\lib\net8.0\System.Speech.dll">
+      <PackagePath>System.Speech.dll</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\system.windows.extensions\10.0.2\runtimes\win\lib\net8.0\System.Windows.Extensions.dll">
       <PackagePath>System.Windows.Extensions.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\zxing.net\0.16.11\lib\net8.0\zxing.dll">
+      <PackagePath>zxing.dll</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\microsoft.maui.controls.core\8.0.100\lib\net8.0-windows10.0.19041\ar\Microsoft.Maui.Controls.resources.dll">
       <PackagePath>ar\Microsoft.Maui.Controls.resources.dll</PackagePath>
@@ -489,6 +504,9 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\microsoft.windowsappsdk\1.5.240802000\runtimes\win10-x64\native\Microsoft.WindowsAppRuntime.Bootstrap.dll">
       <PackagePath>Microsoft.WindowsAppRuntime.Bootstrap.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\admin\.nuget\packages\skiasharp.nativeassets.win32\3.119.1\runtimes\win-x64\native\libSkiaSharp.dll">
+      <PackagePath>libSkiaSharp.dll</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\NekrasovskyAPP.deps.json">
       <PackagePath>NekrasovskyAPP.deps.json</PackagePath>

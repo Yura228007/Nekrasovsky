@@ -140,6 +140,11 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("HistoryPage");
         }
 
+        private async void OnQrCodesClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("QrCodesPage");
+        }
+
         private async void OnRolePermissionsClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("RolePermissionsPage");

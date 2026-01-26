@@ -46,6 +46,12 @@ build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.Admin
 build_metadata.AdditionalFiles.TargetPath = Pages\AdminPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\AdminPage.xaml
 
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/DisposalPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.DisposalPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Pages\DisposalPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Pages\DisposalPage.xaml
+
 [D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/HistoryPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.HistoryPage.xaml
@@ -81,6 +87,12 @@ build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.ProductsPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\ProductsPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\ProductsPage.xaml
+
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/QrCodesPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.QrCodesPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Pages\QrCodesPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Pages\QrCodesPage.xaml
 
 [D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/ReprocessingPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml

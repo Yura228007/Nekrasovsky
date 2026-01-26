@@ -266,3 +266,9 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\MultipleQualifiersPerDimensionFound.txt
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\NekrasovskyAPP.genpublishdeps.cache
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\ProjectArchitectures.txt
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\CommunityToolkit.Maui.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\CommunityToolkit.Maui.Core.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\SkiaSharp.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\System.Speech.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\zxing.dll
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\libSkiaSharp.dll

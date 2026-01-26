@@ -116,14 +116,14 @@ namespace NekrasovskyAPP.ViewModels
                     if (filling.MaterialId.HasValue && materialMap.TryGetValue(filling.MaterialId.Value, out var material))
                     {
                         item.Name = material.Name;
-                        item.Code = material.Code;
+                        item.Code = material.Code ?? string.Empty;
                         item.ItemType = "Материал";
                         item.MeasuringUnit = material.MeasuringUnit;
                     }
                     else if (filling.ProductId.HasValue && productMap.TryGetValue(filling.ProductId.Value, out var product))
                     {
                         item.Name = product.Name;
-                        item.Code = product.Code;
+                        item.Code = product.Code ?? string.Empty;
                         item.ItemType = "Продукт";
                         item.MeasuringUnit = product.MeasuringUnit;
                     }

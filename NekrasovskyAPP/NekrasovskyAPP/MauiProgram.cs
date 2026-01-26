@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using NekrasovskyAPP.Services;
@@ -16,7 +17,8 @@ namespace NekrasovskyAPP
         {
             var builder = MauiApp.CreateBuilder();
             var mauiAppBuilder = builder
-                .UseMauiApp<App>();
+                .UseMauiApp<App>()
+                .UseMauiCommunityToolkit();
             
 #if ANDROID || IOS
             // BarcodeScanning поддерживается только на Android и iOS
@@ -40,6 +42,7 @@ namespace NekrasovskyAPP
             builder.Services.AddSingleton<ISignalRService, SignalRService>();
             builder.Services.AddSingleton<IAlarmSoundService, AlarmSoundService>();
             builder.Services.AddSingleton<IAlarmNotificationService, AlarmNotificationService>();
+            builder.Services.AddSingleton<QrCodeService>();
             builder.Services.AddSingleton<MainViewModel>(sp =>
                 new MainViewModel(
                     sp.GetRequiredService<IApiService>(),
@@ -90,6 +93,8 @@ namespace NekrasovskyAPP
                     sp.GetRequiredService<IAuthService>()));
             builder.Services.AddTransient<DisposalPage>(sp =>
                 new DisposalPage(sp.GetRequiredService<ViewModels.DisposalViewModel>()));
+            builder.Services.AddTransient<QrCodesPage>(sp =>
+                new QrCodesPage(sp.GetRequiredService<QrCodeService>()));
 #if ANDROID || IOS
             // BarcodeScannerPage доступна только на Android и iOS
             builder.Services.AddTransient<BarcodeScannerPage>();

@@ -1,3 +1,4 @@
+using System;
 using NekrasovskyAPP.Models;
 
 namespace NekrasovskyAPP.Services
@@ -143,6 +144,12 @@ namespace NekrasovskyAPP.Services
         public T? Responsibility { get; set; }
         public T? Reprocessing { get; set; }
         public T? Transfer { get; set; }
+
+        public bool IsSuccess =>
+            GetData() != null ||
+            string.IsNullOrWhiteSpace(Message) ||
+            Message.Contains("success", StringComparison.OrdinalIgnoreCase) ||
+            Message.Contains("успеш", StringComparison.OrdinalIgnoreCase);
 
         public T? GetData()
         {

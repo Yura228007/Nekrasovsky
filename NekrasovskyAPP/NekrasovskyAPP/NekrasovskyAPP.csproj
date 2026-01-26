@@ -74,6 +74,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="AppDynamics.Agent" Version="2025.10.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.15" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.15" PrivateAssets="all">			
 		  <PrivateAssets>all</PrivateAssets>
@@ -91,7 +92,9 @@
 		<!-- Использует native API: Google ML Kit (Android) и Apple Vision (iOS) -->
 		<PackageReference Include="BarcodeScanning.Native.Maui" Version="1.7.8" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.0" />
+		<PackageReference Include="SkiaSharp" Version="3.119.1" />
 		<PackageReference Include="System.Windows.Extensions" Version="10.0.2" />
+		<PackageReference Include="ZXing.Net" Version="0.16.11" />
 	</ItemGroup>
 	
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net8.0-android'">

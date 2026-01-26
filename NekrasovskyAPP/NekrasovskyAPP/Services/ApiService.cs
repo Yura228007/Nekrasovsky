@@ -18,7 +18,7 @@ namespace NekrasovskyAPP.Services
             //using var stream = await FileSystem.OpenAppPackageFileAsync("server_ip.txt");
             //using var reader = new StreamReader(stream);
             //return (await reader.ReadToEndAsync()).Trim().ToString();
-            return "http://192.168.1.128:9000/";
+            return "http://192.168.0.47:9000/";
 #else 
             return "http://localhost:9000/";
 #endif
@@ -1085,7 +1085,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/user-permissions/user/{userId}");
+                var response = await _httpClient.GetAsync($"api/UserPermissions/user/{userId}");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<Permission>>(_jsonOptions) ?? new List<Permission>();
             }
@@ -1099,7 +1099,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/user-permissions/check?userId={userId}&permissionCode={Uri.EscapeDataString(permissionCode)}");
+                var response = await _httpClient.GetAsync($"api/UserPermissions/check?userId={userId}&permissionCode={Uri.EscapeDataString(permissionCode)}");
                 response.EnsureSuccessStatusCode();
                 var result = await response.Content.ReadFromJsonAsync<Dictionary<string, bool>>(_jsonOptions);
                 return result?.GetValueOrDefault("hasPermission", false) ?? false;

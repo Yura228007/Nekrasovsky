@@ -9,6 +9,7 @@
         <ResourceDictionary>
             <converters:BoolToStatusTextConverter x:Key="BoolToStatusTextConverter" />
             <converters:BoolToStatusColorConverter x:Key="BoolToStatusColorConverter" />
+            <converters:WarehouseTypeToIconConverter x:Key="WarehouseTypeToIconConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -199,7 +200,7 @@
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="12"/>
                                     </Border.StrokeShape>
-                                    <Label Text="🏭" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    <Label Text="{Binding Type, Converter={StaticResource WarehouseTypeToIconConverter}}" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
                                 <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
                                     <Label Text="{Binding Name}"

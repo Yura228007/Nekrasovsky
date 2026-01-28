@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NekrasovskyAPP")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+ec8e4361c7f96bbef53d0543adcbd49b1a7ac506")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+86e0b460d9e54333dbd513e6e2d75db71d4dc5cc")]
 [assembly: System.Reflection.AssemblyProductAttribute("NekrasovskyAPP")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NekrasovskyAPP")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

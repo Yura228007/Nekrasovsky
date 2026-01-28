@@ -5,65 +5,121 @@
              BackgroundColor="{StaticResource BackgroundDark}"
              Title="Проверка остатков">
 
-    <VerticalStackLayout Padding="20" Spacing="12">
-        <Label Text="Проверьте остатки перед подтверждением"
-               FontSize="16"
-               TextColor="{StaticResource White}" />
+    <Grid RowDefinitions="Auto,*,Auto,Auto" Padding="16" RowSpacing="12">
 
-        <CollectionView ItemsSource="{Binding StockItems}">
+        <!-- Header -->
+        <VerticalStackLayout Grid.Row="0" Spacing="4">
+            <Label Text="Проверка остатков"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource White}" />
+            <Label Text="Проверьте остатки перед подтверждением передачи смены"
+                   FontSize="13"
+                   TextColor="{StaticResource Gray400}" />
+        </VerticalStackLayout>
+
+        <!-- Stock Items List (без индивидуальных галочек) -->
+        <CollectionView Grid.Row="1" ItemsSource="{Binding StockItems}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border BackgroundColor="{StaticResource BackgroundCard}"
-                            StrokeThickness="1"
-                            Stroke="{StaticResource BorderColor}"
-                            Padding="12"
-                            Margin="0,6">
+                            StrokeThickness="0"
+                            Padding="14"
+                            Margin="0,4">
                         <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="10"/>
+                            <RoundRectangle CornerRadius="12"/>
                         </Border.StrokeShape>
-                        <VerticalStackLayout Spacing="6">
-                            <HorizontalStackLayout Spacing="8">
-                                <CheckBox IsChecked="{Binding IsChecked}" CheckedChanged="OnCheckChanged" />
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <Border Grid.Column="0"
+                                    BackgroundColor="{StaticResource CardMaterials}"
+                                    WidthRequest="40"
+                                    HeightRequest="40"
+                                    StrokeThickness="0"
+                                    VerticalOptions="Center">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10"/>
+                                </Border.StrokeShape>
+                                <Label Text="📦" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
                                 <Label Text="{Binding Name}"
-                                       FontSize="14"
-                                       TextColor="{StaticResource Gray200}" />
-                            </HorizontalStackLayout>
-                            <Label Text="{Binding TotalQuantity, StringFormat='Итого: {0}'}"
-                                   FontSize="12"
-                                   TextColor="{StaticResource Gray400}" />
-                            <CollectionView ItemsSource="{Binding Warehouses}">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Label Text="{Binding WarehouseName, StringFormat='{0}'}"
-                                               FontSize="11"
-                                               TextColor="{StaticResource Gray500}">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding WarehouseName}" />
-                                                    <Span Text=": " />
-                                                    <Span Text="{Binding Quantity}" />
-                                                    <Span Text=" " />
-                                                    <Span Text="{Binding MeasuringType}" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                        </VerticalStackLayout>
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource White}" />
+                                <CollectionView ItemsSource="{Binding Warehouses}" HeightRequest="60">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label FontSize="12" TextColor="{StaticResource Gray400}">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding WarehouseName}" />
+                                                        <Span Text=": " />
+                                                        <Span Text="{Binding Quantity}" TextColor="{StaticResource Primary}" />
+                                                        <Span Text=" " />
+                                                        <Span Text="{Binding MeasuringType}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                            <Border Grid.Column="2"
+                                    BackgroundColor="{StaticResource BackgroundElevated}"
+                                    StrokeThickness="0"
+                                    Padding="10,6"
+                                    VerticalOptions="Center">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="8"/>
+                                </Border.StrokeShape>
+                                <Label Text="{Binding TotalQuantity, StringFormat='Итого: {0}'}"
+                                       FontSize="13"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource White}" />
+                            </Border>
+                        </Grid>
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <HorizontalStackLayout Spacing="12" HorizontalOptions="End">
-            <Button Text="Отмена" Clicked="OnCancelClicked" />
-            <Button x:Name="ConfirmButton"
+        <!-- Одна общая галочка подтверждения -->
+        <Border Grid.Row="2"
+                BackgroundColor="{StaticResource BackgroundCard}"
+                StrokeThickness="0"
+                Padding="14">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <HorizontalStackLayout Spacing="12">
+                <CheckBox x:Name="ConfirmCheckbox"
+                          CheckedChanged="OnConfirmCheckChanged"
+                          Color="{StaticResource Primary}" />
+                <Label Text="Я проверил(а) все остатки и подтверждаю их корректность"
+                       FontSize="14"
+                       TextColor="{StaticResource White}"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- Buttons -->
+        <Grid Grid.Row="3" ColumnDefinitions="*,*" ColumnSpacing="12">
+            <Button Grid.Column="0"
+                    Text="Отмена"
+                    Clicked="OnCancelClicked"
+                    BackgroundColor="{StaticResource BackgroundCard}"
+                    TextColor="{StaticResource White}"
+                    CornerRadius="12"
+                    HeightRequest="48" />
+            <Button Grid.Column="1"
+                    x:Name="ConfirmButton"
                     Text="Подтвердить"
-                    IsEnabled="{Binding AllChecked}"
+                    IsEnabled="False"
                     Clicked="OnConfirmClicked"
                     BackgroundColor="{StaticResource Primary}"
-                    TextColor="{StaticResource White}" />
-        </HorizontalStackLayout>
-    </VerticalStackLayout>
+                    TextColor="{StaticResource White}"
+                    CornerRadius="12"
+                    HeightRequest="48" />
+        </Grid>
+    </Grid>
 </ContentPage>

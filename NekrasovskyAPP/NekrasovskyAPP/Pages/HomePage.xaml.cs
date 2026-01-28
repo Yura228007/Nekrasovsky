@@ -389,8 +389,10 @@ namespace NekrasovskyAPP.Pages
             var roleName = user.Role?.Name ?? string.Empty;
             return roleCode.Equals("Owner", StringComparison.OrdinalIgnoreCase) ||
                    roleCode.Equals("Admin", StringComparison.OrdinalIgnoreCase) ||
+                   roleCode.Equals("SeniorExtruder", StringComparison.OrdinalIgnoreCase) ||
                    roleName.Equals("Владелец", StringComparison.OrdinalIgnoreCase) ||
-                   roleName.Equals("Администратор", StringComparison.OrdinalIgnoreCase);
+                   roleName.Equals("Администратор", StringComparison.OrdinalIgnoreCase) ||
+                   roleName.Equals("Старший экструзионщик", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

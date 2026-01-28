@@ -31,11 +31,21 @@ namespace server.Services
         {
             var query = _context.Products.AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(name))
-                query = query.Where(p => EF.Functions.ILike(p.Name, $"%{name}%"));
+            // Если указаны и name, и code - используем OR логику
+            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(code))
+            {
+                query = query.Where(p =>
+                    EF.Functions.ILike(p.Name, $"%{name}%") ||
+                    (p.Code != null && EF.Functions.ILike(p.Code, $"%{code}%")));
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(name))
+                    query = query.Where(p => EF.Functions.ILike(p.Name, $"%{name}%"));
 
-            if (!string.IsNullOrWhiteSpace(code))
-                query = query.Where(p => p.Code != null && EF.Functions.ILike(p.Code, $"%{code}%"));
+                if (!string.IsNullOrWhiteSpace(code))
+                    query = query.Where(p => p.Code != null && EF.Functions.ILike(p.Code, $"%{code}%"));
+            }
 
             if (isActive.HasValue)
                 query = query.Where(p => p.IsActive == isActive.Value);

@@ -9,8 +9,6 @@ namespace NekrasovskyAPP.Pages
 
         public ObservableCollection<ResponsibilityStockItem> StockItems { get; }
 
-        public bool AllChecked => StockItems.Count > 0 && StockItems.All(item => item.IsChecked);
-
         public Task<bool> ConfirmationTask => _tcs.Task;
 
         public ShiftTransferReviewPage(IEnumerable<ResponsibilityStockItem> items)
@@ -18,18 +16,11 @@ namespace NekrasovskyAPP.Pages
             InitializeComponent();
             StockItems = new ObservableCollection<ResponsibilityStockItem>(items);
             BindingContext = this;
-            UpdateConfirmState();
         }
 
-        private void OnCheckChanged(object? sender, CheckedChangedEventArgs e)
+        private void OnConfirmCheckChanged(object? sender, CheckedChangedEventArgs e)
         {
-            UpdateConfirmState();
-        }
-
-        private void UpdateConfirmState()
-        {
-            OnPropertyChanged(nameof(AllChecked));
-            ConfirmButton.IsEnabled = AllChecked;
+            ConfirmButton.IsEnabled = e.Value;
         }
 
         private async void OnConfirmClicked(object? sender, EventArgs e)

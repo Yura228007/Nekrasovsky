@@ -93,25 +93,15 @@ namespace NekrasovskyAPP.Pages
                 return;
             }
 
-            // Получаем имя и код из строки поиска
+            // Поиск по имени и коду одновременно (сервер использует OR логику)
             string? name = null;
             string? code = null;
             if (!string.IsNullOrWhiteSpace(searchText))
             {
-                var parts = searchText.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                var searchTerm = string.Join(" ", parts);
-
-                // Определяем, является ли ввод кодом (например, только цифры)
-                bool isLikelyCode = !string.IsNullOrEmpty(searchTerm) && searchTerm.All(char.IsDigit);
-
-                if (isLikelyCode)
-                {
-                    code = searchTerm;
-                }
-                else
-                {
-                    name = searchTerm;
-                }
+                var searchTerm = searchText.Trim();
+                // Передаем поисковый запрос в оба параметра - сервер найдет по имени ИЛИ по коду
+                name = searchTerm;
+                code = searchTerm;
             }
 
             // Фильтр по статусу
@@ -338,8 +328,10 @@ namespace NekrasovskyAPP.Pages
             if (description == null)
                 return;
             
-            var measuringUnit = await DisplayPromptAsync(title, "Единица измерения (шт, кг, л и т.д.):", "Сохранить", "Отмена", "Единица измерения", -1, Keyboard.Default, existingProduct?.MeasuringUnit ?? "шт");
-            if (measuringUnit == null)
+            var unitOptions = new[] { "шт", "кг", "г", "л", "мл", "м", "см" };
+            var currentUnit = existingProduct?.MeasuringUnit ?? "шт";
+            var measuringUnit = await DisplayActionSheet($"Единица измерения (текущая: {currentUnit}):", "Отмена", null, unitOptions);
+            if (measuringUnit == "Отмена" || string.IsNullOrEmpty(measuringUnit))
                 return;
             if (string.IsNullOrWhiteSpace(measuringUnit))
                 measuringUnit = "шт";

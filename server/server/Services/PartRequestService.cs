@@ -21,7 +21,9 @@ namespace server.Services
 
         public async Task<IEnumerable<PartRequest>> GetAllPartRequestsAsync()
         {
-            return await _context.PartRequests.ToListAsync();
+            return await _context.PartRequests
+                .Include(pr => pr.Material)
+                .ToListAsync();
         }
 
         public async Task<PartRequest?> GetPartRequestByIdAsync(int id)
@@ -41,12 +43,14 @@ namespace server.Services
             if (sent)
             {
                 return await _context.PartRequests
+                    .Include(pr => pr.Material)
                     .Where(pr => pr.FromUserId == userId)
                     .ToListAsync();
             }
             else
             {
                 return await _context.PartRequests
+                    .Include(pr => pr.Material)
                     .Where(pr => pr.ToUserId == userId)
                     .ToListAsync();
             }

@@ -991,8 +991,10 @@ namespace NekrasovskyAPP.ViewModels
             var (roleCode, roleName) = await GetRoleInfoAsync(currentUser);
             return roleCode.Equals("Owner", StringComparison.OrdinalIgnoreCase) ||
                    roleCode.Equals("Admin", StringComparison.OrdinalIgnoreCase) ||
+                   roleCode.Equals("SeniorExtruder", StringComparison.OrdinalIgnoreCase) ||
                    roleName.Equals("Владелец", StringComparison.OrdinalIgnoreCase) ||
-                   roleName.Equals("Администратор", StringComparison.OrdinalIgnoreCase);
+                   roleName.Equals("Администратор", StringComparison.OrdinalIgnoreCase) ||
+                   roleName.Equals("Старший экструзионщик", StringComparison.OrdinalIgnoreCase);
         }
 
         private async Task<bool> HasManageResponsibilityAsync()

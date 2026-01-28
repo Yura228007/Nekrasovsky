@@ -219,6 +219,17 @@ namespace NekrasovskyAPP.Pages
                         break;
 
                     case "Удалить":
+                        // Проверяем наличие остатков на складе
+                        var hasStockForDelete = await HasWarehouseStockAsync(selectedWarehouse.Id);
+                        if (hasStockForDelete)
+                        {
+                            await DisplayAlert(
+                                "Невозможно удалить",
+                                $"На складе \"{selectedWarehouse.Name}\" есть остатки. Сначала переместите или спишите все товары со склада.",
+                                "OK");
+                            break;
+                        }
+
                         var confirm = await DisplayAlert(
                             "Подтверждение удаления",
                             $"Вы уверены, что хотите удалить склад {selectedWarehouse.Name}?",

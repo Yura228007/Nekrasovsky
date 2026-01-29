@@ -10,6 +10,8 @@ namespace NekrasovskyAPP.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        private int _materialSearchVersion;
+        private int _productSearchVersion;
         private readonly IApiService _apiService;
         private readonly IAuthService _authService;
         private bool _isLoading;
@@ -216,10 +218,19 @@ namespace NekrasovskyAPP.ViewModels
             {
                 IsLoading = true;
                 ErrorMessage = string.Empty;
+                var searchVersion = System.Threading.Interlocked.Increment(ref _productSearchVersion);
                 var products = await _apiService.SearchProductsAsync(name, code, isActive, sortBy);
+                if (searchVersion != _productSearchVersion)
+                {
+                    return;
+                }
                 var filtered = await FilterProductsByResponsibilityAsync(products);
                 ShowResponsibility = true;
                 await ApplyProductResponsibilityAsync(filtered, true);
+                if (searchVersion != _productSearchVersion)
+                {
+                    return;
+                }
                 Products.Clear();
                 foreach (var product in filtered)
                 {
@@ -242,11 +253,20 @@ namespace NekrasovskyAPP.ViewModels
             {
                 IsLoading = true;
                 ErrorMessage = string.Empty;
+                var searchVersion = System.Threading.Interlocked.Increment(ref _materialSearchVersion);
                 var materials = await _apiService.SearchMaterialsAsync(name, code, isActive, sortBy);
+                if (searchVersion != _materialSearchVersion)
+                {
+                    return;
+                }
                 var filtered = await FilterMaterialsByResponsibilityAsync(materials);
                 await ApplyMaterialStockAsync(filtered);
                 ShowResponsibility = true;
                 await ApplyMaterialResponsibilityAsync(filtered, true);
+                if (searchVersion != _materialSearchVersion)
+                {
+                    return;
+                }
                 Materials.Clear();
                 foreach (var material in filtered)
                 {
@@ -692,7 +712,7 @@ namespace NekrasovskyAPP.ViewModels
                 ErrorMessage = string.Empty;
 
                 var response = await _apiService.DeleteWarehouseAsync(id);
-                if (response.GetData() != null || string.IsNullOrEmpty(response.Message))
+                if (response.IsSuccess)
                 {
                     await LoadWarehousesAsync();
                     return true;

@@ -265,3 +265,10 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\MultipleQualifiersPerDimensionFound.txt
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\NekrasovskyAPP.genpublishdeps.cache
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\ProjectArchitectures.txt
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-100.png
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-125.png
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-150.png
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-200.png
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-400.png
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\f\OpenSans-Regular.ttf
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\resizetizer\f\OpenSans-Semibold.ttf

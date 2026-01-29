@@ -82,7 +82,7 @@ namespace NekrasovskyAPP.Pages
 
         private async Task ApplyFiltersAsync()
         {
-            var searchText = SearchEntry.Text ?? string.Empty;
+            var searchText = _lastSearchText ?? string.Empty;
 
             // Если нет поиска и все фильтры не выбраны, загружаем все продукты
             if (string.IsNullOrWhiteSpace(searchText) &&

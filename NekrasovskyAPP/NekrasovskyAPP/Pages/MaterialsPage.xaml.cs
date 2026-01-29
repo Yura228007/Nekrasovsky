@@ -28,7 +28,10 @@ namespace NekrasovskyAPP.Pages
                 _permissionsChecked = true;
             }
 
-            await _viewModel.LoadMaterialsAsync();
+            if (_viewModel.Materials?.Any() == false)
+            {
+                await _viewModel.LoadMaterialsAsync();
+            }
         }
 
         private async Task UpdateToolbarPermissionsAsync()
@@ -118,7 +121,7 @@ namespace NekrasovskyAPP.Pages
 
         private async Task ApplyFiltersAsync()
         {
-            var searchText = SearchEntry.Text ?? string.Empty;
+            var searchText = _lastSearchText ?? string.Empty;
 
             // Если нет поиска и все фильтры не выбраны, загружаем все материалы
             if (string.IsNullOrWhiteSpace(searchText) &&

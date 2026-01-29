@@ -10,6 +10,7 @@
             <converters:BoolToStatusTextConverter x:Key="BoolToStatusTextConverter" />
             <converters:BoolToStatusColorConverter x:Key="BoolToStatusColorConverter" />
             <converters:WarehouseTypeToIconConverter x:Key="WarehouseTypeToIconConverter" />
+            <converters:WarehouseTypeToColorConverter x:Key="WarehouseTypeToColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -100,6 +101,7 @@
                             <x:String>Цех</x:String>
                             <x:String>Склад</x:String>
                             <x:String>Производство</x:String>
+                            <x:String>Утиль</x:String>
                         </Picker.Items>
                     </Picker>
                 </Border>
@@ -192,7 +194,7 @@
                             </Border.StrokeShape>
                             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
                                 <Border Grid.Column="0"
-                                        BackgroundColor="{StaticResource CardWarehouses}"
+                                        BackgroundColor="{Binding Type, Converter={StaticResource WarehouseTypeToColorConverter}}"
                                         WidthRequest="48"
                                         HeightRequest="48"
                                         StrokeThickness="0"

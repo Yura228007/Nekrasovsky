@@ -20,7 +20,8 @@ namespace server.Services
             var query = _context.Responsibilities.Where(r => r.UserId == userId);
             if (activeOnly)
             {
-                query = query.Where(r => r.IsActive);
+                // Treat legacy records with missing ReleasedAt as active.
+                query = query.Where(r => r.IsActive || r.ReleasedAt == null);
             }
 
             return await query.OrderByDescending(r => r.AssignedAt).ToListAsync();
@@ -31,7 +32,8 @@ namespace server.Services
             var query = _context.Responsibilities.Where(r => r.MaterialId == materialId);
             if (activeOnly)
             {
-                query = query.Where(r => r.IsActive);
+                // Treat legacy records with missing ReleasedAt as active.
+                query = query.Where(r => r.IsActive || r.ReleasedAt == null);
             }
 
             return await query.OrderByDescending(r => r.AssignedAt).FirstOrDefaultAsync();
@@ -42,7 +44,8 @@ namespace server.Services
             var query = _context.Responsibilities.Where(r => r.ProductId == productId);
             if (activeOnly)
             {
-                query = query.Where(r => r.IsActive);
+                // Treat legacy records with missing ReleasedAt as active.
+                query = query.Where(r => r.IsActive || r.ReleasedAt == null);
             }
 
             return await query.OrderByDescending(r => r.AssignedAt).FirstOrDefaultAsync();

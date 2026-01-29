@@ -26,10 +26,13 @@ bitmap;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-
 bitmap;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\drawable\common_google_signin_btn_text_dark_normal.xml
 bitmap;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\drawable\common_google_signin_btn_text_disabled.xml
 bitmap;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\drawable\common_google_signin_btn_text_light_normal.xml
+bitmap;obj\Release\net8.0-android\resizetizer\sp\drawable\maui_splash_image.xml
+bitmap;obj\Release\net8.0-android\resizetizer\sp\drawable-v31\maui_splash_image.xml
 cache-path;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\205\jl\res\xml\microsoft_maui_essentials_fileprovider_file_paths.xml
 color;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\204\jl\res\values\colors.xml
 color;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\values\values.xml
 color;obj\Release\net8.0-android\res\values\colors.xml
+color;obj\Release\net8.0-android\resizetizer\sp\values\maui_colors.xml
 com.google.android.material.appbar.AppBarLayout;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\202\jl\res\layout\flyoutcontent.xml
 com.google.android.material.appbar.AppBarLayout;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\202\jl\res\layout\shellcontent.xml
 com.google.android.material.appbar.AppBarLayout;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\204\jl\res\layout\navigationlayout.xml
@@ -225,6 +228,8 @@ item;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-an
 item;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\drawable\common_google_signin_btn_text_light.xml
 item;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\drawable\common_google_signin_btn_text_light_focused.xml
 item;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\drawable\common_google_signin_btn_text_light_normal.xml
+item;obj\Release\net8.0-android\resizetizer\sp\drawable\maui_splash_image.xml
+item;obj\Release\net8.0-android\resizetizer\sp\drawable-v31\maui_splash_image.xml
 layer-list;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\204\jl\res\drawable\maui_splash.xml
 layer-list;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\204\jl\res\drawable\maui_splash_image.xml
 layer-list;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\drawable\common_google_signin_btn_icon_dark_focused.xml
@@ -237,6 +242,8 @@ layer-list;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net
 layer-list;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\drawable\common_google_signin_btn_text_disabled.xml
 layer-list;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\drawable\common_google_signin_btn_text_light_focused.xml
 layer-list;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\drawable\common_google_signin_btn_text_light_normal.xml
+layer-list;obj\Release\net8.0-android\resizetizer\sp\drawable\maui_splash_image.xml
+layer-list;obj\Release\net8.0-android\resizetizer\sp\drawable-v31\maui_splash_image.xml
 microsoft.maui.controls.platform.compatibility.ShellFlyoutLayout;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\202\jl\res\layout\flyoutcontent.xml
 monochrome;obj\Release\net8.0-android\resizetizer\r\mipmap-anydpi-v26\appicon.xml
 monochrome;obj\Release\net8.0-android\resizetizer\r\mipmap-anydpi-v26\appicon_round.xml
@@ -413,6 +420,7 @@ resources;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8
 resources;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\225\jl\res\values-zh-rTW\values.xml
 resources;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\225\jl\res\values-zu\values.xml
 resources;obj\Release\net8.0-android\res\values\colors.xml
+resources;obj\Release\net8.0-android\resizetizer\sp\values\maui_colors.xml
 selector;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\drawable\common_google_signin_btn_icon_dark.xml
 selector;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\drawable\common_google_signin_btn_icon_light.xml
 selector;D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\lp\224\jl\res\drawable\common_google_signin_btn_text_dark.xml

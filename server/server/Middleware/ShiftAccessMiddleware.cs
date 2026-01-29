@@ -223,6 +223,11 @@ namespace server.Middleware
                 return false;
             }
 
+            if (user.RoleId == 1)
+            {
+                return true;
+            }
+
             if (user.Login.Equals("admin", StringComparison.OrdinalIgnoreCase))
             {
                 return true;

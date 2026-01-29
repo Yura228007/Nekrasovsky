@@ -6,7 +6,6 @@ using System;
 namespace server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
     [Route("api/responsibilities")]
     public class ResponsibilitiesController : ControllerBase
     {

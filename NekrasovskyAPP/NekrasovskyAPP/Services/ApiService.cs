@@ -1113,15 +1113,46 @@ namespace NekrasovskyAPP.Services
         // Responsibilities
         public async Task<List<Responsibility>> GetResponsibilitiesByUserAsync(int userId, bool activeOnly = true)
         {
+            var activeOnlyParam = activeOnly.ToString().ToLower();
+            var responsibilities = await TryGetResponsibilitiesAsync(
+                                       $"api/responsibilities/user/{userId}?activeOnly={activeOnlyParam}")
+                                   ?? await TryGetResponsibilitiesAsync(
+                                       $"api/Responsibilities/user/{userId}?activeOnly={activeOnlyParam}")
+                                   ?? new List<Responsibility>();
+
+            if (!activeOnly || responsibilities.Count > 0)
+            {
+                return responsibilities;
+            }
+
+            // Fallback for legacy data where active flags may be inconsistent.
+            var allResponsibilities = await TryGetResponsibilitiesAsync(
+                                          $"api/responsibilities/user/{userId}?activeOnly=false")
+                                      ?? await TryGetResponsibilitiesAsync(
+                                          $"api/Responsibilities/user/{userId}?activeOnly=false")
+                                      ?? new List<Responsibility>();
+
+            return allResponsibilities
+                .Where(r => r.IsActive || r.ReleasedAt == null)
+                .ToList();
+        }
+
+        private async Task<List<Responsibility>?> TryGetResponsibilitiesAsync(string relativeUrl)
+        {
             try
             {
-                var response = await _httpClient.GetAsync($"api/responsibilities/user/{userId}?activeOnly={activeOnly.ToString().ToLower()}");
-                response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<List<Responsibility>>(_jsonOptions) ?? new List<Responsibility>();
+                var response = await _httpClient.GetAsync(relativeUrl);
+                if (!response.IsSuccessStatusCode)
+                {
+                    return null;
+                }
+
+                return await response.Content.ReadFromJsonAsync<List<Responsibility>>(_jsonOptions)
+                    ?? new List<Responsibility>();
             }
             catch
             {
-                return new List<Responsibility>();
+                return null;
             }
         }
 

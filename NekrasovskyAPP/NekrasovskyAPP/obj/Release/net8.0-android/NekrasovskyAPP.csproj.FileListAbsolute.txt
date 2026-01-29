@@ -1249,3 +1249,4 @@ D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\resizetizer\f\OpenSans-Regular.ttf
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\resizetizer\f\OpenSans-Semibold.ttf
 D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\resizetizer\349DD0F2A9ADC536-files.cache
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-android\android\src\crc64a5c110893f6cf495\AlarmForegroundService.java

@@ -219,6 +219,11 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("DisposalPage");
         }
 
+        private async void OnProductOutputClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("ProductOutputPage");
+        }
+
         private async void OnAlarmClicked(object sender, EventArgs e)
         {
             if (_authService.CurrentUser == null)

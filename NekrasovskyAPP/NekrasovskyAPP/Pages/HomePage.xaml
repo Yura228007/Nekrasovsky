@@ -370,6 +370,43 @@
                     </Grid>
                 </Border>
 
+                <!-- Product Output Card -->
+                <Border x:Name="ProductOutputCard"
+                        Grid.Row="4" Grid.Column="1"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="0"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnProductOutputClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource CardProducts}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="📊" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Выпуск"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Произвели, брак, эко"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
+                </Border>
+
             </Grid>
 
             <!-- Alarm Button -->

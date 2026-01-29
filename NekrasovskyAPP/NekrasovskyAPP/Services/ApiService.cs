@@ -1345,6 +1345,194 @@ namespace NekrasovskyAPP.Services
             }
         }
 
+        // Product Outputs
+        public async Task<List<ProductOutput>> GetAllProductOutputsAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/product-outputs");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<ProductOutput>>(_jsonOptions) ?? new List<ProductOutput>();
+            }
+            catch
+            {
+                return new List<ProductOutput>();
+            }
+        }
+
+        public async Task<List<ProductOutput>> GetProductOutputsByUserAsync(int userId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/product-outputs/user/{userId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<ProductOutput>>(_jsonOptions) ?? new List<ProductOutput>();
+            }
+            catch
+            {
+                return new List<ProductOutput>();
+            }
+        }
+
+        public async Task<ProductOutput?> GetProductOutputByIdAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/product-outputs/{id}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<ProductOutput>(_jsonOptions);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<ApiResponse<ProductOutput>> AddProductOutputAsync(ProductOutput output)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/product-outputs", output, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                var result = await response.Content.ReadFromJsonAsync<ProductOutput>(_jsonOptions);
+                return new ApiResponse<ProductOutput> { Output = result, Message = "Выпуск продукции добавлен" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<ProductOutput> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<ProductOutput>> EditProductOutputAsync(int id, ProductOutput output)
+        {
+            try
+            {
+                var response = await _httpClient.PutAsJsonAsync($"api/product-outputs/{id}", output, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                var result = await response.Content.ReadFromJsonAsync<ProductOutput>(_jsonOptions);
+                return new ApiResponse<ProductOutput> { Output = result, Message = "Выпуск продукции обновлен" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<ProductOutput> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<object>> DeleteProductOutputAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"api/product-outputs/{id}");
+                response.EnsureSuccessStatusCode();
+                return new ApiResponse<object> { Message = "Выпуск продукции удален" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
+        // Machines
+        public async Task<List<Machine>> GetAllMachinesAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/machines");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<Machine>>(_jsonOptions) ?? new List<Machine>();
+            }
+            catch
+            {
+                return new List<Machine>();
+            }
+        }
+
+        public async Task<List<Machine>> GetActiveMachinesAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/machines/active");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<Machine>>(_jsonOptions) ?? new List<Machine>();
+            }
+            catch
+            {
+                return new List<Machine>();
+            }
+        }
+
+        public async Task<List<Machine>> GetMachinesByWarehouseAsync(int warehouseId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/machines/warehouse/{warehouseId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<Machine>>(_jsonOptions) ?? new List<Machine>();
+            }
+            catch
+            {
+                return new List<Machine>();
+            }
+        }
+
+        public async Task<Machine?> GetMachineByIdAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/machines/{id}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<Machine>(_jsonOptions);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<ApiResponse<Machine>> AddMachineAsync(Machine machine)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/machines", machine, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                var result = await response.Content.ReadFromJsonAsync<Machine>(_jsonOptions);
+                return new ApiResponse<Machine> { Machine = result, Message = "Станок добавлен" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<Machine> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<Machine>> EditMachineAsync(int id, Machine machine)
+        {
+            try
+            {
+                var response = await _httpClient.PutAsJsonAsync($"api/machines/{id}", machine, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                var result = await response.Content.ReadFromJsonAsync<Machine>(_jsonOptions);
+                return new ApiResponse<Machine> { Machine = result, Message = "Станок обновлен" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<Machine> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<object>> DeleteMachineAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"api/machines/{id}");
+                response.EnsureSuccessStatusCode();
+                return new ApiResponse<object> { Message = "Станок удален" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
         // Database
         // Roles
         public async Task<List<Role>> GetAllRolesAsync()

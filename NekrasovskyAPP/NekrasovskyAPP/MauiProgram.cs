@@ -95,6 +95,10 @@ namespace NekrasovskyAPP
                 new DisposalPage(sp.GetRequiredService<ViewModels.DisposalViewModel>()));
             builder.Services.AddTransient<QrCodesPage>(sp =>
                 new QrCodesPage(sp.GetRequiredService<QrCodeService>()));
+            builder.Services.AddTransient<ProductOutputPage>(sp =>
+                new ProductOutputPage(
+                    sp.GetRequiredService<IApiService>(),
+                    sp.GetRequiredService<IAuthService>()));
 #if ANDROID || IOS
             // BarcodeScannerPage доступна только на Android и iOS
             builder.Services.AddTransient<BarcodeScannerPage>();

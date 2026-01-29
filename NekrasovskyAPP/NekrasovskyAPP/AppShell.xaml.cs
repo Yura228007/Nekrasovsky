@@ -25,6 +25,7 @@ namespace NekrasovskyAPP
             Routing.RegisterRoute("RolePermissionsPage", typeof(RolePermissionsPage));
             Routing.RegisterRoute("DisposalPage", typeof(DisposalPage));
             Routing.RegisterRoute("QrCodesPage", typeof(QrCodesPage));
+            Routing.RegisterRoute("ProductOutputPage", typeof(ProductOutputPage));
         }
     }
 }

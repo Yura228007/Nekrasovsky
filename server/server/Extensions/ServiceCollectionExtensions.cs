@@ -60,6 +60,12 @@ namespace server.Extensions
             // Register reprocessing service
             services.AddScoped<IReprocessingService, ReprocessingService>();
 
+            // Register product output service
+            services.AddScoped<IProductOutputService, ProductOutputService>();
+
+            // Register machine service
+            services.AddScoped<IMachineService, MachineService>();
+
             // Register backup service
             services.AddScoped<IBackupService, BackupService>();
 

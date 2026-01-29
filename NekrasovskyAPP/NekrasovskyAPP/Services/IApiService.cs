@@ -104,6 +104,23 @@ namespace NekrasovskyAPP.Services
         // Reprocessing
         Task<ApiResponse<Reprocessing>> CreateReprocessingAsync(ReprocessingCreateRequest request);
 
+        // Product Outputs
+        Task<List<ProductOutput>> GetAllProductOutputsAsync();
+        Task<List<ProductOutput>> GetProductOutputsByUserAsync(int userId);
+        Task<ProductOutput?> GetProductOutputByIdAsync(int id);
+        Task<ApiResponse<ProductOutput>> AddProductOutputAsync(ProductOutput output);
+        Task<ApiResponse<ProductOutput>> EditProductOutputAsync(int id, ProductOutput output);
+        Task<ApiResponse<object>> DeleteProductOutputAsync(int id);
+
+        // Machines
+        Task<List<Machine>> GetAllMachinesAsync();
+        Task<List<Machine>> GetActiveMachinesAsync();
+        Task<List<Machine>> GetMachinesByWarehouseAsync(int warehouseId);
+        Task<Machine?> GetMachineByIdAsync(int id);
+        Task<ApiResponse<Machine>> AddMachineAsync(Machine machine);
+        Task<ApiResponse<Machine>> EditMachineAsync(int id, Machine machine);
+        Task<ApiResponse<object>> DeleteMachineAsync(int id);
+
         // Roles
         Task<List<Role>> GetAllRolesAsync();
         Task<Role?> GetRoleByIdAsync(int id);
@@ -144,6 +161,8 @@ namespace NekrasovskyAPP.Services
         public T? Responsibility { get; set; }
         public T? Reprocessing { get; set; }
         public T? Transfer { get; set; }
+        public T? Output { get; set; }
+        public T? Machine { get; set; }
 
         public bool IsSuccess =>
             GetData() != null ||

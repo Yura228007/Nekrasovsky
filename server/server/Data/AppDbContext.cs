@@ -26,6 +26,8 @@ public class AppDbContext : DbContext
     public DbSet<Reprocessing> Reprocessings { get; set; } = null!;
     public DbSet<ReprocessingItem> ReprocessingItems { get; set; } = null!;
     public DbSet<HistoryEvent> HistoryEvents { get; set; } = null!;
+    public DbSet<ProductOutput> ProductOutputs { get; set; } = null!;
+    public DbSet<Machine> Machines { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -354,5 +356,54 @@ public class AppDbContext : DbContext
             .WithMany()
             .HasForeignKey(he => he.ProductId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        // =============================
+        // ProductOutput
+        // =============================
+
+        modelBuilder.Entity<ProductOutput>()
+            .HasOne(po => po.User)
+            .WithMany()
+            .HasForeignKey(po => po.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ProductOutput>()
+            .HasOne(po => po.WorkReport)
+            .WithMany()
+            .HasForeignKey(po => po.WorkReportId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<ProductOutput>()
+            .HasOne(po => po.Product)
+            .WithMany()
+            .HasForeignKey(po => po.ProductId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ProductOutput>()
+            .HasOne(po => po.Warehouse)
+            .WithMany()
+            .HasForeignKey(po => po.WarehouseId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<ProductOutput>()
+            .HasOne(po => po.Machine)
+            .WithMany()
+            .HasForeignKey(po => po.MachineId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        // =============================
+        // Machine
+        // =============================
+
+        modelBuilder.Entity<Machine>()
+            .HasOne(m => m.Warehouse)
+            .WithMany()
+            .HasForeignKey(m => m.WarehouseId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<Machine>()
+            .HasIndex(m => m.Code)
+            .IsUnique()
+            .HasFilter("\"Code\" IS NOT NULL");
     }
 }

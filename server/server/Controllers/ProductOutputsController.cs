@@ -221,7 +221,7 @@ namespace server.Controllers
                 if (userId.HasValue)
                 {
                     evt.UserId = userId.Value;
-                    await _historyService.LogEventAsync(evt);
+                    await _historyService.AddEventAsync(evt);
                 }
             }
             catch (Exception ex)

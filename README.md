@@ -24,16 +24,6 @@ Nekrasovsky - это полнофункциональная система уп�
 - **Swagger** - документация API
 - **Npgsql** - драйвер PostgreSQL
 
-### Android App
-- **Kotlin** - основной язык программирования
-- **Jetpack Compose** - современный UI фреймворк
-- **Material Design 3** - дизайн система
-- **Retrofit** - HTTP клиент для работы с API
-- **Hilt** - dependency injection
-- **Coroutines** - асинхронное программирование
-- **MVVM** - архитектурный паттерн
-- **Gson** - сериализация JSON
-
 ### MAUI App
 - **.NET 8.0** - платформа разработки
 - **.NET MAUI** - кроссплатформенный фреймворк
@@ -54,11 +44,6 @@ Nekrasovsky-master/
 │       ├── Middleware/     # Промежуточное ПО
 │       └── Migrations/     # Миграции БД
 │
-├── android-app/            # Android приложение
-│   └── app/
-│       └── src/main/java/com/nekrasovsky/android/
-│           ├── data/       # API, модели, репозитории
-│           └── ui/         # UI компоненты и экраны
 │
 ├── NekrasovskyAPP/         # MAUI приложение
 │   └── NekrasovskyAPP/
@@ -79,11 +64,6 @@ Nekrasovsky-master/
 - PostgreSQL 12+
 - Visual Studio 2022 или VS Code
 
-#### Для Android App:
-- Android Studio Hedgehog | 2023.1.1 или новее
-- Android SDK 24+ (Android 7.0)
-- Kotlin 1.9.20+
-- JDK 17
 
 #### Для MAUI App:
 - .NET 8.0 SDK
@@ -119,19 +99,12 @@ dotnet run
 ```
 
 Сервер будет доступен по адресу:
-- HTTP: `http://localhost:5000`
+- HTTP: `http://localhost:9000`
 - HTTPS: `https://localhost:5001`
-- Swagger UI: `http://localhost:5000/swagger`
+- Swagger UI: `http://localhost:9000/swagger`
 
-#### 3. Запуск Android App
 
-1. Откройте проект в Android Studio
-2. Настройте `BASE_URL` в `android-app/app/src/main/java/com/nekrasovsky/android/data/api/RetrofitModule.kt`:
-   - Для эмулятора: `http://10.0.2.2:5000/`
-   - Для реального устройства: `http://<IP_КОМПЬЮТЕРА>:5000/`
-3. Запустите приложение на устройстве или эмуляторе
-
-#### 4. Запуск MAUI App
+#### 3. Запуск MAUI App
 
 ```bash
 cd NekrasovskyAPP/NekrasovskyAPP
@@ -217,7 +190,7 @@ dotnet ef database update
 
 Используйте Swagger UI для тестирования API endpoints:
 ```
-http://localhost:5000/swagger
+http://localhost:9000/swagger
 ```
 
 ## 📝 Лицензия

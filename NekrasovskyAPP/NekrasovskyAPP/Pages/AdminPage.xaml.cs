@@ -150,6 +150,16 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("RolePermissionsPage");
         }
 
+        private async void OnMachinesClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("MachinesPage");
+        }
+
+        private async void OnProductOutputClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("ProductOutputPage");
+        }
+
         private async void OnLogoutClicked(object sender, EventArgs e)
         {
             // Выполняем выход

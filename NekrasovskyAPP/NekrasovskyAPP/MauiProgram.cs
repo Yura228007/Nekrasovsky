@@ -99,6 +99,8 @@ namespace NekrasovskyAPP
                 new ProductOutputPage(
                     sp.GetRequiredService<IApiService>(),
                     sp.GetRequiredService<IAuthService>()));
+            builder.Services.AddTransient<MachinesPage>(sp =>
+                new MachinesPage(sp.GetRequiredService<IApiService>()));
 #if ANDROID || IOS
             // BarcodeScannerPage доступна только на Android и iOS
             builder.Services.AddTransient<BarcodeScannerPage>();

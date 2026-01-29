@@ -168,6 +168,47 @@ namespace server.Migrations
                     b.ToTable("HistoryEvent");
                 });
 
+            modelBuilder.Entity("server.Models.Machine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int?>("WarehouseId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasFilter("\"Code\" IS NOT NULL");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("Machine");
+                });
+
             modelBuilder.Entity("server.Models.Material", b =>
                 {
                     b.Property<int>("Id")
@@ -301,6 +342,62 @@ namespace server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("server.Models.ProductOutput", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("DefectQuantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("EcoQuantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("MachineId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MeasuringUnit")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProducedQuantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("WarehouseId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("WorkReportId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MachineId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.HasIndex("WorkReportId");
+
+                    b.ToTable("ProductOutput");
                 });
 
             modelBuilder.Entity("server.Models.Recipe", b =>
@@ -732,6 +829,16 @@ namespace server.Migrations
                     b.Navigation("Warehouse");
                 });
 
+            modelBuilder.Entity("server.Models.Machine", b =>
+                {
+                    b.HasOne("server.Models.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Warehouse");
+                });
+
             modelBuilder.Entity("server.Models.PartRequest", b =>
                 {
                     b.HasOne("server.Models.User", "FromUser")
@@ -773,6 +880,46 @@ namespace server.Migrations
                     b.Navigation("ToUser");
 
                     b.Navigation("ToWarehouse");
+                });
+
+            modelBuilder.Entity("server.Models.ProductOutput", b =>
+                {
+                    b.HasOne("server.Models.Machine", "Machine")
+                        .WithMany()
+                        .HasForeignKey("MachineId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("server.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("server.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("server.Models.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("server.Models.WorkReport", "WorkReport")
+                        .WithMany()
+                        .HasForeignKey("WorkReportId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Machine");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Warehouse");
+
+                    b.Navigation("WorkReport");
                 });
 
             modelBuilder.Entity("server.Models.Recipe", b =>

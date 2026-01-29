@@ -132,25 +132,25 @@ target triple = "aarch64-unknown-linux-android21"
 	%struct.DSOCacheEntry {
 		i64 1014024874267307484, ; hash 0xe128a40281ceddc, from name: libsurface_util_jni.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.1_name, ; name: libsurface_util_jni.so
+		ptr @.DSOCacheEntry.2_name, ; name: libsurface_util_jni.so
 		ptr null; void* handle (0x0)
 	}, ; 1
 	%struct.DSOCacheEntry {
 		i64 1220988252619698637, ; hash 0x10f1d258c05271cd, from name: libInvertBytes
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.2_name, ; name: libInvertBytes.so
+		ptr @.DSOCacheEntry.1_name, ; name: libInvertBytes.so
 		ptr null; void* handle (0x0)
 	}, ; 2
 	%struct.DSOCacheEntry {
 		i64 1295711804450587492, ; hash 0x11fb4b056b8ec364, from name: barhopper_v3
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.3_name, ; name: libbarhopper_v3.so
+		ptr @.DSOCacheEntry.0_name, ; name: libbarhopper_v3.so
 		ptr null; void* handle (0x0)
 	}, ; 3
 	%struct.DSOCacheEntry {
 		i64 1329084658601115735, ; hash 0x1271db7488574057, from name: InvertBytes.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.2_name, ; name: libInvertBytes.so
+		ptr @.DSOCacheEntry.1_name, ; name: libInvertBytes.so
 		ptr null; void* handle (0x0)
 	}, ; 4
 	%struct.DSOCacheEntry {
@@ -162,19 +162,19 @@ target triple = "aarch64-unknown-linux-android21"
 	%struct.DSOCacheEntry {
 		i64 2347836149671296973, ; hash 0x20953089ebfa7fcd, from name: image_processing_util_jni
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.0_name, ; name: libimage_processing_util_jni.so
+		ptr @.DSOCacheEntry.3_name, ; name: libimage_processing_util_jni.so
 		ptr null; void* handle (0x0)
 	}, ; 6
 	%struct.DSOCacheEntry {
 		i64 2393395539195715246, ; hash 0x21370c8fe8c3deae, from name: InvertBytes
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.2_name, ; name: libInvertBytes.so
+		ptr @.DSOCacheEntry.1_name, ; name: libInvertBytes.so
 		ptr null; void* handle (0x0)
 	}, ; 7
 	%struct.DSOCacheEntry {
 		i64 2430429043482179165, ; hash 0x21ba9e568c8c365d, from name: libbarhopper_v3.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.3_name, ; name: libbarhopper_v3.so
+		ptr @.DSOCacheEntry.0_name, ; name: libbarhopper_v3.so
 		ptr null; void* handle (0x0)
 	}, ; 8
 	%struct.DSOCacheEntry {
@@ -198,7 +198,7 @@ target triple = "aarch64-unknown-linux-android21"
 	%struct.DSOCacheEntry {
 		i64 5142421530795412690, ; hash 0x475d8d22f4618cd2, from name: image_processing_util_jni.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.0_name, ; name: libimage_processing_util_jni.so
+		ptr @.DSOCacheEntry.3_name, ; name: libimage_processing_util_jni.so
 		ptr null; void* handle (0x0)
 	}, ; 12
 	%struct.DSOCacheEntry {
@@ -294,7 +294,7 @@ target triple = "aarch64-unknown-linux-android21"
 	%struct.DSOCacheEntry {
 		i64 8148328075487707646, ; hash 0x7114ad3684c981fe, from name: barhopper_v3.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.3_name, ; name: libbarhopper_v3.so
+		ptr @.DSOCacheEntry.0_name, ; name: libbarhopper_v3.so
 		ptr null; void* handle (0x0)
 	}, ; 28
 	%struct.DSOCacheEntry {
@@ -318,7 +318,7 @@ target triple = "aarch64-unknown-linux-android21"
 	%struct.DSOCacheEntry {
 		i64 9946413473656437388, ; hash 0x8a08c25b1e737a8c, from name: libimage_processing_util_jni
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.0_name, ; name: libimage_processing_util_jni.so
+		ptr @.DSOCacheEntry.3_name, ; name: libimage_processing_util_jni.so
 		ptr null; void* handle (0x0)
 	}, ; 32
 	%struct.DSOCacheEntry {
@@ -330,7 +330,7 @@ target triple = "aarch64-unknown-linux-android21"
 	%struct.DSOCacheEntry {
 		i64 10435350089633229790, ; hash 0x90d1cf9e1f6debde, from name: libInvertBytes.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.2_name, ; name: libInvertBytes.so
+		ptr @.DSOCacheEntry.1_name, ; name: libInvertBytes.so
 		ptr null; void* handle (0x0)
 	}, ; 34
 	%struct.DSOCacheEntry {
@@ -342,7 +342,7 @@ target triple = "aarch64-unknown-linux-android21"
 	%struct.DSOCacheEntry {
 		i64 10997177749575017147, ; hash 0x989dd2e5cf3fa2bb, from name: libsurface_util_jni
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.1_name, ; name: libsurface_util_jni.so
+		ptr @.DSOCacheEntry.2_name, ; name: libsurface_util_jni.so
 		ptr null; void* handle (0x0)
 	}, ; 36
 	%struct.DSOCacheEntry {
@@ -360,7 +360,7 @@ target triple = "aarch64-unknown-linux-android21"
 	%struct.DSOCacheEntry {
 		i64 13388412822232820358, ; hash 0xb9cd3286e778ea86, from name: libbarhopper_v3
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.3_name, ; name: libbarhopper_v3.so
+		ptr @.DSOCacheEntry.0_name, ; name: libbarhopper_v3.so
 		ptr null; void* handle (0x0)
 	}, ; 39
 	%struct.DSOCacheEntry {
@@ -378,7 +378,7 @@ target triple = "aarch64-unknown-linux-android21"
 	%struct.DSOCacheEntry {
 		i64 15518685631102212784, ; hash 0xd75d725c26ce5ab0, from name: surface_util_jni
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.1_name, ; name: libsurface_util_jni.so
+		ptr @.DSOCacheEntry.2_name, ; name: libsurface_util_jni.so
 		ptr null; void* handle (0x0)
 	}, ; 42
 	%struct.DSOCacheEntry {
@@ -420,7 +420,7 @@ target triple = "aarch64-unknown-linux-android21"
 	%struct.DSOCacheEntry {
 		i64 17197722433423842524, ; hash 0xeeaa956f8dfe9cdc, from name: libimage_processing_util_jni.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.0_name, ; name: libimage_processing_util_jni.so
+		ptr @.DSOCacheEntry.3_name, ; name: libimage_processing_util_jni.so
 		ptr null; void* handle (0x0)
 	}, ; 49
 	%struct.DSOCacheEntry {
@@ -432,7 +432,7 @@ target triple = "aarch64-unknown-linux-android21"
 	%struct.DSOCacheEntry {
 		i64 17686406819476072524, ; hash 0xf572bd4bb3eae84c, from name: surface_util_jni.so
 		i8 0, ; bool ignore
-		ptr @.DSOCacheEntry.1_name, ; name: libsurface_util_jni.so
+		ptr @.DSOCacheEntry.2_name, ; name: libsurface_util_jni.so
 		ptr null; void* handle (0x0)
 	}, ; 51
 	%struct.DSOCacheEntry {
@@ -3757,7 +3757,7 @@ target triple = "aarch64-unknown-linux-android21"
 @.env.4 = private unnamed_addr constant [15 x i8] c"MONO_LOG_LEVEL\00", align 1
 @.env.5 = private unnamed_addr constant [5 x i8] c"info\00", align 1
 @.env.6 = private unnamed_addr constant [17 x i8] c"XAMARIN_BUILD_ID\00", align 1
-@.env.7 = private unnamed_addr constant [37 x i8] c"634fb7e8-339f-4b2c-ac52-7cf331547c72\00", align 1
+@.env.7 = private unnamed_addr constant [37 x i8] c"b9f816bb-58f6-47d6-8825-bbb20a119f2f\00", align 1
 @.env.8 = private unnamed_addr constant [28 x i8] c"XA_HTTP_CLIENT_HANDLER_TYPE\00", align 1
 @.env.9 = private unnamed_addr constant [42 x i8] c"Xamarin.Android.Net.AndroidMessageHandler\00", align 1
 @.env.10 = private unnamed_addr constant [29 x i8] c"__XA_PACKAGE_NAMING_POLICY__\00", align 1
@@ -3767,10 +3767,10 @@ target triple = "aarch64-unknown-linux-android21"
 @.ApplicationConfig.0_android_package_name = private unnamed_addr constant [31 x i8] c"com.companyname.nekrasovskyapp\00", align 1
 
 ;DSOCacheEntry
-@.DSOCacheEntry.0_name = private unnamed_addr constant [32 x i8] c"libimage_processing_util_jni.so\00", align 1
-@.DSOCacheEntry.1_name = private unnamed_addr constant [23 x i8] c"libsurface_util_jni.so\00", align 1
-@.DSOCacheEntry.2_name = private unnamed_addr constant [18 x i8] c"libInvertBytes.so\00", align 1
-@.DSOCacheEntry.3_name = private unnamed_addr constant [19 x i8] c"libbarhopper_v3.so\00", align 1
+@.DSOCacheEntry.0_name = private unnamed_addr constant [19 x i8] c"libbarhopper_v3.so\00", align 1
+@.DSOCacheEntry.1_name = private unnamed_addr constant [18 x i8] c"libInvertBytes.so\00", align 1
+@.DSOCacheEntry.2_name = private unnamed_addr constant [23 x i8] c"libsurface_util_jni.so\00", align 1
+@.DSOCacheEntry.3_name = private unnamed_addr constant [32 x i8] c"libimage_processing_util_jni.so\00", align 1
 @.DSOCacheEntry.4_name = private unnamed_addr constant [35 x i8] c"libSystem.IO.Compression.Native.so\00", align 1
 @.DSOCacheEntry.5_name = private unnamed_addr constant [20 x i8] c"libSystem.Native.so\00", align 1
 @.DSOCacheEntry.6_name = private unnamed_addr constant [50 x i8] c"libSystem.Security.Cryptography.Native.Android.so\00", align 1

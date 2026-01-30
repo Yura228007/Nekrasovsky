@@ -1,3 +1,4 @@
+using Android.Content;
 using Android.Media;
 
 namespace NekrasovskyAPP.Services
@@ -6,6 +7,8 @@ namespace NekrasovskyAPP.Services
     {
         private MediaPlayer? _mediaPlayer;
         private ToneGenerator? _toneGenerator;
+        private int? _previousAlarmVolume;
+        private int? _previousMusicVolume;
 
         partial void StartPlatformAlarm(CancellationToken token)
         {
@@ -13,6 +16,19 @@ namespace NekrasovskyAPP.Services
             {
                 var context = Android.App.Application.Context;
                 if (context == null) return;
+
+                var audioManager = context.GetSystemService(Context.AudioService) as AudioManager;
+                if (audioManager != null)
+                {
+                    _previousAlarmVolume = audioManager.GetStreamVolume(Android.Media.Stream.Alarm);
+                    _previousMusicVolume = audioManager.GetStreamVolume(Android.Media.Stream.Music);
+
+                    var maxAlarmVolume = audioManager.GetStreamMaxVolume(Android.Media.Stream.Alarm);
+                    var maxMusicVolume = audioManager.GetStreamMaxVolume(Android.Media.Stream.Music);
+
+                    audioManager.SetStreamVolume(Android.Media.Stream.Alarm, maxAlarmVolume, VolumeNotificationFlags.RemoveSoundAndVibrate);
+                    audioManager.SetStreamVolume(Android.Media.Stream.Music, maxMusicVolume, VolumeNotificationFlags.RemoveSoundAndVibrate);
+                }
 
                 // Пробуем загрузить MP3
                 try
@@ -60,6 +76,23 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
+                var context = Android.App.Application.Context;
+                var audioManager = context?.GetSystemService(Context.AudioService) as AudioManager;
+                if (audioManager != null)
+                {
+                    if (_previousAlarmVolume.HasValue)
+                    {
+                        audioManager.SetStreamVolume(Android.Media.Stream.Alarm, _previousAlarmVolume.Value, VolumeNotificationFlags.RemoveSoundAndVibrate);
+                        _previousAlarmVolume = null;
+                    }
+
+                    if (_previousMusicVolume.HasValue)
+                    {
+                        audioManager.SetStreamVolume(Android.Media.Stream.Music, _previousMusicVolume.Value, VolumeNotificationFlags.RemoveSoundAndVibrate);
+                        _previousMusicVolume = null;
+                    }
+                }
+
                 _toneGenerator?.StopTone();
                 _toneGenerator?.Release();
                 _toneGenerator = null;

@@ -45,5 +45,7 @@ namespace server.Models
         public virtual Material SourceMaterial { get; set; } = null!;
 
         public virtual ICollection<ReprocessingItem> Items { get; set; } = new List<ReprocessingItem>();
+
+        public virtual ICollection<ReprocessingSourceItem> Sources { get; set; } = new List<ReprocessingSourceItem>();
     }
 }

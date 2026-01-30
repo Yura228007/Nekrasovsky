@@ -1,5 +1,9 @@
 using NekrasovskyAPP.Models;
 using NekrasovskyAPP.Services;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using System.Linq;
 
 namespace NekrasovskyAPP.Pages
@@ -13,11 +17,25 @@ namespace NekrasovskyAPP.Pages
         private readonly List<Product> _products = new();
         private readonly List<Material> _responsibleMaterials = new();
 
+        public ObservableCollection<SourceItem> Sources { get; } = new();
+        public ObservableCollection<OutputItem> Outputs { get; } = new();
+        public ICommand AddSourceCommand { get; }
+        public ICommand RemoveSourceCommand { get; }
+        public ICommand AddOutputCommand { get; }
+        public ICommand RemoveOutputCommand { get; }
+
         public ReprocessingPage(IApiService apiService, IAuthService authService)
         {
             InitializeComponent();
             _apiService = apiService;
             _authService = authService;
+            AddSourceCommand = new Command(AddSource);
+            RemoveSourceCommand = new Command<SourceItem>(RemoveSource);
+            AddOutputCommand = new Command(AddOutput);
+            RemoveOutputCommand = new Command<OutputItem>(RemoveOutput);
+            BindingContext = this;
+            Sources.Add(new SourceItem(_responsibleMaterials));
+            Outputs.Add(new OutputItem(_materials, _products));
         }
 
         protected override async void OnAppearing()
@@ -57,43 +75,44 @@ namespace NekrasovskyAPP.Pages
             }
 
             WarehousePicker.ItemsSource = _warehouses;
-            SourceMaterialPicker.ItemsSource = _responsibleMaterials;
-
-            Target1TypePicker.ItemsSource = new List<string> { "Материал", "Продукт" };
-            Target2TypePicker.ItemsSource = new List<string> { "Материал", "Продукт" };
-        }
-
-        private void OnTarget1TypeChanged(object? sender, EventArgs e)
-        {
-            UpdateTargetPicker(Target1TypePicker, Target1Picker);
-        }
-
-        private void OnTarget2TypeChanged(object? sender, EventArgs e)
-        {
-            UpdateTargetPicker(Target2TypePicker, Target2Picker);
-        }
-
-        private void UpdateTargetPicker(Picker typePicker, Picker targetPicker)
-        {
-            if (typePicker.SelectedItem?.ToString() == "Материал")
+            foreach (var source in Sources)
             {
-                targetPicker.ItemsSource = _materials;
-                targetPicker.ItemDisplayBinding = new Binding(nameof(Material.Name));
+                source.RefreshMaterials();
             }
-            else if (typePicker.SelectedItem?.ToString() == "Продукт")
+            foreach (var output in Outputs)
             {
-                targetPicker.ItemsSource = _products;
-                targetPicker.ItemDisplayBinding = new Binding(nameof(Product.Name));
-            }
-            else
-            {
-                targetPicker.ItemsSource = null;
+                output.RefreshTargets();
             }
         }
 
-        private void OnSecondOutputToggled(object? sender, ToggledEventArgs e)
+        private void AddSource()
         {
-            SecondOutputBlock.IsVisible = e.Value;
+            Sources.Add(new SourceItem(_responsibleMaterials));
+        }
+
+        private void RemoveSource(SourceItem? item)
+        {
+            if (item == null || Sources.Count <= 1)
+            {
+                return;
+            }
+
+            Sources.Remove(item);
+        }
+
+        private void AddOutput()
+        {
+            Outputs.Add(new OutputItem(_materials, _products));
+        }
+
+        private void RemoveOutput(OutputItem? item)
+        {
+            if (item == null || Outputs.Count <= 1)
+            {
+                return;
+            }
+
+            Outputs.Remove(item);
         }
 
         private async void OnSubmitClicked(object? sender, EventArgs e)
@@ -104,44 +123,35 @@ namespace NekrasovskyAPP.Pages
                 return;
             }
 
-            if (SourceMaterialPicker.SelectedItem is not Material sourceMaterial)
+            var sources = new List<ReprocessingSource>();
+            foreach (var sourceItem in Sources)
             {
-                await DisplayAlert("Ошибка", "Выберите исходный материал", "OK");
-                return;
-            }
+                if (!TryBuildSource(sourceItem, out var source))
+                {
+                    await DisplayAlert("Ошибка", "Заполните все исходные материалы корректно", "OK");
+                    return;
+                }
 
-            if (!int.TryParse(SourceQuantityEntry.Text, out var sourceQuantity) || sourceQuantity <= 0)
-            {
-                await DisplayAlert("Ошибка", "Введите корректное количество переработки", "OK");
-                return;
+                sources.Add(source);
             }
 
             var outputs = new List<ReprocessingOutput>();
 
-            var output1 = BuildOutput(Target1TypePicker, Target1Picker, Target1QuantityEntry);
-            if (output1 == null)
+            foreach (var outputItem in Outputs)
             {
-                await DisplayAlert("Ошибка", "Заполните результат 1", "OK");
-                return;
-            }
-            outputs.Add(output1);
-
-            if (SecondOutputSwitch.IsToggled)
-            {
-                var output2 = BuildOutput(Target2TypePicker, Target2Picker, Target2QuantityEntry);
-                if (output2 == null)
+                if (!TryBuildOutput(outputItem, out var output))
                 {
-                    await DisplayAlert("Ошибка", "Заполните результат 2", "OK");
+                    await DisplayAlert("Ошибка", "Заполните все результаты корректно", "OK");
                     return;
                 }
-                outputs.Add(output2);
+
+                outputs.Add(output);
             }
 
             var request = new ReprocessingCreateRequest
             {
                 WarehouseId = warehouse.Id,
-                SourceMaterialId = sourceMaterial.Id,
-                SourceQuantity = sourceQuantity,
+                Sources = sources,
                 Outputs = outputs
             };
 
@@ -156,46 +166,234 @@ namespace NekrasovskyAPP.Pages
             ClearForm();
         }
 
-        private ReprocessingOutput? BuildOutput(Picker typePicker, Picker targetPicker, Entry quantityEntry)
+        private static bool TryBuildOutput(OutputItem outputItem, out ReprocessingOutput output)
         {
-            if (!int.TryParse(quantityEntry.Text, out var quantity) || quantity <= 0)
+            output = new ReprocessingOutput();
+
+            if (!int.TryParse(outputItem.Quantity, out var quantity) || quantity <= 0)
             {
-                return null;
+                return false;
             }
 
-            if (typePicker.SelectedItem?.ToString() == "Материал" && targetPicker.SelectedItem is Material material)
+            if (outputItem.SelectedType == "Материал" && outputItem.SelectedTarget is Material material)
             {
-                return new ReprocessingOutput
-                {
-                    MaterialId = material.Id,
-                    Quantity = quantity,
-                    MeasuringType = material.MeasuringUnit
-                };
+                output.MaterialId = material.Id;
+                output.Quantity = quantity;
+                output.MeasuringType = material.MeasuringUnit;
+                return true;
             }
 
-            if (typePicker.SelectedItem?.ToString() == "Продукт" && targetPicker.SelectedItem is Product product)
+            if (outputItem.SelectedType == "Продукт" && outputItem.SelectedTarget is Product product)
             {
-                return new ReprocessingOutput
-                {
-                    ProductId = product.Id,
-                    Quantity = quantity,
-                    MeasuringType = product.MeasuringUnit
-                };
+                output.ProductId = product.Id;
+                output.Quantity = quantity;
+                output.MeasuringType = product.MeasuringUnit;
+                return true;
             }
 
-            return null;
+            return false;
         }
 
         private void ClearForm()
         {
-            SourceQuantityEntry.Text = string.Empty;
-            Target1QuantityEntry.Text = string.Empty;
-            Target2QuantityEntry.Text = string.Empty;
-            Target1TypePicker.SelectedItem = null;
-            Target2TypePicker.SelectedItem = null;
-            Target1Picker.ItemsSource = null;
-            Target2Picker.ItemsSource = null;
-            SecondOutputSwitch.IsToggled = false;
+            Sources.Clear();
+            Sources.Add(new SourceItem(_responsibleMaterials));
+            Outputs.Clear();
+            Outputs.Add(new OutputItem(_materials, _products));
+        }
+
+        private static bool TryBuildSource(SourceItem sourceItem, out ReprocessingSource source)
+        {
+            source = new ReprocessingSource();
+
+            if (sourceItem.SelectedMaterial is not Material material)
+            {
+                return false;
+            }
+
+            if (!int.TryParse(sourceItem.Quantity, out var quantity) || quantity <= 0)
+            {
+                return false;
+            }
+
+            source.MaterialId = material.Id;
+            source.Quantity = quantity;
+            source.MeasuringType = material.MeasuringUnit;
+            return true;
+        }
+
+        public class SourceItem : INotifyPropertyChanged
+        {
+            private readonly List<Material> _materials;
+            private Material? _selectedMaterial;
+            private string? _quantity;
+            private IList<Material> _materialItems = new List<Material>();
+
+            public SourceItem(List<Material> materials)
+            {
+                _materials = materials;
+                RefreshMaterials();
+            }
+
+            public IList<Material> Materials
+            {
+                get => _materialItems;
+                private set
+                {
+                    _materialItems = value;
+                    OnPropertyChanged();
+                }
+            }
+
+            public Material? SelectedMaterial
+            {
+                get => _selectedMaterial;
+                set
+                {
+                    if (_selectedMaterial == value)
+                    {
+                        return;
+                    }
+
+                    _selectedMaterial = value;
+                    OnPropertyChanged();
+                }
+            }
+
+            public string? Quantity
+            {
+                get => _quantity;
+                set
+                {
+                    if (_quantity == value)
+                    {
+                        return;
+                    }
+
+                    _quantity = value;
+                    OnPropertyChanged();
+                }
+            }
+
+            public void RefreshMaterials()
+            {
+                Materials = _materials.ToList();
+                SelectedMaterial = null;
+            }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public class OutputItem : INotifyPropertyChanged
+        {
+            private readonly List<Material> _materials;
+            private readonly List<Product> _products;
+            private string? _selectedType;
+            private object? _selectedTarget;
+            private string? _quantity;
+            private IList<object> _targetItems = new List<object>();
+
+            public OutputItem(List<Material> materials, List<Product> products)
+            {
+                _materials = materials;
+                _products = products;
+                TypeOptions = new List<string> { "Материал", "Продукт" };
+            }
+
+            public List<string> TypeOptions { get; }
+
+            public string? SelectedType
+            {
+                get => _selectedType;
+                set
+                {
+                    if (_selectedType == value)
+                    {
+                        return;
+                    }
+
+                    _selectedType = value;
+                    OnPropertyChanged();
+                    UpdateTargetItems();
+                }
+            }
+
+            public IList<object> TargetItems
+            {
+                get => _targetItems;
+                private set
+                {
+                    _targetItems = value;
+                    OnPropertyChanged();
+                }
+            }
+
+            public object? SelectedTarget
+            {
+                get => _selectedTarget;
+                set
+                {
+                    if (_selectedTarget == value)
+                    {
+                        return;
+                    }
+
+                    _selectedTarget = value;
+                    OnPropertyChanged();
+                }
+            }
+
+            public string? Quantity
+            {
+                get => _quantity;
+                set
+                {
+                    if (_quantity == value)
+                    {
+                        return;
+                    }
+
+                    _quantity = value;
+                    OnPropertyChanged();
+                }
+            }
+
+            public void RefreshTargets()
+            {
+                UpdateTargetItems();
+            }
+
+            private void UpdateTargetItems()
+            {
+                if (_selectedType == "Материал")
+                {
+                    TargetItems = _materials.Cast<object>().ToList();
+                    SelectedTarget = null;
+                    return;
+                }
+
+                if (_selectedType == "Продукт")
+                {
+                    TargetItems = _products.Cast<object>().ToList();
+                    SelectedTarget = null;
+                    return;
+                }
+
+                TargetItems = new List<object>();
+                SelectedTarget = null;
+            }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

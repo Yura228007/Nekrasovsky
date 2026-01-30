@@ -118,14 +118,14 @@
                 </VerticalStackLayout>
             </Border>
 
-            <!-- Result 1 Section -->
+            <!-- Outputs Section -->
             <Border BackgroundColor="{StaticResource BackgroundCard}"
                     StrokeThickness="0"
                     Padding="16">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="16"/>
                 </Border.StrokeShape>
-                <VerticalStackLayout Spacing="14">
+                <VerticalStackLayout Spacing="12">
                     <HorizontalStackLayout Spacing="10">
                         <Border BackgroundColor="{StaticResource CardReprocess}"
                                 WidthRequest="32"
@@ -134,149 +134,103 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="8"/>
                             </Border.StrokeShape>
-                            <Label Text="1️⃣" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            <Label Text="✅" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
-                        <Label Text="Результат 1"
+                        <Label Text="Результаты"
                                FontSize="16"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
                                VerticalOptions="Center"/>
                     </HorizontalStackLayout>
 
-                    <Border BackgroundColor="{StaticResource BackgroundInput}"
-                            StrokeThickness="0"
-                            Padding="12,0"
-                            HeightRequest="48">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="12"/>
-                        </Border.StrokeShape>
-                        <Picker x:Name="Target1TypePicker"
-                                Title="Тип результата"
-                                SelectedIndexChanged="OnTarget1TypeChanged"
-                                TextColor="{StaticResource White}"
-                                TitleColor="{StaticResource Gray500}" />
-                    </Border>
+                    <CollectionView ItemsSource="{Binding Outputs}"
+                                    SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BackgroundColor="{StaticResource BackgroundCard}"
+                                        StrokeThickness="0"
+                                        Padding="14">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12"/>
+                                    </Border.StrokeShape>
+                                    <VerticalStackLayout Spacing="10">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label Text="Результат"
+                                                   FontSize="14"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource White}"
+                                                   VerticalOptions="Center"/>
+                                            <Button Grid.Column="1"
+                                                    Text="Удалить"
+                                                    FontSize="12"
+                                                    BackgroundColor="{StaticResource Error}"
+                                                    TextColor="{StaticResource White}"
+                                                    CornerRadius="10"
+                                                    Padding="10,4"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RemoveOutputCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                        </Grid>
 
-                    <Border BackgroundColor="{StaticResource BackgroundInput}"
-                            StrokeThickness="0"
-                            Padding="12,0"
-                            HeightRequest="48">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="12"/>
-                        </Border.StrokeShape>
-                        <Picker x:Name="Target1Picker"
-                                Title="Выберите материал или продукт"
-                                TextColor="{StaticResource White}"
-                                TitleColor="{StaticResource Gray500}" />
-                    </Border>
+                                        <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                                StrokeThickness="0"
+                                                Padding="12,0"
+                                                HeightRequest="48">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="12"/>
+                                            </Border.StrokeShape>
+                                            <Picker Title="Тип результата"
+                                                    ItemsSource="{Binding TypeOptions}"
+                                                    SelectedItem="{Binding SelectedType}"
+                                                    TextColor="{StaticResource White}"
+                                                    TitleColor="{StaticResource Gray500}" />
+                                        </Border>
 
-                    <Border BackgroundColor="{StaticResource BackgroundInput}"
-                            StrokeThickness="0"
-                            Padding="12,0"
-                            HeightRequest="48">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="12"/>
-                        </Border.StrokeShape>
-                        <Entry x:Name="Target1QuantityEntry"
-                               Keyboard="Numeric"
-                               Placeholder="Количество"
-                               TextColor="{StaticResource White}"
-                               PlaceholderColor="{StaticResource Gray600}"
-                               BackgroundColor="Transparent"
-                               VerticalOptions="Center" />
-                    </Border>
-                </VerticalStackLayout>
-            </Border>
+                                        <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                                StrokeThickness="0"
+                                                Padding="12,0"
+                                                HeightRequest="48">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="12"/>
+                                            </Border.StrokeShape>
+                                            <Picker Title="Выберите материал или продукт"
+                                                    ItemsSource="{Binding TargetItems}"
+                                                    SelectedItem="{Binding SelectedTarget}"
+                                                    ItemDisplayBinding="{Binding Name}"
+                                                    TextColor="{StaticResource White}"
+                                                    TitleColor="{StaticResource Gray500}" />
+                                        </Border>
 
-            <!-- Second Output Toggle -->
-            <Border BackgroundColor="{StaticResource BackgroundCard}"
-                    StrokeThickness="0"
-                    Padding="16">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="12"/>
-                </Border.StrokeShape>
-                <Grid ColumnDefinitions="*,Auto">
-                    <Label Text="Второй результат"
-                           FontSize="14"
-                           TextColor="{StaticResource White}"
-                           VerticalOptions="Center" />
-                    <Switch Grid.Column="1"
-                            x:Name="SecondOutputSwitch"
-                            Toggled="OnSecondOutputToggled"
-                            OnColor="{StaticResource Primary}"
-                            ThumbColor="{StaticResource White}" />
-                </Grid>
-            </Border>
+                                        <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                                StrokeThickness="0"
+                                                Padding="12,0"
+                                                HeightRequest="48">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="12"/>
+                                            </Border.StrokeShape>
+                                            <Entry Keyboard="Numeric"
+                                                   Placeholder="Количество"
+                                                   Text="{Binding Quantity}"
+                                                   TextColor="{StaticResource White}"
+                                                   PlaceholderColor="{StaticResource Gray600}"
+                                                   BackgroundColor="Transparent"
+                                                   VerticalOptions="Center" />
+                                        </Border>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
 
-            <!-- Result 2 Section -->
-            <Border x:Name="SecondOutputBlock"
-                    IsVisible="False"
-                    BackgroundColor="{StaticResource BackgroundCard}"
-                    StrokeThickness="0"
-                    Padding="16">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="16"/>
-                </Border.StrokeShape>
-                <VerticalStackLayout Spacing="14">
-                    <HorizontalStackLayout Spacing="10">
-                        <Border BackgroundColor="{StaticResource CardReprocess}"
-                                WidthRequest="32"
-                                HeightRequest="32"
-                                StrokeThickness="0">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="8"/>
-                            </Border.StrokeShape>
-                            <Label Text="2️⃣" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center"/>
-                        </Border>
-                        <Label Text="Результат 2"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource White}"
-                               VerticalOptions="Center"/>
-                    </HorizontalStackLayout>
-
-                    <Border BackgroundColor="{StaticResource BackgroundInput}"
-                            StrokeThickness="0"
-                            Padding="12,0"
-                            HeightRequest="48">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="12"/>
-                        </Border.StrokeShape>
-                        <Picker x:Name="Target2TypePicker"
-                                Title="Тип результата 2"
-                                SelectedIndexChanged="OnTarget2TypeChanged"
-                                TextColor="{StaticResource White}"
-                                TitleColor="{StaticResource Gray500}" />
-                    </Border>
-
-                    <Border BackgroundColor="{StaticResource BackgroundInput}"
-                            StrokeThickness="0"
-                            Padding="12,0"
-                            HeightRequest="48">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="12"/>
-                        </Border.StrokeShape>
-                        <Picker x:Name="Target2Picker"
-                                Title="Выберите материал или продукт"
-                                TextColor="{StaticResource White}"
-                                TitleColor="{StaticResource Gray500}" />
-                    </Border>
-
-                    <Border BackgroundColor="{StaticResource BackgroundInput}"
-                            StrokeThickness="0"
-                            Padding="12,0"
-                            HeightRequest="48">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="12"/>
-                        </Border.StrokeShape>
-                        <Entry x:Name="Target2QuantityEntry"
-                               Keyboard="Numeric"
-                               Placeholder="Количество"
-                               TextColor="{StaticResource White}"
-                               PlaceholderColor="{StaticResource Gray600}"
-                               BackgroundColor="Transparent"
-                               VerticalOptions="Center" />
-                    </Border>
+                    <Button Text="Добавить результат"
+                            BackgroundColor="{StaticResource CardReprocess}"
+                            TextColor="{StaticResource White}"
+                            CornerRadius="12"
+                            FontSize="14"
+                            HeightRequest="42"
+                            Command="{Binding AddOutputCommand}" />
                 </VerticalStackLayout>
             </Border>
 

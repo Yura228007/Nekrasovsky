@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace server.Models
@@ -8,13 +9,17 @@ namespace server.Models
         public int WarehouseId { get; set; }
 
         [Required]
-        public int SourceMaterialId { get; set; }
-
-        [Required]
-        public int SourceQuantity { get; set; }
+        public List<ReprocessingSource> Sources { get; set; } = new();
 
         [Required]
         public List<ReprocessingOutput> Outputs { get; set; } = new();
+    }
+
+    public class ReprocessingSource
+    {
+        public int MaterialId { get; set; }
+        public int Quantity { get; set; }
+        public string? MeasuringType { get; set; }
     }
 
     public class ReprocessingOutput

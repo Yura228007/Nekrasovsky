@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,8 +12,9 @@ namespace server.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "RequestLogs");
+            // The table may already be absent in some databases (manual cleanup / drift).
+            // Make the migration idempotent for PostgreSQL.
+            migrationBuilder.Sql(@"DROP TABLE IF EXISTS ""RequestLogs"";");
         }
 
         /// <inheritdoc />

@@ -78,7 +78,7 @@
                         BackgroundColor="{StaticResource BackgroundInput}"
                         StrokeThickness="0"
                         Padding="8,0"
-                        HeightRequest="40">
+                        HeightRequest="{OnIdiom Phone=40, Tablet=44, Desktop=58}">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10"/>
                     </Border.StrokeShape>
@@ -101,7 +101,7 @@
                         BackgroundColor="{StaticResource BackgroundInput}"
                         StrokeThickness="0"
                         Padding="8,0"
-                        HeightRequest="40">
+                        HeightRequest="{OnIdiom Phone=40, Tablet=44, Desktop=58}">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10"/>
                     </Border.StrokeShape>
@@ -124,7 +124,6 @@
 
         <!-- Products List -->
         <RefreshView Grid.Row="3"
-                     IsRefreshing="{Binding IsLoading}"
                      Refreshing="OnRefreshing">
             <CollectionView x:Name="ProductsCollectionView"
                             ItemsSource="{Binding Products}"

@@ -57,9 +57,12 @@ namespace server.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Навигационные свойства
-        public virtual User User { get; set; } = null!;
+        // Note: these navigation properties are intentionally nullable.
+        // With [ApiController], non-nullable reference properties are treated as required during model binding,
+        // which would cause 400 responses for POST/PUT where the client sends only *Id fields.
+        public virtual User? User { get; set; }
         public virtual WorkReport? WorkReport { get; set; }
-        public virtual Product Product { get; set; } = null!;
+        public virtual Product? Product { get; set; }
         public virtual Warehouse? Warehouse { get; set; }
         public virtual Machine? Machine { get; set; }
     }

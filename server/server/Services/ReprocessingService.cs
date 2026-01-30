@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Models;
+using System.Linq;
 
 namespace server.Services
 {
@@ -31,14 +32,15 @@ namespace server.Services
 
         public async Task<Reprocessing> CreateReprocessingAsync(ReprocessingCreateRequest request, int userId)
         {
-            if (request.SourceQuantity <= 0)
+            var sources = NormalizeSources(request);
+            if (sources.Count == 0)
             {
-                throw new InvalidOperationException("SourceQuantity must be greater than 0.");
+                throw new InvalidOperationException("At least one source material is required.");
             }
 
-            if (request.Outputs == null || request.Outputs.Count == 0 || request.Outputs.Count > 2)
+            if (request.Outputs == null || request.Outputs.Count == 0)
             {
-                throw new InvalidOperationException("Outputs must contain 1 or 2 items.");
+                throw new InvalidOperationException("Outputs must contain at least 1 item.");
             }
 
             if (!await _context.Warehouses.AnyAsync(w => w.Id == request.WarehouseId))
@@ -46,20 +48,8 @@ namespace server.Services
                 throw new KeyNotFoundException($"Warehouse with ID {request.WarehouseId} not found");
             }
 
-            if (!await _context.Materials.AnyAsync(m => m.Id == request.SourceMaterialId))
-            {
-                throw new KeyNotFoundException($"Material with ID {request.SourceMaterialId} not found");
-            }
-
             var canManage = await HasManageResponsibilityAsync(userId);
-            if (!canManage)
-            {
-                var isResponsible = await _responsibilityService.IsResponsibleForMaterialAsync(request.SourceMaterialId, userId);
-                if (!isResponsible)
-                {
-                    throw new InvalidOperationException("User is not responsible for this material.");
-                }
-            }
+            var sourceMaterialIds = sources.Select(s => s.MaterialId).Distinct().ToList();
 
             foreach (var output in request.Outputs)
             {
@@ -89,20 +79,30 @@ namespace server.Services
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                var sourceFilling = await _context.FillingWarehouses
-                    .FirstOrDefaultAsync(fw => fw.WarehouseId == request.WarehouseId && fw.MaterialId == request.SourceMaterialId);
+                await ValidateSourceMaterialsAsync(request.WarehouseId, sourceMaterialIds);
+                await ValidateSourceResponsibilitiesAsync(userId, canManage, sourceMaterialIds);
 
-                if (sourceFilling == null)
+                var sourceTotals = sources
+                    .GroupBy(s => s.MaterialId)
+                    .ToDictionary(g => g.Key, g => g.Sum(x => x.Quantity));
+
+                foreach (var sourceTotal in sourceTotals)
                 {
-                    throw new InvalidOperationException("Source material is not present in the selected warehouse.");
-                }
+                    var sourceFilling = await _context.FillingWarehouses
+                        .FirstOrDefaultAsync(fw => fw.WarehouseId == request.WarehouseId && fw.MaterialId == sourceTotal.Key);
 
-                if (sourceFilling.Quantity < request.SourceQuantity)
-                {
-                    throw new InvalidOperationException("Source quantity exceeds available stock.");
-                }
+                    if (sourceFilling == null)
+                    {
+                        throw new InvalidOperationException("Source material is not present in the selected warehouse.");
+                    }
 
-                sourceFilling.Quantity -= request.SourceQuantity;
+                    if (sourceFilling.Quantity < sourceTotal.Value)
+                    {
+                        throw new InvalidOperationException("Source quantity exceeds available stock.");
+                    }
+
+                    sourceFilling.Quantity -= sourceTotal.Value;
+                }
 
                 foreach (var output in request.Outputs)
                 {
@@ -122,8 +122,8 @@ namespace server.Services
                 {
                     UserId = userId,
                     WarehouseId = request.WarehouseId,
-                    SourceMaterialId = request.SourceMaterialId,
-                    SourceQuantity = request.SourceQuantity,
+                    SourceMaterialId = sources[0].MaterialId,
+                    SourceQuantity = sources[0].Quantity,
                     CreatedAt = DateTime.UtcNow,
                     Items = request.Outputs.Select(o => new ReprocessingItem
                     {
@@ -131,33 +131,89 @@ namespace server.Services
                         ProductId = o.ProductId,
                         Quantity = o.Quantity,
                         MeasuringType = o.MeasuringType
+                    }).ToList(),
+                    Sources = sources.Select(s => new ReprocessingSourceItem
+                    {
+                        MaterialId = s.MaterialId,
+                        Quantity = s.Quantity,
+                        MeasuringType = s.MeasuringType
                     }).ToList()
                 };
 
                 _context.Reprocessings.Add(reprocessing);
                 await _context.SaveChangesAsync();
 
-                if (sourceFilling.Quantity == 0)
-                {
-                    var totalRemaining = await _context.FillingWarehouses
-                        .Where(fw => fw.MaterialId == request.SourceMaterialId)
-                        .SumAsync(fw => fw.Quantity);
-
-                    if (totalRemaining <= 0)
-                    {
-                        await _responsibilityService.ReleaseMaterialAsync(request.SourceMaterialId);
-                    }
-                }
+                await ReleaseResponsibilitiesIfEmptyAsync(sourceMaterialIds);
 
                 await transaction.CommitAsync();
 
-                _logger.LogInformation("Reprocessing created: SourceMaterial {MaterialId}, User {UserId}", request.SourceMaterialId, userId);
+                _logger.LogInformation("Reprocessing created: SourceMaterials {MaterialIds}, User {UserId}", string.Join(",", sourceMaterialIds), userId);
                 return reprocessing;
             }
             catch
             {
                 await transaction.RollbackAsync();
                 throw;
+            }
+        }
+
+        private static List<ReprocessingSource> NormalizeSources(ReprocessingCreateRequest request)
+        {
+            var sources = request.Sources?.Where(s => s.MaterialId > 0 && s.Quantity > 0).ToList()
+                          ?? new List<ReprocessingSource>();
+
+            return sources;
+        }
+
+        private async Task ValidateSourceMaterialsAsync(int warehouseId, List<int> sourceMaterialIds)
+        {
+            var materialIds = await _context.Materials
+                .Where(m => sourceMaterialIds.Contains(m.Id))
+                .Select(m => m.Id)
+                .ToListAsync();
+
+            if (materialIds.Count != sourceMaterialIds.Count)
+            {
+                var missing = sourceMaterialIds.Except(materialIds).FirstOrDefault();
+                throw new KeyNotFoundException($"Material with ID {missing} not found");
+            }
+
+            var warehouseExists = await _context.Warehouses.AnyAsync(w => w.Id == warehouseId);
+            if (!warehouseExists)
+            {
+                throw new KeyNotFoundException($"Warehouse with ID {warehouseId} not found");
+            }
+        }
+
+        private async Task ValidateSourceResponsibilitiesAsync(int userId, bool canManage, List<int> sourceMaterialIds)
+        {
+            if (canManage)
+            {
+                return;
+            }
+
+            foreach (var materialId in sourceMaterialIds)
+            {
+                var isResponsible = await _responsibilityService.IsResponsibleForMaterialAsync(materialId, userId);
+                if (!isResponsible)
+                {
+                    throw new InvalidOperationException("User is not responsible for this material.");
+                }
+            }
+        }
+
+        private async Task ReleaseResponsibilitiesIfEmptyAsync(List<int> materialIds)
+        {
+            foreach (var materialId in materialIds)
+            {
+                var totalRemaining = await _context.FillingWarehouses
+                    .Where(fw => fw.MaterialId == materialId)
+                    .SumAsync(fw => fw.Quantity);
+
+                if (totalRemaining <= 0)
+                {
+                    await _responsibilityService.ReleaseMaterialAsync(materialId);
+                }
             }
         }
 

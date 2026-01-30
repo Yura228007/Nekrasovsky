@@ -23,5 +23,14 @@ namespace NekrasovskyAPP.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public List<ReprocessingItem> Items { get; set; } = new();
+
+        public List<ReprocessingSourceItem> Sources { get; set; } = new();
+    }
+
+    public class ReprocessingSourceItem
+    {
+        public int MaterialId { get; set; }
+        public int Quantity { get; set; }
+        public string? MeasuringType { get; set; }
     }
 }

@@ -79,8 +79,6 @@ namespace server.Services
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            await _responsibilityService.AssignProductAsync(product.Id, userId);
-
             _logger.LogInformation("Product created with ID: {ProductId}, Name: {Name}", product.Id, product.Name);
             return product;
         }

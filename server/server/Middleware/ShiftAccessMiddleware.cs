@@ -87,6 +87,12 @@ namespace server.Middleware
                 return;
             }
 
+            if (isPrivilegedUser)
+            {
+                await _next(context);
+                return;
+            }
+
             var hasActiveShift = await dbContext.WorkReports
                 .AnyAsync(wr => wr.UserId == userId.Value && wr.FinishWork == null);
 

@@ -72,6 +72,12 @@ build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.Login
 build_metadata.AdditionalFiles.TargetPath = Pages\LoginPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\LoginPage.xaml
 
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/MachinesPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.MachinesPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Pages\MachinesPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Pages\MachinesPage.xaml
+
 [D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/MaterialsPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.MaterialsPage.xaml
@@ -83,6 +89,12 @@ build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.PartRequestsPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\PartRequestsPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\PartRequestsPage.xaml
+
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/ProductOutputPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.ProductOutputPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Pages\ProductOutputPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Pages\ProductOutputPage.xaml
 
 [D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/ProductsPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml

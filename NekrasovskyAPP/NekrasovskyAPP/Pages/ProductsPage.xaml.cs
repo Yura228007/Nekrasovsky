@@ -52,13 +52,24 @@ namespace NekrasovskyAPP.Pages
 
         private async void OnRefreshing(object? sender, EventArgs e)
         {
-            SearchEntry.Text = string.Empty;
-            await _viewModel.LoadProductsAsync();
+            try
+            {
+                // Refresh should respect current search/filters.
+                await ApplyFiltersAsync();
+            }
+            finally
+            {
+                // Stop the pull-to-refresh spinner.
+                if (sender is RefreshView refreshView)
+                {
+                    refreshView.IsRefreshing = false;
+                }
+            }
         }
 
         private async void OnRefreshClicked(object? sender, EventArgs e)
         {
-            await _viewModel.LoadProductsAsync();
+            await ApplyFiltersAsync();
         }
 
         private string _lastSearchText = string.Empty;

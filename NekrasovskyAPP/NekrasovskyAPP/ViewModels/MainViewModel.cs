@@ -268,6 +268,10 @@ namespace NekrasovskyAPP.ViewModels
                     return;
                 }
                 Materials.Clear();
+                if (filtered.Count == 0)
+                {
+                    return;
+                }
                 foreach (var material in filtered)
                 {
                     Materials.Add(material);

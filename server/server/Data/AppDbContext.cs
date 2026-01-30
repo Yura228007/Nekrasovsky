@@ -25,6 +25,7 @@ public class AppDbContext : DbContext
     public DbSet<Responsibility> Responsibilities { get; set; } = null!;
     public DbSet<Reprocessing> Reprocessings { get; set; } = null!;
     public DbSet<ReprocessingItem> ReprocessingItems { get; set; } = null!;
+    public DbSet<ReprocessingSourceItem> ReprocessingSourceItems { get; set; } = null!;
     public DbSet<HistoryEvent> HistoryEvents { get; set; } = null!;
     public DbSet<ProductOutput> ProductOutputs { get; set; } = null!;
     public DbSet<Machine> Machines { get; set; } = null!;
@@ -322,6 +323,18 @@ public class AppDbContext : DbContext
             .ToTable(t => t.HasCheckConstraint(
                 "CK_ReprocessingItem_MaterialOrProduct",
                 "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)"));
+
+        modelBuilder.Entity<ReprocessingSourceItem>()
+            .HasOne(rsi => rsi.Reprocessing)
+            .WithMany(r => r.Sources)
+            .HasForeignKey(rsi => rsi.ReprocessingId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ReprocessingSourceItem>()
+            .HasOne(rsi => rsi.Material)
+            .WithMany()
+            .HasForeignKey(rsi => rsi.MaterialId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         // =============================
         // HistoryEvent

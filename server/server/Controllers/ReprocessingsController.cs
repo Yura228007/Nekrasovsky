@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using server.Models;
 using server.Services;
+using System.Linq;
 
 namespace server.Controllers
 {
@@ -36,14 +37,18 @@ namespace server.Controllers
             try
             {
                 var reprocessing = await _reprocessingService.CreateReprocessingAsync(request, userId);
+                var sourceDescription = request.Sources.Count == 0
+                    ? "не указаны"
+                    : string.Join(", ", request.Sources.Select(s => $"ID {s.MaterialId} (кол-во {s.Quantity})"));
+
                 await TryLogAsync(userId, new HistoryEvent
                 {
                     Action = "Reprocessing.Created",
                     EntityType = "Reprocessing",
                     EntityId = reprocessing.Id,
                     WarehouseId = request.WarehouseId,
-                    MaterialId = request.SourceMaterialId,
-                    Description = $"Переработка материала ID {request.SourceMaterialId} (кол-во {request.SourceQuantity})"
+                    MaterialId = request.Sources.FirstOrDefault()?.MaterialId,
+                    Description = $"Переработка материалов: {sourceDescription}"
                 });
                 return Ok(new { message = "Reprocessing created successfully", reprocessing });
             }

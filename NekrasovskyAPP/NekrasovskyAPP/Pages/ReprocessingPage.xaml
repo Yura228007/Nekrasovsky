@@ -5,6 +5,10 @@
              BackgroundColor="{StaticResource BackgroundDark}"
              Title="Переработать">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
+    </ContentPage.ToolbarItems>
+
     <ScrollView>
         <VerticalStackLayout Padding="16" Spacing="16">
 

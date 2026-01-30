@@ -51,24 +51,38 @@ namespace server.Services
             return await query.OrderByDescending(r => r.AssignedAt).FirstOrDefaultAsync();
         }
 
-        public async Task<Responsibility> AssignMaterialAsync(int materialId, int userId)
+        public async Task<Responsibility> AssignMaterialAsync(int materialId, int userId, int? quantity = null, string? measuringUnit = null)
         {
             if (!await _context.Materials.AnyAsync(m => m.Id == materialId))
             {
                 throw new KeyNotFoundException($"Material with ID {materialId} not found");
             }
 
-            return await AssignAsync(userId, materialId, null);
+            // Если единица измерения не указана, берем из материала
+            if (string.IsNullOrWhiteSpace(measuringUnit))
+            {
+                var material = await _context.Materials.FirstOrDefaultAsync(m => m.Id == materialId);
+                measuringUnit = material?.MeasuringUnit;
+            }
+
+            return await AssignAsync(userId, materialId, null, quantity, measuringUnit);
         }
 
-        public async Task<Responsibility> AssignProductAsync(int productId, int userId)
+        public async Task<Responsibility> AssignProductAsync(int productId, int userId, int? quantity = null, string? measuringUnit = null)
         {
             if (!await _context.Products.AnyAsync(p => p.Id == productId))
             {
                 throw new KeyNotFoundException($"Product with ID {productId} not found");
             }
 
-            return await AssignAsync(userId, null, productId);
+            // Если единица измерения не указана, берем из продукта
+            if (string.IsNullOrWhiteSpace(measuringUnit))
+            {
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+                measuringUnit = product?.MeasuringUnit;
+            }
+
+            return await AssignAsync(userId, null, productId, quantity, measuringUnit);
         }
 
         public async Task<bool> IsResponsibleForMaterialAsync(int materialId, int userId)
@@ -249,7 +263,7 @@ namespace server.Services
         public async Task<List<ResponsibilityAssignment>> GetActiveMaterialAssignmentsAsync()
         {
             var responsibilities = await _context.Responsibilities
-                .Where(r => r.MaterialId.HasValue)
+                .Where(r => r.MaterialId.HasValue && r.IsActive)
                 .OrderByDescending(r => r.AssignedAt)
                 .ToListAsync();
 
@@ -261,17 +275,15 @@ namespace server.Services
             var userMap = await _context.Users
                 .ToDictionaryAsync(u => u.Id, u => $"{u.Surname} {u.Name}");
 
+            // Возвращаем все активные назначения (не только первое), так как теперь поддерживаем несколько пользователей
             return responsibilities
-                .GroupBy(r => r.MaterialId!.Value)
-                .Select(g => g
-                    .OrderByDescending(r => r.IsActive)
-                    .ThenByDescending(r => r.AssignedAt)
-                    .First())
                 .Select(r => new ResponsibilityAssignment
                 {
                     ItemId = r.MaterialId!.Value,
                     UserId = r.UserId,
-                    UserName = userMap.TryGetValue(r.UserId, out var name) ? name : $"Пользователь #{r.UserId}"
+                    UserName = userMap.TryGetValue(r.UserId, out var name) ? name : $"Пользователь #{r.UserId}",
+                    Quantity = r.Quantity,
+                    MeasuringUnit = r.MeasuringUnit
                 })
                 .ToList();
         }
@@ -279,7 +291,7 @@ namespace server.Services
         public async Task<List<ResponsibilityAssignment>> GetActiveProductAssignmentsAsync()
         {
             var responsibilities = await _context.Responsibilities
-                .Where(r => r.ProductId.HasValue)
+                .Where(r => r.ProductId.HasValue && r.IsActive)
                 .OrderByDescending(r => r.AssignedAt)
                 .ToListAsync();
 
@@ -291,22 +303,20 @@ namespace server.Services
             var userMap = await _context.Users
                 .ToDictionaryAsync(u => u.Id, u => $"{u.Surname} {u.Name}");
 
+            // Возвращаем все активные назначения (не только первое), так как теперь поддерживаем несколько пользователей
             return responsibilities
-                .GroupBy(r => r.ProductId!.Value)
-                .Select(g => g
-                    .OrderByDescending(r => r.IsActive)
-                    .ThenByDescending(r => r.AssignedAt)
-                    .First())
                 .Select(r => new ResponsibilityAssignment
                 {
                     ItemId = r.ProductId!.Value,
                     UserId = r.UserId,
-                    UserName = userMap.TryGetValue(r.UserId, out var name) ? name : $"Пользователь #{r.UserId}"
+                    UserName = userMap.TryGetValue(r.UserId, out var name) ? name : $"Пользователь #{r.UserId}",
+                    Quantity = r.Quantity,
+                    MeasuringUnit = r.MeasuringUnit
                 })
                 .ToList();
         }
 
-        private async Task<Responsibility> AssignAsync(int userId, int? materialId, int? productId)
+        private async Task<Responsibility> AssignAsync(int userId, int? materialId, int? productId, int? quantity = null, string? measuringUnit = null)
         {
             if ((materialId.HasValue && productId.HasValue) || (!materialId.HasValue && !productId.HasValue))
             {
@@ -318,37 +328,153 @@ namespace server.Services
                 throw new KeyNotFoundException($"User with ID {userId} not found");
             }
 
-            var existing = await _context.Responsibilities
-                .Where(r => r.IsActive && r.MaterialId == materialId && r.ProductId == productId)
+            // Проверяем существующую ответственность для этого пользователя и материала/продукта
+            var existingForUser = await _context.Responsibilities
+                .Where(r => r.IsActive && r.MaterialId == materialId && r.ProductId == productId && r.UserId == userId)
                 .OrderByDescending(r => r.AssignedAt)
                 .FirstOrDefaultAsync();
 
-            if (existing != null && existing.UserId == userId)
+            // Если у пользователя уже есть активная ответственность, обновляем количество или возвращаем существующую
+            if (existingForUser != null)
             {
-                return existing;
+                if (quantity.HasValue)
+                {
+                    existingForUser.Quantity = quantity;
+                    existingForUser.MeasuringUnit = measuringUnit;
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation("Responsibility quantity updated: User {UserId}, Material {MaterialId}, Product {ProductId}, Quantity {Quantity}", 
+                        userId, materialId, productId, quantity);
+                }
+                return existingForUser;
             }
 
-            var now = DateTime.UtcNow;
-            if (existing != null)
-            {
-                existing.IsActive = false;
-                existing.ReleasedAt = now;
-            }
-
+            // Создаем новую ответственность (не закрываем существующие, так как теперь поддерживаем несколько пользователей)
             var responsibility = new Responsibility
             {
                 UserId = userId,
                 MaterialId = materialId,
                 ProductId = productId,
-                AssignedAt = now,
-                IsActive = true
+                AssignedAt = DateTime.UtcNow,
+                IsActive = true,
+                Quantity = quantity,
+                MeasuringUnit = measuringUnit
             };
 
             _context.Responsibilities.Add(responsibility);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("Responsibility assigned: User {UserId}, Material {MaterialId}, Product {ProductId}", userId, materialId, productId);
+            _logger.LogInformation("Responsibility assigned: User {UserId}, Material {MaterialId}, Product {ProductId}, Quantity {Quantity}", 
+                userId, materialId, productId, quantity);
             return responsibility;
+        }
+
+        public async Task<bool> DecreaseResponsibilityQuantityAsync(int materialId, int quantity, int? userId = null)
+        {
+            if (quantity <= 0)
+            {
+                return false;
+            }
+
+            // Получаем активные ответственности для материала, отсортированные по дате назначения
+            var responsibilities = await _context.Responsibilities
+                .Where(r => r.IsActive && 
+                           r.MaterialId == materialId && 
+                           (!userId.HasValue || r.UserId == userId.Value) &&
+                           (r.Quantity == null || r.Quantity > 0))
+                .OrderByDescending(r => r.AssignedAt)
+                .ToListAsync();
+
+            if (responsibilities.Count == 0)
+            {
+                return false;
+            }
+
+            int remainingQuantity = quantity;
+
+            foreach (var responsibility in responsibilities)
+            {
+                if (remainingQuantity <= 0)
+                {
+                    break;
+                }
+
+                if (responsibility.Quantity == null)
+                {
+                    // Если количество не указано, значит ответственность за весь материал
+                    // В этом случае не уменьшаем, так как это означает "ответственность за все"
+                    continue;
+                }
+
+                int decreaseAmount = Math.Min(remainingQuantity, responsibility.Quantity.Value);
+                responsibility.Quantity -= decreaseAmount;
+                remainingQuantity -= decreaseAmount;
+
+                // Если количество стало 0 или меньше, освобождаем ответственность
+                if (responsibility.Quantity <= 0)
+                {
+                    responsibility.IsActive = false;
+                    responsibility.ReleasedAt = DateTime.UtcNow;
+                    responsibility.Quantity = 0;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            _logger.LogInformation("Decreased responsibility quantity for Material {MaterialId} by {Quantity}", materialId, quantity);
+            return true;
+        }
+
+        public async Task<bool> DecreaseProductResponsibilityQuantityAsync(int productId, int quantity, int? userId = null)
+        {
+            if (quantity <= 0)
+            {
+                return false;
+            }
+
+            // Получаем активные ответственности для продукта
+            var responsibilities = await _context.Responsibilities
+                .Where(r => r.IsActive && 
+                           r.ProductId == productId && 
+                           (!userId.HasValue || r.UserId == userId.Value) &&
+                           (r.Quantity == null || r.Quantity > 0))
+                .OrderByDescending(r => r.AssignedAt)
+                .ToListAsync();
+
+            if (responsibilities.Count == 0)
+            {
+                return false;
+            }
+
+            int remainingQuantity = quantity;
+
+            foreach (var responsibility in responsibilities)
+            {
+                if (remainingQuantity <= 0)
+                {
+                    break;
+                }
+
+                if (responsibility.Quantity == null)
+                {
+                    // Если количество не указано, значит ответственность за весь продукт
+                    continue;
+                }
+
+                int decreaseAmount = Math.Min(remainingQuantity, responsibility.Quantity.Value);
+                responsibility.Quantity -= decreaseAmount;
+                remainingQuantity -= decreaseAmount;
+
+                // Если количество стало 0 или меньше, освобождаем ответственность
+                if (responsibility.Quantity <= 0)
+                {
+                    responsibility.IsActive = false;
+                    responsibility.ReleasedAt = DateTime.UtcNow;
+                    responsibility.Quantity = 0;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            _logger.LogInformation("Decreased responsibility quantity for Product {ProductId} by {Quantity}", productId, quantity);
+            return true;
         }
     }
 }

@@ -96,8 +96,8 @@ namespace NekrasovskyAPP.Services
         Task<List<ResponsibilityStockItem>> GetResponsibilityStockAsync(int userId);
         Task<List<ResponsibilityAssignment>> GetActiveMaterialAssignmentsAsync();
         Task<List<ResponsibilityAssignment>> GetActiveProductAssignmentsAsync();
-        Task<ApiResponse<Responsibility>> AssignMaterialResponsibilityAsync(int materialId, int userId);
-        Task<ApiResponse<Responsibility>> AssignProductResponsibilityAsync(int productId, int userId);
+        Task<ApiResponse<Responsibility>> AssignMaterialResponsibilityAsync(int materialId, int userId, int? quantity = null, string? measuringUnit = null);
+        Task<ApiResponse<Responsibility>> AssignProductResponsibilityAsync(int productId, int userId, int? quantity = null, string? measuringUnit = null);
         Task<ApiResponse<object>> ReleaseMaterialResponsibilityAsync(int materialId);
         Task<ApiResponse<object>> ReleaseProductResponsibilityAsync(int productId);
 

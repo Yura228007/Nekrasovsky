@@ -4,6 +4,9 @@
              xmlns:converters="clr-namespace:NekrasovskyAPP.Converters"
              x:Class="NekrasovskyAPP.Pages.MaterialsPage"
              BackgroundColor="{StaticResource BackgroundDark}">
+    <ContentPage.Resources>
+        <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+    </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
@@ -168,13 +171,13 @@
                                         WidthRequest="48"
                                         HeightRequest="48"
                                         StrokeThickness="0"
-                                        VerticalOptions="Center">
+                                        VerticalOptions="Start">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="12"/>
                                     </Border.StrokeShape>
                                     <Label Text="🔧" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Start">
                                     <Label Text="{Binding Name}"
                                            FontSize="16"
                                            FontAttributes="Bold"
@@ -196,14 +199,22 @@
                                         BackgroundColor="{StaticResource BackgroundElevated}"
                                         StrokeThickness="0"
                                         Padding="10,6"
-                                        VerticalOptions="Center">
+                                        VerticalOptions="Start"
+                                        MinimumWidthRequest="120">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="8"/>
                                     </Border.StrokeShape>
-                                    <Label Text="{Binding StockSummary}"
-                                           FontSize="12"
-                                           TextColor="{StaticResource Gray400}"
-                                           VerticalTextAlignment="Center" />
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="{Binding StockSummary}"
+                                               FontSize="12"
+                                               TextColor="{StaticResource Gray400}"
+                                               IsVisible="{Binding HasResponsibility, Converter={StaticResource InvertedBoolConverter}}" />
+                                        <Label Text="{Binding WarehouseStocksDisplay}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource Gray400}"
+                                               IsVisible="{Binding HasWarehouseStocks}"
+                                               LineBreakMode="WordWrap" />
+                                    </VerticalStackLayout>
                                 </Border>
                             </Grid>
                         </Border>

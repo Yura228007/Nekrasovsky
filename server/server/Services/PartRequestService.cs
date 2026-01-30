@@ -127,30 +127,95 @@ namespace server.Services
 
         public async Task<PartRequest> ApprovePartRequestAsync(int id)
         {
-            var request = await _context.PartRequests.FindAsync(id);
+            var request = await _context.PartRequests
+                .Include(pr => pr.Material)
+                .FirstOrDefaultAsync(pr => pr.Id == id);
+            
             if (request == null)
             {
                 throw new KeyNotFoundException($"PartRequest with ID {id} not found");
             }
 
-            request.Status = PartRequestStatus.Approved;
-            await _context.SaveChangesAsync();
-
-            await _responsibilityService.AssignMaterialAsync(request.MaterialId, request.ToUserId);
-
-            // Сбрасываем счетчик отказов при одобрении запроса
-            var rejectionKey = $"{request.FromUserId}-{request.ToUserId}";
-            lock (_rejectionCounts)
+            if (request.Status != PartRequestStatus.Pending)
             {
-                if (_rejectionCounts.ContainsKey(rejectionKey))
-                {
-                    _rejectionCounts[rejectionKey] = 0;
-                }
+                throw new InvalidOperationException($"PartRequest {id} is already {request.Status}");
             }
 
-            _logger.LogInformation("PartRequest {RequestId} approved. Rejection counter reset for users {FromUserId}-{ToUserId}", 
-                id, request.FromUserId, request.ToUserId);
-            return request;
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                // Перемещаем материал между складами
+                var fromFilling = await _context.FillingWarehouses
+                    .FirstOrDefaultAsync(fw => fw.WarehouseId == request.FromWarehouseId && 
+                                               fw.MaterialId == request.MaterialId);
+
+                if (fromFilling == null || fromFilling.Quantity < request.Quantity)
+                {
+                    throw new InvalidOperationException($"Insufficient material quantity in source warehouse. Available: {fromFilling?.Quantity ?? 0}, Required: {request.Quantity}");
+                }
+
+                // Уменьшаем количество на исходном складе
+                fromFilling.Quantity -= request.Quantity;
+
+                // Увеличиваем количество на целевом складе
+                var toFilling = await _context.FillingWarehouses
+                    .FirstOrDefaultAsync(fw => fw.WarehouseId == request.ToWarehouseId && 
+                                              fw.MaterialId == request.MaterialId);
+
+                if (toFilling == null)
+                {
+                    toFilling = new FillingWarehouse
+                    {
+                        WarehouseId = request.ToWarehouseId,
+                        MaterialId = request.MaterialId,
+                        Quantity = 0,
+                        MeasuringType = request.MeasuringType ?? request.Material?.MeasuringUnit
+                    };
+                    _context.FillingWarehouses.Add(toFilling);
+                }
+
+                toFilling.Quantity += request.Quantity;
+                if (!string.IsNullOrWhiteSpace(request.MeasuringType))
+                {
+                    toFilling.MeasuringType = request.MeasuringType;
+                }
+
+                // Уменьшаем количество ответственности у отправителя (если он был ответственным)
+                await _responsibilityService.DecreaseResponsibilityQuantityAsync(
+                    request.MaterialId, 
+                    request.Quantity, 
+                    request.FromUserId);
+
+                // Назначаем ответственность получателю с указанным количеством
+                await _responsibilityService.AssignMaterialAsync(
+                    request.MaterialId, 
+                    request.ToUserId, 
+                    request.Quantity, 
+                    request.MeasuringType ?? request.Material?.MeasuringUnit);
+
+                request.Status = PartRequestStatus.Approved;
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                // Сбрасываем счетчик отказов при одобрении запроса
+                var rejectionKey = $"{request.FromUserId}-{request.ToUserId}";
+                lock (_rejectionCounts)
+                {
+                    if (_rejectionCounts.ContainsKey(rejectionKey))
+                    {
+                        _rejectionCounts[rejectionKey] = 0;
+                    }
+                }
+
+                _logger.LogInformation("PartRequest {RequestId} approved. Material {MaterialId} moved from warehouse {FromWarehouseId} to {ToWarehouseId}, quantity {Quantity}", 
+                    id, request.MaterialId, request.FromWarehouseId, request.ToWarehouseId, request.Quantity);
+                return request;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         public async Task<PartRequest> RejectPartRequestAsync(int id, string? reason)

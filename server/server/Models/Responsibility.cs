@@ -32,6 +32,18 @@ namespace server.Models
         [Column(TypeName = "boolean")]
         public bool IsActive { get; set; } = true;
 
+        /// <summary>
+        /// Количество, за которое ответственно лицо. Null означает, что ответственность за весь материал/продукт.
+        /// </summary>
+        [Column(TypeName = "integer")]
+        public int? Quantity { get; set; }
+
+        /// <summary>
+        /// Единица измерения количества
+        /// </summary>
+        [Column(TypeName = "varchar(20)")]
+        public string? MeasuringUnit { get; set; }
+
         [Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidateNever]
         [System.Text.Json.Serialization.JsonIgnore]
         public virtual User User { get; set; } = null!;

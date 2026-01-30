@@ -168,7 +168,7 @@ namespace server.Controllers
                     return Forbid();
                 }
 
-                var responsibility = await _responsibilityService.AssignMaterialAsync(materialId, request.UserId);
+                var responsibility = await _responsibilityService.AssignMaterialAsync(materialId, request.UserId, request.Quantity, request.MeasuringUnit);
                 return Ok(new { message = "Responsibility assigned", responsibility });
             }
             catch (KeyNotFoundException ex)
@@ -199,7 +199,7 @@ namespace server.Controllers
                     return Forbid();
                 }
 
-                var responsibility = await _responsibilityService.AssignProductAsync(productId, request.UserId);
+                var responsibility = await _responsibilityService.AssignProductAsync(productId, request.UserId, request.Quantity, request.MeasuringUnit);
                 return Ok(new { message = "Responsibility assigned", responsibility });
             }
             catch (KeyNotFoundException ex)
@@ -313,5 +313,7 @@ namespace server.Controllers
     public class AssignResponsibilityRequest
     {
         public int UserId { get; set; }
+        public int? Quantity { get; set; }
+        public string? MeasuringUnit { get; set; }
     }
 }

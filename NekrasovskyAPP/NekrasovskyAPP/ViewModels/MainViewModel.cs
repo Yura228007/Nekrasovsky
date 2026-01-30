@@ -23,8 +23,8 @@ namespace NekrasovskyAPP.ViewModels
             _apiService = apiService;
             _authService = authService;
             Users = new ObservableCollection<User>();
-            Products = new ObservableCollection<Product>();
-            Materials = new ObservableCollection<Material>();
+            Products = new ObservableCollection<ProductDisplayItem>();
+            Materials = new ObservableCollection<MaterialDisplayItem>();
             Warehouses = new ObservableCollection<Warehouse>();
             Roles = new ObservableCollection<Role>();
         }
@@ -32,8 +32,8 @@ namespace NekrasovskyAPP.ViewModels
         public IApiService ApiService => _apiService;
 
         public ObservableCollection<User> Users { get; }
-        public ObservableCollection<Product> Products { get; }
-        public ObservableCollection<Material> Materials { get; }
+        public ObservableCollection<ProductDisplayItem> Products { get; }
+        public ObservableCollection<MaterialDisplayItem> Materials { get; }
         public ObservableCollection<Warehouse> Warehouses { get; }
         public ObservableCollection<Role> Roles { get; }
 
@@ -99,11 +99,11 @@ namespace NekrasovskyAPP.ViewModels
                 var products = await _apiService.GetAllProductsAsync();
                 var filtered = await FilterProductsByResponsibilityAsync(products);
                 ShowResponsibility = true;
-                await ApplyProductResponsibilityAsync(filtered, true);
+                var displayItems = await CreateProductDisplayItemsAsync(filtered);
                 Products.Clear();
-                foreach (var product in filtered)
+                foreach (var item in displayItems)
                 {
-                    Products.Add(product);
+                    Products.Add(item);
                 }
             }
             catch (Exception ex)
@@ -126,11 +126,11 @@ namespace NekrasovskyAPP.ViewModels
                 var filtered = await FilterMaterialsByResponsibilityAsync(materials);
                 await ApplyMaterialStockAsync(filtered);
                 ShowResponsibility = true;
-                await ApplyMaterialResponsibilityAsync(filtered, true);
+                var displayItems = await CreateMaterialDisplayItemsAsync(filtered);
                 Materials.Clear();
-                foreach (var material in filtered)
+                foreach (var item in displayItems)
                 {
-                    Materials.Add(material);
+                    Materials.Add(item);
                 }
             }
             catch (Exception ex)
@@ -226,15 +226,15 @@ namespace NekrasovskyAPP.ViewModels
                 }
                 var filtered = await FilterProductsByResponsibilityAsync(products);
                 ShowResponsibility = true;
-                await ApplyProductResponsibilityAsync(filtered, true);
+                var displayItems = await CreateProductDisplayItemsAsync(filtered);
                 if (searchVersion != _productSearchVersion)
                 {
                     return;
                 }
                 Products.Clear();
-                foreach (var product in filtered)
+                foreach (var item in displayItems)
                 {
-                    Products.Add(product);
+                    Products.Add(item);
                 }
             }
             catch (Exception ex)
@@ -262,19 +262,15 @@ namespace NekrasovskyAPP.ViewModels
                 var filtered = await FilterMaterialsByResponsibilityAsync(materials);
                 await ApplyMaterialStockAsync(filtered);
                 ShowResponsibility = true;
-                await ApplyMaterialResponsibilityAsync(filtered, true);
+                var displayItems = await CreateMaterialDisplayItemsAsync(filtered);
                 if (searchVersion != _materialSearchVersion)
                 {
                     return;
                 }
                 Materials.Clear();
-                if (filtered.Count == 0)
+                foreach (var item in displayItems)
                 {
-                    return;
-                }
-                foreach (var material in filtered)
-                {
-                    Materials.Add(material);
+                    Materials.Add(item);
                 }
             }
             catch (Exception ex)
@@ -872,13 +868,29 @@ namespace NekrasovskyAPP.ViewModels
                 return;
             }
 
-            var assignmentMap = assignments.ToDictionary(a => a.ItemId, a => a.UserName);
+            // Группируем по ItemId для поддержки нескольких пользователей
+            var assignmentGroups = assignments.GroupBy(a => a.ItemId).ToDictionary(g => g.Key, g => g.ToList());
 
             foreach (var material in materials)
             {
-                if (assignmentMap.TryGetValue(material.Id, out var userName))
+                if (assignmentGroups.TryGetValue(material.Id, out var materialAssignments) && materialAssignments.Count > 0)
                 {
-                    material.ResponsibilityDisplay = $"Ответственный: {userName}";
+                    var displayParts = new List<string>();
+                    foreach (var assignment in materialAssignments)
+                    {
+                        if (assignment.Quantity.HasValue)
+                        {
+                            var unit = !string.IsNullOrWhiteSpace(assignment.MeasuringUnit) 
+                                ? assignment.MeasuringUnit 
+                                : material.MeasuringUnit;
+                            displayParts.Add($"{assignment.UserName} ({assignment.Quantity} {unit})");
+                        }
+                        else
+                        {
+                            displayParts.Add(assignment.UserName);
+                        }
+                    }
+                    material.ResponsibilityDisplay = $"Ответственные: {string.Join(", ", displayParts)}";
                 }
             }
         }
@@ -902,13 +914,29 @@ namespace NekrasovskyAPP.ViewModels
                 return;
             }
 
-            var assignmentMap = assignments.ToDictionary(a => a.ItemId, a => a.UserName);
+            // Группируем по ItemId для поддержки нескольких пользователей
+            var assignmentGroups = assignments.GroupBy(a => a.ItemId).ToDictionary(g => g.Key, g => g.ToList());
 
             foreach (var product in products)
             {
-                if (assignmentMap.TryGetValue(product.Id, out var userName))
+                if (assignmentGroups.TryGetValue(product.Id, out var productAssignments) && productAssignments.Count > 0)
                 {
-                    product.ResponsibilityDisplay = $"Ответственный: {userName}";
+                    var displayParts = new List<string>();
+                    foreach (var assignment in productAssignments)
+                    {
+                        if (assignment.Quantity.HasValue)
+                        {
+                            var unit = !string.IsNullOrWhiteSpace(assignment.MeasuringUnit) 
+                                ? assignment.MeasuringUnit 
+                                : product.MeasuringUnit;
+                            displayParts.Add($"{assignment.UserName} ({assignment.Quantity} {unit})");
+                        }
+                        else
+                        {
+                            displayParts.Add(assignment.UserName);
+                        }
+                    }
+                    product.ResponsibilityDisplay = $"Ответственные: {string.Join(", ", displayParts)}";
                 }
             }
         }
@@ -940,7 +968,17 @@ namespace NekrasovskyAPP.ViewModels
 
                 if (!string.IsNullOrWhiteSpace(name))
                 {
-                    material.ResponsibilityDisplay = $"Ответственный: {name}";
+                    if (responsibility.Quantity.HasValue)
+                    {
+                        var unit = !string.IsNullOrWhiteSpace(responsibility.MeasuringUnit) 
+                            ? responsibility.MeasuringUnit 
+                            : material.MeasuringUnit;
+                        material.ResponsibilityDisplay = $"Ответственный: {name} ({responsibility.Quantity} {unit})";
+                    }
+                    else
+                    {
+                        material.ResponsibilityDisplay = $"Ответственный: {name}";
+                    }
                 }
             }
         }
@@ -972,9 +1010,247 @@ namespace NekrasovskyAPP.ViewModels
 
                 if (!string.IsNullOrWhiteSpace(name))
                 {
-                    product.ResponsibilityDisplay = $"Ответственный: {name}";
+                    if (responsibility.Quantity.HasValue)
+                    {
+                        var unit = !string.IsNullOrWhiteSpace(responsibility.MeasuringUnit) 
+                            ? responsibility.MeasuringUnit 
+                            : product.MeasuringUnit;
+                        product.ResponsibilityDisplay = $"Ответственный: {name} ({responsibility.Quantity} {unit})";
+                    }
+                    else
+                    {
+                        product.ResponsibilityDisplay = $"Ответственный: {name}";
+                    }
                 }
             }
+        }
+
+        /// <summary>
+        /// Создает список MaterialDisplayItem из списка материалов
+        /// Для каждого материала с несколькими ответственными создается несколько карточек
+        /// Если сумма количеств ответственных меньше общего количества на складах, добавляется карточка для неответственной части
+        /// </summary>
+        private async Task<List<MaterialDisplayItem>> CreateMaterialDisplayItemsAsync(List<Material> materials)
+        {
+            var result = new List<MaterialDisplayItem>();
+            
+            if (materials.Count == 0)
+            {
+                return result;
+            }
+
+            // Получаем все назначения ответственности
+            var assignments = await _apiService.GetActiveMaterialAssignmentsAsync();
+            var assignmentGroups = assignments.GroupBy(a => a.ItemId).ToDictionary(g => g.Key, g => g.ToList());
+
+            // Получаем информацию о количестве на складах
+            var fillings = await _apiService.GetAllFillingWarehousesAsync();
+            var materialTotalQuantities = fillings
+                .Where(f => f.MaterialId.HasValue)
+                .GroupBy(f => f.MaterialId!.Value)
+                .ToDictionary(g => g.Key, g => g.Sum(f => f.Quantity));
+
+            // Получаем информацию о складах для отображения названий
+            var warehouses = await EnsureWarehousesLoadedAsync();
+            var warehouseMap = warehouses
+                .Where(w => w.IsActive)
+                .ToDictionary(w => w.Id, w => $"{w.Name} ({w.Type})");
+
+            // Группируем fillings по материалам
+            var materialFillings = fillings
+                .Where(f => f.MaterialId.HasValue)
+                .GroupBy(f => f.MaterialId!.Value)
+                .ToDictionary(g => g.Key, g => g.ToList());
+
+            foreach (var material in materials)
+            {
+                if (assignmentGroups.TryGetValue(material.Id, out var materialAssignments) && materialAssignments.Count > 0)
+                {
+                    // Получаем fillings для этого материала
+                    var materialFillingList = materialFillings.TryGetValue(material.Id, out var fillingsList) 
+                        ? fillingsList 
+                        : new List<FillingWarehouse>();
+
+                    // Создаем отдельную карточку для каждого ответственного
+                    foreach (var assignment in materialAssignments)
+                    {
+                        var warehouseStocks = new List<WarehouseStockInfo>();
+                        
+                        // Если у ответственного есть количество, показываем все склады где есть материал
+                        // Если ответственный за весь материал (без количества), тоже показываем все склады
+                        foreach (var filling in materialFillingList.Where(f => f.Quantity > 0))
+                        {
+                            if (warehouseMap.TryGetValue(filling.WarehouseId, out var warehouseName))
+                            {
+                                var unit = !string.IsNullOrWhiteSpace(filling.MeasuringType)
+                                    ? filling.MeasuringType
+                                    : material.MeasuringUnit;
+                                
+                                warehouseStocks.Add(new WarehouseStockInfo
+                                {
+                                    WarehouseName = warehouseName,
+                                    Quantity = filling.Quantity,
+                                    MeasuringUnit = unit
+                                });
+                            }
+                        }
+
+                        result.Add(new MaterialDisplayItem
+                        {
+                            Material = material,
+                            Responsibility = assignment,
+                            WarehouseStocks = warehouseStocks
+                        });
+                    }
+
+                    // Проверяем, есть ли неответственная часть
+                    var totalResponsibleQuantity = materialAssignments
+                        .Where(a => a.Quantity.HasValue)
+                        .Sum(a => a.Quantity!.Value);
+
+                    // Если есть ответственные с количеством, проверяем общее количество на складах
+                    if (materialAssignments.Any(a => a.Quantity.HasValue) && 
+                        materialTotalQuantities.TryGetValue(material.Id, out var totalOnWarehouses))
+                    {
+                        // Если сумма количеств ответственных меньше общего количества на складах
+                        if (totalResponsibleQuantity < totalOnWarehouses)
+                        {
+                            // Добавляем карточку для неответственной части
+                            result.Add(new MaterialDisplayItem
+                            {
+                                Material = material,
+                                Responsibility = null // Неответственная часть
+                            });
+                        }
+                    }
+                    // Если есть ответственные без количества (за весь материал), не добавляем неответственную часть
+                }
+                else
+                {
+                    // Если нет ответственных, создаем одну карточку без ответственности
+                    result.Add(new MaterialDisplayItem
+                    {
+                        Material = material,
+                        Responsibility = null
+                    });
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Создает список ProductDisplayItem из списка продуктов
+        /// Для каждого продукта с несколькими ответственными создается несколько карточек
+        /// Если сумма количеств ответственных меньше общего количества на складах, добавляется карточка для неответственной части
+        /// </summary>
+        private async Task<List<ProductDisplayItem>> CreateProductDisplayItemsAsync(List<Product> products)
+        {
+            var result = new List<ProductDisplayItem>();
+            
+            if (products.Count == 0)
+            {
+                return result;
+            }
+
+            // Получаем все назначения ответственности
+            var assignments = await _apiService.GetActiveProductAssignmentsAsync();
+            var assignmentGroups = assignments.GroupBy(a => a.ItemId).ToDictionary(g => g.Key, g => g.ToList());
+
+            // Получаем информацию о количестве на складах
+            var fillings = await _apiService.GetAllFillingWarehousesAsync();
+            var productTotalQuantities = fillings
+                .Where(f => f.ProductId.HasValue)
+                .GroupBy(f => f.ProductId!.Value)
+                .ToDictionary(g => g.Key, g => g.Sum(f => f.Quantity));
+
+            // Получаем информацию о складах для отображения названий
+            var warehouses = await EnsureWarehousesLoadedAsync();
+            var warehouseMap = warehouses
+                .Where(w => w.IsActive)
+                .ToDictionary(w => w.Id, w => $"{w.Name} ({w.Type})");
+
+            // Группируем fillings по продуктам
+            var productFillings = fillings
+                .Where(f => f.ProductId.HasValue)
+                .GroupBy(f => f.ProductId!.Value)
+                .ToDictionary(g => g.Key, g => g.ToList());
+
+            foreach (var product in products)
+            {
+                if (assignmentGroups.TryGetValue(product.Id, out var productAssignments) && productAssignments.Count > 0)
+                {
+                    // Получаем fillings для этого продукта
+                    var productFillingList = productFillings.TryGetValue(product.Id, out var fillingsList) 
+                        ? fillingsList 
+                        : new List<FillingWarehouse>();
+
+                    // Создаем отдельную карточку для каждого ответственного
+                    foreach (var assignment in productAssignments)
+                    {
+                        var warehouseStocks = new List<WarehouseStockInfo>();
+                        
+                        // Если у ответственного есть количество, показываем все склады где есть продукт
+                        // Если ответственный за весь продукт (без количества), тоже показываем все склады
+                        foreach (var filling in productFillingList.Where(f => f.Quantity > 0))
+                        {
+                            if (warehouseMap.TryGetValue(filling.WarehouseId, out var warehouseName))
+                            {
+                                var unit = !string.IsNullOrWhiteSpace(filling.MeasuringType)
+                                    ? filling.MeasuringType
+                                    : product.MeasuringUnit;
+                                
+                                warehouseStocks.Add(new WarehouseStockInfo
+                                {
+                                    WarehouseName = warehouseName,
+                                    Quantity = filling.Quantity,
+                                    MeasuringUnit = unit
+                                });
+                            }
+                        }
+
+                        result.Add(new ProductDisplayItem
+                        {
+                            Product = product,
+                            Responsibility = assignment,
+                            WarehouseStocks = warehouseStocks
+                        });
+                    }
+
+                    // Проверяем, есть ли неответственная часть
+                    var totalResponsibleQuantity = productAssignments
+                        .Where(a => a.Quantity.HasValue)
+                        .Sum(a => a.Quantity!.Value);
+
+                    // Если есть ответственные с количеством, проверяем общее количество на складах
+                    if (productAssignments.Any(a => a.Quantity.HasValue) && 
+                        productTotalQuantities.TryGetValue(product.Id, out var totalOnWarehouses))
+                    {
+                        // Если сумма количеств ответственных меньше общего количества на складах
+                        if (totalResponsibleQuantity < totalOnWarehouses)
+                        {
+                            // Добавляем карточку для неответственной части
+                            result.Add(new ProductDisplayItem
+                            {
+                                Product = product,
+                                Responsibility = null // Неответственная часть
+                            });
+                        }
+                    }
+                    // Если есть ответственные без количества (за весь продукт), не добавляем неответственную часть
+                }
+                else
+                {
+                    // Если нет ответственных, создаем одну карточку без ответственности
+                    result.Add(new ProductDisplayItem
+                    {
+                        Product = product,
+                        Responsibility = null
+                    });
+                }
+            }
+
+            return result;
         }
 
         private async Task<List<Warehouse>> EnsureWarehousesLoadedAsync()

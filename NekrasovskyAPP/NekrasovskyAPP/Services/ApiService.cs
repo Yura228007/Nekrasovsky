@@ -1226,11 +1226,11 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<ApiResponse<Responsibility>> AssignMaterialResponsibilityAsync(int materialId, int userId)
+        public async Task<ApiResponse<Responsibility>> AssignMaterialResponsibilityAsync(int materialId, int userId, int? quantity = null, string? measuringUnit = null)
         {
             try
             {
-                var payload = new { userId };
+                var payload = new { userId, quantity, measuringUnit };
                 var response = await _httpClient.PostAsJsonAsync($"api/responsibilities/material/{materialId}/assign", payload, _jsonOptions);
                 response.EnsureSuccessStatusCode();
                 var jsonString = await response.Content.ReadAsStringAsync();
@@ -1253,11 +1253,11 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<ApiResponse<Responsibility>> AssignProductResponsibilityAsync(int productId, int userId)
+        public async Task<ApiResponse<Responsibility>> AssignProductResponsibilityAsync(int productId, int userId, int? quantity = null, string? measuringUnit = null)
         {
             try
             {
-                var payload = new { userId };
+                var payload = new { userId, quantity, measuringUnit };
                 var response = await _httpClient.PostAsJsonAsync($"api/responsibilities/product/{productId}/assign", payload, _jsonOptions);
                 response.EnsureSuccessStatusCode();
                 var jsonString = await response.Content.ReadAsStringAsync();

@@ -192,6 +192,12 @@ namespace NekrasovskyAPP.Pages
             Outputs.Remove(item);
         }
 
+        private async void OnRefreshClicked(object? sender, EventArgs e)
+        {
+            await LoadDataAsync();
+            SetPickerHeights();
+        }
+
         private async void OnSubmitClicked(object? sender, EventArgs e)
         {
             if (WarehousePicker.SelectedItem is not Warehouse warehouse)

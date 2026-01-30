@@ -186,7 +186,9 @@ namespace NekrasovskyAPP.Pages
 
         private async void OnMaterialSelected(object? sender, SelectionChangedEventArgs e)
         {
-            if (e.CurrentSelection.FirstOrDefault() is Material selectedMaterial)
+            if (e.CurrentSelection.FirstOrDefault() is MaterialDisplayItem displayItem)
+            {
+                var selectedMaterial = displayItem.Material;
             {
                 var isPrivileged = await _viewModel.IsPrivilegedUserAsync();
                 var canDelete = await _viewModel.CanDeleteItemsAsync();
@@ -406,14 +408,47 @@ namespace NekrasovskyAPP.Pages
             }
 
             var selectedUser = _viewModel.Users[index];
-            var response = await _viewModel.ApiService.AssignMaterialResponsibilityAsync(material.Id, selectedUser.Id);
+            
+            // Запрашиваем количество у пользователя
+            var quantityText = await DisplayPromptAsync(
+                "Количество",
+                $"Укажите количество, за которое будет отвечать {selectedUser.Surname} {selectedUser.Name}.\nОставьте пустым для ответственности за весь материал.",
+                "Назначить",
+                "Отмена",
+                "Количество",
+                -1,
+                Keyboard.Numeric);
+
+            int? quantity = null;
+            string? measuringUnit = null;
+
+            if (!string.IsNullOrWhiteSpace(quantityText))
+            {
+                if (int.TryParse(quantityText, out var qty) && qty > 0)
+                {
+                    quantity = qty;
+                    measuringUnit = material.MeasuringUnit;
+                }
+                else
+                {
+                    await DisplayAlert("Ошибка", "Количество должно быть положительным числом", "OK");
+                    return;
+                }
+            }
+
+            var response = await _viewModel.ApiService.AssignMaterialResponsibilityAsync(material.Id, selectedUser.Id, quantity, measuringUnit);
             if (response.GetData() == null && !string.IsNullOrEmpty(response.Message))
             {
                 await DisplayAlert("Ошибка", response.Message, "OK");
                 return;
             }
 
-            await DisplayAlert("Успех", "Ответственное лицо обновлено", "OK");
+            var message = quantity.HasValue 
+                ? $"Ответственное лицо обновлено. Количество: {quantity} {measuringUnit}"
+                : "Ответственное лицо обновлено (за весь материал)";
+            await DisplayAlert("Успех", message, "OK");
+            // Перезагружаем материалы для обновления списка
+            await _viewModel.LoadMaterialsAsync();
         }
 
         private async Task ReleaseMaterialResponsibilityAsync(Material material)
@@ -438,6 +473,8 @@ namespace NekrasovskyAPP.Pages
             }
 
             await DisplayAlert("Успех", "Ответственность снята", "OK");
+            // Перезагружаем материалы для обновления списка
+            await _viewModel.LoadMaterialsAsync();
         }
 
         private async Task<(string? code, bool cancelled)> GetCodeAsync(string title, string? existingCode)

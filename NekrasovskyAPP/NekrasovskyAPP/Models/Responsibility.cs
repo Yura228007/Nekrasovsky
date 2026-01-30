@@ -23,5 +23,9 @@ namespace NekrasovskyAPP.Models
         public DateTime? ReleasedAt { get; set; }
 
         public bool IsActive { get; set; } = true;
+
+        public int? Quantity { get; set; }
+
+        public string? MeasuringUnit { get; set; }
     }
 }

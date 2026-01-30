@@ -102,6 +102,9 @@ namespace server.Services
                     }
 
                     sourceFilling.Quantity -= sourceTotal.Value;
+                    
+                    // Автоматически уменьшаем количество ответственности при использовании материала
+                    await _responsibilityService.DecreaseResponsibilityQuantityAsync(sourceTotal.Key, sourceTotal.Value);
                 }
 
                 foreach (var output in request.Outputs)

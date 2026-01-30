@@ -232,7 +232,7 @@
               "RelativeDocumentMoniker": "NekrasovskyAPP\\Pages\\ReprocessingPage.xaml.cs",
               "ToolTip": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\Pages\\ReprocessingPage.xaml.cs",
               "RelativeToolTip": "NekrasovskyAPP\\Pages\\ReprocessingPage.xaml.cs",
-              "ViewState": "AgIAAL0AAAAAAAAAAAApwMwAAABGAAAAAAAAAA==",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAawFkAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-30T00:24:58.394Z",
               "EditorCaption": ""
@@ -247,8 +247,7 @@
               "RelativeToolTip": "NekrasovskyAPP\\Pages\\ReprocessingPage.xaml",
               "ViewState": "AgIAAIcAAAAAAAAAAAAAAGgAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-01-29T23:56:06.377Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T23:56:06.377Z"
             },
             {
               "$type": "Document",
@@ -260,8 +259,7 @@
               "RelativeToolTip": "NekrasovskyAPP\\Pages\\HistoryPage.xaml",
               "ViewState": "AgIAAEIAAAAAAAAAAAAAAFwAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-01-29T23:45:22.965Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T23:45:22.965Z"
             },
             {
               "$type": "Document",
@@ -271,8 +269,7 @@
               "ToolTip": "C:\\Users\\admin\\.nuget\\packages\\microsoft.maui.resizetizer\\8.0.100\\buildTransitive\\Microsoft.Maui.Resizetizer.After.targets",
               "ViewState": "AgIAAGcCAAAAAAAAAAAEwH8CAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2026-01-29T22:37:34.155Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T22:37:34.155Z"
             },
             {
               "$type": "Document",
@@ -284,8 +281,7 @@
               "RelativeToolTip": "NekrasovskyAPP\\Pages\\AdminPage.xaml",
               "ViewState": "AgIAAKgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-01-22T19:28:27.837Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-22T19:28:27.837Z"
             },
             {
               "$type": "Document",
@@ -297,8 +293,7 @@
               "RelativeToolTip": "NekrasovskyAPP\\Services\\ApiService.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAADwvxgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T18:54:00.121Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T18:54:00.121Z"
             },
             {
               "$type": "Document",
@@ -310,8 +305,7 @@
               "RelativeToolTip": "NekrasovskyAPP\\Platforms\\Android\\AlarmSoundService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAFUAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-20T20:35:43.488Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-20T20:35:43.488Z"
             },
             {
               "$type": "Document",
@@ -335,8 +329,7 @@
               "RelativeToolTip": "NekrasovskyAPP\\ViewModels\\MainViewModel.cs",
               "ViewState": "AgIAAAIBAAAAAAAAAAAwwBQBAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T21:16:09.615Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T21:16:09.615Z"
             },
             {
               "$type": "Document",
@@ -348,8 +341,7 @@
               "RelativeToolTip": "NekrasovskyAPP\\Platforms\\Android\\AlarmForegroundService.cs",
               "ViewState": "AgIAADwAAAAAAAAAAAAcwE0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T18:10:59.243Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T18:10:59.243Z"
             },
             {
               "$type": "Document",
@@ -361,8 +353,7 @@
               "RelativeToolTip": "NekrasovskyAPP\\Pages\\ProductsPage.xaml",
               "ViewState": "AgIAAH4AAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-01-21T12:08:09.278Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-21T12:08:09.278Z"
             },
             {
               "$type": "Document",
@@ -374,8 +365,7 @@
               "RelativeToolTip": "NekrasovskyAPP\\Pages\\ProductsPage.xaml.cs",
               "ViewState": "AgIAABsAAAAAAAAAAAAuwBUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-17T12:53:37.702Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-17T12:53:37.702Z"
             },
             {
               "$type": "Document",
@@ -396,8 +386,7 @@
               "ToolTip": "C:\\Program Files\\dotnet\\sdk\\9.0.308\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.Sdk.DefaultItems.targets",
               "ViewState": "AgIAAG8AAAAAAAAAAADwv3cAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2026-01-25T16:29:23.316Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-25T16:29:23.316Z"
             },
             {
               "$type": "Document",
@@ -709,8 +698,7 @@
               "RelativeToolTip": "NekrasovskyAPP\\NekrasovskyAPP.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-10-14T17:15:50.219Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T17:15:50.219Z"
             },
             {
               "$type": "Document",

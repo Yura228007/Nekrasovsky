@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Linq;
+using Microsoft.Maui.ApplicationModel;
 
 namespace NekrasovskyAPP.Pages
 {
@@ -16,6 +17,8 @@ namespace NekrasovskyAPP.Pages
         private readonly List<Material> _materials = new();
         private readonly List<Product> _products = new();
         private readonly List<Material> _responsibleMaterials = new();
+        private readonly List<FillingWarehouse> _fillingWarehouses = new();
+        private Warehouse? _selectedWarehouse;
 
         public ObservableCollection<SourceItem> Sources { get; } = new();
         public ObservableCollection<OutputItem> Outputs { get; } = new();
@@ -34,7 +37,8 @@ namespace NekrasovskyAPP.Pages
             AddOutputCommand = new Command(AddOutput);
             RemoveOutputCommand = new Command<OutputItem>(RemoveOutput);
             BindingContext = this;
-            Sources.Add(new SourceItem(_responsibleMaterials));
+            // Инициализируем с пустым списком, данные загрузятся в OnAppearing
+            Sources.Add(new SourceItem(new List<Material>(), IsDesktop()));
             Outputs.Add(new OutputItem(_materials, _products));
         }
 
@@ -42,6 +46,20 @@ namespace NekrasovskyAPP.Pages
         {
             base.OnAppearing();
             await LoadDataAsync();
+            SetPickerHeights();
+        }
+
+        private void SetPickerHeights()
+        {
+            // Устанавливаем высоту 58 для Picker на ПК
+            if (IsDesktop() && WarehousePickerBorder != null)
+            {
+                WarehousePickerBorder.HeightRequest = 58.0;
+            }
+            else if (WarehousePickerBorder != null)
+            {
+                WarehousePickerBorder.HeightRequest = 48.0;
+            }
         }
 
         private async Task LoadDataAsync()
@@ -57,11 +75,13 @@ namespace NekrasovskyAPP.Pages
             _materials.Clear();
             _products.Clear();
             _responsibleMaterials.Clear();
+            _fillingWarehouses.Clear();
 
             _warehouses.AddRange((await _apiService.GetAllWarehousesAsync())
                 .Where(w => w.IsActive));
             _materials.AddRange(await _apiService.GetAllMaterialsAsync());
             _products.AddRange(await _apiService.GetAllProductsAsync());
+            _fillingWarehouses.AddRange(await _apiService.GetAllFillingWarehousesAsync());
 
             var responsibilities = await _apiService.GetResponsibilitiesByUserAsync(user.Id, true);
             var materialIds = responsibilities
@@ -75,19 +95,76 @@ namespace NekrasovskyAPP.Pages
             }
 
             WarehousePicker.ItemsSource = _warehouses;
-            foreach (var source in Sources)
-            {
-                source.RefreshMaterials();
-            }
+            
+            // Обновляем материалы для исходников после загрузки данных
+            UpdateSourceMaterials();
+            
             foreach (var output in Outputs)
             {
                 output.RefreshTargets();
             }
         }
 
+        private void OnWarehouseSelected(object? sender, EventArgs e)
+        {
+            _selectedWarehouse = WarehousePicker.SelectedItem as Warehouse;
+            UpdateSourceMaterials();
+        }
+
+        private void UpdateSourceMaterials()
+        {
+            // Получаем материалы, которые есть на выбранном складе И под ответственностью пользователя
+            var availableMaterials = _responsibleMaterials.AsEnumerable();
+
+            if (_selectedWarehouse != null)
+            {
+                // Получаем ID материалов, которые есть на выбранном складе
+                var materialIdsOnWarehouse = _fillingWarehouses
+                    .Where(fw => fw.WarehouseId == _selectedWarehouse.Id && 
+                                 fw.MaterialId.HasValue && 
+                                 fw.Quantity > 0)
+                    .Select(fw => fw.MaterialId!.Value)
+                    .ToHashSet();
+
+                // Фильтруем материалы: должны быть и под ответственностью, и на складе
+                availableMaterials = availableMaterials.Where(m => materialIdsOnWarehouse.Contains(m.Id));
+            }
+
+            var materialsList = availableMaterials.ToList();
+            
+            // Обновляем материалы для всех SourceItem
+            foreach (var source in Sources)
+            {
+                source.UpdateAvailableMaterials(materialsList);
+            }
+        }
+
         private void AddSource()
         {
-            Sources.Add(new SourceItem(_responsibleMaterials));
+            var availableMaterials = GetAvailableMaterials();
+            Sources.Add(new SourceItem(availableMaterials, IsDesktop()));
+        }
+
+        private List<Material> GetAvailableMaterials()
+        {
+            if (_selectedWarehouse != null)
+            {
+                var materialIdsOnWarehouse = _fillingWarehouses
+                    .Where(fw => fw.WarehouseId == _selectedWarehouse.Id && 
+                                 fw.MaterialId.HasValue && 
+                                 fw.Quantity > 0)
+                    .Select(fw => fw.MaterialId!.Value)
+                    .ToHashSet();
+
+                return _responsibleMaterials.Where(m => materialIdsOnWarehouse.Contains(m.Id)).ToList();
+            }
+            
+            return _responsibleMaterials.ToList();
+        }
+
+        private bool IsDesktop()
+        {
+            return DeviceInfo.Idiom == DeviceIdiom.Desktop || DeviceInfo.Platform == DevicePlatform.WinUI;
         }
 
         private void RemoveSource(SourceItem? item)
@@ -197,9 +274,12 @@ namespace NekrasovskyAPP.Pages
         private void ClearForm()
         {
             Sources.Clear();
-            Sources.Add(new SourceItem(_responsibleMaterials));
+            var availableMaterials = GetAvailableMaterials();
+            Sources.Add(new SourceItem(availableMaterials, IsDesktop()));
             Outputs.Clear();
             Outputs.Add(new OutputItem(_materials, _products));
+            WarehousePicker.SelectedItem = null;
+            _selectedWarehouse = null;
         }
 
         private static bool TryBuildSource(SourceItem sourceItem, out ReprocessingSource source)
@@ -224,14 +304,16 @@ namespace NekrasovskyAPP.Pages
 
         public class SourceItem : INotifyPropertyChanged
         {
-            private readonly List<Material> _materials;
+            private readonly List<Material> _availableMaterials;
+            private readonly bool _isDesktop;
             private Material? _selectedMaterial;
             private string? _quantity;
             private IList<Material> _materialItems = new List<Material>();
 
-            public SourceItem(List<Material> materials)
+            public SourceItem(List<Material> availableMaterials, bool isDesktop)
             {
-                _materials = materials;
+                _availableMaterials = availableMaterials;
+                _isDesktop = isDesktop;
                 RefreshMaterials();
             }
 
@@ -275,10 +357,19 @@ namespace NekrasovskyAPP.Pages
                 }
             }
 
+            public double PickerHeight => _isDesktop ? 58.0 : 48.0;
+
             public void RefreshMaterials()
             {
-                Materials = _materials.ToList();
+                Materials = _availableMaterials.ToList();
                 SelectedMaterial = null;
+            }
+
+            public void UpdateAvailableMaterials(List<Material> newMaterials)
+            {
+                _availableMaterials.Clear();
+                _availableMaterials.AddRange(newMaterials);
+                RefreshMaterials();
             }
 
             public event PropertyChangedEventHandler? PropertyChanged;
@@ -293,6 +384,7 @@ namespace NekrasovskyAPP.Pages
         {
             private readonly List<Material> _materials;
             private readonly List<Product> _products;
+            private readonly bool _isDesktop;
             private string? _selectedType;
             private object? _selectedTarget;
             private string? _quantity;
@@ -303,7 +395,10 @@ namespace NekrasovskyAPP.Pages
                 _materials = materials;
                 _products = products;
                 TypeOptions = new List<string> { "Материал", "Продукт" };
+                _isDesktop = DeviceInfo.Idiom == DeviceIdiom.Desktop || DeviceInfo.Platform == DevicePlatform.WinUI;
             }
+
+            public double PickerHeight => _isDesktop ? 58.0 : 48.0;
 
             public List<string> TypeOptions { get; }
 

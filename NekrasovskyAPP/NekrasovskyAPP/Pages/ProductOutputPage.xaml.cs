@@ -11,6 +11,7 @@ namespace NekrasovskyAPP.Pages
         private List<Product> _products = new();
         private List<Warehouse> _warehouses = new();
         private List<Machine> _machines = new();
+        private Dictionary<int, int?> _productResponsibleQuantities = new(); // ProductId -> AvailableQuantity (null = unlimited)
 
         public ProductOutputPage(IApiService apiService, IAuthService authService)
         {
@@ -39,7 +40,43 @@ namespace NekrasovskyAPP.Pages
                     return;
                 }
 
-                _products = await _apiService.GetAllProductsAsync();
+                // Загружаем все продукты
+                var allProducts = await _apiService.GetAllProductsAsync();
+                
+                // Получаем ответственности пользователя за продукты
+                var responsibilities = await _apiService.GetResponsibilitiesByUserAsync(currentUser.Id, true);
+                var productResponsibilities = responsibilities
+                    .Where(r => r.ProductId.HasValue)
+                    .GroupBy(r => r.ProductId!.Value)
+                    .ToDictionary(g => g.Key, g => g.ToList());
+                
+                // Фильтруем продукты - показываем только те, за которые пользователь ответственный
+                _products = allProducts
+                    .Where(p => productResponsibilities.ContainsKey(p.Id))
+                    .ToList();
+                
+                // Вычисляем доступные количества для каждого продукта
+                _productResponsibleQuantities.Clear();
+                foreach (var product in _products)
+                {
+                    if (productResponsibilities.TryGetValue(product.Id, out var productResps))
+                    {
+                        // Если хотя бы одна ответственность без количества (за весь продукт), то доступно неограниченно
+                        if (productResps.Any(r => !r.Quantity.HasValue))
+                        {
+                            _productResponsibleQuantities[product.Id] = null; // null = неограниченно
+                        }
+                        else
+                        {
+                            // Суммируем все количества
+                            var totalQuantity = productResps
+                                .Where(r => r.Quantity.HasValue)
+                                .Sum(r => r.Quantity!.Value);
+                            _productResponsibleQuantities[product.Id] = totalQuantity;
+                        }
+                    }
+                }
+                
                 _warehouses = await _apiService.GetAllWarehousesAsync();
                 _machines = await _apiService.GetActiveMachinesAsync();
                 _outputs = await _apiService.GetProductOutputsByUserAsync(currentUser.Id);
@@ -150,10 +187,25 @@ namespace NekrasovskyAPP.Pages
                 selectedMachine = selectedMachineName == "Без станка" ? null : _machines.FirstOrDefault(m => m.DisplayName == selectedMachineName);
             }
 
+            // Получаем доступное количество для выбранного продукта
+            var baseAvailableQuantity = _productResponsibleQuantities.TryGetValue(selectedProduct.Id, out var qty) ? qty : null;
+            
+            // При редактировании, если продукт не изменился, вычитаем старое количество
+            int? availableQuantity = baseAvailableQuantity;
+            if (existingOutput != null && existingOutput.ProductId == selectedProduct.Id && baseAvailableQuantity.HasValue)
+            {
+                var oldTotalUsed = existingOutput.ProducedQuantity + existingOutput.DefectQuantity + existingOutput.EcoQuantity;
+                availableQuantity = baseAvailableQuantity.Value + oldTotalUsed; // Возвращаем старое количество обратно
+            }
+            
+            var quantityLimitText = availableQuantity.HasValue 
+                ? $"\n(Доступно: {availableQuantity.Value} {selectedProduct.MeasuringUnit})"
+                : "";
+
             // Enter produced quantity
             var producedStr = await DisplayPromptAsync(
                 title,
-                "Количество произведенной продукции:",
+                $"Количество произведенной продукции:{quantityLimitText}",
                 "Далее",
                 "Отмена",
                 "0",
@@ -167,11 +219,21 @@ namespace NekrasovskyAPP.Pages
                 await DisplayAlert("Ошибка", "Введите корректное число", "OK");
                 return;
             }
+            
+            // Проверяем доступное количество
+            if (availableQuantity.HasValue && produced > availableQuantity.Value)
+            {
+                await DisplayAlert(
+                    "Ошибка", 
+                    $"Количество произведенной продукции ({produced} {selectedProduct.MeasuringUnit}) превышает доступное количество ({availableQuantity.Value} {selectedProduct.MeasuringUnit})",
+                    "OK");
+                return;
+            }
 
             // Enter defect quantity
             var defectStr = await DisplayPromptAsync(
                 title,
-                "Количество брака:",
+                $"Количество брака:{quantityLimitText}",
                 "Далее",
                 "Отмена",
                 "0",
@@ -185,11 +247,25 @@ namespace NekrasovskyAPP.Pages
                 await DisplayAlert("Ошибка", "Введите корректное число", "OK");
                 return;
             }
+            
+            // Проверяем доступное количество для брака
+            if (availableQuantity.HasValue)
+            {
+                var totalUsed = produced + defect;
+                if (totalUsed > availableQuantity.Value)
+                {
+                    await DisplayAlert(
+                        "Ошибка", 
+                        $"Сумма произведенной продукции и брака ({totalUsed} {selectedProduct.MeasuringUnit}) превышает доступное количество ({availableQuantity.Value} {selectedProduct.MeasuringUnit})",
+                        "OK");
+                    return;
+                }
+            }
 
             // Enter eco quantity
             var ecoStr = await DisplayPromptAsync(
                 title,
-                "Количество эко-продукции:",
+                $"Количество эко-продукции:{quantityLimitText}",
                 "Сохранить",
                 "Отмена",
                 "0",
@@ -202,6 +278,20 @@ namespace NekrasovskyAPP.Pages
             {
                 await DisplayAlert("Ошибка", "Введите корректное число", "OK");
                 return;
+            }
+            
+            // Проверяем общее доступное количество (произведено + брак + эко)
+            if (availableQuantity.HasValue)
+            {
+                var totalUsed = produced + defect + eco;
+                if (totalUsed > availableQuantity.Value)
+                {
+                    await DisplayAlert(
+                        "Ошибка", 
+                        $"Общее количество (произведено + брак + эко = {totalUsed} {selectedProduct.MeasuringUnit}) превышает доступное количество ({availableQuantity.Value} {selectedProduct.MeasuringUnit})",
+                        "OK");
+                    return;
+                }
             }
 
             var currentUser = _authService.CurrentUser;

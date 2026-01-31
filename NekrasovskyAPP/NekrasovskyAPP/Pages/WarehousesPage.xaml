@@ -102,6 +102,8 @@
                             <x:String>Склад</x:String>
                             <x:String>Производство</x:String>
                             <x:String>Утиль</x:String>
+                            <x:String>Готовая продукция</x:String>
+                            <x:String>Сырьё</x:String>
                         </Picker.Items>
                     </Picker>
                 </Border>

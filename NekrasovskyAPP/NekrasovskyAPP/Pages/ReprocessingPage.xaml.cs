@@ -345,8 +345,11 @@ namespace NekrasovskyAPP.Pages
 
                     _selectedMaterial = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(MeasuringUnit));
                 }
             }
+
+            public string MeasuringUnit => _selectedMaterial?.MeasuringUnit ?? "";
 
             public string? Quantity
             {
@@ -421,6 +424,7 @@ namespace NekrasovskyAPP.Pages
                     _selectedType = value;
                     OnPropertyChanged();
                     UpdateTargetItems();
+                    OnPropertyChanged(nameof(MeasuringUnit));
                 }
             }
 
@@ -446,6 +450,23 @@ namespace NekrasovskyAPP.Pages
 
                     _selectedTarget = value;
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(MeasuringUnit));
+                }
+            }
+
+            public string MeasuringUnit
+            {
+                get
+                {
+                    if (_selectedTarget is Material material)
+                    {
+                        return material.MeasuringUnit;
+                    }
+                    if (_selectedTarget is Product product)
+                    {
+                        return product.MeasuringUnit;
+                    }
+                    return "";
                 }
             }
 

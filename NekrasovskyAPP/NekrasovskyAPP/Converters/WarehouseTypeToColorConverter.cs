@@ -15,8 +15,8 @@ namespace NekrasovskyAPP.Converters
                     "цех" => GetColorResource("CardMaterials"),
                     "склад" => GetColorResource("CardWarehouses"),
                     "производство" => GetColorResource("CardReprocess"),
-                    "готовой продукции" => GetColorResource("CardProducts"),
-                    "сырья" => GetColorResource("CardScanner"),
+                    "готовой продукции" or "готовая продукция" => GetColorResource("CardProducts"),
+                    "сырья" or "сырьё" => GetColorResource("CardScanner"),
                     "утиль" => GetColorResource("CardDisposal"),
                     _ => GetColorResource("CardWarehouses")
                 };

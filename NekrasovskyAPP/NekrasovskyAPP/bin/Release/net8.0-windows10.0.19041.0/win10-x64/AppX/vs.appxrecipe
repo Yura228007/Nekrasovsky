@@ -30,7 +30,7 @@
     <AppXManifest Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\bin\Release\net8.0-windows10.0.19041.0\win10-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2026-01-31T21:12:02.679</Modified>
+      <Modified>2026-01-31T21:27:52.228</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -44,7 +44,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\apphost.exe">
       <PackagePath>NekrasovskyAPP.exe</PackagePath>
-      <Modified>2026-01-31T21:11:54.998</Modified>
+      <Modified>2026-01-31T21:27:45.277</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\Resources\Raw\AboutAssets.txt">
       <PackagePath>AboutAssets.txt</PackagePath>
@@ -676,7 +676,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\R2R\NekrasovskyAPP.dll">
       <PackagePath>NekrasovskyAPP.dll</PackagePath>
-      <Modified>2026-01-31T21:12:02.144</Modified>
+      <Modified>2026-01-31T21:27:51.845</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\obj\Release\net8.0-windows10.0.19041.0\win10-x64\NekrasovskyAPP.deps.json">
       <PackagePath>NekrasovskyAPP.deps.json</PackagePath>

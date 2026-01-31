@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:NekrasovskyAPP.Converters"
              x:Class="NekrasovskyAPP.Pages.ReprocessingPage"
              BackgroundColor="{StaticResource BackgroundDark}"
              Title="Переработать">
+    <ContentPage.Resources>
+        <converters:IsStringNotEmptyConverter x:Key="IsStringNotEmptyConverter" />
+    </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
@@ -127,21 +131,30 @@
                                                     TitleColor="{StaticResource Gray500}" />
                                         </Border>
 
-                                        <Border BackgroundColor="{StaticResource BackgroundInput}"
-                                                StrokeThickness="0"
-                                                Padding="12,0"
-                                                HeightRequest="48">
-                                            <Border.StrokeShape>
-                                                <RoundRectangle CornerRadius="12"/>
-                                            </Border.StrokeShape>
-                                            <Entry Keyboard="Numeric"
-                                                   Placeholder="Количество"
-                                                   Text="{Binding Quantity}"
-                                                   TextColor="{StaticResource White}"
-                                                   PlaceholderColor="{StaticResource Gray600}"
-                                                   BackgroundColor="Transparent"
-                                                   VerticalOptions="Center" />
-                                        </Border>
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                            <Border Grid.Column="0"
+                                                    BackgroundColor="{StaticResource BackgroundInput}"
+                                                    StrokeThickness="0"
+                                                    Padding="12,0"
+                                                    HeightRequest="48">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="12"/>
+                                                </Border.StrokeShape>
+                                                <Entry Keyboard="Numeric"
+                                                       Placeholder="Количество"
+                                                       Text="{Binding Quantity}"
+                                                       TextColor="{StaticResource White}"
+                                                       PlaceholderColor="{StaticResource Gray600}"
+                                                       BackgroundColor="Transparent"
+                                                       VerticalOptions="Center" />
+                                            </Border>
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding MeasuringUnit}"
+                                                   FontSize="14"
+                                                   TextColor="{StaticResource CardMaterials}"
+                                                   VerticalOptions="Center"
+                                                   IsVisible="{Binding MeasuringUnit, Converter={StaticResource IsStringNotEmptyConverter}}" />
+                                        </Grid>
                                     </VerticalStackLayout>
                                 </Border>
                             </DataTemplate>
@@ -243,21 +256,30 @@
                                                     TitleColor="{StaticResource Gray500}" />
                                         </Border>
 
-                                        <Border BackgroundColor="{StaticResource BackgroundInput}"
-                                                StrokeThickness="0"
-                                                Padding="12,0"
-                                                HeightRequest="48">
-                                            <Border.StrokeShape>
-                                                <RoundRectangle CornerRadius="12"/>
-                                            </Border.StrokeShape>
-                                            <Entry Keyboard="Numeric"
-                                                   Placeholder="Количество"
-                                                   Text="{Binding Quantity}"
-                                                   TextColor="{StaticResource White}"
-                                                   PlaceholderColor="{StaticResource Gray600}"
-                                                   BackgroundColor="Transparent"
-                                                   VerticalOptions="Center" />
-                                        </Border>
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                            <Border Grid.Column="0"
+                                                    BackgroundColor="{StaticResource BackgroundInput}"
+                                                    StrokeThickness="0"
+                                                    Padding="12,0"
+                                                    HeightRequest="48">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="12"/>
+                                                </Border.StrokeShape>
+                                                <Entry Keyboard="Numeric"
+                                                       Placeholder="Количество"
+                                                       Text="{Binding Quantity}"
+                                                       TextColor="{StaticResource White}"
+                                                       PlaceholderColor="{StaticResource Gray600}"
+                                                       BackgroundColor="Transparent"
+                                                       VerticalOptions="Center" />
+                                            </Border>
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding MeasuringUnit}"
+                                                   FontSize="14"
+                                                   TextColor="{StaticResource CardReprocess}"
+                                                   VerticalOptions="Center"
+                                                   IsVisible="{Binding MeasuringUnit, Converter={StaticResource IsStringNotEmptyConverter}}" />
+                                        </Grid>
                                     </VerticalStackLayout>
                                 </Border>
                             </DataTemplate>

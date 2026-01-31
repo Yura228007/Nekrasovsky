@@ -85,7 +85,11 @@ namespace NekrasovskyAPP.Pages
             if (toUserIndex == "Отмена" || string.IsNullOrEmpty(toUserIndex))
                 return;
 
-            var toUser = availableUsers.ElementAt(Array.IndexOf(toUserOptions, toUserIndex));
+            var toUserArrayIndex = Array.IndexOf(toUserOptions, toUserIndex);
+            if (toUserArrayIndex < 0 || toUserArrayIndex >= availableUsers.Count)
+                return;
+
+            var toUser = availableUsers[toUserArrayIndex];
             if (toUser == null)
                 return;
 
@@ -95,7 +99,11 @@ namespace NekrasovskyAPP.Pages
             if (fromWarehouseIndex == "Отмена" || string.IsNullOrEmpty(fromWarehouseIndex))
                 return;
 
-            var fromWarehouse = _viewModel.Warehouses.ElementAt(Array.IndexOf(fromWarehouseOptions, fromWarehouseIndex));
+            var fromWarehouseArrayIndex = Array.IndexOf(fromWarehouseOptions, fromWarehouseIndex);
+            if (fromWarehouseArrayIndex < 0 || fromWarehouseArrayIndex >= _viewModel.Warehouses.Count)
+                return;
+
+            var fromWarehouse = _viewModel.Warehouses[fromWarehouseArrayIndex];
             if (fromWarehouse == null)
                 return;
 
@@ -105,7 +113,11 @@ namespace NekrasovskyAPP.Pages
             if (toWarehouseIndex == "Отмена" || string.IsNullOrEmpty(toWarehouseIndex))
                 return;
 
-            var toWarehouse = _viewModel.Warehouses.ElementAt(Array.IndexOf(toWarehouseOptions, toWarehouseIndex));
+            var toWarehouseArrayIndex = Array.IndexOf(toWarehouseOptions, toWarehouseIndex);
+            if (toWarehouseArrayIndex < 0 || toWarehouseArrayIndex >= _viewModel.Warehouses.Count)
+                return;
+
+            var toWarehouse = _viewModel.Warehouses[toWarehouseArrayIndex];
             if (toWarehouse == null)
                 return;
 
@@ -115,12 +127,19 @@ namespace NekrasovskyAPP.Pages
             if (materialIndex == "Отмена" || string.IsNullOrEmpty(materialIndex))
                 return;
 
-            var material = _viewModel.Materials.ElementAt(Array.IndexOf(materialOptions, materialIndex));
+            var materialArrayIndex = Array.IndexOf(materialOptions, materialIndex);
+            if (materialArrayIndex < 0 || materialArrayIndex >= _viewModel.Materials.Count)
+                return;
+
+            var material = _viewModel.Materials[materialArrayIndex];
             if (material == null)
                 return;
 
             // Ввод количества
             var quantityStr = await DisplayPromptAsync("Создание запроса", "Введите количество:", "Создать", "Отмена", "Количество", -1, Keyboard.Numeric, "0");
+            if (quantityStr == null)
+                return; // Пользователь нажал "Отмена"
+            
             if (string.IsNullOrWhiteSpace(quantityStr) || !int.TryParse(quantityStr, out int quantity) || quantity <= 0)
             {
                 await DisplayAlert("Ошибка", "Необходимо указать количество больше 0", "OK");

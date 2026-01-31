@@ -205,6 +205,10 @@
                                         <RoundRectangle CornerRadius="8"/>
                                     </Border.StrokeShape>
                                     <VerticalStackLayout Spacing="4">
+                                        <Label Text="{Binding StockSummary}"
+                                               FontSize="12"
+                                               TextColor="{StaticResource Gray400}"
+                                               IsVisible="{Binding HasResponsibility, Converter={StaticResource InvertedBoolConverter}}" />
                                         <Label Text="{Binding WarehouseStocksDisplay}"
                                                FontSize="11"
                                                TextColor="{StaticResource Gray400}"

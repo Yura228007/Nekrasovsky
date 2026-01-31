@@ -98,6 +98,7 @@ namespace NekrasovskyAPP.ViewModels
                 ErrorMessage = string.Empty;
                 var products = await _apiService.GetAllProductsAsync();
                 var filtered = await FilterProductsByResponsibilityAsync(products);
+                await ApplyProductStockAsync(filtered);
                 ShowResponsibility = true;
                 var displayItems = await CreateProductDisplayItemsAsync(filtered);
                 Products.Clear();
@@ -225,6 +226,7 @@ namespace NekrasovskyAPP.ViewModels
                     return;
                 }
                 var filtered = await FilterProductsByResponsibilityAsync(products);
+                await ApplyProductStockAsync(filtered);
                 ShowResponsibility = true;
                 var displayItems = await CreateProductDisplayItemsAsync(filtered);
                 if (searchVersion != _productSearchVersion)
@@ -849,6 +851,54 @@ namespace NekrasovskyAPP.ViewModels
             }
         }
 
+        private async Task ApplyProductStockAsync(List<Product> products)
+        {
+            if (products.Count == 0)
+            {
+                return;
+            }
+
+            var warehouses = await EnsureWarehousesLoadedAsync();
+            var warehouseMap = warehouses
+                .Where(w => w.IsActive)
+                .ToDictionary(w => w.Id, w => $"{w.Name} ({w.Type})");
+
+            var fillings = await _apiService.GetAllFillingWarehousesAsync();
+            var byProduct = fillings
+                .Where(f => f.ProductId.HasValue)
+                .GroupBy(f => f.ProductId!.Value)
+                .ToDictionary(g => g.Key, g => g.ToList());
+
+            foreach (var product in products)
+            {
+                if (!byProduct.TryGetValue(product.Id, out var productFillings) || productFillings.Count == 0)
+                {
+                    product.StockSummary = "Склад: —";
+                    continue;
+                }
+
+                var parts = new List<string>();
+                foreach (var filling in productFillings)
+                {
+                    if (!warehouseMap.ContainsKey(filling.WarehouseId))
+                    {
+                        continue;
+                    }
+                    var warehouseLabel = warehouseMap.TryGetValue(filling.WarehouseId, out var name)
+                        ? name
+                        : $"Склад #{filling.WarehouseId}";
+                    var unit = string.IsNullOrWhiteSpace(filling.MeasuringType)
+                        ? product.MeasuringUnit
+                        : filling.MeasuringType!;
+                    parts.Add($"{warehouseLabel}: {filling.Quantity} {unit}");
+                }
+
+                product.StockSummary = parts.Count == 0
+                    ? "Склад: —"
+                    : $"Склады: {string.Join("; ", parts)}";
+            }
+        }
+
         private async Task ApplyMaterialResponsibilityAsync(List<Material> materials, bool includeResponsibility)
         {
             foreach (var material in materials)
@@ -1297,7 +1347,7 @@ namespace NekrasovskyAPP.ViewModels
                    roleName.Equals("Старший экструзионщик", StringComparison.OrdinalIgnoreCase);
         }
 
-        private async Task<bool> HasManageResponsibilityAsync()
+        public async Task<bool> HasManageResponsibilityAsync()
         {
             var currentUser = _authService.CurrentUser;
             if (currentUser == null)
@@ -1352,12 +1402,6 @@ namespace NekrasovskyAPP.ViewModels
             if (currentUser == null)
             {
                 return false;
-            }
-
-            // Привилегированные пользователи могут удалять
-            if (await IsPrivilegedUserAsync())
-            {
-                return true;
             }
 
             // Проверяем право WriteOff

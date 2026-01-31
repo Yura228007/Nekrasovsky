@@ -17,6 +17,8 @@ namespace NekrasovskyAPP.Pages
         private bool _hasAssignBarcodePermission;
         private bool _hasManageRecipesPermission;
         private bool _hasDisposalPermission;
+        private bool _hasWriteOffPermission;
+        private bool _hasSendToSalePermission;
 
         public string CurrentUserName => _authService.CurrentUser != null
             ? $"Добро пожаловать, {_authService.CurrentUser.Name} {_authService.CurrentUser.Surname}!"
@@ -280,6 +282,8 @@ namespace NekrasovskyAPP.Pages
                 _hasAssignBarcodePermission = false;
                 _hasManageRecipesPermission = false;
                 _hasDisposalPermission = false;
+                _hasWriteOffPermission = false;
+                _hasSendToSalePermission = false;
                 UpdateCardVisibility();
                 return;
             }
@@ -296,12 +300,15 @@ namespace NekrasovskyAPP.Pages
                 var recipesTask = CheckPermissionAsync(currentUser, "ManageRecipes");
                 var scrapTask = CheckPermissionAsync(currentUser, "SendToScrap");
                 var writeOffTask = CheckPermissionAsync(currentUser, "WriteOff");
+                var sendToSaleTask = CheckPermissionAsync(currentUser, "SendToSale");
 
-                await Task.WhenAll(shiftTask, barcodeTask, recipesTask, scrapTask, writeOffTask);
+                await Task.WhenAll(shiftTask, barcodeTask, recipesTask, scrapTask, writeOffTask, sendToSaleTask);
 
                 _hasShiftTransferPermission = shiftTask.Result;
                 _hasAssignBarcodePermission = barcodeTask.Result;
                 _hasManageRecipesPermission = recipesTask.Result;
+                _hasWriteOffPermission = writeOffTask.Result;
+                _hasSendToSalePermission = sendToSaleTask.Result;
                 _hasDisposalPermission = scrapTask.Result || writeOffTask.Result;
 
                 UpdateCardVisibility();
@@ -348,8 +355,11 @@ namespace NekrasovskyAPP.Pages
             // Переработка - только с правом ManageRecipes
             ReprocessingCard.IsVisible = _hasManageRecipesPermission || _isPrivilegedUser;
 
-            // Утиль - только с правом SendToScrap или WriteOff
-            DisposalCard.IsVisible = _hasDisposalPermission || _isPrivilegedUser;
+            // Утиль - только с правом WriteOff
+            DisposalCard.IsVisible = _hasWriteOffPermission || _isPrivilegedUser;
+
+            // Выпуск - только с правом SendToSale
+            ProductOutputCard.IsVisible = _hasSendToSalePermission || _isPrivilegedUser;
         }
 
         private async Task<bool> EnsureShiftAccessAsync(string destination)

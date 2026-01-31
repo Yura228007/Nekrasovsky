@@ -1,5 +1,6 @@
 using NekrasovskyAPP.Models;
 using NekrasovskyAPP.Services;
+using Microsoft.Maui.ApplicationModel;
 
 namespace NekrasovskyAPP.Pages
 {
@@ -35,6 +36,25 @@ namespace NekrasovskyAPP.Pages
             }
 
             await LoadRolesAsync();
+            SetPickerHeight();
+        }
+
+        private void SetPickerHeight()
+        {
+            // Устанавливаем высоту 58 для Picker на ПК
+            if (IsDesktop() && RolePickerBorder != null)
+            {
+                RolePickerBorder.HeightRequest = 58.0;
+            }
+            else if (RolePickerBorder != null)
+            {
+                RolePickerBorder.HeightRequest = 48.0;
+            }
+        }
+
+        private bool IsDesktop()
+        {
+            return DeviceInfo.Idiom == DeviceIdiom.Desktop || DeviceInfo.Platform == DevicePlatform.WinUI;
         }
 
         private bool IsCurrentUserOwner()

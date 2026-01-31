@@ -29,6 +29,9 @@ namespace NekrasovskyAPP.Models
         public bool IsActive { get; set; } = true;
 
         [NotMapped]
+        public string StockSummary { get; set; } = "Склад: —";
+
+        [NotMapped]
         public string ResponsibilityDisplay { get; set; } = "Ответственный: —";
     }
 }

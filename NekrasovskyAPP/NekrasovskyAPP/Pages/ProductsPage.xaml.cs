@@ -191,77 +191,78 @@ namespace NekrasovskyAPP.Pages
             if (e.CurrentSelection.FirstOrDefault() is ProductDisplayItem displayItem)
             {
                 var selectedProduct = displayItem.Product;
-            {
-                var isPrivileged = await _viewModel.IsPrivilegedUserAsync();
-                var canDelete = await _viewModel.CanDeleteItemsAsync();
-                var canEdit = await _viewModel.CanAddOrEditItemsAsync();
-
-                var actions = new List<string> { "Просмотр" };
-
-                if (canEdit)
                 {
-                    actions.Add("Редактировать");
-                }
-                if (canDelete)
-                {
-                    actions.Add("Удалить");
-                }
-                if (isPrivileged)
-                {
-                    actions.Add("Изменить ответственное лицо");
-                    actions.Add("Снять ответственность");
-                }
+                    var isPrivileged = await _viewModel.IsPrivilegedUserAsync();
+                    var canDelete = await _viewModel.CanDeleteItemsAsync();
+                    var canEdit = await _viewModel.CanAddOrEditItemsAsync();
 
-                var action = await DisplayActionSheet(
-                    $"Продукт: {selectedProduct.Name}",
-                    "Отмена",
-                    null,
-                    actions.ToArray());
+                    var actions = new List<string> { "Просмотр" };
 
-                switch (action)
-                {
-                    case "Просмотр":
-                        await DisplayAlert("Информация о продукте",
-                            $"Название: {selectedProduct.Name}\n" +
-                            $"Код: {selectedProduct.Code ?? "Не указан"}\n" +
-                            $"Описание: {selectedProduct.Description ?? "Не указано"}\n" +
-                            $"Единица измерения: {selectedProduct.MeasuringUnit}",
-                            "OK");
-                        break;
+                    if (canEdit)
+                    {
+                        actions.Add("Редактировать");
+                    }
+                    if (canDelete)
+                    {
+                        actions.Add("Удалить");
+                    }
+                    if (isPrivileged)
+                    {
+                        actions.Add("Изменить ответственное лицо");
+                        actions.Add("Снять ответственность");
+                    }
 
-                    case "Редактировать":
-                        await ShowProductDialogAsync(selectedProduct);
-                        break;
+                    var action = await DisplayActionSheet(
+                        $"Продукт: {selectedProduct.Name}",
+                        "Отмена",
+                        null,
+                        actions.ToArray());
 
-                    case "Удалить":
-                        var confirm = await DisplayAlert(
-                            "Подтверждение удаления",
-                            $"Вы уверены, что хотите удалить продукт {selectedProduct.Name}?",
-                            "Удалить",
-                            "Отмена");
+                    switch (action)
+                    {
+                        case "Просмотр":
+                            await DisplayAlert("Информация о продукте",
+                                $"Название: {selectedProduct.Name}\n" +
+                                $"Код: {selectedProduct.Code ?? "Не указан"}\n" +
+                                $"Описание: {selectedProduct.Description ?? "Не указано"}\n" +
+                                $"Единица измерения: {selectedProduct.MeasuringUnit}",
+                                "OK");
+                            break;
 
-                        if (confirm)
-                        {
-                            var success = await _viewModel.DeleteProductAsync(selectedProduct.Id);
-                            if (!success)
+                        case "Редактировать":
+                            await ShowProductDialogAsync(selectedProduct);
+                            break;
+
+                        case "Удалить":
+                            var confirm = await DisplayAlert(
+                                "Подтверждение удаления",
+                                $"Вы уверены, что хотите удалить продукт {selectedProduct.Name}?",
+                                "Удалить",
+                                "Отмена");
+
+                            if (confirm)
                             {
-                                await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+                                var success = await _viewModel.DeleteProductAsync(selectedProduct.Id);
+                                if (!success)
+                                {
+                                    await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+                                }
+                                else
+                                {
+                                    await DisplayAlert("Успех", "Продукт успешно удален", "OK");
+                                }
                             }
-                            else
-                            {
-                                await DisplayAlert("Успех", "Продукт успешно удален", "OK");
-                            }
-                        }
-                        break;
-                    case "Изменить ответственное лицо":
-                        await ChangeProductResponsibilityAsync(selectedProduct);
-                        break;
-                    case "Снять ответственность":
-                        await ReleaseProductResponsibilityAsync(selectedProduct);
-                        break;
-                }
+                            break;
+                        case "Изменить ответственное лицо":
+                            await ChangeProductResponsibilityAsync(selectedProduct);
+                            break;
+                        case "Снять ответственность":
+                            await ReleaseProductResponsibilityAsync(selectedProduct);
+                            break;
+                    }
 
-                ProductsCollectionView.SelectedItem = null;
+                    ProductsCollectionView.SelectedItem = null;
+                }
             }
         }
 

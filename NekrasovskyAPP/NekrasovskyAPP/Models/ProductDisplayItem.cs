@@ -21,6 +21,7 @@ namespace NekrasovskyAPP.Models
         public string MeasuringUnit => Product.MeasuringUnit;
         public bool IsActive => Product.IsActive;
         public string? Description => Product.Description;
+        public string StockSummary => Product.StockSummary;
         
         // Свойство для отображения ответственности
         public string ResponsibilityDisplay

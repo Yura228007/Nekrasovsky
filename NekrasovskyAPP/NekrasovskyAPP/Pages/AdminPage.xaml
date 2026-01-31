@@ -39,10 +39,47 @@
             </Grid>
 
             <!-- Admin Navigation Cards -->
-            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+
+                <!-- Scanner Card -->
+                <Border x:Name="ScannerCard"
+                        Grid.Row="0" Grid.Column="0"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="0"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnScannerClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource CardScanner}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="📷" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Сканер"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Сканировать штрихкод"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
+                </Border>
 
                 <!-- Users Management -->
-                <Border Grid.Row="0" Grid.Column="0"
+                <Border Grid.Row="0" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -78,7 +115,7 @@
                 </Border>
 
                 <!-- Products Management -->
-                <Border Grid.Row="0" Grid.Column="1"
+                <Border Grid.Row="1" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -114,7 +151,7 @@
                 </Border>
 
                 <!-- Materials Management -->
-                <Border Grid.Row="1" Grid.Column="0"
+                <Border Grid.Row="1" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -150,7 +187,7 @@
                 </Border>
 
                 <!-- Warehouses Management -->
-                <Border Grid.Row="1" Grid.Column="1"
+                <Border Grid.Row="2" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -186,7 +223,7 @@
                 </Border>
 
                 <!-- Reports -->
-                <Border Grid.Row="2" Grid.Column="0"
+                <Border Grid.Row="2" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -221,8 +258,152 @@
                     </Grid>
                 </Border>
 
+                <!-- Requests Card -->
+                <Border Grid.Row="3" Grid.Column="0"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="0"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnPartRequestsClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource CardRequests}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="📋" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Запросы"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Запросы деталей"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
+                </Border>
+
+                <!-- Shift Transfers Card -->
+                <Border Grid.Row="3" Grid.Column="1"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="0"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnShiftTransfersClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource CardShift}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="🔄" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Смена"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Передача смены"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
+                </Border>
+
+                <!-- Reprocessing Card -->
+                <Border Grid.Row="4" Grid.Column="0"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="0"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnReprocessingClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource CardReprocess}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="♻️" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Переработка"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Обработка материалов"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
+                </Border>
+
+                <!-- Disposal Card -->
+                <Border Grid.Row="4" Grid.Column="1"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="0"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnDisposalClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource CardDisposal}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="🗑️" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Утиль"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Списание и утилизация"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
+                </Border>
+
                 <!-- System Settings -->
-                <Border Grid.Row="2" Grid.Column="1"
+                <Border Grid.Row="5" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -259,7 +440,7 @@
 
                 <!-- Role Permissions Management (только для Owner) -->
                 <Border x:Name="RolePermissionsCard"
-                        Grid.Row="3" Grid.Column="0"
+                        Grid.Row="5" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16"
@@ -296,7 +477,7 @@
                 </Border>
 
                 <!-- History -->
-                <Border Grid.Row="3" Grid.Column="1"
+                <Border Grid.Row="6" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -332,7 +513,7 @@
                 </Border>
 
                 <!-- Machines Management -->
-                <Border Grid.Row="4" Grid.Column="0"
+                <Border Grid.Row="6" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -368,7 +549,8 @@
                 </Border>
 
                 <!-- Product Outputs -->
-                <Border Grid.Row="4" Grid.Column="1"
+                <Border x:Name="ProductOutputCard"
+                        Grid.Row="7" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -404,7 +586,7 @@
                 </Border>
 
                 <!-- QR Codes -->
-                <Border Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                <Border Grid.Row="7" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">

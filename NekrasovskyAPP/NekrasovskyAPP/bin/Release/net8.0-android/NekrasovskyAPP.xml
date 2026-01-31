@@ -4,6 +4,23 @@
         <name>NekrasovskyAPP</name>
     </assembly>
     <members>
+        <member name="T:NekrasovskyAPP.Models.WarehouseStockInfo">
+            <summary>
+            Информация о количестве материала на конкретном складе
+            </summary>
+        </member>
+        <member name="T:NekrasovskyAPP.Models.MaterialDisplayItem">
+            <summary>
+            Обертка для отображения материала с информацией об ответственном лице
+            Позволяет отображать несколько карточек для одного материала, если у него несколько ответственных
+            </summary>
+        </member>
+        <member name="T:NekrasovskyAPP.Models.ProductDisplayItem">
+            <summary>
+            Обертка для отображения продукта с информацией об ответственном лице
+            Позволяет отображать несколько карточек для одного продукта, если у него несколько ответственных
+            </summary>
+        </member>
         <member name="M:NekrasovskyAPP.Services.ApiService.SetCurrentUserId(System.Nullable{System.Int32})">
             <summary>
             Устанавливает ID текущего пользователя для добавления в заголовки запросов
@@ -27,6 +44,20 @@
         <member name="M:NekrasovskyAPP.ViewModels.LoginViewModel.ClearState">
             <summary>
             Очищает состояние ViewModel (используется при выходе или возврате на страницу входа)
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.CreateMaterialDisplayItemsAsync(System.Collections.Generic.List{NekrasovskyAPP.Models.Material})">
+            <summary>
+            Создает список MaterialDisplayItem из списка материалов
+            Для каждого материала с несколькими ответственными создается несколько карточек
+            Если сумма количеств ответственных меньше общего количества на складах, добавляется карточка для неответственной части
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.CreateProductDisplayItemsAsync(System.Collections.Generic.List{NekrasovskyAPP.Models.Product})">
+            <summary>
+            Создает список ProductDisplayItem из списка продуктов
+            Для каждого продукта с несколькими ответственными создается несколько карточек
+            Если сумма количеств ответственных меньше общего количества на складах, добавляется карточка для неответственной части
             </summary>
         </member>
         <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.CanDeleteItemsAsync">

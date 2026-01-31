@@ -189,86 +189,88 @@ namespace NekrasovskyAPP.Pages
             if (e.CurrentSelection.FirstOrDefault() is MaterialDisplayItem displayItem)
             {
                 var selectedMaterial = displayItem.Material;
-            {
-                var isPrivileged = await _viewModel.IsPrivilegedUserAsync();
-                var canDelete = await _viewModel.CanDeleteItemsAsync();
-                var canEdit = await _viewModel.CanAddOrEditItemsAsync();
-                var canTransfer = await _viewModel.HasTransferPermissionAsync();
-
-                var actions = new List<string> { "Просмотр" };
-
-                if (canEdit)
                 {
-                    actions.Add("Редактировать");
-                }
-                if (canTransfer)
-                {
-                    actions.Add("Изменить количество");
-                }
-                if (canDelete)
-                {
-                    actions.Add("Удалить");
-                }
-                if (isPrivileged)
-                {
-                    actions.Add("Изменить ответственное лицо");
-                    actions.Add("Снять ответственность");
-                }
+                    var isPrivileged = await _viewModel.IsPrivilegedUserAsync();
+                    var canDelete = await _viewModel.CanDeleteItemsAsync();
+                    var canEdit = await _viewModel.CanAddOrEditItemsAsync();
+                    var canTransfer = await _viewModel.HasTransferPermissionAsync();
+                    var canManageResponsibility = await _viewModel.HasManageResponsibilityAsync();
 
-                var action = await DisplayActionSheet(
-                    $"Материал: {selectedMaterial.Name}",
-                    "Отмена",
-                    null,
-                    actions.ToArray());
+                    var actions = new List<string> { "Просмотр" };
 
-                switch (action)
-                {
-                    case "Просмотр":
-                        await DisplayAlert("Информация о материале",
-                            $"Название: {selectedMaterial.Name}\n" +
-                            $"Код: {selectedMaterial.Code ?? "Не указан"}\n" +
-                            $"Описание: {selectedMaterial.Description ?? "Не указано"}\n" +
-                            $"Единица измерения: {selectedMaterial.MeasuringUnit}",
-                            "OK");
-                        break;
+                    if (canEdit)
+                    {
+                        actions.Add("Редактировать");
+                    }
+                    if (canTransfer)
+                    {
+                        actions.Add("Изменить количество");
+                    }
+                    if (canDelete)
+                    {
+                        actions.Add("Удалить");
+                    }
+                    if (canManageResponsibility)
+                    {
+                        actions.Add("Изменить ответственное лицо");
+                        actions.Add("Снять ответственность");
+                    }
 
-                    case "Редактировать":
-                        await ShowMaterialDialogAsync(selectedMaterial);
-                        break;
+                    var action = await DisplayActionSheet(
+                        $"Материал: {selectedMaterial.Name}",
+                        "Отмена",
+                        null,
+                        actions.ToArray());
 
-                    case "Изменить количество":
-                        await ShowMaterialQuantityDialogAsync(selectedMaterial);
-                        break;
+                    switch (action)
+                    {
+                        case "Просмотр":
+                            await DisplayAlert("Информация о материале",
+                                $"Название: {selectedMaterial.Name}\n" +
+                                $"Код: {selectedMaterial.Code ?? "Не указан"}\n" +
+                                $"Описание: {selectedMaterial.Description ?? "Не указано"}\n" +
+                                $"Единица измерения: {selectedMaterial.MeasuringUnit}",
+                                "OK");
+                            break;
 
-                    case "Удалить":
-                        var confirm = await DisplayAlert(
-                            "Подтверждение удаления",
-                            $"Вы уверены, что хотите удалить материал {selectedMaterial.Name}?",
-                            "Удалить",
-                            "Отмена");
+                        case "Редактировать":
+                            await ShowMaterialDialogAsync(selectedMaterial);
+                            break;
 
-                        if (confirm)
-                        {
-                            var success = await _viewModel.DeleteMaterialAsync(selectedMaterial.Id);
-                            if (!success)
+                        case "Изменить количество":
+                            await ShowMaterialQuantityDialogAsync(selectedMaterial);
+                            break;
+
+                        case "Удалить":
+                            var confirm = await DisplayAlert(
+                                "Подтверждение удаления",
+                                $"Вы уверены, что хотите удалить материал {selectedMaterial.Name}?",
+                                "Удалить",
+                                "Отмена");
+
+                            if (confirm)
                             {
-                                await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+                                var success = await _viewModel.DeleteMaterialAsync(selectedMaterial.Id);
+                                if (!success)
+                                {
+                                    await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+                                }
+                                else
+                                {
+                                    await DisplayAlert("Успех", "Материал успешно удален", "OK");
+                                }
                             }
-                            else
-                            {
-                                await DisplayAlert("Успех", "Материал успешно удален", "OK");
-                            }
-                        }
-                        break;
-                    case "Изменить ответственное лицо":
-                        await ChangeMaterialResponsibilityAsync(selectedMaterial);
-                        break;
-                    case "Снять ответственность":
-                        await ReleaseMaterialResponsibilityAsync(selectedMaterial);
-                        break;
-                }
+                            break;
+                        case "Изменить ответственное лицо":
+                            await ChangeMaterialResponsibilityAsync(selectedMaterial);
+                            break;
+                        case "Снять ответственность":
+                            await ReleaseMaterialResponsibilityAsync(selectedMaterial);
+                            break;
+                    }
 
-                MaterialsCollectionView.SelectedItem = null;
+                    MaterialsCollectionView.SelectedItem = null;
+                }
             }
         }
 

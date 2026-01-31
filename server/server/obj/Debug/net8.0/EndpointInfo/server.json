@@ -7096,6 +7096,15 @@
           "userId": {
             "type": "integer",
             "format": "int32"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "measuringUnit": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -7827,6 +7836,15 @@
           },
           "isActive": {
             "type": "boolean"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "measuringUnit": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -7843,6 +7861,15 @@
             "format": "int32"
           },
           "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "measuringUnit": {
             "type": "string",
             "nullable": true
           }

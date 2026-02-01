@@ -75,6 +75,9 @@ namespace server.Extensions
             // Register shift report service
             services.AddScoped<IShiftReportService, ShiftReportService>();
 
+            // Register report generator service
+            services.AddScoped<IReportGeneratorService, ReportGeneratorService>();
+
             return services;
         }
     }

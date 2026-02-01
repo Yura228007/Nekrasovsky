@@ -152,7 +152,7 @@ namespace server.Controllers
         }
 
         /// <summary>
-        /// Download shift report PDF (Admin/Owner or own report)
+        /// Download shift report Excel (Admin/Owner or own report)
         /// </summary>
         [HttpGet("{id}/download")]
         public async Task<IActionResult> DownloadReport(int id, [FromQuery] int? requestingUserId)
@@ -182,7 +182,7 @@ namespace server.Controllers
 
                 _logger.LogInformation("User {UserId} downloaded report {ReportId}", requestingUserId.Value, id);
 
-                return File(fileBytes, "application/pdf", report.FileName);
+                return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", report.FileName);
             }
             catch (KeyNotFoundException ex)
             {

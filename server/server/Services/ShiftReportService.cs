@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Models;
-using SkiaSharp;
+using ClosedXML.Excel;
 
 namespace server.Services
 {
@@ -10,13 +10,6 @@ namespace server.Services
         private readonly AppDbContext _context;
         private readonly ILogger<ShiftReportService> _logger;
         private readonly string _reportsDirectory;
-
-        // PDF constants
-        private const float PdfPageWidth = 595; // A4 width in points
-        private const float PdfPageHeight = 842; // A4 height in points
-        private const float Margin = 40;
-        private const float LineHeight = 20;
-        private const float TableRowHeight = 25;
 
         public ShiftReportService(AppDbContext context, ILogger<ShiftReportService> logger, IWebHostEnvironment env)
         {
@@ -65,13 +58,13 @@ namespace server.Services
             var partRequests = await GetPartRequestsForShift(workReport.UserId, shiftStart, shiftEnd);
             var responsibilities = await GetResponsibilitiesForShift(workReport.UserId);
 
-            // Generate PDF
-            var pdfBytes = GeneratePdf(user, workReport, productOutputs, partRequests, responsibilities);
+            // Generate Excel
+            var excelBytes = GenerateExcel(user, workReport, productOutputs, partRequests, responsibilities);
 
             // Save to file
-            var fileName = $"report_{user.Surname}_{user.Name}_{shiftStart:yyyy-MM-dd_HH-mm}.pdf";
+            var fileName = $"report_{user.Surname}_{user.Name}_{shiftStart:yyyy-MM-dd_HH-mm}.xlsx";
             var filePath = Path.Combine(_reportsDirectory, fileName);
-            await File.WriteAllBytesAsync(filePath, pdfBytes);
+            await File.WriteAllBytesAsync(filePath, excelBytes);
 
             // Create summary
             var summary = GenerateSummary(productOutputs, partRequests, responsibilities);
@@ -83,7 +76,7 @@ namespace server.Services
                 UserId = workReport.UserId,
                 FileName = fileName,
                 FilePath = filePath,
-                FileSize = pdfBytes.Length,
+                FileSize = excelBytes.Length,
                 CreatedAt = DateTime.UtcNow,
                 ShiftStart = shiftStart,
                 ShiftEnd = shiftEnd,
@@ -250,284 +243,167 @@ namespace server.Services
                    $"Ответственностей: {responsibilities.Count}";
         }
 
-        private byte[] GeneratePdf(User user, WorkReport workReport,
+        private byte[] GenerateExcel(User user, WorkReport workReport,
             List<ProductOutput> outputs, List<PartRequest> requests, List<Responsibility> responsibilities)
         {
-            using var stream = new MemoryStream();
-            using var document = SKDocument.CreatePdf(stream);
+            using var workbook = new XLWorkbook();
 
             var roleName = user.Role?.Name ?? "Сотрудник";
             var shiftType = workReport.StartWork.Hour >= 8 && workReport.StartWork.Hour < 20 ? "День" : "Ночь";
             var duration = workReport.FinishWork!.Value - workReport.StartWork;
 
-            // Page 1: Header and Production Output
-            DrawPage1(document, user, workReport, roleName, shiftType, duration, outputs);
+            // Sheet 1: Main report with header and production
+            CreateMainSheet(workbook, user, workReport, roleName, shiftType, duration, outputs);
 
-            // Page 2: Part Requests (if any)
+            // Sheet 2: Part Requests (if any)
             if (requests.Count > 0)
             {
-                DrawPage2(document, user, requests);
+                CreatePartRequestsSheet(workbook, user, requests);
             }
 
-            // Page 3: Responsibilities (if any)
+            // Sheet 3: Responsibilities (if any)
             if (responsibilities.Count > 0)
             {
-                DrawPage3(document, user, responsibilities);
+                CreateResponsibilitiesSheet(workbook, user, responsibilities);
             }
 
-            document.Close();
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
             return stream.ToArray();
         }
 
-        private void DrawPage1(SKDocument document, User user, WorkReport workReport,
+        private void CreateMainSheet(XLWorkbook workbook, User user, WorkReport workReport,
             string roleName, string shiftType, TimeSpan duration, List<ProductOutput> outputs)
         {
-            using var canvas = document.BeginPage(PdfPageWidth, PdfPageHeight);
-            canvas.Clear(SKColors.White);
+            var ws = workbook.Worksheets.Add("Отчёт о смене");
 
-            float y = Margin;
+            int row = 1;
 
             // Title
-            using var titlePaint = new SKPaint
-            {
-                Color = SKColors.Black,
-                TextSize = 18,
-                IsAntialias = true,
-                Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyle.Bold)
-            };
-            canvas.DrawText("ОТЧЁТ О СМЕНЕ", PdfPageWidth / 2 - 80, y, titlePaint);
-            y += LineHeight * 2;
+            ws.Cell(row, 1).Value = "ОТЧЁТ О СМЕНЕ";
+            ws.Range(row, 1, row, 5).Merge();
+            ws.Cell(row, 1).Style.Font.Bold = true;
+            ws.Cell(row, 1).Style.Font.FontSize = 16;
+            ws.Cell(row, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+            row += 2;
 
-            // Header info
-            using var textPaint = new SKPaint
+            // Header info table
+            var headerData = new[]
             {
-                Color = SKColors.Black,
-                TextSize = 12,
-                IsAntialias = true,
-                Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyle.Normal)
-            };
-
-            using var boldPaint = new SKPaint
-            {
-                Color = SKColors.Black,
-                TextSize = 12,
-                IsAntialias = true,
-                Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyle.Bold)
+                ("Дата:", $"{workReport.Date:dd.MM.yyyy} ({shiftType})"),
+                ("Фамилия:", $"{user.Surname} {user.Name}"),
+                ("Должность:", roleName),
+                ("Смена:", $"{workReport.StartWork:HH:mm} - {workReport.FinishWork:HH:mm}"),
+                ("Продолжительность:", $"{duration.Hours}ч {duration.Minutes}мин"),
+                ("Особые отметки:", workReport.Note ?? "-")
             };
 
-            // Draw header table
-            DrawHeaderTable(canvas, ref y, user, workReport, roleName, shiftType, duration, textPaint, boldPaint);
+            foreach (var (label, value) in headerData)
+            {
+                ws.Cell(row, 1).Value = label;
+                ws.Cell(row, 1).Style.Font.Bold = true;
+                ws.Cell(row, 2).Value = value;
+                ws.Range(row, 2, row, 3).Merge();
+                row++;
+            }
 
-            y += LineHeight;
+            row += 2;
 
             // Production section
+            ws.Cell(row, 1).Value = "ПРОИЗВОДСТВО";
+            ws.Cell(row, 1).Style.Font.Bold = true;
+            ws.Cell(row, 1).Style.Font.FontSize = 14;
+            row++;
+
             if (outputs.Count > 0)
             {
-                canvas.DrawText("ПРОИЗВОДСТВО", Margin, y, boldPaint);
-                y += LineHeight;
+                // Header row
+                var headers = new[] { "Продукт", "Выпущено", "Брак", "Эко", "Ед.изм." };
+                for (int i = 0; i < headers.Length; i++)
+                {
+                    ws.Cell(row, i + 1).Value = headers[i];
+                    ws.Cell(row, i + 1).Style.Font.Bold = true;
+                    ws.Cell(row, i + 1).Style.Fill.BackgroundColor = XLColor.LightGray;
+                    ws.Cell(row, i + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                }
+                row++;
 
-                DrawProductionTable(canvas, ref y, outputs, textPaint, boldPaint);
+                // Data rows
+                foreach (var output in outputs)
+                {
+                    ws.Cell(row, 1).Value = output.Product?.Name ?? $"Продукт #{output.ProductId}";
+                    ws.Cell(row, 2).Value = output.ProducedQuantity;
+                    ws.Cell(row, 3).Value = output.DefectQuantity;
+                    ws.Cell(row, 4).Value = output.EcoQuantity;
+                    ws.Cell(row, 5).Value = output.MeasuringUnit ?? "шт";
+
+                    for (int i = 1; i <= 5; i++)
+                    {
+                        ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    }
+                    row++;
+                }
+
+                // Totals row
+                row++;
+                ws.Cell(row, 1).Value = "ИТОГО:";
+                ws.Cell(row, 1).Style.Font.Bold = true;
+                ws.Cell(row, 2).Value = outputs.Sum(o => o.ProducedQuantity);
+                ws.Cell(row, 2).Style.Font.Bold = true;
+                ws.Cell(row, 3).Value = outputs.Sum(o => o.DefectQuantity);
+                ws.Cell(row, 3).Style.Font.Bold = true;
+                ws.Cell(row, 4).Value = outputs.Sum(o => o.EcoQuantity);
+                ws.Cell(row, 4).Style.Font.Bold = true;
             }
             else
             {
-                canvas.DrawText("Производство: нет данных", Margin, y, textPaint);
-                y += LineHeight;
+                ws.Cell(row, 1).Value = "Нет данных о производстве";
+                ws.Cell(row, 1).Style.Font.Italic = true;
             }
 
-            // Totals
-            y += LineHeight;
-            var totalProduced = outputs.Sum(o => o.ProducedQuantity);
-            var totalDefects = outputs.Sum(o => o.DefectQuantity);
-            var totalEco = outputs.Sum(o => o.EcoQuantity);
+            row += 3;
 
-            canvas.DrawText($"ИТОГО: Выпущено: {totalProduced}, Брак: {totalDefects}, Эко: {totalEco}",
-                Margin, y, boldPaint);
+            // Signature lines
+            ws.Cell(row, 1).Value = "Подпись работника:";
+            ws.Cell(row, 2).Value = "_____________________";
+            row++;
+            ws.Cell(row, 1).Value = "Подпись старшего:";
+            ws.Cell(row, 2).Value = "_____________________";
+            row += 2;
+            ws.Cell(row, 1).Value = $"Дата формирования: {DateTime.Now:dd.MM.yyyy HH:mm}";
+            ws.Cell(row, 1).Style.Font.Italic = true;
 
-            // Footer with signature line
-            y = PdfPageHeight - Margin - LineHeight * 3;
-            canvas.DrawText("Подпись работника: _____________________", Margin, y, textPaint);
-            y += LineHeight * 1.5f;
-            canvas.DrawText("Подпись старшего: _____________________", Margin, y, textPaint);
-            y += LineHeight * 1.5f;
-            canvas.DrawText($"Дата формирования: {DateTime.Now:dd.MM.yyyy HH:mm}", Margin, y, textPaint);
-
-            document.EndPage();
+            // Auto-fit columns
+            ws.Columns().AdjustToContents();
         }
 
-        private void DrawHeaderTable(SKCanvas canvas, ref float y, User user, WorkReport workReport,
-            string roleName, string shiftType, TimeSpan duration, SKPaint textPaint, SKPaint boldPaint)
+        private void CreatePartRequestsSheet(XLWorkbook workbook, User user, List<PartRequest> requests)
         {
-            var tableWidth = PdfPageWidth - 2 * Margin;
-            var colWidth = tableWidth / 2;
+            var ws = workbook.Worksheets.Add("Заявки на перемещение");
 
-            using var linePaint = new SKPaint
-            {
-                Color = SKColors.Black,
-                StrokeWidth = 1,
-                IsStroke = true,
-                IsAntialias = true
-            };
+            int row = 1;
 
-            // Row 1
-            DrawTableRow(canvas, ref y, Margin, tableWidth,
-                new[] { ("Дата (день/ночь)", $"{workReport.Date:dd.MM.yyyy} ({shiftType})"),
-                        ("Фамилия", $"{user.Surname} {user.Name}") },
-                textPaint, boldPaint, linePaint);
-
-            // Row 2
-            DrawTableRow(canvas, ref y, Margin, tableWidth,
-                new[] { ("Должность", roleName),
-                        ("Смена", $"{workReport.StartWork:HH:mm} - {workReport.FinishWork:HH:mm}") },
-                textPaint, boldPaint, linePaint);
-
-            // Row 3
-            DrawTableRow(canvas, ref y, Margin, tableWidth,
-                new[] { ("Продолжительность", $"{duration.Hours}ч {duration.Minutes}мин"),
-                        ("Особые отметки", workReport.Note ?? "-") },
-                textPaint, boldPaint, linePaint);
-        }
-
-        private void DrawTableRow(SKCanvas canvas, ref float y, float x, float width,
-            (string label, string value)[] cells, SKPaint textPaint, SKPaint boldPaint, SKPaint linePaint)
-        {
-            var cellWidth = width / cells.Length;
-            var rowHeight = TableRowHeight;
-
-            // Draw cells
-            for (int i = 0; i < cells.Length; i++)
-            {
-                var cellX = x + i * cellWidth;
-
-                // Draw cell border
-                canvas.DrawRect(cellX, y, cellWidth, rowHeight, linePaint);
-
-                // Draw label
-                canvas.DrawText(cells[i].label + ":", cellX + 5, y + 12, boldPaint);
-
-                // Draw value
-                canvas.DrawText(cells[i].value, cellX + 5, y + 22, textPaint);
-            }
-
-            y += rowHeight;
-        }
-
-        private void DrawProductionTable(SKCanvas canvas, ref float y, List<ProductOutput> outputs,
-            SKPaint textPaint, SKPaint boldPaint)
-        {
-            var columns = new[] { "Продукт", "Выпущено", "Брак", "Эко", "Ед.изм." };
-            var colWidths = new[] { 200f, 80f, 80f, 80f, 75f };
-
-            using var linePaint = new SKPaint
-            {
-                Color = SKColors.Black,
-                StrokeWidth = 1,
-                IsStroke = true,
-                IsAntialias = true
-            };
+            // Title
+            ws.Cell(row, 1).Value = $"ЗАЯВКИ НА ПЕРЕМЕЩЕНИЕ - {user.Surname} {user.Name}";
+            ws.Range(row, 1, row, 5).Merge();
+            ws.Cell(row, 1).Style.Font.Bold = true;
+            ws.Cell(row, 1).Style.Font.FontSize = 14;
+            row += 2;
 
             // Header row
-            float x = Margin;
-            for (int i = 0; i < columns.Length; i++)
+            var headers = new[] { "Материал", "Количество", "Откуда", "Куда", "Статус" };
+            for (int i = 0; i < headers.Length; i++)
             {
-                canvas.DrawRect(x, y, colWidths[i], TableRowHeight, linePaint);
-                canvas.DrawText(columns[i], x + 5, y + 16, boldPaint);
-                x += colWidths[i];
+                ws.Cell(row, i + 1).Value = headers[i];
+                ws.Cell(row, i + 1).Style.Font.Bold = true;
+                ws.Cell(row, i + 1).Style.Fill.BackgroundColor = XLColor.LightGray;
+                ws.Cell(row, i + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
             }
-            y += TableRowHeight;
+            row++;
 
             // Data rows
-            foreach (var output in outputs)
-            {
-                if (y > PdfPageHeight - Margin - 100)
-                {
-                    break; // Prevent overflow
-                }
-
-                x = Margin;
-                var values = new[]
-                {
-                    output.Product?.Name ?? $"Продукт #{output.ProductId}",
-                    output.ProducedQuantity.ToString(),
-                    output.DefectQuantity.ToString(),
-                    output.EcoQuantity.ToString(),
-                    output.MeasuringUnit ?? "шт"
-                };
-
-                for (int i = 0; i < values.Length; i++)
-                {
-                    canvas.DrawRect(x, y, colWidths[i], TableRowHeight, linePaint);
-                    var displayText = values[i].Length > 25 ? values[i].Substring(0, 22) + "..." : values[i];
-                    canvas.DrawText(displayText, x + 5, y + 16, textPaint);
-                    x += colWidths[i];
-                }
-                y += TableRowHeight;
-            }
-        }
-
-        private void DrawPage2(SKDocument document, User user, List<PartRequest> requests)
-        {
-            using var canvas = document.BeginPage(PdfPageWidth, PdfPageHeight);
-            canvas.Clear(SKColors.White);
-
-            float y = Margin;
-
-            using var titlePaint = new SKPaint
-            {
-                Color = SKColors.Black,
-                TextSize = 16,
-                IsAntialias = true,
-                Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyle.Bold)
-            };
-
-            using var textPaint = new SKPaint
-            {
-                Color = SKColors.Black,
-                TextSize = 11,
-                IsAntialias = true,
-                Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyle.Normal)
-            };
-
-            using var boldPaint = new SKPaint
-            {
-                Color = SKColors.Black,
-                TextSize = 11,
-                IsAntialias = true,
-                Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyle.Bold)
-            };
-
-            using var linePaint = new SKPaint
-            {
-                Color = SKColors.Black,
-                StrokeWidth = 1,
-                IsStroke = true,
-                IsAntialias = true
-            };
-
-            canvas.DrawText($"ЗАЯВКИ НА ПЕРЕМЕЩЕНИЕ - {user.Surname} {user.Name}", Margin, y, titlePaint);
-            y += LineHeight * 2;
-
-            var columns = new[] { "Материал", "Кол-во", "Откуда", "Куда", "Статус" };
-            var colWidths = new[] { 150f, 60f, 100f, 100f, 105f };
-
-            // Header
-            float x = Margin;
-            for (int i = 0; i < columns.Length; i++)
-            {
-                canvas.DrawRect(x, y, colWidths[i], TableRowHeight, linePaint);
-                canvas.DrawText(columns[i], x + 3, y + 16, boldPaint);
-                x += colWidths[i];
-            }
-            y += TableRowHeight;
-
-            // Data
             foreach (var request in requests)
             {
-                if (y > PdfPageHeight - Margin - 50)
-                {
-                    break;
-                }
-
-                x = Margin;
                 var statusText = request.Status switch
                 {
                     PartRequestStatus.Pending => "Ожидает",
@@ -536,131 +412,95 @@ namespace server.Services
                     _ => "-"
                 };
 
-                var values = new[]
-                {
-                    request.Material?.Name ?? $"#{request.MaterialId}",
-                    $"{request.Quantity} {request.MeasuringType ?? "шт"}",
-                    request.FromWarehouse?.Name ?? "-",
-                    request.ToWarehouse?.Name ?? "-",
-                    statusText
-                };
+                ws.Cell(row, 1).Value = request.Material?.Name ?? $"#{request.MaterialId}";
+                ws.Cell(row, 2).Value = $"{request.Quantity} {request.MeasuringType ?? "шт"}";
+                ws.Cell(row, 3).Value = request.FromWarehouse?.Name ?? "-";
+                ws.Cell(row, 4).Value = request.ToWarehouse?.Name ?? "-";
+                ws.Cell(row, 5).Value = statusText;
 
-                for (int i = 0; i < values.Length; i++)
+                // Color-code status
+                var statusColor = request.Status switch
                 {
-                    canvas.DrawRect(x, y, colWidths[i], TableRowHeight, linePaint);
-                    var displayText = values[i].Length > 20 ? values[i].Substring(0, 17) + "..." : values[i];
-                    canvas.DrawText(displayText, x + 3, y + 16, textPaint);
-                    x += colWidths[i];
+                    PartRequestStatus.Approved => XLColor.LightGreen,
+                    PartRequestStatus.Rejected => XLColor.LightCoral,
+                    _ => XLColor.LightYellow
+                };
+                ws.Cell(row, 5).Style.Fill.BackgroundColor = statusColor;
+
+                for (int i = 1; i <= 5; i++)
+                {
+                    ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                 }
-                y += TableRowHeight;
+                row++;
             }
 
             // Summary
-            y += LineHeight;
+            row += 2;
             var approved = requests.Count(r => r.Status == PartRequestStatus.Approved);
             var pending = requests.Count(r => r.Status == PartRequestStatus.Pending);
             var rejected = requests.Count(r => r.Status == PartRequestStatus.Rejected);
-            canvas.DrawText($"Всего заявок: {requests.Count} (одобрено: {approved}, ожидает: {pending}, отклонено: {rejected})",
-                Margin, y, boldPaint);
 
-            document.EndPage();
+            ws.Cell(row, 1).Value = $"Всего заявок: {requests.Count}";
+            ws.Cell(row, 1).Style.Font.Bold = true;
+            row++;
+            ws.Cell(row, 1).Value = $"Одобрено: {approved}, Ожидает: {pending}, Отклонено: {rejected}";
+
+            ws.Columns().AdjustToContents();
         }
 
-        private void DrawPage3(SKDocument document, User user, List<Responsibility> responsibilities)
+        private void CreateResponsibilitiesSheet(XLWorkbook workbook, User user, List<Responsibility> responsibilities)
         {
-            using var canvas = document.BeginPage(PdfPageWidth, PdfPageHeight);
-            canvas.Clear(SKColors.White);
+            var ws = workbook.Worksheets.Add("Ответственности");
 
-            float y = Margin;
+            int row = 1;
 
-            using var titlePaint = new SKPaint
+            // Title
+            ws.Cell(row, 1).Value = $"ОТВЕТСТВЕННОСТИ - {user.Surname} {user.Name}";
+            ws.Range(row, 1, row, 5).Merge();
+            ws.Cell(row, 1).Style.Font.Bold = true;
+            ws.Cell(row, 1).Style.Font.FontSize = 14;
+            row += 2;
+
+            // Header row
+            var headers = new[] { "Тип", "Наименование", "Количество", "Ед.изм.", "Назначено" };
+            for (int i = 0; i < headers.Length; i++)
             {
-                Color = SKColors.Black,
-                TextSize = 16,
-                IsAntialias = true,
-                Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyle.Bold)
-            };
-
-            using var textPaint = new SKPaint
-            {
-                Color = SKColors.Black,
-                TextSize = 11,
-                IsAntialias = true,
-                Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyle.Normal)
-            };
-
-            using var boldPaint = new SKPaint
-            {
-                Color = SKColors.Black,
-                TextSize = 11,
-                IsAntialias = true,
-                Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyle.Bold)
-            };
-
-            using var linePaint = new SKPaint
-            {
-                Color = SKColors.Black,
-                StrokeWidth = 1,
-                IsStroke = true,
-                IsAntialias = true
-            };
-
-            canvas.DrawText($"ОТВЕТСТВЕННОСТИ - {user.Surname} {user.Name}", Margin, y, titlePaint);
-            y += LineHeight * 2;
-
-            var columns = new[] { "Тип", "Наименование", "Количество", "Ед.изм.", "Назначено" };
-            var colWidths = new[] { 80f, 180f, 80f, 70f, 105f };
-
-            // Header
-            float x = Margin;
-            for (int i = 0; i < columns.Length; i++)
-            {
-                canvas.DrawRect(x, y, colWidths[i], TableRowHeight, linePaint);
-                canvas.DrawText(columns[i], x + 3, y + 16, boldPaint);
-                x += colWidths[i];
+                ws.Cell(row, i + 1).Value = headers[i];
+                ws.Cell(row, i + 1).Style.Font.Bold = true;
+                ws.Cell(row, i + 1).Style.Fill.BackgroundColor = XLColor.LightGray;
+                ws.Cell(row, i + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
             }
-            y += TableRowHeight;
+            row++;
 
-            // Data
+            // Data rows
             foreach (var resp in responsibilities)
             {
-                if (y > PdfPageHeight - Margin - 50)
-                {
-                    break;
-                }
-
-                x = Margin;
                 var typeName = resp.MaterialId.HasValue ? "Материал" : "Продукт";
                 var itemName = resp.Material?.Name ?? resp.Product?.Name ?? "-";
                 var quantity = resp.Quantity?.ToString() ?? "Весь";
 
-                var values = new[]
-                {
-                    typeName,
-                    itemName,
-                    quantity,
-                    resp.MeasuringUnit ?? "-",
-                    resp.AssignedAt.ToString("dd.MM.yyyy HH:mm")
-                };
+                ws.Cell(row, 1).Value = typeName;
+                ws.Cell(row, 2).Value = itemName;
+                ws.Cell(row, 3).Value = quantity;
+                ws.Cell(row, 4).Value = resp.MeasuringUnit ?? "-";
+                ws.Cell(row, 5).Value = resp.AssignedAt.ToString("dd.MM.yyyy HH:mm");
 
-                for (int i = 0; i < values.Length; i++)
+                for (int i = 1; i <= 5; i++)
                 {
-                    canvas.DrawRect(x, y, colWidths[i], TableRowHeight, linePaint);
-                    var displayText = values[i].Length > 22 ? values[i].Substring(0, 19) + "..." : values[i];
-                    canvas.DrawText(displayText, x + 3, y + 16, textPaint);
-                    x += colWidths[i];
+                    ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                 }
-                y += TableRowHeight;
+                row++;
             }
 
             // Summary
-            y += LineHeight;
+            row += 2;
             var materialCount = responsibilities.Count(r => r.MaterialId.HasValue);
             var productCount = responsibilities.Count(r => r.ProductId.HasValue);
-            canvas.DrawText($"Всего: {responsibilities.Count} (материалов: {materialCount}, продуктов: {productCount})",
-                Margin, y, boldPaint);
 
-            document.EndPage();
+            ws.Cell(row, 1).Value = $"Всего: {responsibilities.Count} (материалов: {materialCount}, продуктов: {productCount})";
+            ws.Cell(row, 1).Style.Font.Bold = true;
+
+            ws.Columns().AdjustToContents();
         }
     }
 }

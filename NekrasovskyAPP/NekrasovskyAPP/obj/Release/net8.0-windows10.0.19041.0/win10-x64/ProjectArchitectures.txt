@@ -1,1 +1,1 @@
-D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\NekrasovskyAPP.csproj;x64
+D:\Projects\Nekrasovsky\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\NekrasovskyAPP.csproj;x64

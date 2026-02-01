@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Threading;
@@ -17,6 +18,11 @@ namespace NekrasovskyAPP.Pages
         {
             InitializeComponent();
             _qrCodeService = qrCodeService;
+            
+#if !ANDROID && !IOS
+            // Скрываем кнопку сканирования на платформах, где сканирование недоступно
+            ScanQrButton.IsVisible = false;
+#endif
         }
 
         private async void OnGenerateTextClicked(object sender, EventArgs e)
@@ -30,10 +36,23 @@ namespace NekrasovskyAPP.Pages
                     return;
                 }
 
-                var pngBytes = _qrCodeService.GeneratePng(text);
-                using var stream = new MemoryStream(pngBytes);
+                byte[] fileBytes;
+                string fileName;
+                string extension;
 
-                var fileName = $"qr_{DateTime.Now:yyyyMMdd_HHmmss}.png";
+                if (PdfFormatRadio.IsChecked == true)
+                {
+                    fileBytes = _qrCodeService.GeneratePdf(text);
+                    extension = "pdf";
+                }
+                else
+                {
+                    fileBytes = _qrCodeService.GeneratePng(text);
+                    extension = "png";
+                }
+
+                using var stream = new MemoryStream(fileBytes);
+                fileName = $"qr_{DateTime.Now:yyyyMMdd_HHmmss}.{extension}";
                 var result = await FileSaver.Default.SaveAsync(fileName, stream, CancellationToken.None);
 
                 if (result.IsSuccessful)
@@ -57,33 +76,92 @@ namespace NekrasovskyAPP.Pages
                     return;
                 }
 
-                using var zipStream = new MemoryStream();
-                using (var archive = new ZipArchive(zipStream, ZipArchiveMode.Create, true))
+                if (SinglePdfFormatRadio.IsChecked == true)
                 {
+                    // Генерация одного PDF с множеством QR-кодов
+                    var tokens = new List<string>();
                     for (var i = 1; i <= count; i++)
                     {
-                        var token = Guid.NewGuid().ToString("N");
-                        var entryName = $"qr_{i:D3}_{token}.png";
+                        tokens.Add(Guid.NewGuid().ToString("N"));
+                    }
 
-                        var entry = archive.CreateEntry(entryName, CompressionLevel.Optimal);
-                        await using var entryStream = entry.Open();
+                    var pdfBytes = _qrCodeService.GeneratePdfWithMultipleQrCodes(tokens);
+                    using var stream = new MemoryStream(pdfBytes);
+                    var fileName = $"qr_batch_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+                    var result = await FileSaver.Default.SaveAsync(fileName, stream, CancellationToken.None);
 
-                        var pngBytes = _qrCodeService.GeneratePng(token);
-                        await entryStream.WriteAsync(pngBytes, 0, pngBytes.Length);
+                    if (result.IsSuccessful)
+                    {
+                        SetStatus($"PDF файл сохранен: {result.FilePath}");
+                    }
+                    else
+                    {
+                        SetStatus($"Сохранение отменено или не удалось: {result.Exception?.Message}", isError: true);
                     }
                 }
-
-                zipStream.Position = 0;
-                var fileName = $"qr_batch_{DateTime.Now:yyyyMMdd_HHmmss}.zip";
-                var result = await FileSaver.Default.SaveAsync(fileName, zipStream, CancellationToken.None);
-
-                if (result.IsSuccessful)
+                else if (ZipPdfFormatRadio.IsChecked == true)
                 {
-                    SetStatus($"Пакет сохранен: {result.FilePath}");
+                    // Генерация ZIP архива с множеством PDF файлов
+                    using var zipStream = new MemoryStream();
+                    using (var archive = new ZipArchive(zipStream, ZipArchiveMode.Create, true))
+                    {
+                        for (var i = 1; i <= count; i++)
+                        {
+                            var token = Guid.NewGuid().ToString("N");
+                            var entryName = $"qr_{i:D3}_{token}.pdf";
+
+                            var entry = archive.CreateEntry(entryName, CompressionLevel.Optimal);
+                            await using var entryStream = entry.Open();
+
+                            var pdfBytes = _qrCodeService.GeneratePdf(token);
+                            await entryStream.WriteAsync(pdfBytes, 0, pdfBytes.Length);
+                        }
+                    }
+
+                    zipStream.Position = 0;
+                    var fileName = $"qr_batch_{DateTime.Now:yyyyMMdd_HHmmss}.zip";
+                    var result = await FileSaver.Default.SaveAsync(fileName, zipStream, CancellationToken.None);
+
+                    if (result.IsSuccessful)
+                    {
+                        SetStatus($"ZIP архив сохранен: {result.FilePath}");
+                    }
+                    else
+                    {
+                        SetStatus($"Сохранение отменено или не удалось: {result.Exception?.Message}", isError: true);
+                    }
                 }
                 else
                 {
-                    SetStatus($"Сохранение отменено или не удалось: {result.Exception?.Message}", isError: true);
+                    // Генерация ZIP архива с множеством PNG файлов
+                    using var zipStream = new MemoryStream();
+                    using (var archive = new ZipArchive(zipStream, ZipArchiveMode.Create, true))
+                    {
+                        for (var i = 1; i <= count; i++)
+                        {
+                            var token = Guid.NewGuid().ToString("N");
+                            var entryName = $"qr_{i:D3}_{token}.png";
+
+                            var entry = archive.CreateEntry(entryName, CompressionLevel.Optimal);
+                            await using var entryStream = entry.Open();
+
+                            var pngBytes = _qrCodeService.GeneratePng(token);
+                            await entryStream.WriteAsync(pngBytes, 0, pngBytes.Length);
+                        }
+                    }
+
+                    zipStream.Position = 0;
+                    var fileName = $"qr_batch_{DateTime.Now:yyyyMMdd_HHmmss}.zip";
+                    var result = await FileSaver.Default.SaveAsync(fileName, zipStream, CancellationToken.None);
+
+                    if (result.IsSuccessful)
+                    {
+                        SetStatus($"ZIP архив сохранен: {result.FilePath}");
+                    }
+                    else
+                    {
+                        SetStatus($"Сохранение отменено или не удалось: {result.Exception?.Message}", isError: true);
+                    }
                 }
             });
         }
@@ -129,5 +207,38 @@ namespace NekrasovskyAPP.Pages
                 StatusLabel.TextColor = color;
             }
         }
+
+#if ANDROID || IOS
+        private async void OnScanQrCodeClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var scannerPage = new BarcodeScannerPage();
+                
+                void OnBarcodeScanned(object? s, string barcodeValue)
+                {
+                    scannerPage.BarcodeScanned -= OnBarcodeScanned;
+                    
+                    if (!string.IsNullOrWhiteSpace(barcodeValue))
+                    {
+                        TextInput.Text = barcodeValue;
+                        SetStatus("QR-код отсканирован и вставлен в поле");
+                    }
+                }
+
+                scannerPage.BarcodeScanned += OnBarcodeScanned;
+                await Navigation.PushModalAsync(scannerPage);
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Ошибка", $"Не удалось открыть сканер: {ex.Message}", "OK");
+            }
+        }
+#else
+        private async void OnScanQrCodeClicked(object sender, EventArgs e)
+        {
+            await DisplayAlert("Недоступно", "Сканирование QR-кодов доступно только на Android и iOS устройствах.", "OK");
+        }
+#endif
     }
 }

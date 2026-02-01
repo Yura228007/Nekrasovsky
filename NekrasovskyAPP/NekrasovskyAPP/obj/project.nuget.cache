@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HVXytgDVHxQ=",
+  "dgSpecHash": "hTRrcqkuyME=",
   "success": true,
-  "projectFilePath": "D:\\Projects\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\NekrasovskyAPP.csproj",
+  "projectFilePath": "D:\\Projects\\Nekrasovsky\\Nekrasovsky\\NekrasovskyAPP\\NekrasovskyAPP\\NekrasovskyAPP.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\appdynamics.agent\\2025.10.0\\appdynamics.agent.2025.10.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\barcodescanning.native.maui\\1.7.8\\barcodescanning.native.maui.1.7.8.nupkg.sha512",

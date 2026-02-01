@@ -49,7 +49,28 @@
                             TextColor="{StaticResource White}"
                             BackgroundColor="{StaticResource BackgroundDark}"
                             MinimumHeightRequest="80" />
-                    <Button Text="Сгенерировать и сохранить PNG"
+                    <Button x:Name="ScanQrButton"
+                            Text="📷 Сканировать QR-код"
+                            Clicked="OnScanQrCodeClicked"
+                            BackgroundColor="{StaticResource Secondary}"
+                            TextColor="{StaticResource White}"
+                            CornerRadius="12"
+                            HeightRequest="44" />
+                    <Label Text="Формат выгрузки:"
+                           FontSize="14"
+                           TextColor="{StaticResource Gray500}" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <RadioButton x:Name="PngFormatRadio"
+                                     Content="PNG"
+                                     IsChecked="True"
+                                     TextColor="{StaticResource White}"
+                                     Grid.Column="0" />
+                        <RadioButton x:Name="PdfFormatRadio"
+                                     Content="PDF"
+                                     TextColor="{StaticResource White}"
+                                     Grid.Column="1" />
+                    </Grid>
+                    <Button Text="Сгенерировать и сохранить"
                             Clicked="OnGenerateTextClicked"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="{StaticResource White}"
@@ -78,7 +99,25 @@
                            Keyboard="Numeric"
                            TextColor="{StaticResource White}"
                            BackgroundColor="{StaticResource BackgroundDark}" />
-                    <Button Text="Сгенерировать пакет и сохранить ZIP"
+                    <Label Text="Вариант выгрузки:"
+                           FontSize="14"
+                           TextColor="{StaticResource Gray500}" />
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <RadioButton x:Name="ZipPngFormatRadio"
+                                     Content="ZIP архив с множеством PNG файлов"
+                                     IsChecked="True"
+                                     TextColor="{StaticResource White}"
+                                     Grid.Row="0" />
+                        <RadioButton x:Name="ZipPdfFormatRadio"
+                                     Content="ZIP архив с множеством PDF файлов"
+                                     TextColor="{StaticResource White}"
+                                     Grid.Row="1" />
+                        <RadioButton x:Name="SinglePdfFormatRadio"
+                                     Content="Один PDF с множеством QR-кодов"
+                                     TextColor="{StaticResource White}"
+                                     Grid.Row="2" />
+                    </Grid>
+                    <Button Text="Сгенерировать пакет и сохранить"
                             Clicked="OnGenerateBatchClicked"
                             BackgroundColor="{StaticResource Secondary}"
                             TextColor="{StaticResource White}"

@@ -1677,6 +1677,52 @@ namespace NekrasovskyAPP.Services
                 return null;
             }
         }
+
+        // Shift Reports
+        public async Task<List<ShiftReport>> GetShiftReportsByUserAsync(int userId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/shiftreports/user/{userId}?requestingUserId={_currentUserId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<ShiftReport>>(_jsonOptions) ?? new List<ShiftReport>();
+            }
+            catch
+            {
+                return new List<ShiftReport>();
+            }
+        }
+
+        public async Task<ShiftReport?> GetShiftReportByWorkReportIdAsync(int workReportId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/shiftreports/by-work-report/{workReportId}?requestingUserId={_currentUserId}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return null;
+                }
+                return await response.Content.ReadFromJsonAsync<ShiftReport>(_jsonOptions);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<byte[]?> DownloadShiftReportAsync(int reportId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/shiftreports/{reportId}/download?requestingUserId={_currentUserId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsByteArrayAsync();
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
 

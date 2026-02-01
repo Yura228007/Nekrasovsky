@@ -45,6 +45,14 @@ namespace NekrasovskyAPP.Pages
             }
         }
 
+        private async void OnDownloadReportClicked(object? sender, EventArgs e)
+        {
+            if (sender is Button button && button.CommandParameter is WorkReport report)
+            {
+                await _viewModel.DownloadReportAsync(report.Id);
+            }
+        }
+
         private void UpdateStartWorkVisibility()
         {
             if (_viewModel.CanManageShiftManually)

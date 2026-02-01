@@ -136,6 +136,16 @@
                                             Margin="0,6,0,0"
                                             IsVisible="{Binding FinishWork, Converter={StaticResource IsNullConverter}}"
                                             CommandParameter="{Binding .}" />
+                                    <Button Text="📥 Скачать отчет"
+                                            Clicked="OnDownloadReportClicked"
+                                            BackgroundColor="{StaticResource Primary}"
+                                            TextColor="{StaticResource White}"
+                                            CornerRadius="10"
+                                            HeightRequest="40"
+                                            FontSize="13"
+                                            Margin="0,6,0,0"
+                                            IsVisible="{Binding FinishWork, Converter={StaticResource IsNotNullConverter}}"
+                                            CommandParameter="{Binding .}" />
                                 </VerticalStackLayout>
                             </Grid>
                         </Border>

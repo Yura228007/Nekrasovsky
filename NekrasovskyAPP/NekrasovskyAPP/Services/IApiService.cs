@@ -144,6 +144,11 @@ namespace NekrasovskyAPP.Services
             int? productId = null,
             DateTime? startDate = null,
             DateTime? endDate = null);
+
+        // Shift Reports
+        Task<List<ShiftReport>> GetShiftReportsByUserAsync(int userId);
+        Task<ShiftReport?> GetShiftReportByWorkReportIdAsync(int workReportId);
+        Task<byte[]?> DownloadShiftReportAsync(int reportId);
     }
 
     public class ApiResponse<T>

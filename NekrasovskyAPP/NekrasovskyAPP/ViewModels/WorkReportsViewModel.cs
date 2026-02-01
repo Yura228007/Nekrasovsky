@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.IO;
 using System.Linq;
 using NekrasovskyAPP.Models;
 using NekrasovskyAPP.Services;
@@ -164,6 +165,79 @@ namespace NekrasovskyAPP.ViewModels
             catch (Exception ex)
             {
                 ErrorMessage = $"Ошибка завершения работы: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task DownloadReportAsync(int workReportId)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+
+                // Get shift report by work report ID
+                var shiftReport = await _apiService.GetShiftReportByWorkReportIdAsync(workReportId);
+                if (shiftReport == null)
+                {
+                    ErrorMessage = "Отчет смены не найден";
+                    return;
+                }
+
+                // Download the report file
+                var fileBytes = await _apiService.DownloadShiftReportAsync(shiftReport.Id);
+                if (fileBytes == null || fileBytes.Length == 0)
+                {
+                    ErrorMessage = "Не удалось скачать файл отчета";
+                    return;
+                }
+
+                // Save to downloads folder
+                var fileName = shiftReport.FileName;
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    fileName = $"ShiftReport_{workReportId}.xlsx";
+                }
+
+#if ANDROID
+                var downloadsPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)?.AbsolutePath;
+                if (string.IsNullOrEmpty(downloadsPath))
+                {
+                    downloadsPath = FileSystem.AppDataDirectory;
+                }
+#else
+                var downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+#endif
+
+                var filePath = Path.Combine(downloadsPath, fileName);
+
+                // Ensure unique filename
+                var counter = 1;
+                var baseName = Path.GetFileNameWithoutExtension(fileName);
+                var extension = Path.GetExtension(fileName);
+                while (File.Exists(filePath))
+                {
+                    filePath = Path.Combine(downloadsPath, $"{baseName}_{counter}{extension}");
+                    counter++;
+                }
+
+                await File.WriteAllBytesAsync(filePath, fileBytes);
+
+                // Show success message
+                if (Application.Current?.MainPage != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Успешно",
+                        $"Отчет сохранен: {Path.GetFileName(filePath)}",
+                        "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка скачивания отчета: {ex.Message}";
             }
             finally
             {

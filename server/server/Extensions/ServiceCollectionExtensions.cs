@@ -57,6 +57,9 @@ namespace server.Extensions
             // Register responsibility service
             services.AddScoped<IResponsibilityService, ResponsibilityService>();
 
+            // Register responsibility filling service (ответственность по складам)
+            services.AddScoped<IResponsibilityFillingService, ResponsibilityFillingService>();
+
             // Register reprocessing service
             services.AddScoped<IReprocessingService, ReprocessingService>();
 

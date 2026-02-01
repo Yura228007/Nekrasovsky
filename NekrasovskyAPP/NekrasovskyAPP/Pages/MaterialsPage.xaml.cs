@@ -260,7 +260,7 @@ namespace NekrasovskyAPP.Pages
                             }
                             break;
                         case "Изменить ответственное лицо":
-                            await ChangeMaterialResponsibilityAsync(selectedMaterial);
+                            await ChangeMaterialResponsibilityAsync(displayItem);
                             break;
                         case "Снять ответственность":
                             await ReleaseMaterialResponsibilityAsync(selectedMaterial);
@@ -378,8 +378,10 @@ namespace NekrasovskyAPP.Pages
             await DisplayAlert("Успех", "Количество обновлено", "OK");
         }
 
-        private async Task ChangeMaterialResponsibilityAsync(Material material)
+        private async Task ChangeMaterialResponsibilityAsync(MaterialDisplayItem displayItem)
         {
+            var material = displayItem.Material;
+
             if (_viewModel.Users.Count == 0)
             {
                 await _viewModel.LoadUsersAsync();
@@ -389,6 +391,46 @@ namespace NekrasovskyAPP.Pages
             {
                 await DisplayAlert("Ошибка", "Нет доступных пользователей для назначения ответственности.", "OK");
                 return;
+            }
+
+            // Количество из карточки: для неответственной части — UnassignedQuantity, иначе — из назначения
+            int? quantity = displayItem.Responsibility == null
+                ? displayItem.UnassignedQuantity
+                : displayItem.Responsibility.Quantity;
+            string? measuringUnit = displayItem.Responsibility == null
+                ? (displayItem.UnassignedMeasuringUnit ?? material.MeasuringUnit)
+                : (displayItem.Responsibility.MeasuringUnit ?? material.MeasuringUnit);
+
+            // Если в карточке нет количества (редкий случай), спрашиваем пользователя
+            if (!quantity.HasValue || quantity <= 0)
+            {
+                var quantityText = await DisplayPromptAsync(
+                    "Количество",
+                    "Укажите количество, за которое будет отвечать выбранное лицо.\nОставьте пустым для ответственности за весь материал.",
+                    "Назначить",
+                    "Отмена",
+                    "Количество",
+                    -1,
+                    Keyboard.Numeric);
+
+                if (quantityText == null)
+                    return;
+
+                quantity = null;
+                measuringUnit = null;
+                if (!string.IsNullOrWhiteSpace(quantityText))
+                {
+                    if (int.TryParse(quantityText, out var qty) && qty > 0)
+                    {
+                        quantity = qty;
+                        measuringUnit = material.MeasuringUnit;
+                    }
+                    else
+                    {
+                        await DisplayAlert("Ошибка", "Количество должно быть положительным числом", "OK");
+                        return;
+                    }
+                }
             }
 
             var options = _viewModel.Users
@@ -408,33 +450,6 @@ namespace NekrasovskyAPP.Pages
             }
 
             var selectedUser = _viewModel.Users[index];
-            
-            // Запрашиваем количество у пользователя
-            var quantityText = await DisplayPromptAsync(
-                "Количество",
-                $"Укажите количество, за которое будет отвечать {selectedUser.Surname} {selectedUser.Name}.\nОставьте пустым для ответственности за весь материал.",
-                "Назначить",
-                "Отмена",
-                "Количество",
-                -1,
-                Keyboard.Numeric);
-
-            int? quantity = null;
-            string? measuringUnit = null;
-
-            if (!string.IsNullOrWhiteSpace(quantityText))
-            {
-                if (int.TryParse(quantityText, out var qty) && qty > 0)
-                {
-                    quantity = qty;
-                    measuringUnit = material.MeasuringUnit;
-                }
-                else
-                {
-                    await DisplayAlert("Ошибка", "Количество должно быть положительным числом", "OK");
-                    return;
-                }
-            }
 
             var response = await _viewModel.ApiService.AssignMaterialResponsibilityAsync(material.Id, selectedUser.Id, quantity, measuringUnit);
             if (response.GetData() == null && !string.IsNullOrEmpty(response.Message))
@@ -443,11 +458,10 @@ namespace NekrasovskyAPP.Pages
                 return;
             }
 
-            var message = quantity.HasValue 
-                ? $"Ответственное лицо обновлено. Количество: {quantity} {measuringUnit}"
+            var message = quantity.HasValue
+                ? $"Ответственность передана. Количество: {quantity} {measuringUnit}"
                 : "Ответственное лицо обновлено (за весь материал)";
             await DisplayAlert("Успех", message, "OK");
-            // Перезагружаем материалы для обновления списка
             await _viewModel.LoadMaterialsAsync();
         }
 
@@ -614,8 +628,12 @@ namespace NekrasovskyAPP.Pages
                     }
                 }
 
-                // Передаем quantity и measuringUnit при создании материала для Responsibility
-                var createResponse = await _viewModel.ApiService.AddMaterialAsync(material, quantity > 0 ? quantity : null, material.MeasuringUnit);
+                // Передаем quantity, measuringUnit и warehouseId: на сервере создаются материал, Responsibility, FillingWarehouse и ResponsibilityFilling
+                var createResponse = await _viewModel.ApiService.AddMaterialAsync(
+                    material,
+                    quantity > 0 ? quantity : null,
+                    material.MeasuringUnit,
+                    quantity > 0 ? selectedWarehouse.Id : null);
                 var createdMaterial = createResponse.Material ?? createResponse.GetData();
                 if (createdMaterial == null)
                 {
@@ -623,18 +641,16 @@ namespace NekrasovskyAPP.Pages
                     return;
                 }
 
-                var filling = new FillingWarehouse
+                if (quantity <= 0)
                 {
-                    WarehouseId = selectedWarehouse.Id,
-                    MaterialId = createdMaterial.Id,
-                    Quantity = Math.Max(0, quantity),
-                    MeasuringType = createdMaterial.MeasuringUnit
-                };
-
-                var fillingResponse = await _viewModel.ApiService.AddFillingWarehouseAsync(filling);
-                if (fillingResponse.GetData() == null && !string.IsNullOrEmpty(fillingResponse.Message))
-                {
-                    await DisplayAlert("Ошибка", $"Материал создан, но не удалось привязать склад: {fillingResponse.Message}", "OK");
+                    var filling = new FillingWarehouse
+                    {
+                        WarehouseId = selectedWarehouse.Id,
+                        MaterialId = createdMaterial.Id,
+                        Quantity = 0,
+                        MeasuringType = createdMaterial.MeasuringUnit
+                    };
+                    await _viewModel.ApiService.AddFillingWarehouseAsync(filling);
                 }
 
                 await _viewModel.LoadMaterialsAsync();

@@ -26,7 +26,7 @@ namespace NekrasovskyAPP.Services
         Task<List<Material>> GetAllMaterialsAsync();
         Task<Material?> GetMaterialByIdAsync(int id);
         Task<List<Material>> SearchMaterialsAsync(string? name, string? code, bool? isActive = null, string? sortBy = null);
-        Task<ApiResponse<Material>> AddMaterialAsync(Material material);
+        Task<ApiResponse<Material>> AddMaterialAsync(Material material, int? quantity = null, string? measuringUnit = null, int? warehouseId = null);
         Task<ApiResponse<Material>> EditMaterialAsync(int id, Material material);
         Task<ApiResponse<object>> DeleteMaterialAsync(int id);
 

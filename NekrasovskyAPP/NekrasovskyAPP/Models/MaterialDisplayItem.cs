@@ -20,6 +20,17 @@ namespace NekrasovskyAPP.Models
     {
         public Material Material { get; set; } = null!;
         public ResponsibilityAssignment? Responsibility { get; set; }
+
+        /// <summary>
+        /// Количество неответственной части (только для карточки с Responsibility == null).
+        /// При назначении ответственности передаётся это количество, а не null.
+        /// </summary>
+        public int? UnassignedQuantity { get; set; }
+
+        /// <summary>
+        /// Единица измерения неответственной части.
+        /// </summary>
+        public string? UnassignedMeasuringUnit { get; set; }
         
         // Список складов с количеством для этого ответственного (или для неответственной части)
         public List<WarehouseStockInfo> WarehouseStocks { get; set; } = new();
@@ -45,12 +56,12 @@ namespace NekrasovskyAPP.Models
                 
                 if (Responsibility.Quantity.HasValue)
                 {
-                    var unit = !string.IsNullOrWhiteSpace(Responsibility.MeasuringUnit) 
-                        ? Responsibility.MeasuringUnit 
-                        : Material.MeasuringUnit;
+                    var unit = !string.IsNullOrWhiteSpace(Responsibility.MeasuringUnit)
+                        ? Responsibility.MeasuringUnit
+                        : (!string.IsNullOrWhiteSpace(Material.MeasuringUnit) ? Material.MeasuringUnit : "ед.");
                     return $"Ответственный: {Responsibility.UserName} ({Responsibility.Quantity} {unit})";
                 }
-                
+
                 return $"Ответственный: {Responsibility.UserName}";
             }
         }
@@ -67,7 +78,7 @@ namespace NekrasovskyAPP.Models
                     return string.Empty;
                 }
                 
-                return string.Join("\n", WarehouseStocks.Select(ws => $"{ws.WarehouseName} - {ws.Quantity} {ws.MeasuringUnit}"));
+                return string.Join("\n", WarehouseStocks.Select(ws => $"{ws.WarehouseName} - {ws.Quantity} {(!string.IsNullOrWhiteSpace(ws.MeasuringUnit) ? ws.MeasuringUnit : "ед.")}"));
             }
         }
         

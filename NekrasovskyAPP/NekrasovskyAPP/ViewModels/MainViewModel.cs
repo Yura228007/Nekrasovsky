@@ -1165,11 +1165,13 @@ namespace NekrasovskyAPP.ViewModels
                         // Если сумма количеств ответственных меньше общего количества на складах
                         if (totalResponsibleQuantity < totalOnWarehouses)
                         {
-                            // Добавляем карточку для неответственной части
+                            var unassignedQty = totalOnWarehouses - totalResponsibleQuantity;
                             result.Add(new MaterialDisplayItem
                             {
                                 Material = material,
-                                Responsibility = null // Неответственная часть
+                                Responsibility = null, // Неответственная часть
+                                UnassignedQuantity = unassignedQty,
+                                UnassignedMeasuringUnit = material.MeasuringUnit
                             });
                         }
                     }
@@ -1178,10 +1180,13 @@ namespace NekrasovskyAPP.ViewModels
                 else
                 {
                     // Если нет ответственных, создаем одну карточку без ответственности
+                    var totalOnWarehouses = materialTotalQuantities.GetValueOrDefault(material.Id, 0);
                     result.Add(new MaterialDisplayItem
                     {
                         Material = material,
-                        Responsibility = null
+                        Responsibility = null,
+                        UnassignedQuantity = totalOnWarehouses > 0 ? totalOnWarehouses : null,
+                        UnassignedMeasuringUnit = material.MeasuringUnit
                     });
                 }
             }
@@ -1279,11 +1284,13 @@ namespace NekrasovskyAPP.ViewModels
                         // Если сумма количеств ответственных меньше общего количества на складах
                         if (totalResponsibleQuantity < totalOnWarehouses)
                         {
-                            // Добавляем карточку для неответственной части
+                            var unassignedQty = totalOnWarehouses - totalResponsibleQuantity;
                             result.Add(new ProductDisplayItem
                             {
                                 Product = product,
-                                Responsibility = null // Неответственная часть
+                                Responsibility = null, // Неответственная часть
+                                UnassignedQuantity = unassignedQty,
+                                UnassignedMeasuringUnit = product.MeasuringUnit
                             });
                         }
                     }
@@ -1292,10 +1299,13 @@ namespace NekrasovskyAPP.ViewModels
                 else
                 {
                     // Если нет ответственных, создаем одну карточку без ответственности
+                    var totalOnWarehouses = productTotalQuantities.GetValueOrDefault(product.Id, 0);
                     result.Add(new ProductDisplayItem
                     {
                         Product = product,
-                        Responsibility = null
+                        Responsibility = null,
+                        UnassignedQuantity = totalOnWarehouses > 0 ? totalOnWarehouses : null,
+                        UnassignedMeasuringUnit = product.MeasuringUnit
                     });
                 }
             }

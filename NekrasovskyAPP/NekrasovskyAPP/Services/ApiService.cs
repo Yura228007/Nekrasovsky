@@ -351,27 +351,20 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<ApiResponse<Material>> AddMaterialAsync(Material material, int? quantity = null, string? measuringUnit = null)
+        public async Task<ApiResponse<Material>> AddMaterialAsync(Material material, int? quantity = null, string? measuringUnit = null, int? warehouseId = null)
         {
             try
             {
                 var url = "api/materials";
-                if (quantity.HasValue || !string.IsNullOrWhiteSpace(measuringUnit))
-                {
-                    var queryParams = new List<string>();
-                    if (quantity.HasValue)
-                    {
-                        queryParams.Add($"quantity={quantity.Value}");
-                    }
-                    if (!string.IsNullOrWhiteSpace(measuringUnit))
-                    {
-                        queryParams.Add($"measuringUnit={Uri.EscapeDataString(measuringUnit)}");
-                    }
-                    if (queryParams.Count > 0)
-                    {
-                        url += "?" + string.Join("&", queryParams);
-                    }
-                }
+                var queryParams = new List<string>();
+                if (quantity.HasValue)
+                    queryParams.Add($"quantity={quantity.Value}");
+                if (!string.IsNullOrWhiteSpace(measuringUnit))
+                    queryParams.Add($"measuringUnit={Uri.EscapeDataString(measuringUnit)}");
+                if (warehouseId.HasValue)
+                    queryParams.Add($"warehouseId={warehouseId.Value}");
+                if (queryParams.Count > 0)
+                    url += "?" + string.Join("&", queryParams);
                 
                 var response = await _httpClient.PostAsJsonAsync(url, material, _jsonOptions);
                 response.EnsureSuccessStatusCode();

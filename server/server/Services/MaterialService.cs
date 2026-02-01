@@ -9,12 +9,21 @@ namespace server.Services
         private readonly AppDbContext _context;
         private readonly ILogger<MaterialService> _logger;
         private readonly IResponsibilityService _responsibilityService;
+        private readonly IResponsibilityFillingService _responsibilityFillingService;
+        private readonly IFillingWarehouseService _fillingWarehouseService;
 
-        public MaterialService(AppDbContext context, ILogger<MaterialService> logger, IResponsibilityService responsibilityService)
+        public MaterialService(
+            AppDbContext context,
+            ILogger<MaterialService> logger,
+            IResponsibilityService responsibilityService,
+            IResponsibilityFillingService responsibilityFillingService,
+            IFillingWarehouseService fillingWarehouseService)
         {
             _context = context;
             _logger = logger;
             _responsibilityService = responsibilityService;
+            _responsibilityFillingService = responsibilityFillingService;
+            _fillingWarehouseService = fillingWarehouseService;
         }
 
         public async Task<IEnumerable<Material>> GetAllMaterialsAsync()
@@ -70,7 +79,7 @@ namespace server.Services
                 .ToListAsync();
         }
 
-        public async Task<Material> CreateMaterialAsync(Material material, int userId, int? quantity = null, string? measuringUnit = null)
+        public async Task<Material> CreateMaterialAsync(Material material, int userId, int? quantity = null, string? measuringUnit = null, int? warehouseId = null)
         {
             // Проверка уникальности артикула
             if (!string.IsNullOrWhiteSpace(material.Code))
@@ -93,6 +102,32 @@ namespace server.Services
             }
 
             await _responsibilityService.AssignMaterialAsync(material.Id, userId, quantity, measuringUnit);
+
+            // При указании склада и количества — создаём остаток на складе и запись в ResponsibilityFilling
+            if (warehouseId.HasValue && quantity.HasValue && quantity.Value > 0)
+            {
+                var filling = await _fillingWarehouseService.GetFillingByMaterialAsync(warehouseId.Value, material.Id);
+                if (filling == null)
+                {
+                    await _fillingWarehouseService.CreateFillingWarehouseAsync(new FillingWarehouse
+                    {
+                        WarehouseId = warehouseId.Value,
+                        MaterialId = material.Id,
+                        Quantity = quantity.Value,
+                        MeasuringType = measuringUnit
+                    });
+                }
+                else
+                {
+                    await _fillingWarehouseService.UpdateQuantityByMaterialAsync(
+                        warehouseId.Value, material.Id, filling.Quantity + quantity.Value);
+                }
+
+                await _responsibilityFillingService.AssignMaterialAtWarehouseAsync(
+                    userId, warehouseId.Value, material.Id, quantity.Value, measuringUnit);
+                _logger.LogInformation("ResponsibilityFilling created for Material {MaterialId} at Warehouse {WarehouseId}, User {UserId}, Quantity {Quantity}",
+                    material.Id, warehouseId.Value, userId, quantity.Value);
+            }
 
             _logger.LogInformation("Material created with ID: {MaterialId}, Name: {Name}, Quantity: {Quantity}", material.Id, material.Name, quantity);
             return material;

@@ -252,7 +252,7 @@ namespace NekrasovskyAPP.Pages
                             }
                             break;
                         case "Изменить ответственное лицо":
-                            await ChangeProductResponsibilityAsync(selectedProduct);
+                            await ChangeProductResponsibilityAsync(displayItem);
                             break;
                         case "Снять ответственность":
                             await ReleaseProductResponsibilityAsync(selectedProduct);
@@ -374,8 +374,10 @@ namespace NekrasovskyAPP.Pages
             }
         }
 
-        private async Task ChangeProductResponsibilityAsync(Product product)
+        private async Task ChangeProductResponsibilityAsync(ProductDisplayItem displayItem)
         {
+            var product = displayItem.Product;
+
             if (_viewModel.Users.Count == 0)
             {
                 await _viewModel.LoadUsersAsync();
@@ -385,6 +387,46 @@ namespace NekrasovskyAPP.Pages
             {
                 await DisplayAlert("Ошибка", "Нет доступных пользователей для назначения ответственности.", "OK");
                 return;
+            }
+
+            // Количество из карточки: для неответственной части — UnassignedQuantity, иначе — из назначения
+            int? quantity = displayItem.Responsibility == null
+                ? displayItem.UnassignedQuantity
+                : displayItem.Responsibility.Quantity;
+            string? measuringUnit = displayItem.Responsibility == null
+                ? (displayItem.UnassignedMeasuringUnit ?? product.MeasuringUnit)
+                : (displayItem.Responsibility.MeasuringUnit ?? product.MeasuringUnit);
+
+            // Если в карточке нет количества (редкий случай), спрашиваем пользователя
+            if (!quantity.HasValue || quantity <= 0)
+            {
+                var quantityText = await DisplayPromptAsync(
+                    "Количество",
+                    "Укажите количество, за которое будет отвечать выбранное лицо.\nОставьте пустым для ответственности за весь продукт.",
+                    "Назначить",
+                    "Отмена",
+                    "Количество",
+                    -1,
+                    Keyboard.Numeric);
+
+                if (quantityText == null)
+                    return;
+
+                quantity = null;
+                measuringUnit = null;
+                if (!string.IsNullOrWhiteSpace(quantityText))
+                {
+                    if (int.TryParse(quantityText, out var qty) && qty > 0)
+                    {
+                        quantity = qty;
+                        measuringUnit = product.MeasuringUnit;
+                    }
+                    else
+                    {
+                        await DisplayAlert("Ошибка", "Количество должно быть положительным числом", "OK");
+                        return;
+                    }
+                }
             }
 
             var options = _viewModel.Users
@@ -404,33 +446,6 @@ namespace NekrasovskyAPP.Pages
             }
 
             var selectedUser = _viewModel.Users[index];
-            
-            // Запрашиваем количество у пользователя
-            var quantityText = await DisplayPromptAsync(
-                "Количество",
-                $"Укажите количество, за которое будет отвечать {selectedUser.Surname} {selectedUser.Name}.\nОставьте пустым для ответственности за весь продукт.",
-                "Назначить",
-                "Отмена",
-                "Количество",
-                -1,
-                Keyboard.Numeric);
-
-            int? quantity = null;
-            string? measuringUnit = null;
-
-            if (!string.IsNullOrWhiteSpace(quantityText))
-            {
-                if (int.TryParse(quantityText, out var qty) && qty > 0)
-                {
-                    quantity = qty;
-                    measuringUnit = product.MeasuringUnit;
-                }
-                else
-                {
-                    await DisplayAlert("Ошибка", "Количество должно быть положительным числом", "OK");
-                    return;
-                }
-            }
 
             var response = await _viewModel.ApiService.AssignProductResponsibilityAsync(product.Id, selectedUser.Id, quantity, measuringUnit);
             if (response.GetData() == null && !string.IsNullOrEmpty(response.Message))
@@ -439,11 +454,10 @@ namespace NekrasovskyAPP.Pages
                 return;
             }
 
-            var message = quantity.HasValue 
-                ? $"Ответственное лицо обновлено. Количество: {quantity} {measuringUnit}"
+            var message = quantity.HasValue
+                ? $"Ответственность передана. Количество: {quantity} {measuringUnit}"
                 : "Ответственное лицо обновлено (за весь продукт)";
             await DisplayAlert("Успех", message, "OK");
-            // Перезагружаем продукты для обновления списка
             await _viewModel.LoadProductsAsync();
         }
 

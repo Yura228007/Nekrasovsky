@@ -334,16 +334,18 @@ namespace server.Services
                 .OrderByDescending(r => r.AssignedAt)
                 .FirstOrDefaultAsync();
 
-            // Если у пользователя уже есть активная ответственность, обновляем количество или возвращаем существующую
+            // Если у пользователя уже есть активная ответственность, добавляем переданное количество к существующему
+            // (не перезаписываем: иначе при запросе на выдачу часть «остатка» у отправителя терялась бы)
             if (existingForUser != null)
             {
                 if (quantity.HasValue)
                 {
-                    existingForUser.Quantity = quantity;
-                    existingForUser.MeasuringUnit = measuringUnit;
+                    var previousQty = existingForUser.Quantity ?? 0;
+                    existingForUser.Quantity = previousQty + quantity.Value;
+                    existingForUser.MeasuringUnit = measuringUnit ?? existingForUser.MeasuringUnit;
                     await _context.SaveChangesAsync();
-                    _logger.LogInformation("Responsibility quantity updated: User {UserId}, Material {MaterialId}, Product {ProductId}, Quantity {Quantity}", 
-                        userId, materialId, productId, quantity);
+                    _logger.LogInformation("Responsibility quantity updated: User {UserId}, Material {MaterialId}, Product {ProductId}, previous {Previous}, added {Added}, total {Total}",
+                        userId, materialId, productId, previousQty, quantity, existingForUser.Quantity);
                 }
                 return existingForUser;
             }

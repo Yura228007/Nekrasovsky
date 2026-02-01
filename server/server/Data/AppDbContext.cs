@@ -23,6 +23,7 @@ public class AppDbContext : DbContext
     public DbSet<FillingWarehouse> FillingWarehouses { get; set; } = null!;
     public DbSet<WorkReport> WorkReports { get; set; } = null!;
     public DbSet<Responsibility> Responsibilities { get; set; } = null!;
+    public DbSet<ResponsibilityFilling> ResponsibilityFillings { get; set; } = null!;
     public DbSet<Reprocessing> Reprocessings { get; set; } = null!;
     public DbSet<ReprocessingItem> ReprocessingItems { get; set; } = null!;
     public DbSet<ReprocessingSourceItem> ReprocessingSourceItems { get; set; } = null!;
@@ -268,6 +269,47 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Responsibility>()
             .ToTable(t => t.HasCheckConstraint(
                 "CK_Responsibility_MaterialOrProduct",
+                "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)"));
+
+        // =============================
+        // ResponsibilityFilling
+        // =============================
+
+        modelBuilder.Entity<ResponsibilityFilling>()
+            .HasOne(rf => rf.User)
+            .WithMany()
+            .HasForeignKey(rf => rf.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ResponsibilityFilling>()
+            .HasOne(rf => rf.Warehouse)
+            .WithMany()
+            .HasForeignKey(rf => rf.WarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ResponsibilityFilling>()
+            .HasOne(rf => rf.Material)
+            .WithMany()
+            .HasForeignKey(rf => rf.MaterialId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ResponsibilityFilling>()
+            .HasOne(rf => rf.Product)
+            .WithMany()
+            .HasForeignKey(rf => rf.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ResponsibilityFilling>()
+            .HasIndex(rf => new { rf.UserId, rf.WarehouseId, rf.MaterialId })
+            .HasFilter("\"IsActive\" = true AND \"MaterialId\" IS NOT NULL");
+
+        modelBuilder.Entity<ResponsibilityFilling>()
+            .HasIndex(rf => new { rf.UserId, rf.WarehouseId, rf.ProductId })
+            .HasFilter("\"IsActive\" = true AND \"ProductId\" IS NOT NULL");
+
+        modelBuilder.Entity<ResponsibilityFilling>()
+            .ToTable(t => t.HasCheckConstraint(
+                "CK_ResponsibilityFilling_MaterialOrProduct",
                 "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)"));
 
         // =============================

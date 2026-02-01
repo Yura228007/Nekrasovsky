@@ -10,17 +10,20 @@ namespace server.Controllers
     public class ResponsibilitiesController : ControllerBase
     {
         private readonly IResponsibilityService _responsibilityService;
+        private readonly IResponsibilityFillingService _responsibilityFillingService;
         private readonly ILogger<ResponsibilitiesController> _logger;
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
 
         public ResponsibilitiesController(
             IResponsibilityService responsibilityService,
+            IResponsibilityFillingService responsibilityFillingService,
             ILogger<ResponsibilitiesController> logger,
             IUserService userService,
             IRoleService roleService)
         {
             _responsibilityService = responsibilityService;
+            _responsibilityFillingService = responsibilityFillingService;
             _logger = logger;
             _userService = userService;
             _roleService = roleService;
@@ -126,8 +129,10 @@ namespace server.Controllers
         {
             try
             {
-                var assignments = await _responsibilityService.GetActiveMaterialAssignmentsAsync();
-                return Ok(assignments);
+                var fromFilling = await _responsibilityFillingService.GetActiveMaterialAssignmentsFromFillingAsync();
+                var fromResponsibility = await _responsibilityService.GetActiveMaterialAssignmentsAsync();
+                var merged = MergeAssignments(fromFilling, fromResponsibility);
+                return Ok(merged);
             }
             catch (Exception ex)
             {
@@ -142,14 +147,60 @@ namespace server.Controllers
         {
             try
             {
-                var assignments = await _responsibilityService.GetActiveProductAssignmentsAsync();
-                return Ok(assignments);
+                var fromFilling = await _responsibilityFillingService.GetActiveProductAssignmentsFromFillingAsync();
+                var fromResponsibility = await _responsibilityService.GetActiveProductAssignmentsAsync();
+                var merged = MergeAssignments(fromFilling, fromResponsibility);
+                return Ok(merged);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while getting active product responsibilities");
                 return StatusCode(500, new { message = "An error occurred while retrieving responsibilities" });
             }
+        }
+
+        private static List<ResponsibilityAssignment> MergeAssignments(
+            List<ResponsibilityAssignment> fromFilling,
+            List<ResponsibilityAssignment> fromResponsibility)
+        {
+            var dict = new Dictionary<(int ItemId, int UserId), ResponsibilityAssignment>();
+
+            foreach (var a in fromFilling)
+            {
+                var k = (a.ItemId, a.UserId);
+                dict[k] = new ResponsibilityAssignment
+                {
+                    ItemId = a.ItemId,
+                    UserId = a.UserId,
+                    UserName = a.UserName,
+                    Quantity = a.Quantity ?? 0,
+                    MeasuringUnit = a.MeasuringUnit
+                };
+            }
+
+            foreach (var a in fromResponsibility)
+            {
+                var k = (a.ItemId, a.UserId);
+                if (dict.TryGetValue(k, out var existing))
+                {
+                    existing.Quantity = (existing.Quantity ?? 0) + (a.Quantity ?? 0);
+                    if (string.IsNullOrWhiteSpace(existing.MeasuringUnit) && !string.IsNullOrWhiteSpace(a.MeasuringUnit))
+                        existing.MeasuringUnit = a.MeasuringUnit;
+                }
+                else
+                {
+                    dict[k] = new ResponsibilityAssignment
+                    {
+                        ItemId = a.ItemId,
+                        UserId = a.UserId,
+                        UserName = a.UserName,
+                        Quantity = a.Quantity,
+                        MeasuringUnit = a.MeasuringUnit
+                    };
+                }
+            }
+
+            return dict.Values.ToList();
         }
 
         // POST: api/responsibilities/material/5/assign
@@ -276,6 +327,94 @@ namespace server.Controllers
             }
         }
 
+        // =============================
+        // ResponsibilityFilling (ответственность по складам)
+        // =============================
+
+        // GET: api/responsibilities/filling/user/5
+        [HttpGet("filling/user/{userId}")]
+        public async Task<ActionResult<IEnumerable<ResponsibilityFilling>>> GetFillingByUser(int userId)
+        {
+            try
+            {
+                if (userId <= 0)
+                    return BadRequest(new { message = "UserId must be greater than 0" });
+                var list = await _responsibilityFillingService.GetResponsibilityFillingsByUserAsync(userId);
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting responsibility fillings for user {UserId}", userId);
+                return StatusCode(500, new { message = "An error occurred while retrieving responsibility fillings" });
+            }
+        }
+
+        // GET: api/responsibilities/filling/warehouse/5/material/10
+        [HttpGet("filling/warehouse/{warehouseId}/material/{materialId}")]
+        public async Task<ActionResult<IEnumerable<ResponsibilityFilling>>> GetFillingByWarehouseAndMaterial(int warehouseId, int materialId)
+        {
+            try
+            {
+                var list = await _responsibilityFillingService.GetByWarehouseAndMaterialAsync(warehouseId, materialId);
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting responsibility fillings for warehouse {WarehouseId} material {MaterialId}", warehouseId, materialId);
+                return StatusCode(500, new { message = "An error occurred while retrieving responsibility fillings" });
+            }
+        }
+
+        // POST: api/responsibilities/filling/material
+        [HttpPost("filling/material")]
+        public async Task<ActionResult<ResponsibilityFilling>> AssignMaterialFilling([FromBody] AssignResponsibilityFillingRequest request)
+        {
+            try
+            {
+                if (!await IsPrivilegedUserAsync())
+                    return Forbid();
+                if (request.UserId <= 0 || request.WarehouseId <= 0 || request.MaterialId <= 0 || request.Quantity <= 0)
+                    return BadRequest(new { message = "UserId, WarehouseId, MaterialId and positive Quantity required" });
+                var rf = await _responsibilityFillingService.AssignMaterialAtWarehouseAsync(
+                    request.UserId, request.WarehouseId, request.MaterialId, request.Quantity, request.MeasuringUnit);
+                return Ok(new { message = "Responsibility filling assigned", responsibilityFilling = rf });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error assigning material responsibility filling");
+                return StatusCode(500, new { message = "An error occurred while assigning responsibility filling" });
+            }
+        }
+
+        // POST: api/responsibilities/filling/product
+        [HttpPost("filling/product")]
+        public async Task<ActionResult<ResponsibilityFilling>> AssignProductFilling([FromBody] AssignResponsibilityFillingProductRequest request)
+        {
+            try
+            {
+                if (!await IsPrivilegedUserAsync())
+                    return Forbid();
+                if (request.UserId <= 0 || request.WarehouseId <= 0 || request.ProductId <= 0 || request.Quantity <= 0)
+                    return BadRequest(new { message = "UserId, WarehouseId, ProductId and positive Quantity required" });
+                var rf = await _responsibilityFillingService.AssignProductAtWarehouseAsync(
+                    request.UserId, request.WarehouseId, request.ProductId, request.Quantity, request.MeasuringUnit);
+                return Ok(new { message = "Responsibility filling assigned", responsibilityFilling = rf });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error assigning product responsibility filling");
+                return StatusCode(500, new { message = "An error occurred while assigning responsibility filling" });
+            }
+        }
+
         private async Task<bool> IsPrivilegedUserAsync()
         {
             if (!Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) ||
@@ -314,6 +453,24 @@ namespace server.Controllers
     {
         public int UserId { get; set; }
         public int? Quantity { get; set; }
+        public string? MeasuringUnit { get; set; }
+    }
+
+    public class AssignResponsibilityFillingRequest
+    {
+        public int UserId { get; set; }
+        public int WarehouseId { get; set; }
+        public int MaterialId { get; set; }
+        public int Quantity { get; set; }
+        public string? MeasuringUnit { get; set; }
+    }
+
+    public class AssignResponsibilityFillingProductRequest
+    {
+        public int UserId { get; set; }
+        public int WarehouseId { get; set; }
+        public int ProductId { get; set; }
+        public int Quantity { get; set; }
         public string? MeasuringUnit { get; set; }
     }
 }

@@ -8,7 +8,6 @@ namespace server.Services
     {
         Task<IEnumerable<Machine>> GetAllAsync();
         Task<IEnumerable<Machine>> GetActiveAsync();
-        Task<IEnumerable<Machine>> GetByWarehouseAsync(int warehouseId);
         Task<Machine?> GetByIdAsync(int id);
         Task<Machine> CreateAsync(Machine machine);
         Task<Machine> UpdateAsync(int id, Machine updated);
@@ -27,7 +26,6 @@ namespace server.Services
         public async Task<IEnumerable<Machine>> GetAllAsync()
         {
             return await _context.Machines
-                .Include(m => m.Warehouse)
                 .OrderBy(m => m.Name)
                 .ToListAsync();
         }
@@ -35,45 +33,29 @@ namespace server.Services
         public async Task<IEnumerable<Machine>> GetActiveAsync()
         {
             return await _context.Machines
-                .Include(m => m.Warehouse)
                 .Where(m => m.IsActive)
-                .OrderBy(m => m.Name)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Machine>> GetByWarehouseAsync(int warehouseId)
-        {
-            return await _context.Machines
-                .Include(m => m.Warehouse)
-                .Where(m => m.WarehouseId == warehouseId && m.IsActive)
                 .OrderBy(m => m.Name)
                 .ToListAsync();
         }
 
         public async Task<Machine?> GetByIdAsync(int id)
         {
-            return await _context.Machines
-                .Include(m => m.Warehouse)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            return await _context.Machines.FindAsync(id);
         }
 
         public async Task<Machine> CreateAsync(Machine machine)
         {
-            // Check for duplicate code
-            if (!string.IsNullOrWhiteSpace(machine.Code))
+            // Check for duplicate name
+            var exists = await _context.Machines.AnyAsync(m => m.Name == machine.Name);
+            if (exists)
             {
-                var exists = await _context.Machines.AnyAsync(m => m.Code == machine.Code);
-                if (exists)
-                {
-                    throw new InvalidOperationException($"Станок с кодом '{machine.Code}' уже существует");
-                }
+                throw new InvalidOperationException($"Станок с названием '{machine.Name}' уже существует");
             }
 
-            machine.CreatedAt = DateTime.UtcNow;
             _context.Machines.Add(machine);
             await _context.SaveChangesAsync();
 
-            return await GetByIdAsync(machine.Id) ?? machine;
+            return machine;
         }
 
         public async Task<Machine> UpdateAsync(int id, Machine updated)
@@ -84,25 +66,19 @@ namespace server.Services
                 throw new KeyNotFoundException($"Machine with ID {id} not found");
             }
 
-            // Check for duplicate code (excluding self)
-            if (!string.IsNullOrWhiteSpace(updated.Code))
+            // Check for duplicate name (excluding self)
+            var duplicateExists = await _context.Machines.AnyAsync(m => m.Name == updated.Name && m.Id != id);
+            if (duplicateExists)
             {
-                var duplicateExists = await _context.Machines.AnyAsync(m => m.Code == updated.Code && m.Id != id);
-                if (duplicateExists)
-                {
-                    throw new InvalidOperationException($"Станок с кодом '{updated.Code}' уже существует");
-                }
+                throw new InvalidOperationException($"Станок с названием '{updated.Name}' уже существует");
             }
 
             existing.Name = updated.Name;
-            existing.Code = updated.Code;
             existing.Type = updated.Type;
-            existing.Description = updated.Description;
             existing.IsActive = updated.IsActive;
-            existing.WarehouseId = updated.WarehouseId;
 
             await _context.SaveChangesAsync();
-            return await GetByIdAsync(id) ?? existing;
+            return existing;
         }
 
         public async Task DeleteAsync(int id)

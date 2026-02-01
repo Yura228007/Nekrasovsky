@@ -1479,20 +1479,6 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<List<Machine>> GetMachinesByWarehouseAsync(int warehouseId)
-        {
-            try
-            {
-                var response = await _httpClient.GetAsync($"api/machines/warehouse/{warehouseId}");
-                response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<List<Machine>>(_jsonOptions) ?? new List<Machine>();
-            }
-            catch
-            {
-                return new List<Machine>();
-            }
-        }
-
         public async Task<Machine?> GetMachineByIdAsync(int id)
         {
             try

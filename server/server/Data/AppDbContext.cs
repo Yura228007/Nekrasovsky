@@ -406,21 +406,6 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.SetNull);
 
         // =============================
-        // Machine
-        // =============================
-
-        modelBuilder.Entity<Machine>()
-            .HasOne(m => m.Warehouse)
-            .WithMany()
-            .HasForeignKey(m => m.WarehouseId)
-            .OnDelete(DeleteBehavior.SetNull);
-
-        modelBuilder.Entity<Machine>()
-            .HasIndex(m => m.Code)
-            .IsUnique()
-            .HasFilter("\"Code\" IS NOT NULL");
-
-        // =============================
         // ShiftReport
         // =============================
 

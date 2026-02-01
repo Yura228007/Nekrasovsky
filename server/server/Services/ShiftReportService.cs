@@ -318,7 +318,7 @@ namespace server.Services
             if (outputs.Count > 0)
             {
                 // Header row
-                var headers = new[] { "Продукт", "Выпущено", "Брак", "Эко", "Ед.изм." };
+                var headers = new[] { "Продукт", "Станок", "Выпущено", "Брак", "Эко", "Ед.изм." };
                 for (int i = 0; i < headers.Length; i++)
                 {
                     ws.Cell(row, i + 1).Value = headers[i];
@@ -332,12 +332,13 @@ namespace server.Services
                 foreach (var output in outputs)
                 {
                     ws.Cell(row, 1).Value = output.Product?.Name ?? $"Продукт #{output.ProductId}";
-                    ws.Cell(row, 2).Value = output.ProducedQuantity;
-                    ws.Cell(row, 3).Value = output.DefectQuantity;
-                    ws.Cell(row, 4).Value = output.EcoQuantity;
-                    ws.Cell(row, 5).Value = output.MeasuringUnit ?? "шт";
+                    ws.Cell(row, 2).Value = output.Machine?.Name ?? "-";
+                    ws.Cell(row, 3).Value = output.ProducedQuantity;
+                    ws.Cell(row, 4).Value = output.DefectQuantity;
+                    ws.Cell(row, 5).Value = output.EcoQuantity;
+                    ws.Cell(row, 6).Value = output.MeasuringUnit ?? "шт";
 
-                    for (int i = 1; i <= 5; i++)
+                    for (int i = 1; i <= 6; i++)
                     {
                         ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                     }
@@ -348,12 +349,12 @@ namespace server.Services
                 row++;
                 ws.Cell(row, 1).Value = "ИТОГО:";
                 ws.Cell(row, 1).Style.Font.Bold = true;
-                ws.Cell(row, 2).Value = outputs.Sum(o => o.ProducedQuantity);
-                ws.Cell(row, 2).Style.Font.Bold = true;
-                ws.Cell(row, 3).Value = outputs.Sum(o => o.DefectQuantity);
+                ws.Cell(row, 3).Value = outputs.Sum(o => o.ProducedQuantity);
                 ws.Cell(row, 3).Style.Font.Bold = true;
-                ws.Cell(row, 4).Value = outputs.Sum(o => o.EcoQuantity);
+                ws.Cell(row, 4).Value = outputs.Sum(o => o.DefectQuantity);
                 ws.Cell(row, 4).Style.Font.Bold = true;
+                ws.Cell(row, 5).Value = outputs.Sum(o => o.EcoQuantity);
+                ws.Cell(row, 5).Style.Font.Bold = true;
             }
             else
             {

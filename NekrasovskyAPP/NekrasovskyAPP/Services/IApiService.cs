@@ -115,7 +115,6 @@ namespace NekrasovskyAPP.Services
         // Machines
         Task<List<Machine>> GetAllMachinesAsync();
         Task<List<Machine>> GetActiveMachinesAsync();
-        Task<List<Machine>> GetMachinesByWarehouseAsync(int warehouseId);
         Task<Machine?> GetMachineByIdAsync(int id);
         Task<ApiResponse<Machine>> AddMachineAsync(Machine machine);
         Task<ApiResponse<Machine>> EditMachineAsync(int id, Machine machine);

@@ -39,19 +39,6 @@ namespace server.Controllers
             return Ok(machines);
         }
 
-        // GET: api/machines/warehouse/{warehouseId}
-        [HttpGet("warehouse/{warehouseId}")]
-        public async Task<IActionResult> GetByWarehouse(int warehouseId)
-        {
-            if (warehouseId <= 0)
-            {
-                return BadRequest(new { message = "Invalid warehouse ID" });
-            }
-
-            var machines = await _machineService.GetByWarehouseAsync(warehouseId);
-            return Ok(machines);
-        }
-
         // GET: api/machines/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -90,8 +77,7 @@ namespace server.Controllers
                     Action = "Machine.Created",
                     EntityType = "Machine",
                     EntityId = created.Id,
-                    WarehouseId = created.WarehouseId,
-                    Description = $"Создан станок: {created.Name} ({created.Code ?? "без кода"})"
+                    Description = $"Создан станок: {created.Name}"
                 });
 
                 return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
@@ -137,8 +123,7 @@ namespace server.Controllers
                     Action = "Machine.Updated",
                     EntityType = "Machine",
                     EntityId = result.Id,
-                    WarehouseId = result.WarehouseId,
-                    Description = $"Обновлен станок: {result.Name} ({result.Code ?? "без кода"})"
+                    Description = $"Обновлен станок: {result.Name}"
                 });
 
                 return Ok(result);

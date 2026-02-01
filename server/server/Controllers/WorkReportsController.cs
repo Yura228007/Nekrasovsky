@@ -23,12 +23,18 @@ namespace server.Controllers
         private readonly IWorkReportService _workReportService;
         private readonly ILogger<WorkReportsController> _logger;
         private readonly IHistoryService _historyService;
+        private readonly IShiftReportService _shiftReportService;
 
-        public WorkReportsController(IWorkReportService workReportService, ILogger<WorkReportsController> logger, IHistoryService historyService)
+        public WorkReportsController(
+            IWorkReportService workReportService,
+            ILogger<WorkReportsController> logger,
+            IHistoryService historyService,
+            IShiftReportService shiftReportService)
         {
             _workReportService = workReportService;
             _logger = logger;
             _historyService = historyService;
+            _shiftReportService = shiftReportService;
         }
 
         // GET: api/work-reports
@@ -387,7 +393,21 @@ namespace server.Controllers
                     EntityId = report.Id,
                     Description = $"Завершение смены (отчет ID {report.Id})"
                 });
-                return Ok(new { message = "Work finished successfully", report });
+
+                // Generate shift report automatically
+                Models.ShiftReport? shiftReport = null;
+                try
+                {
+                    shiftReport = await _shiftReportService.GenerateReportAsync(id);
+                    _logger.LogInformation("Shift report generated automatically for WorkReport ID: {WorkReportId}, ShiftReport ID: {ShiftReportId}",
+                        id, shiftReport.Id);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to generate shift report for WorkReport ID: {WorkReportId}", id);
+                }
+
+                return Ok(new { message = "Work finished successfully", report, shiftReport });
             }
             catch (KeyNotFoundException ex)
             {

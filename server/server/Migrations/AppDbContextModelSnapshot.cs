@@ -613,6 +613,53 @@ namespace server.Migrations
                     b.ToTable("RolePermission");
                 });
 
+            modelBuilder.Entity("server.Models.ShiftReport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("ShiftEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ShiftStart")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Summary")
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WorkReportId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WorkReportId")
+                        .IsUnique();
+
+                    b.ToTable("ShiftReport");
+                });
+
             modelBuilder.Entity("server.Models.ShiftTransfer", b =>
                 {
                     b.Property<int>("Id")
@@ -1089,6 +1136,25 @@ namespace server.Migrations
                     b.Navigation("Permission");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("server.Models.ShiftReport", b =>
+                {
+                    b.HasOne("server.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("server.Models.WorkReport", "WorkReport")
+                        .WithMany()
+                        .HasForeignKey("WorkReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("WorkReport");
                 });
 
             modelBuilder.Entity("server.Models.ShiftTransfer", b =>

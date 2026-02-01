@@ -29,6 +29,7 @@ public class AppDbContext : DbContext
     public DbSet<HistoryEvent> HistoryEvents { get; set; } = null!;
     public DbSet<ProductOutput> ProductOutputs { get; set; } = null!;
     public DbSet<Machine> Machines { get; set; } = null!;
+    public DbSet<ShiftReport> ShiftReports { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -418,5 +419,25 @@ public class AppDbContext : DbContext
             .HasIndex(m => m.Code)
             .IsUnique()
             .HasFilter("\"Code\" IS NOT NULL");
+
+        // =============================
+        // ShiftReport
+        // =============================
+
+        modelBuilder.Entity<ShiftReport>()
+            .HasOne(sr => sr.User)
+            .WithMany()
+            .HasForeignKey(sr => sr.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ShiftReport>()
+            .HasOne(sr => sr.WorkReport)
+            .WithMany()
+            .HasForeignKey(sr => sr.WorkReportId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ShiftReport>()
+            .HasIndex(sr => sr.WorkReportId)
+            .IsUnique();
     }
 }

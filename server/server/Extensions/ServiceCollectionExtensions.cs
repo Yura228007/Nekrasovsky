@@ -72,6 +72,9 @@ namespace server.Extensions
             // Register backup background service
             services.AddHostedService<BackupBackgroundService>();
 
+            // Register shift report service
+            services.AddScoped<IShiftReportService, ShiftReportService>();
+
             return services;
         }
     }

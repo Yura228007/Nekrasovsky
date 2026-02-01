@@ -104,9 +104,9 @@ namespace server.Controllers
             }
         }
 
-        // POST: api/materials
+        // POST: api/materials?quantity=0&measuringUnit=шт
         [HttpPost]
-        public async Task<IActionResult> CreateMaterial([FromBody] Material material)
+        public async Task<IActionResult> CreateMaterial([FromBody] Material material, [FromQuery] int? quantity = null, [FromQuery] string? measuringUnit = null)
         {
             if (!ModelState.IsValid)
             {
@@ -121,7 +121,7 @@ namespace server.Controllers
                     return BadRequest(new { message = "X-User-Id header is required" });
                 }
 
-                var createdMaterial = await _materialService.CreateMaterialAsync(material, userId);
+                var createdMaterial = await _materialService.CreateMaterialAsync(material, userId, quantity, measuringUnit);
                 _logger.LogInformation("Material created successfully with ID: {MaterialId}", createdMaterial.Id);
                 await TryLogAsync(userId, new HistoryEvent
                 {

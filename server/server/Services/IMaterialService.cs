@@ -8,7 +8,7 @@ namespace server.Services
         Task<Material?> GetMaterialByIdAsync(int id);
         Task<IEnumerable<Material>> SearchMaterialsAsync(string? name, string? code, bool? isActive = null, string? sortBy = null);
         Task<IEnumerable<Material>> GetMaterialsByMeasuringUnitAsync(string unit);
-        Task<Material> CreateMaterialAsync(Material material, int userId);
+        Task<Material> CreateMaterialAsync(Material material, int userId, int? quantity = null, string? measuringUnit = null);
         Task<Material> UpdateMaterialAsync(int id, Material updatedMaterial);
         Task<bool> DeleteMaterialAsync(int id);
         Task<IEnumerable<AccessibleMovement>> GetMaterialMovementsAsync(int materialId);

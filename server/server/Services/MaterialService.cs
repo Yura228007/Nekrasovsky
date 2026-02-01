@@ -70,7 +70,7 @@ namespace server.Services
                 .ToListAsync();
         }
 
-        public async Task<Material> CreateMaterialAsync(Material material, int userId)
+        public async Task<Material> CreateMaterialAsync(Material material, int userId, int? quantity = null, string? measuringUnit = null)
         {
             // Проверка уникальности артикула
             if (!string.IsNullOrWhiteSpace(material.Code))
@@ -86,9 +86,15 @@ namespace server.Services
             _context.Materials.Add(material);
             await _context.SaveChangesAsync();
 
-            await _responsibilityService.AssignMaterialAsync(material.Id, userId);
+            // Если единица измерения не указана, берем из материала
+            if (string.IsNullOrWhiteSpace(measuringUnit))
+            {
+                measuringUnit = material.MeasuringUnit;
+            }
 
-            _logger.LogInformation("Material created with ID: {MaterialId}, Name: {Name}", material.Id, material.Name);
+            await _responsibilityService.AssignMaterialAsync(material.Id, userId, quantity, measuringUnit);
+
+            _logger.LogInformation("Material created with ID: {MaterialId}, Name: {Name}, Quantity: {Quantity}", material.Id, material.Name, quantity);
             return material;
         }
 

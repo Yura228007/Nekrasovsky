@@ -28,10 +28,8 @@ namespace NekrasovskyAPP.Pages
                 _permissionsChecked = true;
             }
 
-            if (_viewModel.Materials?.Any() == false)
-            {
-                await _viewModel.LoadMaterialsAsync();
-            }
+            // Всегда обновляем данные при заходе на страницу
+            await ApplyFiltersAsync();
         }
 
         private async Task UpdateToolbarPermissionsAsync()
@@ -616,7 +614,8 @@ namespace NekrasovskyAPP.Pages
                     }
                 }
 
-                var createResponse = await _viewModel.ApiService.AddMaterialAsync(material);
+                // Передаем quantity и measuringUnit при создании материала для Responsibility
+                var createResponse = await _viewModel.ApiService.AddMaterialAsync(material, quantity > 0 ? quantity : null, material.MeasuringUnit);
                 var createdMaterial = createResponse.Material ?? createResponse.GetData();
                 if (createdMaterial == null)
                 {

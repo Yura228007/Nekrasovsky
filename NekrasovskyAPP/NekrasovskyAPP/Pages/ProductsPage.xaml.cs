@@ -27,10 +27,8 @@ namespace NekrasovskyAPP.Pages
                 _permissionsChecked = true;
             }
 
-            if (_viewModel.Products?.Any() == false)
-            {
-                await _viewModel.LoadProductsAsync();
-            }
+            // Всегда обновляем данные при заходе на страницу
+            await ApplyFiltersAsync();
         }
 
         private async Task UpdateToolbarPermissionsAsync()

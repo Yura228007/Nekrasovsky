@@ -58,5 +58,25 @@ namespace server.Hubs
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, "AlarmNotifications");
             _logger.LogInformation("Client {ConnectionId} unsubscribed from alarm notifications", Context.ConnectionId);
         }
+
+        /// <summary>
+        /// Регистрация подключения по Id пользователя (для удалённой разблокировки устройства)
+        /// </summary>
+        public async Task RegisterUserId(int userId)
+        {
+            var groupName = "User_" + userId;
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+            _logger.LogInformation("Client {ConnectionId} registered for user {UserId} (group {Group})", Context.ConnectionId, userId, groupName);
+        }
+
+        /// <summary>
+        /// Отписка от группы пользователя
+        /// </summary>
+        public async Task UnregisterUserId(int userId)
+        {
+            var groupName = "User_" + userId;
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+            _logger.LogInformation("Client {ConnectionId} unregistered from user {UserId}", Context.ConnectionId, userId);
+        }
     }
 }

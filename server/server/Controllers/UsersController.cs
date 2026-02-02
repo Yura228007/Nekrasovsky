@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
 using server.Attributes;
+using server.Hubs;
 
 namespace server.Controllers
 {
@@ -14,13 +16,15 @@ namespace server.Controllers
         private readonly IPasswordService _passwordService;
         private readonly ILogger<UsersController> _logger;
         private readonly IHistoryService _historyService;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
-        public UsersController(IUserService userService, IPasswordService passwordService, ILogger<UsersController> logger, IHistoryService historyService)
+        public UsersController(IUserService userService, IPasswordService passwordService, ILogger<UsersController> logger, IHistoryService historyService, IHubContext<NotificationHub> hubContext)
         {
             _userService = userService;
             _passwordService = passwordService;
             _logger = logger;
             _historyService = historyService;
+            _hubContext = hubContext;
         }
 
         public class LoginRequest
@@ -313,6 +317,32 @@ namespace server.Controllers
             {
                 _logger.LogError(ex, "Unexpected error while deleting user with ID {UserId}", id);
                 return StatusCode(500, new { message = "An unexpected error occurred while deleting the user" });
+            }
+        }
+
+        /// <summary>
+        /// Отправить команду разблокировки/закрытия приложения на устройство пользователя (для админа).
+        /// </summary>
+        [HttpPost("{id}/unlock-device")]
+        [RequirePermission("ManageUsers")]
+        public async Task<IActionResult> UnlockUserDevice(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest(new { message = "Id must be greater than 0" });
+            }
+
+            try
+            {
+                var groupName = "User_" + id;
+                await _hubContext.Clients.Group(groupName).SendAsync("UnlockDevice");
+                _logger.LogInformation("UnlockDevice sent to user {UserId} (group {Group})", id, groupName);
+                return Ok(new { message = "Unlock command sent" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to send UnlockDevice to user {UserId}", id);
+                return StatusCode(500, new { message = "An error occurred while sending unlock command" });
             }
         }
 

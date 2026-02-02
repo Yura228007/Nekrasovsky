@@ -13,6 +13,8 @@ namespace NekrasovskyAPP.Services
         Task<ApiResponse<User>> AddUserAsync(User user);
         Task<ApiResponse<User>> EditUserAsync(int id, User user);
         Task<ApiResponse<object>> DeleteUserAsync(int id);
+        /// <summary>Отправить команду разблокировки/закрытия приложения на устройство пользователя (для админа).</summary>
+        Task<ApiResponse<object>> UnlockUserDeviceAsync(int userId);
 
         // Products
         Task<List<Product>> GetAllProductsAsync();

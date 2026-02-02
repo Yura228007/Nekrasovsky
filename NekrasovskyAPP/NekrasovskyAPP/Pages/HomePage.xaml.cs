@@ -11,6 +11,8 @@ namespace NekrasovskyAPP.Pages
         private readonly IAuthService _authService;
         private readonly IApiService _apiService;
         private readonly IAlarmNotificationService _alarmNotificationService;
+        private readonly IDeviceLockService _deviceLockService;
+        private readonly ISignalRService _signalRService;
         private bool _hasActiveShift;
         private bool _hasShiftTransferPermission;
         private bool _isPrivilegedUser;
@@ -19,6 +21,14 @@ namespace NekrasovskyAPP.Pages
         private bool _hasDisposalPermission;
         private bool _hasWriteOffPermission;
         private bool _hasSendToSalePermission;
+        private static bool _lockDialogShownThisSession;
+        private static bool _unlockDeviceHandlerSet;
+
+        /// <summary>Сбросить флаг показа диалога блокировки (вызывать при выходе, чтобы при следующем входе диалог снова показался).</summary>
+        public static void ResetLockDialogShown()
+        {
+            _lockDialogShownThisSession = false;
+        }
 
         public string CurrentUserName => _authService.CurrentUser != null
             ? $"{_authService.CurrentUser.Surname} {_authService.CurrentUser.Name}"
@@ -27,12 +37,16 @@ namespace NekrasovskyAPP.Pages
         public HomePage(
             IAuthService authService,
             IApiService apiService,
-            IAlarmNotificationService alarmNotificationService)
+            IAlarmNotificationService alarmNotificationService,
+            IDeviceLockService deviceLockService,
+            ISignalRService signalRService)
         {
             InitializeComponent();
             _authService = authService;
             _apiService = apiService;
             _alarmNotificationService = alarmNotificationService;
+            _deviceLockService = deviceLockService;
+            _signalRService = signalRService;
 
             BindingContext = this;
         }
@@ -45,6 +59,63 @@ namespace NekrasovskyAPP.Pages
             // Инициализируем сервис уведомлений
             await _alarmNotificationService.InitializeAsync();
             await RefreshShiftStateAsync();
+
+            // Регистрация в SignalR для команды разблокировки с админ-панели и диалог блокировки устройства (только Android, не админ)
+            await SetupDeviceLockAndSignalRAsync();
+        }
+
+        private async Task SetupDeviceLockAndSignalRAsync()
+        {
+            var user = _authService.CurrentUser;
+            if (user == null) return;
+
+            // Подключаем SignalR и регистрируем userId, чтобы админ мог отправить команду "Закрыть"
+            if (!_signalRService.IsConnected)
+            {
+                try
+                {
+                    await _signalRService.ConnectAsync();
+                    await _signalRService.SubscribeToAlarmNotificationsAsync();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"SignalR connect error: {ex.Message}");
+                }
+            }
+
+            await _signalRService.RegisterUserIdAsync(user.Id);
+
+            if (!_unlockDeviceHandlerSet)
+            {
+                _unlockDeviceHandlerSet = true;
+                _signalRService.SetOnUnlockDevice(() =>
+                {
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        await _deviceLockService.UnlockAndCloseAsync();
+                    });
+                });
+            }
+
+            // Диалог "Заблокировать устройство?" — только на Android, только для не-админа, один раз за сессию
+            if (_lockDialogShownThisSession) return;
+#if ANDROID
+            if (!_deviceLockService.IsLockSupported) return;
+            var isAdmin = await _authService.IsAdminAsync(user.Id);
+            if (isAdmin) return;
+
+            _lockDialogShownThisSession = true;
+            var block = await DisplayAlert(
+                "Заблокировать устройство?",
+                "При подтверждении выход из приложения будет заблокирован. Разблокировка возможна только с панели администратора (кнопка «Закрыть» у пользователя).",
+                "Заблокировать",
+                "Нет");
+
+            if (block)
+            {
+                await _deviceLockService.LockAsync();
+            }
+#endif
         }
 
         protected override void OnDisappearing()
@@ -278,6 +349,7 @@ namespace NekrasovskyAPP.Pages
         private async void OnLogoutClicked(object sender, EventArgs e)
         {
             _authService.Logout();
+            ResetLockDialogShown();
             await Shell.Current.GoToAsync("///LoginPage");
         }
 

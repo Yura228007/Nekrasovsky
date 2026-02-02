@@ -9,13 +9,15 @@ namespace NekrasovskyAPP.Pages
     {
         private readonly MainViewModel _viewModel;
         private readonly IAuthService _authService;
+        private readonly IApiService _apiService;
         private string _lastSearchText = string.Empty;
 
-        public UsersPage(MainViewModel viewModel, IAuthService authService)
+        public UsersPage(MainViewModel viewModel, IAuthService authService, IApiService apiService)
         {
             InitializeComponent();
             _viewModel = viewModel;
             _authService = authService;
+            _apiService = apiService;
             BindingContext = _viewModel;
         }
 
@@ -53,6 +55,7 @@ namespace NekrasovskyAPP.Pages
                     "Просмотр",
                     "Редактировать",
                     "Изменить роль",
+                    "Закрыть",
                     "Удалить");
 
                 switch (action)
@@ -74,6 +77,22 @@ namespace NekrasovskyAPP.Pages
                         break;
                     case "Изменить роль":
                         await ChangeUserRoleAsync(selectedUser);
+                        break;
+
+                    case "Закрыть":
+                        var confirmClose = await DisplayAlert(
+                            "Закрыть приложение",
+                            $"Отправить команду разблокировки на устройство пользователя {selectedUser.Name} {selectedUser.Surname}? Приложение на его устройстве закроется.",
+                            "Закрыть",
+                            "Отмена");
+                        if (confirmClose)
+                        {
+                            var resp = await _apiService.UnlockUserDeviceAsync(selectedUser.Id);
+                            if (resp?.Message != null && !resp.Message.StartsWith("An error", StringComparison.OrdinalIgnoreCase))
+                                await DisplayAlert("Готово", "Команда отправлена. Приложение на устройстве пользователя закроется.", "OK");
+                            else
+                                await DisplayAlert("Ошибка", resp?.Message ?? "Не удалось отправить команду. Убедитесь, что пользователь в сети и приложение открыто.", "OK");
+                        }
                         break;
 
                     case "Удалить":

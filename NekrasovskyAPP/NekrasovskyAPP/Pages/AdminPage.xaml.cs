@@ -344,10 +344,8 @@ namespace NekrasovskyAPP.Pages
 
         private async void OnLogoutClicked(object sender, EventArgs e)
         {
-            // Выполняем выход
             _authService.Logout();
-            
-            // Навигация к LoginPage и сброс стека навигации
+            HomePage.ResetLockDialogShown();
             await Shell.Current.GoToAsync("///LoginPage");
         }
 

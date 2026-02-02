@@ -16,11 +16,39 @@ namespace NekrasovskyAPP
     {
         private const int NotificationPermissionRequestCode = 9001;
 
+        /// <summary>
+        /// Текущая активность для доступа из DeviceLockService (блокировка выхода из приложения).
+        /// </summary>
+        public static MainActivity? Instance { get; private set; }
+
         protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            Instance = this;
             RequestNotificationPermissionIfNeeded();
             StartAlarmService();
+        }
+
+        protected override void OnDestroy()
+        {
+            Instance = null;
+            base.OnDestroy();
+        }
+
+        /// <summary>
+        /// Включить закрепление экрана (пользователь не может выйти из приложения без разблокировки с сервера).
+        /// </summary>
+        public void EnterLockTask()
+        {
+            StartLockTask();
+        }
+
+        /// <summary>
+        /// Отключить закрепление экрана (по команде с админ-панели).
+        /// </summary>
+        public void ExitLockTask()
+        {
+            StopLockTask();
         }
 
         private void RequestNotificationPermissionIfNeeded()

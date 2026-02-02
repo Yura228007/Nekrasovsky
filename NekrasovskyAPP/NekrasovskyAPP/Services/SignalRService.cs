@@ -10,6 +10,7 @@ namespace NekrasovskyAPP.Services
         private readonly ILogger<SignalRService>? _logger;
         private readonly string _baseUrl;
         private event Action<string, string, string>? OnAlarmNotificationReceived;
+        private event Action? OnUnlockDeviceReceived;
 
         public HubConnection? Connection => _connection;
         public bool IsConnected => _connection?.State == HubConnectionState.Connected;
@@ -17,6 +18,11 @@ namespace NekrasovskyAPP.Services
         public void SetOnAlarmNotification(Action<string, string, string> callback)
         {
             OnAlarmNotificationReceived += callback;
+        }
+
+        public void SetOnUnlockDevice(Action callback)
+        {
+            OnUnlockDeviceReceived += callback;
         }
 
         public SignalRService(ILogger<SignalRService>? logger = null)
@@ -68,6 +74,19 @@ namespace NekrasovskyAPP.Services
                     _logger?.LogError("SignalR соединение закрыто. {Error}", error?.Message);
                     return Task.CompletedTask;
                 };
+
+                // Команда разблокировки устройства с админ-панели
+                _connection.On("UnlockDevice", () =>
+                {
+                    try
+                    {
+                        OnUnlockDeviceReceived?.Invoke();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger?.LogError(ex, "Ошибка обработки UnlockDevice");
+                    }
+                });
 
                 // Настраиваем обработчик уведомлений о тревогах
                 _connection.On<object>("AlarmNotification", (notification) =>
@@ -140,6 +159,22 @@ namespace NekrasovskyAPP.Services
                 catch (Exception ex)
                 {
                     _logger?.LogError(ex, "Ошибка при подписке на уведомления о тревогах");
+                }
+            }
+        }
+
+        public async Task RegisterUserIdAsync(int userId)
+        {
+            if (_connection != null && IsConnected)
+            {
+                try
+                {
+                    await _connection.InvokeAsync("RegisterUserId", userId);
+                    _logger?.LogInformation("Зарегистрирован userId {UserId} для разблокировки", userId);
+                }
+                catch (Exception ex)
+                {
+                    _logger?.LogError(ex, "Ошибка при регистрации userId для разблокировки");
                 }
             }
         }

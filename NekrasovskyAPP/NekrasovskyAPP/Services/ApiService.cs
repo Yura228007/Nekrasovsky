@@ -191,6 +191,22 @@ namespace NekrasovskyAPP.Services
             }
         }
 
+        public async Task<ApiResponse<object>> UnlockUserDeviceAsync(int userId)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/users/{userId}/unlock-device", null);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object> { Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "OK" : "OK" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
         // Products
         public async Task<List<Product>> GetAllProductsAsync()
         {

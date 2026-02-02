@@ -40,6 +40,11 @@ namespace NekrasovskyAPP
             builder.Services.AddSingleton<IApiService, ApiService>();
             builder.Services.AddSingleton<IAuthService, AuthService>();
             builder.Services.AddSingleton<ISignalRService, SignalRService>();
+#if ANDROID
+            builder.Services.AddSingleton<IDeviceLockService, NekrasovskyAPP.Platforms.Android.DeviceLockService>();
+#else
+            builder.Services.AddSingleton<IDeviceLockService, DeviceLockService>();
+#endif
             builder.Services.AddSingleton<IAlarmSoundService, AlarmSoundService>();
             builder.Services.AddSingleton<IAlarmNotificationService, AlarmNotificationService>();
             builder.Services.AddSingleton<QrCodeService>();
@@ -62,7 +67,8 @@ namespace NekrasovskyAPP
             builder.Services.AddTransient<UsersPage>(sp => 
                 new UsersPage(
                     sp.GetRequiredService<MainViewModel>(),
-                    sp.GetRequiredService<IAuthService>()));
+                    sp.GetRequiredService<IAuthService>(),
+                    sp.GetRequiredService<IApiService>()));
             builder.Services.AddTransient<ProductsPage>(sp => 
                 new ProductsPage(sp.GetRequiredService<MainViewModel>()));
             builder.Services.AddTransient<ProductCatalogPage>(sp => 

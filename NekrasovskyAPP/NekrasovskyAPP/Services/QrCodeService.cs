@@ -81,15 +81,14 @@ namespace NekrasovskyAPP.Services
             canvas.DrawImage(qrImage, destRect);
 
             // Draw text below QR code
+            using var font = new SKFont(SKTypeface.Default, 12);
             using var paint = new SKPaint
             {
                 Color = SKColors.Black,
-                TextSize = 12,
-                IsAntialias = true,
-                TextAlign = SKTextAlign.Center
+                IsAntialias = true
             };
             var textY = y + QrCodeSizeInPdf + 20;
-            canvas.DrawText(text, PdfPageWidth / 2, textY, paint);
+            canvas.DrawText(text, PdfPageWidth / 2, textY, SKTextAlign.Center, font, paint);
 
             document.EndPage();
             document.Close();
@@ -152,19 +151,18 @@ namespace NekrasovskyAPP.Services
                     canvas.DrawImage(qrImage, destRect);
 
                     // Draw text below QR code
+                    using var font = new SKFont(SKTypeface.Default, 10);
                     using var paint = new SKPaint
                     {
                         Color = SKColors.Black,
-                        TextSize = 10,
-                        IsAntialias = true,
-                        TextAlign = SKTextAlign.Center
+                        IsAntialias = true
                     };
                     var textY = y + qrSizeInPdf + 15;
                     var textX = x + qrSizeInPdf / 2;
                     
                     // Truncate text if too long
                     var displayText = text.Length > 20 ? text.Substring(0, 20) + "..." : text;
-                    canvas.DrawText(displayText, textX, textY, paint);
+                    canvas.DrawText(displayText, textX, textY, SKTextAlign.Center, font, paint);
                 }
 
                 document.EndPage();

@@ -1,13 +1,18 @@
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Content.PM;
 using AndroidX.Core.App;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Text.Json;
 
 namespace NekrasovskyAPP.Platforms.Android
 {
-    [Service(Enabled = true, Exported = false)]
+    [Service(
+    Enabled = true,
+    Exported = false,
+    ForegroundServiceType = ForegroundService.TypeDataSync
+)]
     public class AlarmForegroundService : Service
     {
         private const int ServiceNotificationId = 2001;
@@ -27,7 +32,15 @@ namespace NekrasovskyAPP.Platforms.Android
 
         public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
         {
-            StartForeground(ServiceNotificationId, BuildServiceNotification());
+            var notification = BuildServiceNotification();
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Q)
+            {
+                StartForeground(ServiceNotificationId, notification, ForegroundService.TypeDataSync);
+            }
+            else
+            {
+                StartForeground(ServiceNotificationId, notification);
+            }
             _ = EnsureSignalRConnectedAsync();
             return StartCommandResult.Sticky;
         }

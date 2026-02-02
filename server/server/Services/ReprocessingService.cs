@@ -7,6 +7,8 @@ namespace server.Services
 {
     public class ReprocessingService : IReprocessingService
     {
+        private const string DisposalWarehouseType = "Утиль";
+
         private readonly AppDbContext _context;
         private readonly ILogger<ReprocessingService> _logger;
         private readonly IResponsibilityFillingService _responsibilityFillingService;
@@ -14,6 +16,7 @@ namespace server.Services
         private readonly IUserPermissionsService _userPermissionsService;
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
+        private readonly IFillingWarehouseService _fillingWarehouseService;
 
         public ReprocessingService(
             AppDbContext context,
@@ -22,7 +25,8 @@ namespace server.Services
             IProductBatchService productBatchService,
             IUserPermissionsService userPermissionsService,
             IUserService userService,
-            IRoleService roleService)
+            IRoleService roleService,
+            IFillingWarehouseService fillingWarehouseService)
         {
             _context = context;
             _logger = logger;
@@ -31,6 +35,7 @@ namespace server.Services
             _userPermissionsService = userPermissionsService;
             _userService = userService;
             _roleService = roleService;
+            _fillingWarehouseService = fillingWarehouseService;
         }
 
         public async Task<Reprocessing> CreateReprocessingAsync(ReprocessingCreateRequest request, int userId)
@@ -193,12 +198,41 @@ namespace server.Services
                     }
                 }
 
+                // 3) Отправляем брак на склад утиля (если указано DefectQuantity)
+                if (request.DefectQuantity > 0)
+                {
+                    var disposalWarehouse = await _context.Warehouses
+                        .FirstOrDefaultAsync(w => w.IsActive && EF.Functions.ILike(w.Type, DisposalWarehouseType));
+
+                    if (disposalWarehouse != null)
+                    {
+                        // Берём первый исходный материал как материал брака
+                        var defectMaterialId = sources[0].MaterialId;
+                        var defectMaterial = await _context.Materials.FirstOrDefaultAsync(m => m.Id == defectMaterialId);
+                        var measuringType = defectMaterial?.MeasuringUnit ?? "шт";
+
+                        await AddMaterialQuantityToWarehouseAsync(
+                            disposalWarehouse.Id, defectMaterialId, request.DefectQuantity, measuringType);
+
+                        _logger.LogInformation(
+                            "Defect from reprocessing sent to disposal warehouse: Material {MaterialId}, Quantity {Quantity}",
+                            defectMaterialId, request.DefectQuantity);
+                    }
+                    else
+                    {
+                        _logger.LogWarning(
+                            "Склад типа «{Type}» не найден; брак ({Qty}) из переработки не перемещён на склад утиля.",
+                            DisposalWarehouseType, request.DefectQuantity);
+                    }
+                }
+
                 var reprocessing = new Reprocessing
                 {
                     UserId = userId,
                     WarehouseId = request.WarehouseId,
                     SourceMaterialId = sources[0].MaterialId,
                     SourceQuantity = sources[0].Quantity,
+                    DefectQuantity = request.DefectQuantity,
                     CreatedAt = DateTime.UtcNow,
                     Items = request.Outputs.Select(o => new ReprocessingItem
                     {
@@ -329,6 +363,29 @@ namespace server.Services
             }
 
             return await _userPermissionsService.HasPermissionAsync(userId, "ManageResponsibility");
+        }
+
+        /// <summary>Добавляет количество материала на склад (создаёт или обновляет FillingWarehouse).</summary>
+        private async Task AddMaterialQuantityToWarehouseAsync(int warehouseId, int materialId, int quantity, string? measuringType)
+        {
+            if (quantity <= 0) return;
+
+            var filling = await _fillingWarehouseService.GetFillingByMaterialAsync(warehouseId, materialId);
+            if (filling == null)
+            {
+                await _fillingWarehouseService.CreateFillingWarehouseAsync(new FillingWarehouse
+                {
+                    WarehouseId = warehouseId,
+                    MaterialId = materialId,
+                    Quantity = quantity,
+                    MeasuringType = measuringType
+                });
+            }
+            else
+            {
+                await _fillingWarehouseService.UpdateQuantityByMaterialAsync(
+                    warehouseId, materialId, filling.Quantity + quantity);
+            }
         }
     }
 }

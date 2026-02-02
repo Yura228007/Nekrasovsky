@@ -14,6 +14,7 @@ namespace server.Controllers
     public class FinishWorkRequest
     {
         public string? FinishTime { get; set; } // Changed to string for validation
+        public string? Note { get; set; }
     }
 
     [ApiController]
@@ -384,7 +385,7 @@ namespace server.Controllers
                         : parsed.ToUniversalTime();
                 }
 
-                var report = await _workReportService.FinishWorkAsync(id, parsedFinishTime);
+                var report = await _workReportService.FinishWorkAsync(id, parsedFinishTime, request?.Note);
                 _logger.LogInformation("Work finished successfully for WorkReport ID: {WorkReportId}", id);
                 await TryLogAsync(report.UserId, new HistoryEvent
                 {

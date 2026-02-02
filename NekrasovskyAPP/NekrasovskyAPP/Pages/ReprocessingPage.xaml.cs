@@ -241,11 +241,19 @@ namespace NekrasovskyAPP.Pages
                 outputs.Add(output);
             }
 
+            // Получаем количество брака
+            var defectQuantity = 0;
+            if (int.TryParse(DefectQuantityEntry.Text, out var parsedDefect) && parsedDefect > 0)
+            {
+                defectQuantity = parsedDefect;
+            }
+
             var request = new ReprocessingCreateRequest
             {
                 WarehouseId = warehouse.Id,
                 Sources = sources,
-                Outputs = outputs
+                Outputs = outputs,
+                DefectQuantity = defectQuantity
             };
 
             var response = await _apiService.CreateReprocessingAsync(request);
@@ -309,6 +317,7 @@ namespace NekrasovskyAPP.Pages
             Outputs.Add(new OutputItem(_products));
             WarehousePicker.SelectedItem = null;
             _selectedWarehouse = null;
+            DefectQuantityEntry.Text = "0";
         }
 
         private static bool TryBuildSource(SourceItem sourceItem, out ReprocessingSource source)

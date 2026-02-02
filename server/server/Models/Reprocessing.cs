@@ -28,6 +28,12 @@ namespace server.Models
         [Column(TypeName = "integer")]
         public int SourceQuantity { get; set; }
 
+        /// <summary>
+        /// Количество брака, отправленное на склад утиля
+        /// </summary>
+        [Column(TypeName = "integer")]
+        public int DefectQuantity { get; set; }
+
         [Required]
         [Column(TypeName = "timestamp with time zone")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

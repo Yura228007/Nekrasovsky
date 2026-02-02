@@ -101,10 +101,12 @@ namespace NekrasovskyAPP.Pages
             var totalProduced = _outputs.Sum(o => o.ProducedQuantity);
             var totalDefect = _outputs.Sum(o => o.DefectQuantity);
             var totalEco = _outputs.Sum(o => o.EcoQuantity);
+            var totalRewind = _outputs.Sum(o => o.RewindQuantity);
 
             TotalProducedLabel.Text = totalProduced.ToString();
             TotalDefectLabel.Text = totalDefect.ToString();
             TotalEcoLabel.Text = totalEco.ToString();
+            TotalRewindLabel.Text = totalRewind.ToString();
         }
 
         private async void OnRefreshClicked(object? sender, EventArgs e)
@@ -267,7 +269,7 @@ namespace NekrasovskyAPP.Pages
                     : existingOutput.ProductBatchId == selectedOption?.ProductBatchId;
                 if (sameSource)
                 {
-                    var oldTotalUsed = existingOutput.ProducedQuantity + existingOutput.DefectQuantity + existingOutput.EcoQuantity;
+                    var oldTotalUsed = existingOutput.ProducedQuantity + existingOutput.DefectQuantity + existingOutput.EcoQuantity + existingOutput.RewindQuantity;
                     availableQuantity = baseAvailableQuantity.Value + oldTotalUsed;
                 }
             }
@@ -340,7 +342,7 @@ namespace NekrasovskyAPP.Pages
             var ecoStr = await DisplayPromptAsync(
                 title,
                 $"Количество эко-продукции:{quantityLimitText}",
-                "Сохранить",
+                "Далее",
                 "Отмена",
                 "0",
                 -1,
@@ -353,16 +355,48 @@ namespace NekrasovskyAPP.Pages
                 await DisplayAlert("Ошибка", "Введите корректное число", "OK");
                 return;
             }
-            
-            // Проверяем общее доступное количество (произведено + брак + эко)
+
+            // Проверяем доступное количество для эко
             if (availableQuantity.HasValue)
             {
                 var totalUsed = produced + defect + eco;
                 if (totalUsed > availableQuantity.Value)
                 {
                     await DisplayAlert(
-                        "Ошибка", 
-                        $"Общее количество (произведено + брак + эко = {totalUsed} {selectedProduct.MeasuringUnit}) превышает доступное количество ({availableQuantity.Value} {selectedProduct.MeasuringUnit})",
+                        "Ошибка",
+                        $"Сумма (произведено + брак + эко = {totalUsed} {selectedProduct.MeasuringUnit}) превышает доступное количество ({availableQuantity.Value} {selectedProduct.MeasuringUnit})",
+                        "OK");
+                    return;
+                }
+            }
+
+            // Enter rewind quantity
+            var rewindStr = await DisplayPromptAsync(
+                title,
+                $"Количество на перемотку:{quantityLimitText}",
+                "Сохранить",
+                "Отмена",
+                "0",
+                -1,
+                Keyboard.Numeric,
+                existingOutput?.RewindQuantity.ToString() ?? "0");
+            if (rewindStr == null)
+                return;
+            if (!int.TryParse(rewindStr, out var rewind) || rewind < 0)
+            {
+                await DisplayAlert("Ошибка", "Введите корректное число", "OK");
+                return;
+            }
+
+            // Проверяем общее доступное количество (произведено + брак + эко + перемотка)
+            if (availableQuantity.HasValue)
+            {
+                var totalUsed = produced + defect + eco + rewind;
+                if (totalUsed > availableQuantity.Value)
+                {
+                    await DisplayAlert(
+                        "Ошибка",
+                        $"Общее количество (произведено + брак + эко + перемотка = {totalUsed} {selectedProduct.MeasuringUnit}) превышает доступное количество ({availableQuantity.Value} {selectedProduct.MeasuringUnit})",
                         "OK");
                     return;
                 }
@@ -386,6 +420,7 @@ namespace NekrasovskyAPP.Pages
                 ProducedQuantity = produced,
                 DefectQuantity = defect,
                 EcoQuantity = eco,
+                RewindQuantity = rewind,
                 MeasuringUnit = selectedProduct.MeasuringUnit
             };
 

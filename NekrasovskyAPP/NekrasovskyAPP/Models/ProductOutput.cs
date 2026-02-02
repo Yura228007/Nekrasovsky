@@ -34,6 +34,9 @@ namespace NekrasovskyAPP.Models
         [JsonPropertyName("ecoQuantity")]
         public int EcoQuantity { get; set; }
 
+        [JsonPropertyName("rewindQuantity")]
+        public int RewindQuantity { get; set; }
+
         [JsonPropertyName("measuringUnit")]
         public string? MeasuringUnit { get; set; }
 
@@ -61,6 +64,6 @@ namespace NekrasovskyAPP.Models
         public string WarehouseName => Warehouse?.Name ?? "—";
         public string MachineName => Machine?.DisplayName ?? "—";
         public string CreatedAtDisplay => CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm");
-        public int TotalQuantity => ProducedQuantity + DefectQuantity + EcoQuantity;
+        public int TotalQuantity => ProducedQuantity + DefectQuantity + EcoQuantity + RewindQuantity;
     }
 }

@@ -7,6 +7,11 @@ namespace NekrasovskyAPP.Models
         public int WarehouseId { get; set; }
         public List<ReprocessingSource> Sources { get; set; } = new();
         public List<ReprocessingOutput> Outputs { get; set; } = new();
+
+        /// <summary>
+        /// Количество брака, которое отправляется на склад "Утиль"
+        /// </summary>
+        public int DefectQuantity { get; set; }
     }
 
     public class ReprocessingSource

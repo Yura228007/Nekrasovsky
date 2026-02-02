@@ -13,6 +13,11 @@ namespace server.Models
 
         [Required]
         public List<ReprocessingOutput> Outputs { get; set; } = new();
+
+        /// <summary>
+        /// Количество брака, которое отправляется на склад "Утиль"
+        /// </summary>
+        public int DefectQuantity { get; set; }
     }
 
     public class ReprocessingSource

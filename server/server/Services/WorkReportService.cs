@@ -162,7 +162,7 @@ namespace server.Services
             return report;
         }
 
-        public async Task<WorkReport> FinishWorkAsync(int reportId, DateTime? finishTime = null)
+        public async Task<WorkReport> FinishWorkAsync(int reportId, DateTime? finishTime = null, string? note = null)
         {
             var report = await _context.WorkReports.FindAsync(reportId);
             if (report == null)
@@ -176,9 +176,10 @@ namespace server.Services
             }
 
             report.FinishWork = finishTime ?? DateTime.UtcNow;
+            report.Note = note;
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("Work finished for Report {ReportId}, User {UserId}", reportId, report.UserId);
+            _logger.LogInformation("Work finished for Report {ReportId}, User {UserId}, Note: {Note}", reportId, report.UserId, note ?? "(empty)");
             return report;
         }
 

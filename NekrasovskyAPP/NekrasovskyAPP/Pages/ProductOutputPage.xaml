@@ -19,7 +19,7 @@
                        FontSize="24"
                        FontAttributes="Bold"
                        TextColor="{StaticResource White}" />
-                <Label Text="Произведено, брак, эко"
+                <Label Text="Произведено, брак, эко, перемотка"
                        FontSize="12"
                        TextColor="{StaticResource Gray500}" />
             </VerticalStackLayout>
@@ -37,23 +37,23 @@
         </Grid>
 
         <!-- Summary Cards -->
-        <Grid Grid.Row="1" ColumnDefinitions="*,*,*" ColumnSpacing="10" Margin="0,0,0,12">
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*" ColumnSpacing="8" Margin="0,0,0,12">
             <!-- Произведено -->
             <Border Grid.Column="0"
                     BackgroundColor="{StaticResource Success}"
                     StrokeThickness="0"
-                    Padding="12">
+                    Padding="10">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="12"/>
                 </Border.StrokeShape>
                 <VerticalStackLayout Spacing="4">
-                    <Label Text="Произведено"
-                           FontSize="11"
+                    <Label Text="Произв."
+                           FontSize="10"
                            TextColor="{StaticResource White}"
                            Opacity="0.8" />
                     <Label x:Name="TotalProducedLabel"
                            Text="0"
-                           FontSize="20"
+                           FontSize="18"
                            FontAttributes="Bold"
                            TextColor="{StaticResource White}" />
                 </VerticalStackLayout>
@@ -63,18 +63,18 @@
             <Border Grid.Column="1"
                     BackgroundColor="{StaticResource Error}"
                     StrokeThickness="0"
-                    Padding="12">
+                    Padding="10">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="12"/>
                 </Border.StrokeShape>
                 <VerticalStackLayout Spacing="4">
                     <Label Text="Брак"
-                           FontSize="11"
+                           FontSize="10"
                            TextColor="{StaticResource White}"
                            Opacity="0.8" />
                     <Label x:Name="TotalDefectLabel"
                            Text="0"
-                           FontSize="20"
+                           FontSize="18"
                            FontAttributes="Bold"
                            TextColor="{StaticResource White}" />
                 </VerticalStackLayout>
@@ -84,18 +84,39 @@
             <Border Grid.Column="2"
                     BackgroundColor="{StaticResource CardMaterials}"
                     StrokeThickness="0"
-                    Padding="12">
+                    Padding="10">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="12"/>
                 </Border.StrokeShape>
                 <VerticalStackLayout Spacing="4">
                     <Label Text="Эко"
-                           FontSize="11"
+                           FontSize="10"
                            TextColor="{StaticResource White}"
                            Opacity="0.8" />
                     <Label x:Name="TotalEcoLabel"
                            Text="0"
-                           FontSize="20"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Перемотка -->
+            <Border Grid.Column="3"
+                    BackgroundColor="{StaticResource CardReprocess}"
+                    StrokeThickness="0"
+                    Padding="10">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Перемот."
+                           FontSize="10"
+                           TextColor="{StaticResource White}"
+                           Opacity="0.8" />
+                    <Label x:Name="TotalRewindLabel"
+                           Text="0"
+                           FontSize="18"
                            FontAttributes="Bold"
                            TextColor="{StaticResource White}" />
                 </VerticalStackLayout>

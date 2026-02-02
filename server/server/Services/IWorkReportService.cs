@@ -14,7 +14,7 @@ namespace server.Services
         Task<WorkReport> CreateWorkReportAsync(WorkReport report);
         Task<WorkReport> UpdateWorkReportAsync(int id, WorkReport updatedReport);
         Task<WorkReport> StartWorkAsync(int userId, DateTime? startTime = null);
-        Task<WorkReport> FinishWorkAsync(int reportId, DateTime? finishTime = null);
+        Task<WorkReport> FinishWorkAsync(int reportId, DateTime? finishTime = null, string? note = null);
         Task<bool> DeleteWorkReportAsync(int id);
     }
 }

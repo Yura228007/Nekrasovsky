@@ -51,6 +51,12 @@ namespace server.Models
         [Column(TypeName = "integer")]
         public int EcoQuantity { get; set; } = 0;
 
+        /// <summary>
+        /// Количество на перемотку (отправляется на склад "Перемотка")
+        /// </summary>
+        [Column(TypeName = "integer")]
+        public int RewindQuantity { get; set; } = 0;
+
         [Column(TypeName = "varchar(50)")]
         public string? MeasuringUnit { get; set; }
 

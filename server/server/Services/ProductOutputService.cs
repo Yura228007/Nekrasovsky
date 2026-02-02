@@ -22,6 +22,7 @@ namespace server.Services
         private const string FinishedGoodsWarehouseType = "Готовая продукция";
         private const string DisposalWarehouseType = "Утиль";
         private const string EcoWarehouseType = "ЭКО";
+        private const string RewindWarehouseType = "Перемотка";
         private readonly AppDbContext _context;
         private readonly IProductBatchService _batchService;
         private readonly IResponsibilityFillingService _responsibilityFillingService;
@@ -184,9 +185,9 @@ namespace server.Services
 
         public async Task<ProductOutput> CreateAsync(ProductOutput productOutput, bool canBypassResponsibility)
         {
-            var totalQty = productOutput.ProducedQuantity + productOutput.DefectQuantity + productOutput.EcoQuantity;
+            var totalQty = productOutput.ProducedQuantity + productOutput.DefectQuantity + productOutput.EcoQuantity + productOutput.RewindQuantity;
             if (totalQty <= 0)
-                throw new InvalidOperationException("Укажите количество (произведено + брак + эко).");
+                throw new InvalidOperationException("Укажите количество (произведено + брак + эко + перемотка).");
 
             if (!canBypassResponsibility)
             {
@@ -203,7 +204,7 @@ namespace server.Services
                     productOutput.UserId, batch.Id);
                 if (totalQty > responsible)
                     throw new InvalidOperationException(
-                        $"Сумма (произведено + брак + эко = {totalQty}) превышает вашу ответственность по партии ({responsible}).");
+                        $"Сумма (произведено + брак + эко + перемотка = {totalQty}) превышает вашу ответственность по партии ({responsible}).");
                 if (totalQty > batch.Quantity)
                     throw new InvalidOperationException(
                         $"Сумма ({totalQty}) превышает количество в партии ({batch.Quantity}).");
@@ -274,6 +275,24 @@ namespace server.Services
                         }
                     }
 
+                    // Перемотка → склад Перемотка
+                    if (productOutput.RewindQuantity > 0)
+                    {
+                        var rewindWarehouses = await _context.Warehouses
+                            .Where(w => w.IsActive && EF.Functions.ILike(w.Type, RewindWarehouseType))
+                            .ToListAsync();
+                        var rewindWarehouse = rewindWarehouses.FirstOrDefault();
+                        if (rewindWarehouse != null)
+                        {
+                            await AddProductQuantityToWarehouseAsync(
+                                rewindWarehouse.Id, batch.ProductId, productOutput.RewindQuantity, measuringType);
+                        }
+                        else
+                        {
+                            _logger.LogWarning("Склад типа «{Type}» не найден; перемотка ({Qty}) не перемещена на склад перемотки.", RewindWarehouseType, productOutput.RewindQuantity);
+                        }
+                    }
+
                     // Партия полностью выпущена: активность = 0, перемещаем на склад готовой продукции
                     if (decreasedBatch.Quantity == 0)
                     {
@@ -312,20 +331,20 @@ namespace server.Services
                 if (!updated.WarehouseId.HasValue)
                     throw new InvalidOperationException("Для выпуска без права «Отправка на реализацию» необходимо указать склад.");
 
-                var totalQty = updated.ProducedQuantity + updated.DefectQuantity + updated.EcoQuantity;
+                var totalQty = updated.ProducedQuantity + updated.DefectQuantity + updated.EcoQuantity + updated.RewindQuantity;
                 var responsible = await _responsibilityFillingService.GetUserResponsibleProductQuantityAtWarehouseAsync(
                     updated.UserId, updated.WarehouseId.Value, updated.ProductId);
                 var alreadyUsedByOther = await _context.ProductOutputs
                     .Where(po => po.UserId == updated.UserId && po.ProductId == updated.ProductId && po.WarehouseId == updated.WarehouseId && po.Id != id && !po.ProductBatchId.HasValue)
-                    .SumAsync(po => po.ProducedQuantity + po.DefectQuantity + po.EcoQuantity);
-                var available = responsible - alreadyUsedByOther + (existing.ProducedQuantity + existing.DefectQuantity + existing.EcoQuantity);
+                    .SumAsync(po => po.ProducedQuantity + po.DefectQuantity + po.EcoQuantity + po.RewindQuantity);
+                var available = responsible - alreadyUsedByOther + (existing.ProducedQuantity + existing.DefectQuantity + existing.EcoQuantity + existing.RewindQuantity);
                 if (totalQty > available)
                     throw new InvalidOperationException(
-                        $"Сумма (произведено + брак + эко = {totalQty}) превышает доступное количество по ответственности ({available}).");
+                        $"Сумма (произведено + брак + эко + перемотка = {totalQty}) превышает доступное количество по ответственности ({available}).");
             }
 
-            var existingTotal = existing.ProducedQuantity + existing.DefectQuantity + existing.EcoQuantity;
-            var updatedTotal = updated.ProducedQuantity + updated.DefectQuantity + updated.EcoQuantity;
+            var existingTotal = existing.ProducedQuantity + existing.DefectQuantity + existing.EcoQuantity + existing.RewindQuantity;
+            var updatedTotal = updated.ProducedQuantity + updated.DefectQuantity + updated.EcoQuantity + updated.RewindQuantity;
             var totalDelta = updatedTotal - existingTotal;
 
             existing.ProductId = updated.ProductId;
@@ -334,6 +353,7 @@ namespace server.Services
             existing.ProducedQuantity = updated.ProducedQuantity;
             existing.DefectQuantity = updated.DefectQuantity;
             existing.EcoQuantity = updated.EcoQuantity;
+            existing.RewindQuantity = updated.RewindQuantity;
             existing.MeasuringUnit = updated.MeasuringUnit;
             existing.Note = updated.Note;
 

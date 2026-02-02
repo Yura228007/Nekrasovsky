@@ -389,6 +389,56 @@
                 </VerticalStackLayout>
             </Border>
 
+            <!-- Defect Section -->
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
+                    StrokeThickness="0"
+                    Padding="16">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <HorizontalStackLayout Spacing="10">
+                        <Border BackgroundColor="{StaticResource Error}"
+                                WidthRequest="32"
+                                HeightRequest="32"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Label Text="🗑️" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Text="Брак (в утиль)"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+
+                    <Label Text="Количество брака из исходного материала"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray400}" />
+                    <Border BackgroundColor="{StaticResource BackgroundInput}"
+                            StrokeThickness="0"
+                            Padding="12,0"
+                            HeightRequest="48">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+                        <Entry x:Name="DefectQuantityEntry"
+                               Keyboard="Numeric"
+                               Placeholder="0"
+                               Text="0"
+                               TextColor="{StaticResource White}"
+                               PlaceholderColor="{StaticResource Gray600}"
+                               BackgroundColor="Transparent"
+                               VerticalOptions="Center" />
+                    </Border>
+                    <Label Text="Брак будет автоматически отправлен на склад Утиль"
+                           FontSize="11"
+                           TextColor="{StaticResource Gray500}" />
+                </VerticalStackLayout>
+            </Border>
+
             <!-- Note Section -->
             <Border BackgroundColor="{StaticResource BackgroundCard}"
                     StrokeThickness="0"

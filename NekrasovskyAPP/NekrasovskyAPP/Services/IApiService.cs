@@ -225,6 +225,7 @@ namespace NekrasovskyAPP.Services
     public class FinishWorkRequest
     {
         public string? FinishTime { get; set; }
+        public string? Note { get; set; }
     }
 
 }

@@ -111,7 +111,7 @@ namespace server.Services
 
             // Title
             ws.Cell(row, 1).Value = "ОТПРАВЛЕННЫЕ ЗАЯВКИ НА ПЕРЕМЕЩЕНИЕ";
-            ws.Range(row, 1, row, 7).Merge();
+            ws.Range(row, 1, row, 8).Merge();
             ws.Cell(row, 1).Style.Font.Bold = true;
             ws.Cell(row, 1).Style.Font.FontSize = 16;
             ws.Cell(row, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
@@ -128,7 +128,7 @@ namespace server.Services
             if (sentRequests.Count > 0)
             {
                 // Header row
-                var headers = new[] { "Дата", "Материал", "Кол-во", "Ед.изм.", "Откуда", "Куда", "Статус" };
+                var headers = new[] { "Дата", "Материал", "Кол-во", "Ед.изм.", "Откуда", "Куда", "Кому", "Статус" };
                 for (int i = 0; i < headers.Length; i++)
                 {
                     ws.Cell(row, i + 1).Value = headers[i];
@@ -146,12 +146,13 @@ namespace server.Services
                     ws.Cell(row, 4).Value = request.MeasuringType ?? "шт";
                     ws.Cell(row, 5).Value = request.FromWarehouse?.Name ?? "-";
                     ws.Cell(row, 6).Value = request.ToWarehouse?.Name ?? "-";
-                    ws.Cell(row, 7).Value = GetStatusText(request.Status);
+                    ws.Cell(row, 7).Value = $"{request.ToUser?.Name} {request.ToUser?.Surname}";
+                    ws.Cell(row, 8).Value = GetStatusText(request.Status);
 
                     // Color-code status
-                    ws.Cell(row, 7).Style.Fill.BackgroundColor = GetStatusColor(request.Status);
+                    ws.Cell(row, 8).Style.Fill.BackgroundColor = GetStatusColor(request.Status);
 
-                    for (int i = 1; i <= 7; i++)
+                    for (int i = 1; i <= 8; i++)
                     {
                         ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                     }

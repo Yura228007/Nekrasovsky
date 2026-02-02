@@ -147,7 +147,6 @@ namespace NekrasovskyAPP.ViewModels
         {
             try
             {
-                IsLoading = true;
                 ErrorMessage = string.Empty;
 
                 if (!CanManageShiftManually)
@@ -156,9 +155,31 @@ namespace NekrasovskyAPP.ViewModels
                     return;
                 }
 
+                // Запрашиваем примечание у пользователя
+                string? note = null;
+                if (Application.Current?.MainPage != null)
+                {
+                    note = await Application.Current.MainPage.DisplayPromptAsync(
+                        "Завершение смены",
+                        "Введите примечание (необязательно):",
+                        accept: "Завершить",
+                        cancel: "Отмена",
+                        placeholder: "Примечание...",
+                        maxLength: 500);
+
+                    // Если пользователь нажал "Отмена", выходим
+                    if (note == null)
+                    {
+                        return;
+                    }
+                }
+
+                IsLoading = true;
+
                 var request = new Services.FinishWorkRequest
                 {
-                    FinishTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss")
+                    FinishTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    Note = string.IsNullOrWhiteSpace(note) ? null : note.Trim()
                 };
 
                 var response = await _apiService.FinishWorkAsync(reportId, request);

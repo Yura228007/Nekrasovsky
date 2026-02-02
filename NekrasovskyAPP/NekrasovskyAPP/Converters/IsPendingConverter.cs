@@ -7,10 +7,10 @@ namespace NekrasovskyAPP.Converters
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is PartRequestStatus status)
-            {
-                return status == PartRequestStatus.Pending;
-            }
+            if (value is PartRequestStatus partStatus)
+                return partStatus == PartRequestStatus.Pending;
+            if (value is ProductMovementStatus movementStatus)
+                return movementStatus == ProductMovementStatus.Pending;
             return false;
         }
 

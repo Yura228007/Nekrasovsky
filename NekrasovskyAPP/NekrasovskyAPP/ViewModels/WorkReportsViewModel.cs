@@ -71,9 +71,18 @@ namespace NekrasovskyAPP.ViewModels
 
                 await RefreshShiftPermissionsAsync(currentUser);
 
-                var reports = await _apiService.GetWorkReportsByUserAsync(currentUser.Id);
+                List<WorkReport> reports;
+                if (IsPrivilegedUser(currentUser))
+                {
+                    reports = await _apiService.GetAllWorkReportsAsync();
+                }
+                else
+                {
+                    reports = await _apiService.GetWorkReportsByUserAsync(currentUser.Id);
+                }
+
                 WorkReports.Clear();
-                foreach (var report in reports)
+                foreach (var report in reports.OrderByDescending(r => r.Date).ThenByDescending(r => r.StartWork))
                 {
                     WorkReports.Add(report);
                 }

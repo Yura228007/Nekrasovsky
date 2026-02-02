@@ -368,9 +368,9 @@ namespace NekrasovskyAPP.Pages
             };
 
             var response = await _viewModel.ApiService.UpdateFillingQuantityByMaterialAsync(update);
-            if (response.GetData() == null && !string.IsNullOrEmpty(response.Message))
+            if (!response.IsSuccess)
             {
-                await DisplayAlert("Ошибка", response.Message, "OK");
+                await DisplayAlert("Ошибка", response.Message ?? "Произошла ошибка", "OK");
                 return;
             }
 
@@ -393,7 +393,81 @@ namespace NekrasovskyAPP.Pages
                 return;
             }
 
-            // Количество из карточки: для неответственной части — UnassignedQuantity, иначе — из назначения
+            var options = _viewModel.Users
+                .Select(u => $"{u.Surname} {u.Name}")
+                .ToArray();
+
+            var choice = await DisplayActionSheet("Выберите ответственное лицо:", "Отмена", null, options);
+            if (string.IsNullOrWhiteSpace(choice) || choice == "Отмена")
+                return;
+
+            var index = Array.IndexOf(options, choice);
+            if (index < 0 || index >= _viewModel.Users.Count)
+                return;
+            var selectedUser = _viewModel.Users[index];
+
+            // Передача ответственности по складу (ResponsibilityFilling): забираем часть или всё у текущего, передаём новому
+            if (displayItem.Responsibility != null && displayItem.Responsibility.WarehouseId.HasValue)
+            {
+                var fromUserId = displayItem.Responsibility.UserId;
+                if (fromUserId == selectedUser.Id)
+                {
+                    await DisplayAlert("Ошибка", "Выберите другого пользователя (не текущего ответственного).", "OK");
+                    return;
+                }
+
+                var warehouseId = displayItem.Responsibility.WarehouseId.Value;
+                var currentQty = displayItem.Responsibility.Quantity ?? 0;
+                var unit = displayItem.Responsibility.MeasuringUnit ?? material.MeasuringUnit ?? "ед.";
+
+                int? quantityToTransfer = null;
+                if (currentQty > 0)
+                {
+                    var transferChoice = await DisplayActionSheet(
+                        "Сколько передать новому ответственному?",
+                        "Отмена",
+                        null,
+                        "Всё количество",
+                        "Часть (указать)");
+                    if (string.IsNullOrWhiteSpace(transferChoice) || transferChoice == "Отмена")
+                        return;
+                    if (transferChoice == "Часть (указать)")
+                    {
+                        var qtyText = await DisplayPromptAsync(
+                            "Количество",
+                            $"Укажите, сколько передать (макс. {currentQty} {unit}). У текущего ответственного останется остаток.",
+                            "Передать",
+                            "Отмена",
+                            currentQty.ToString(),
+                            -1,
+                            Keyboard.Numeric);
+                        if (qtyText == null)
+                            return;
+                        if (!int.TryParse(qtyText, out var qty) || qty <= 0 || qty > currentQty)
+                        {
+                            await DisplayAlert("Ошибка", $"Введите число от 1 до {currentQty}.", "OK");
+                            return;
+                        }
+                        quantityToTransfer = qty;
+                    }
+                }
+
+                var response = await _viewModel.ApiService.TransferMaterialResponsibilityFillingAsync(
+                    warehouseId, material.Id, fromUserId, selectedUser.Id, quantityToTransfer);
+                if (!response.IsSuccess)
+                {
+                    await DisplayAlert("Ошибка", response.Message ?? "Произошла ошибка", "OK");
+                    return;
+                }
+                var msg = quantityToTransfer.HasValue
+                    ? $"Передано {quantityToTransfer} {unit}. У предыдущего ответственного осталось {currentQty - quantityToTransfer.Value} {unit}."
+                    : "Вся ответственность передана новому лицу.";
+                await DisplayAlert("Успех", msg, "OK");
+                await _viewModel.LoadMaterialsAsync();
+                return;
+            }
+
+            // Назначение без склада (неответственная часть или старая модель Responsibility)
             int? quantity = displayItem.Responsibility == null
                 ? displayItem.UnassignedQuantity
                 : displayItem.Responsibility.Quantity;
@@ -401,7 +475,6 @@ namespace NekrasovskyAPP.Pages
                 ? (displayItem.UnassignedMeasuringUnit ?? material.MeasuringUnit)
                 : (displayItem.Responsibility.MeasuringUnit ?? material.MeasuringUnit);
 
-            // Если в карточке нет количества (редкий случай), спрашиваем пользователя
             if (!quantity.HasValue || quantity <= 0)
             {
                 var quantityText = await DisplayPromptAsync(
@@ -412,10 +485,8 @@ namespace NekrasovskyAPP.Pages
                     "Количество",
                     -1,
                     Keyboard.Numeric);
-
                 if (quantityText == null)
                     return;
-
                 quantity = null;
                 measuringUnit = null;
                 if (!string.IsNullOrWhiteSpace(quantityText))
@@ -433,31 +504,12 @@ namespace NekrasovskyAPP.Pages
                 }
             }
 
-            var options = _viewModel.Users
-                .Select(u => $"{u.Surname} {u.Name}")
-                .ToArray();
-
-            var choice = await DisplayActionSheet("Выберите ответственное лицо:", "Отмена", null, options);
-            if (string.IsNullOrWhiteSpace(choice) || choice == "Отмена")
+            var assignResponse = await _viewModel.ApiService.AssignMaterialResponsibilityAsync(material.Id, selectedUser.Id, quantity, measuringUnit);
+            if (!assignResponse.IsSuccess)
             {
+                await DisplayAlert("Ошибка", assignResponse.Message ?? "Произошла ошибка", "OK");
                 return;
             }
-
-            var index = Array.IndexOf(options, choice);
-            if (index < 0 || index >= _viewModel.Users.Count)
-            {
-                return;
-            }
-
-            var selectedUser = _viewModel.Users[index];
-
-            var response = await _viewModel.ApiService.AssignMaterialResponsibilityAsync(material.Id, selectedUser.Id, quantity, measuringUnit);
-            if (response.GetData() == null && !string.IsNullOrEmpty(response.Message))
-            {
-                await DisplayAlert("Ошибка", response.Message, "OK");
-                return;
-            }
-
             var message = quantity.HasValue
                 ? $"Ответственность передана. Количество: {quantity} {measuringUnit}"
                 : "Ответственное лицо обновлено (за весь материал)";
@@ -478,11 +530,9 @@ namespace NekrasovskyAPP.Pages
             }
 
             var response = await _viewModel.ApiService.ReleaseMaterialResponsibilityAsync(material.Id);
-            if (!string.IsNullOrEmpty(response.Message) &&
-                (response.Message.Contains("error", StringComparison.OrdinalIgnoreCase) ||
-                 response.Message.Contains("ошибка", StringComparison.OrdinalIgnoreCase)))
+            if (!response.IsSuccess)
             {
-                await DisplayAlert("Ошибка", response.Message, "OK");
+                await DisplayAlert("Ошибка", response.Message ?? "Произошла ошибка", "OK");
                 return;
             }
 

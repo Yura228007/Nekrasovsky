@@ -33,5 +33,10 @@ namespace NekrasovskyAPP.Models
 
         [NotMapped]
         public string ResponsibilityDisplay { get; set; } = "Ответственный: —";
+
+        [NotMapped]
+        public string DisplayNameWithCode => string.IsNullOrWhiteSpace(Code) 
+            ? Name 
+            : $"{Name} [{Code}]";
     }
 }

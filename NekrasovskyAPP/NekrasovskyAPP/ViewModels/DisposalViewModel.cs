@@ -19,6 +19,33 @@ namespace NekrasovskyAPP.ViewModels
         public string ItemType { get; set; } = string.Empty; // "Материал" или "Продукт"
         public string ItemIcon => ItemType == "Продукт" ? "📦" : "🔧";
 
+        private string _returnableQty = string.Empty;
+        private string _nonReturnableQty = string.Empty;
+        private bool _isProcessing;
+
+        public string ReturnableQty
+        {
+            get => _returnableQty;
+            set { _returnableQty = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanProcess)); }
+        }
+
+        public string NonReturnableQty
+        {
+            get => _nonReturnableQty;
+            set { _nonReturnableQty = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanProcess)); }
+        }
+
+        public bool IsProcessing
+        {
+            get => _isProcessing;
+            set { _isProcessing = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanProcess)); }
+        }
+
+        public bool CanProcess => !IsProcessing && (HasReturnable || HasNonReturnable);
+
+        public bool HasReturnable => int.TryParse(_returnableQty, out var v) && v > 0;
+        public bool HasNonReturnable => int.TryParse(_nonReturnableQty, out var v) && v > 0;
+
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? name = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -184,42 +211,59 @@ namespace NekrasovskyAPP.ViewModels
             CanDelete = userPermissions.Any(p => p.Code == "WriteOff" || p.Code == "SendToScrap");
         }
 
-        public async Task<bool> DeleteItemAsync(DisposalItem item, string reason)
+        public async Task<bool> ProcessDisposalAsync(DisposalItem item)
         {
             if (_disposalWarehouse == null)
                 return false;
 
+            var returnableQty = int.TryParse(item.ReturnableQty, out var r) ? r : 0;
+            var nonReturnableQty = int.TryParse(item.NonReturnableQty, out var n) ? n : 0;
+
+            if (returnableQty <= 0 && nonReturnableQty <= 0)
+            {
+                ErrorMessage = "Укажите количество возвратного и/или невозвратного брака.";
+                return false;
+            }
+
+            if (returnableQty + nonReturnableQty > item.Quantity)
+            {
+                ErrorMessage = $"Сумма количеств не может превышать остаток ({item.Quantity} {item.MeasuringUnit}).";
+                return false;
+            }
+
+            item.IsProcessing = true;
+            ErrorMessage = string.Empty;
+
             try
             {
-                ApiResponse<object> result;
-                if (item.MaterialId.HasValue)
+                var request = new DisposalProcessRequest
                 {
-                    result = await _apiService.DeleteFillingWarehouseByMaterialAsync(
-                        _disposalWarehouse.Id, item.MaterialId.Value);
-                }
-                else if (item.ProductId.HasValue)
-                {
-                    result = await _apiService.DeleteFillingWarehouseByProductAsync(
-                        _disposalWarehouse.Id, item.ProductId.Value);
-                }
-                else
-                {
-                    return false;
-                }
+                    DisposalWarehouseId = _disposalWarehouse.Id,
+                    MaterialId = item.MaterialId,
+                    ProductId = item.ProductId,
+                    ReturnableQuantity = returnableQty,
+                    NonReturnableQuantity = nonReturnableQty
+                };
+
+                var result = await _apiService.ProcessDisposalAsync(request);
 
                 if (result.IsSuccess)
                 {
-                    Items.Remove(item);
+                    await LoadDataAsync();
                     return true;
                 }
 
-                ErrorMessage = result.Message ?? "Не удалось удалить элемент";
+                ErrorMessage = result.Message ?? "Не удалось обработать утиль";
                 return false;
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Ошибка удаления: {ex.Message}";
+                ErrorMessage = $"Ошибка: {ex.Message}";
                 return false;
+            }
+            finally
+            {
+                item.IsProcessing = false;
             }
         }
 

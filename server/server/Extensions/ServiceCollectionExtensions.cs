@@ -60,6 +60,9 @@ namespace server.Extensions
             // Register responsibility filling service (ответственность по складам)
             services.AddScoped<IResponsibilityFillingService, ResponsibilityFillingService>();
 
+            // Register responsibility shift snapshot service (снимок ответственности на начало смены)
+            services.AddScoped<IResponsibilityShiftSnapshotService, ResponsibilityShiftSnapshotService>();
+
             // Register reprocessing service
             services.AddScoped<IReprocessingService, ReprocessingService>();
 
@@ -80,6 +83,15 @@ namespace server.Extensions
 
             // Register report generator service
             services.AddScoped<IReportGeneratorService, ReportGeneratorService>();
+
+            // Register product batch service
+            services.AddScoped<IProductBatchService, ProductBatchService>();
+
+            // Register product movement request service
+            services.AddScoped<IProductMovementRequestService, ProductMovementRequestService>();
+
+            // Register disposal service
+            services.AddScoped<IDisposalService, DisposalService>();
 
             return services;
         }

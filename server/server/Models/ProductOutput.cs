@@ -21,8 +21,13 @@ namespace server.Models
         [ForeignKey(nameof(Product))]
         public int ProductId { get; set; }
 
+        /// <summary>Склад готовой продукции (куда перемещается выпуск).</summary>
         [ForeignKey(nameof(Warehouse))]
         public int? WarehouseId { get; set; }
+
+        /// <summary>Партия, из которой выпускается продукция (обязательно при выпуске без права «Отправка на реализацию»).</summary>
+        [ForeignKey(nameof(ProductBatch))]
+        public int? ProductBatchId { get; set; }
 
         [ForeignKey(nameof(Machine))]
         public int? MachineId { get; set; }
@@ -64,6 +69,7 @@ namespace server.Models
         public virtual WorkReport? WorkReport { get; set; }
         public virtual Product? Product { get; set; }
         public virtual Warehouse? Warehouse { get; set; }
+        public virtual ProductBatch? ProductBatch { get; set; }
         public virtual Machine? Machine { get; set; }
     }
 }

@@ -96,15 +96,45 @@ namespace NekrasovskyAPP.Services
         Task<List<ResponsibilityStockItem>> GetResponsibilityStockAsync(int userId);
         Task<List<ResponsibilityAssignment>> GetActiveMaterialAssignmentsAsync();
         Task<List<ResponsibilityAssignment>> GetActiveProductAssignmentsAsync();
+
+        // Product Batches
+        Task<List<ProductBatch>> GetAllProductBatchesAsync();
+        Task<ProductBatch?> GetProductBatchByIdAsync(int id);
+        Task<List<ProductBatch>> GetProductBatchesByProductAsync(int productId);
+        Task<List<ProductBatch>> GetProductBatchesByWarehouseAsync(int warehouseId);
+        Task<List<ProductBatch>> GetProductBatchesByUserAsync(int userId);
+        Task<ApiResponse<ProductBatch>> CreateProductBatchAsync(ProductBatch batch);
+        Task<ApiResponse<ProductBatch>> UpdateProductBatchAsync(int id, ProductBatch batch);
+        Task<ApiResponse<object>> DeleteProductBatchAsync(int id);
+
+        // Product Movement Requests
+        Task<List<ProductMovementRequest>> GetAllProductMovementRequestsAsync();
+        Task<ProductMovementRequest?> GetProductMovementRequestByIdAsync(int id);
+        Task<List<ProductMovementRequest>> GetProductMovementRequestsByStatusAsync(ProductMovementStatus status);
+        Task<List<ProductMovementRequest>> GetSentProductMovementRequestsAsync(int userId);
+        Task<List<ProductMovementRequest>> GetReceivedProductMovementRequestsAsync(int userId);
+        Task<ApiResponse<ProductMovementRequest>> CreateProductMovementRequestAsync(ProductMovementRequest request);
+        Task<ApiResponse<ProductMovementRequest>> UpdateProductMovementRequestAsync(int id, ProductMovementRequest request);
+        Task<ApiResponse<ProductMovementRequest>> ApproveProductMovementRequestAsync(int id);
+        Task<ApiResponse<ProductMovementRequest>> RejectProductMovementRequestAsync(int id, string? reason);
+        Task<ApiResponse<object>> DeleteProductMovementRequestAsync(int id);
         Task<ApiResponse<Responsibility>> AssignMaterialResponsibilityAsync(int materialId, int userId, int? quantity = null, string? measuringUnit = null);
         Task<ApiResponse<Responsibility>> AssignProductResponsibilityAsync(int productId, int userId, int? quantity = null, string? measuringUnit = null);
+        Task<ApiResponse<object>> TransferMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int fromUserId, int toUserId, int? quantityToTransfer = null);
+        Task<ApiResponse<object>> TransferProductResponsibilityFillingAsync(int warehouseId, int productId, int fromUserId, int toUserId, int? quantityToTransfer = null);
+        Task<ApiResponse<object>> TransferBatchResponsibilityFillingAsync(int batchId, int fromUserId, int toUserId, int? quantityToTransfer = null);
         Task<ApiResponse<object>> ReleaseMaterialResponsibilityAsync(int materialId);
         Task<ApiResponse<object>> ReleaseProductResponsibilityAsync(int productId);
+        Task<ApiResponse<object>> ReleaseBatchResponsibilityAsync(int batchId, int userId);
 
         // Reprocessing
         Task<ApiResponse<Reprocessing>> CreateReprocessingAsync(ReprocessingCreateRequest request);
 
+        // Disposal (Утиль)
+        Task<ApiResponse<object>> ProcessDisposalAsync(DisposalProcessRequest request);
+
         // Product Outputs
+        Task<ProductOutputOptionsResponse?> GetProductOutputOptionsAsync();
         Task<List<ProductOutput>> GetAllProductOutputsAsync();
         Task<List<ProductOutput>> GetProductOutputsByUserAsync(int userId);
         Task<ProductOutput?> GetProductOutputByIdAsync(int id);
@@ -167,16 +197,20 @@ namespace NekrasovskyAPP.Services
         public T? Transfer { get; set; }
         public T? Output { get; set; }
         public T? Machine { get; set; }
+        public T? Batch { get; set; }
 
         public bool IsSuccess =>
             GetData() != null ||
             string.IsNullOrWhiteSpace(Message) ||
             Message.Contains("success", StringComparison.OrdinalIgnoreCase) ||
-            Message.Contains("успеш", StringComparison.OrdinalIgnoreCase);
+            Message.Contains("успеш", StringComparison.OrdinalIgnoreCase) ||
+            Message.Contains("transferred", StringComparison.OrdinalIgnoreCase) ||
+            Message.Contains("released", StringComparison.OrdinalIgnoreCase) ||
+            Message.Contains("assigned", StringComparison.OrdinalIgnoreCase);
 
         public T? GetData()
         {
-            return User ?? Product ?? Material ?? Filling ?? Warehouse ?? Report ?? Request ?? AlarmEvent ?? Role ?? Responsibility ?? Reprocessing ?? Transfer;
+            return User ?? Product ?? Material ?? Filling ?? Warehouse ?? Report ?? Request ?? AlarmEvent ?? Role ?? Responsibility ?? Reprocessing ?? Transfer ?? Output ?? Machine ?? Batch;
         }
     }
 

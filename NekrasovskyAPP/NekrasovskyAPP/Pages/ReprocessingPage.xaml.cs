@@ -18,6 +18,7 @@ namespace NekrasovskyAPP.Pages
         private readonly List<Product> _products = new();
         private readonly List<Material> _responsibleMaterials = new();
         private readonly List<FillingWarehouse> _fillingWarehouses = new();
+        private List<ResponsibilityStockItem> _responsibilityStock = new();
         private Warehouse? _selectedWarehouse;
 
         public ObservableCollection<SourceItem> Sources { get; } = new();
@@ -26,6 +27,7 @@ namespace NekrasovskyAPP.Pages
         public ICommand RemoveSourceCommand { get; }
         public ICommand AddOutputCommand { get; }
         public ICommand RemoveOutputCommand { get; }
+        public ICommand ScanMaterialCodeCommand { get; }
 
         public ReprocessingPage(IApiService apiService, IAuthService authService)
         {
@@ -36,10 +38,11 @@ namespace NekrasovskyAPP.Pages
             RemoveSourceCommand = new Command<SourceItem>(RemoveSource);
             AddOutputCommand = new Command(AddOutput);
             RemoveOutputCommand = new Command<OutputItem>(RemoveOutput);
+            ScanMaterialCodeCommand = new Command<OutputItem>(ScanMaterialCode);
             BindingContext = this;
             // Инициализируем с пустым списком, данные загрузятся в OnAppearing
             Sources.Add(new SourceItem(new List<Material>(), IsDesktop()));
-            Outputs.Add(new OutputItem(_materials, _products));
+            Outputs.Add(new OutputItem(_products));
         }
 
         protected override async void OnAppearing()
@@ -76,6 +79,7 @@ namespace NekrasovskyAPP.Pages
             _products.Clear();
             _responsibleMaterials.Clear();
             _fillingWarehouses.Clear();
+            _responsibilityStock.Clear();
 
             _warehouses.AddRange((await _apiService.GetAllWarehousesAsync())
                 .Where(w => w.IsActive));
@@ -83,13 +87,13 @@ namespace NekrasovskyAPP.Pages
             _products.AddRange(await _apiService.GetAllProductsAsync());
             _fillingWarehouses.AddRange(await _apiService.GetAllFillingWarehousesAsync());
 
-            var responsibilities = await _apiService.GetResponsibilitiesByUserAsync(user.Id, true);
-            var materialIds = responsibilities
-                .Where(r => r.MaterialId.HasValue)
-                .Select(r => r.MaterialId!.Value)
+            // Остатки под ответственностью пользователя — из ResponsibilityFilling (то же, что при передаче смены)
+            _responsibilityStock = await _apiService.GetResponsibilityStockAsync(user.Id);
+            var materialIdsFromStock = _responsibilityStock
+                .Where(s => s.ItemType == "Material")
+                .Select(s => s.ItemId)
                 .ToHashSet();
-
-            foreach (var material in _materials.Where(m => materialIds.Contains(m.Id)))
+            foreach (var material in _materials.Where(m => materialIdsFromStock.Contains(m.Id)))
             {
                 _responsibleMaterials.Add(material);
             }
@@ -99,9 +103,10 @@ namespace NekrasovskyAPP.Pages
             // Обновляем материалы для исходников после загрузки данных
             UpdateSourceMaterials();
             
+            // Обновляем продукты для результатов
             foreach (var output in Outputs)
             {
-                output.RefreshTargets();
+                output.UpdateProducts(_products);
             }
         }
 
@@ -113,26 +118,7 @@ namespace NekrasovskyAPP.Pages
 
         private void UpdateSourceMaterials()
         {
-            // Получаем материалы, которые есть на выбранном складе И под ответственностью пользователя
-            var availableMaterials = _responsibleMaterials.AsEnumerable();
-
-            if (_selectedWarehouse != null)
-            {
-                // Получаем ID материалов, которые есть на выбранном складе
-                var materialIdsOnWarehouse = _fillingWarehouses
-                    .Where(fw => fw.WarehouseId == _selectedWarehouse.Id && 
-                                 fw.MaterialId.HasValue && 
-                                 fw.Quantity > 0)
-                    .Select(fw => fw.MaterialId!.Value)
-                    .ToHashSet();
-
-                // Фильтруем материалы: должны быть и под ответственностью, и на складе
-                availableMaterials = availableMaterials.Where(m => materialIdsOnWarehouse.Contains(m.Id));
-            }
-
-            var materialsList = availableMaterials.ToList();
-            
-            // Обновляем материалы для всех SourceItem
+            var materialsList = GetAvailableMaterials();
             foreach (var source in Sources)
             {
                 source.UpdateAvailableMaterials(materialsList);
@@ -147,18 +133,16 @@ namespace NekrasovskyAPP.Pages
 
         private List<Material> GetAvailableMaterials()
         {
+            // Материалы под ответственностью пользователя на выбранном складе (из ResponsibilityFilling)
             if (_selectedWarehouse != null)
             {
-                var materialIdsOnWarehouse = _fillingWarehouses
-                    .Where(fw => fw.WarehouseId == _selectedWarehouse.Id && 
-                                 fw.MaterialId.HasValue && 
-                                 fw.Quantity > 0)
-                    .Select(fw => fw.MaterialId!.Value)
+                var materialIdsAtWarehouse = _responsibilityStock
+                    .Where(s => s.ItemType == "Material" && s.Warehouses != null)
+                    .Where(s => s.Warehouses!.Any(w => w.WarehouseId == _selectedWarehouse!.Id && w.Quantity > 0))
+                    .Select(s => s.ItemId)
                     .ToHashSet();
-
-                return _responsibleMaterials.Where(m => materialIdsOnWarehouse.Contains(m.Id)).ToList();
+                return _materials.Where(m => materialIdsAtWarehouse.Contains(m.Id)).ToList();
             }
-            
             return _responsibleMaterials.ToList();
         }
 
@@ -179,7 +163,33 @@ namespace NekrasovskyAPP.Pages
 
         private void AddOutput()
         {
-            Outputs.Add(new OutputItem(_materials, _products));
+            Outputs.Add(new OutputItem(_products));
+        }
+
+        private async void ScanMaterialCode(OutputItem? outputItem)
+        {
+            if (outputItem == null) return;
+
+#if ANDROID || IOS
+            try
+            {
+                var scannerPage = new BarcodeScannerPage();
+                scannerPage.BarcodeScanned += (s, code) =>
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        outputItem.MaterialCode = code;
+                    });
+                };
+                await Navigation.PushModalAsync(scannerPage);
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Ошибка", $"Не удалось открыть сканер: {ex.Message}", "OK");
+            }
+#else
+            await DisplayAlert("Недоступно", "Сканирование доступно только на мобильных устройствах", "OK");
+#endif
         }
 
         private void RemoveOutput(OutputItem? item)
@@ -258,19 +268,32 @@ namespace NekrasovskyAPP.Pages
                 return false;
             }
 
-            if (outputItem.SelectedType == "Материал" && outputItem.SelectedTarget is Material material)
+            if (outputItem.SelectedType == "Материал")
             {
-                output.MaterialId = material.Id;
+                // Для материала требуется код и название
+                if (string.IsNullOrWhiteSpace(outputItem.MaterialCode) || 
+                    string.IsNullOrWhiteSpace(outputItem.MaterialName))
+                {
+                    return false;
+                }
+                
+                // Новый материал
+                output.MaterialId = null;
+                output.NewMaterialCode = outputItem.MaterialCode;
+                output.NewMaterialName = outputItem.MaterialName;
                 output.Quantity = quantity;
-                output.MeasuringType = material.MeasuringUnit;
+                output.MeasuringType = outputItem.MaterialMeasuringUnit ?? "шт";
                 return true;
             }
 
-            if (outputItem.SelectedType == "Продукт" && outputItem.SelectedTarget is Product product)
+            if (outputItem.SelectedType == "Продукт" && outputItem.SelectedProduct != null)
             {
-                output.ProductId = product.Id;
+                output.MaterialId = null;
+                output.NewMaterialCode = null;
+                output.NewMaterialName = null;
+                output.ProductId = outputItem.SelectedProduct.Id;
                 output.Quantity = quantity;
-                output.MeasuringType = product.MeasuringUnit;
+                output.MeasuringType = outputItem.SelectedProduct.MeasuringUnit;
                 return true;
             }
 
@@ -283,7 +306,7 @@ namespace NekrasovskyAPP.Pages
             var availableMaterials = GetAvailableMaterials();
             Sources.Add(new SourceItem(availableMaterials, IsDesktop()));
             Outputs.Clear();
-            Outputs.Add(new OutputItem(_materials, _products));
+            Outputs.Add(new OutputItem(_products));
             WarehousePicker.SelectedItem = null;
             _selectedWarehouse = null;
         }
@@ -391,80 +414,150 @@ namespace NekrasovskyAPP.Pages
 
         public class OutputItem : INotifyPropertyChanged
         {
-            private readonly List<Material> _materials;
-            private readonly List<Product> _products;
+            private List<Product> _allProducts;
             private readonly bool _isDesktop;
             private string? _selectedType;
-            private object? _selectedTarget;
             private string? _quantity;
-            private IList<object> _targetItems = new List<object>();
+            
+            // Для материала
+            private string? _materialCode;
+            private string? _materialName;
+            private string? _materialMeasuringUnit;
+            
+            // Для продукта
+            private string? _productSearchText;
+            private Product? _selectedProduct;
+            private List<Product> _filteredProducts = new();
 
-            public OutputItem(List<Material> materials, List<Product> products)
+            public OutputItem(List<Product> products)
             {
-                _materials = materials;
-                _products = products;
+                _allProducts = products.Where(p => p.IsActive).ToList();
+                _filteredProducts = _allProducts.ToList();
                 TypeOptions = new List<string> { "Материал", "Продукт" };
+                MeasuringUnitOptions = new List<string> { "шт", "кг", "г", "л", "мл", "м", "см" };
+                _materialMeasuringUnit = "шт";
                 _isDesktop = DeviceInfo.Idiom == DeviceIdiom.Desktop || DeviceInfo.Platform == DevicePlatform.WinUI;
             }
 
             public double PickerHeight => _isDesktop ? 58.0 : 48.0;
 
             public List<string> TypeOptions { get; }
+            public List<string> MeasuringUnitOptions { get; }
 
             public string? SelectedType
             {
                 get => _selectedType;
                 set
                 {
-                    if (_selectedType == value)
-                    {
-                        return;
-                    }
-
+                    if (_selectedType == value) return;
                     _selectedType = value;
                     OnPropertyChanged();
-                    UpdateTargetItems();
+                    OnPropertyChanged(nameof(IsMaterialSelected));
+                    OnPropertyChanged(nameof(IsProductSelected));
                     OnPropertyChanged(nameof(MeasuringUnit));
+                    
+                    // Сбрасываем данные при смене типа
+                    MaterialCode = null;
+                    MaterialName = null;
+                    SelectedProduct = null;
+                    ProductSearchText = null;
                 }
             }
 
-            public IList<object> TargetItems
-            {
-                get => _targetItems;
-                private set
-                {
-                    _targetItems = value;
-                    OnPropertyChanged();
-                }
-            }
+            public bool IsMaterialSelected => _selectedType == "Материал";
+            public bool IsProductSelected => _selectedType == "Продукт";
 
-            public object? SelectedTarget
+            // === Материал ===
+            public string? MaterialCode
             {
-                get => _selectedTarget;
+                get => _materialCode;
                 set
                 {
-                    if (_selectedTarget == value)
-                    {
-                        return;
-                    }
+                    if (_materialCode == value) return;
+                    _materialCode = value;
+                    OnPropertyChanged();
+                }
+            }
 
-                    _selectedTarget = value;
+            public string? MaterialName
+            {
+                get => _materialName;
+                set
+                {
+                    if (_materialName == value) return;
+                    _materialName = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(MeasuringUnit));
                 }
             }
 
+            public string? MaterialMeasuringUnit
+            {
+                get => _materialMeasuringUnit;
+                set
+                {
+                    if (_materialMeasuringUnit == value) return;
+                    _materialMeasuringUnit = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(MeasuringUnit));
+                }
+            }
+
+            // === Продукт ===
+            public string? ProductSearchText
+            {
+                get => _productSearchText;
+                set
+                {
+                    if (_productSearchText == value) return;
+                    _productSearchText = value;
+                    OnPropertyChanged();
+                    FilterProducts();
+                }
+            }
+
+            public List<Product> FilteredProducts
+            {
+                get => _filteredProducts;
+                private set
+                {
+                    _filteredProducts = value;
+                    OnPropertyChanged();
+                }
+            }
+
+            public Product? SelectedProduct
+            {
+                get => _selectedProduct;
+                set
+                {
+                    if (_selectedProduct == value) return;
+                    _selectedProduct = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(MeasuringUnit));
+                    OnPropertyChanged(nameof(HasSelectedProduct));
+                    OnPropertyChanged(nameof(SelectedProductInfo));
+                }
+            }
+
+            public bool HasSelectedProduct => _selectedProduct != null;
+
+            public string SelectedProductInfo => _selectedProduct != null 
+                ? $"Артикул: {_selectedProduct.Code ?? "—"} | Ед. изм.: {_selectedProduct.MeasuringUnit}"
+                : "";
+
+            // === Общее ===
             public string MeasuringUnit
             {
                 get
                 {
-                    if (_selectedTarget is Material material)
+                    if (IsMaterialSelected)
                     {
-                        return material.MeasuringUnit;
+                        return _materialMeasuringUnit ?? "шт";
                     }
-                    if (_selectedTarget is Product product)
+                    if (IsProductSelected && _selectedProduct != null)
                     {
-                        return product.MeasuringUnit;
+                        return _selectedProduct.MeasuringUnit;
                     }
                     return "";
                 }
@@ -475,39 +568,32 @@ namespace NekrasovskyAPP.Pages
                 get => _quantity;
                 set
                 {
-                    if (_quantity == value)
-                    {
-                        return;
-                    }
-
+                    if (_quantity == value) return;
                     _quantity = value;
                     OnPropertyChanged();
                 }
             }
 
-            public void RefreshTargets()
+            public void UpdateProducts(List<Product> products)
             {
-                UpdateTargetItems();
+                _allProducts = products.Where(p => p.IsActive).ToList();
+                FilterProducts();
             }
 
-            private void UpdateTargetItems()
+            private void FilterProducts()
             {
-                if (_selectedType == "Материал")
+                if (string.IsNullOrWhiteSpace(_productSearchText))
                 {
-                    TargetItems = _materials.Cast<object>().ToList();
-                    SelectedTarget = null;
-                    return;
+                    FilteredProducts = _allProducts.ToList();
                 }
-
-                if (_selectedType == "Продукт")
+                else
                 {
-                    TargetItems = _products.Cast<object>().ToList();
-                    SelectedTarget = null;
-                    return;
+                    var search = _productSearchText.ToLower();
+                    FilteredProducts = _allProducts
+                        .Where(p => p.Name.ToLower().Contains(search) ||
+                                   (p.Code?.ToLower().Contains(search) ?? false))
+                        .ToList();
                 }
-
-                TargetItems = new List<object>();
-                SelectedTarget = null;
             }
 
             public event PropertyChangedEventHandler? PropertyChanged;

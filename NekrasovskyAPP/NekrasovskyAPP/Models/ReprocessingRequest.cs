@@ -22,5 +22,9 @@ namespace NekrasovskyAPP.Models
         public int? ProductId { get; set; }
         public int Quantity { get; set; }
         public string? MeasuringType { get; set; }
+        
+        // Для создания нового материала
+        public string? NewMaterialCode { get; set; }
+        public string? NewMaterialName { get; set; }
     }
 }

@@ -88,6 +88,18 @@ build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.PartR
 build_metadata.AdditionalFiles.TargetPath = Pages\PartRequestsPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\PartRequestsPage.xaml
 
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/ProductBatchesPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.ProductBatchesPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Pages\ProductBatchesPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Pages\ProductBatchesPage.xaml
+
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/ProductCatalogPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.ProductCatalogPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Pages\ProductCatalogPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Pages\ProductCatalogPage.xaml
+
 [D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/ProductOutputPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.ProductOutputPage.xaml

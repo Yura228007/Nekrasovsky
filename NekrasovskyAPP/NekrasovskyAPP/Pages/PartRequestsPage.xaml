@@ -106,7 +106,7 @@
                                                     </Border>
                                                 </HorizontalStackLayout>
                                                 <HorizontalStackLayout Spacing="8">
-                                                    <Label Text="{Binding Status}"
+                                                    <Label Text="{Binding StatusDisplay}"
                                                            FontSize="12"
                                                            TextColor="{StaticResource Gray400}" />
                                                     <Label Text="•" FontSize="12" TextColor="{StaticResource Gray600}"/>
@@ -200,7 +200,7 @@
                                                     </Border>
                                                 </HorizontalStackLayout>
                                                 <HorizontalStackLayout Spacing="8">
-                                                    <Label Text="{Binding Status}"
+                                                    <Label Text="{Binding StatusDisplay}"
                                                            FontSize="12"
                                                            TextColor="{StaticResource Gray400}" />
                                                     <Label Text="•" FontSize="12" TextColor="{StaticResource Gray600}"/>

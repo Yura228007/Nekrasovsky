@@ -23,14 +23,29 @@ namespace server.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ReprocessingCreateRequest request)
         {
+            _logger.LogInformation("Reprocessing request received: WarehouseId={WarehouseId}, Sources={SourcesCount}, Outputs={OutputsCount}", 
+                request?.WarehouseId, request?.Sources?.Count, request?.Outputs?.Count);
+            
+            if (request?.Outputs != null)
+            {
+                for (int i = 0; i < request.Outputs.Count; i++)
+                {
+                    var output = request.Outputs[i];
+                    _logger.LogInformation("Output[{Index}]: MaterialId={MaterialId}, ProductId={ProductId}, Quantity={Quantity}, NewMaterialCode={NewMaterialCode}", 
+                        i, output.MaterialId, output.ProductId, output.Quantity, output.NewMaterialCode);
+                }
+            }
+            
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning("Invalid ModelState: {Errors}", string.Join("; ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
                 return BadRequest(new { message = "Invalid model state", errors = ModelState });
             }
 
             if (!Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) ||
                 !int.TryParse(userIdHeader.ToString(), out var userId) || userId <= 0)
             {
+                _logger.LogWarning("X-User-Id header missing or invalid");
                 return BadRequest(new { message = "X-User-Id header is required" });
             }
 

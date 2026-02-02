@@ -31,6 +31,10 @@ public class AppDbContext : DbContext
     public DbSet<ProductOutput> ProductOutputs { get; set; } = null!;
     public DbSet<Machine> Machines { get; set; } = null!;
     public DbSet<ShiftReport> ShiftReports { get; set; } = null!;
+    public DbSet<ResponsibilityShiftSnapshot> ResponsibilityShiftSnapshots { get; set; } = null!;
+    public DbSet<ResponsibilityShiftSnapshotItem> ResponsibilityShiftSnapshotItems { get; set; } = null!;
+    public DbSet<ProductBatch> ProductBatches { get; set; } = null!;
+    public DbSet<ProductMovementRequest> ProductMovementRequests { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -442,6 +446,12 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.SetNull);
 
         modelBuilder.Entity<ProductOutput>()
+            .HasOne(po => po.ProductBatch)
+            .WithMany()
+            .HasForeignKey(po => po.ProductBatchId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<ProductOutput>()
             .HasOne(po => po.Machine)
             .WithMany()
             .HasForeignKey(po => po.MachineId)
@@ -466,5 +476,45 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<ShiftReport>()
             .HasIndex(sr => sr.WorkReportId)
             .IsUnique();
+
+        // =============================
+        // ResponsibilityShiftSnapshot
+        // =============================
+
+        modelBuilder.Entity<ResponsibilityShiftSnapshot>()
+            .HasOne(s => s.WorkReport)
+            .WithMany()
+            .HasForeignKey(s => s.WorkReportId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ResponsibilityShiftSnapshot>()
+            .HasOne(s => s.User)
+            .WithMany()
+            .HasForeignKey(s => s.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ResponsibilityShiftSnapshot>()
+            .HasMany(s => s.Items)
+            .WithOne(i => i.ResponsibilityShiftSnapshot)
+            .HasForeignKey(i => i.ResponsibilityShiftSnapshotId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ResponsibilityShiftSnapshotItem>()
+            .HasOne(i => i.Warehouse)
+            .WithMany()
+            .HasForeignKey(i => i.WarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ResponsibilityShiftSnapshotItem>()
+            .HasOne(i => i.Material)
+            .WithMany()
+            .HasForeignKey(i => i.MaterialId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ResponsibilityShiftSnapshotItem>()
+            .HasOne(i => i.Product)
+            .WithMany()
+            .HasForeignKey(i => i.ProductId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

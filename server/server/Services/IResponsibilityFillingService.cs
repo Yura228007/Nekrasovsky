@@ -27,6 +27,17 @@ public interface IResponsibilityFillingService
     Task<bool> DecreaseProductResponsibilityAtWarehouseAsync(int warehouseId, int productId, int quantity, int userId);
 
     /// <summary>
+    /// Уменьшить ответственность за материал на складе на указанное количество (по записям AssignedAt, без привязки к userId).
+    /// Используется при утиле: часть, уходящая с склада утиля (в т.ч. на ЭКО), снимает ответственность.
+    /// </summary>
+    Task<bool> DecreaseMaterialResponsibilityAtWarehouseByQuantityAsync(int warehouseId, int materialId, int quantity);
+
+    /// <summary>
+    /// Уменьшить ответственность за продукт на складе на указанное количество.
+    /// </summary>
+    Task<bool> DecreaseProductResponsibilityAtWarehouseByQuantityAsync(int warehouseId, int productId, int quantity);
+
+    /// <summary>
     /// Сколько единиц материала на складе находится под ответственностью пользователя.
     /// </summary>
     Task<int> GetUserResponsibleQuantityAtWarehouseAsync(int userId, int warehouseId, int materialId);
@@ -60,4 +71,42 @@ public interface IResponsibilityFillingService
     /// Назначения по продуктам, агрегированные из ResponsibilityFilling.
     /// </summary>
     Task<List<ResponsibilityAssignment>> GetActiveProductAssignmentsFromFillingAsync();
+
+    /// <summary>
+    /// Передать ответственность за материал на складе от одного пользователя другому.
+    /// Если quantityToTransfer не указано или равно полному количеству — передаётся всё; иначе у fromUserId остаётся остаток.
+    /// </summary>
+    Task TransferMaterialResponsibilityAsync(int warehouseId, int materialId, int fromUserId, int toUserId, int? quantityToTransfer = null);
+
+    /// <summary>
+    /// Передать ответственность за продукт на складе от одного пользователя другому.
+    /// </summary>
+    Task TransferProductResponsibilityAsync(int warehouseId, int productId, int fromUserId, int toUserId, int? quantityToTransfer = null);
+
+    // Batch-specific methods
+    Task AssignBatchResponsibilityAsync(int userId, int batchId, int quantity, string? measuringUnit);
+    Task DecreaseBatchResponsibilityAsync(int batchId, int quantity, int userId);
+    Task<int> GetUserResponsibleQuantityForBatchAsync(int userId, int batchId);
+
+    /// <summary>
+    /// Передать ответственность за партию от одного пользователя другому (часть или всё).
+    /// </summary>
+    Task TransferBatchResponsibilityAsync(int batchId, int fromUserId, int toUserId, int? quantityToTransfer = null);
+
+    /// <summary>
+    /// Снять ответственность пользователя за партию (вся его доля по ResponsibilityFilling).
+    /// </summary>
+    Task ReleaseBatchResponsibilityAsync(int batchId, int userId);
+
+    /// <summary>
+    /// Передать все активные ответственности по складам (ResponsibilityFilling) от одного пользователя другому.
+    /// Используется при подтверждении передачи смены.
+    /// </summary>
+    Task<int> TransferAllResponsibilityFillingAsync(int fromUserId, int toUserId);
+
+    /// <summary>
+    /// Остатки под ответственностью пользователя по данным ResponsibilityFilling (то же, что передаётся при передаче смены).
+    /// Используется для отображения при подтверждении принятия смены.
+    /// </summary>
+    Task<List<ResponsibilityStockItem>> GetResponsibilityStockForUserAsync(int userId);
 }

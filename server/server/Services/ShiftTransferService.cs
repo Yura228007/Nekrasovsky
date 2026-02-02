@@ -9,12 +9,21 @@ namespace server.Services
         private readonly AppDbContext _context;
         private readonly ILogger<ShiftTransferService> _logger;
         private readonly IResponsibilityService _responsibilityService;
+        private readonly IResponsibilityFillingService _responsibilityFillingService;
+        private readonly IWorkReportService _workReportService;
 
-        public ShiftTransferService(AppDbContext context, ILogger<ShiftTransferService> logger, IResponsibilityService responsibilityService)
+        public ShiftTransferService(
+            AppDbContext context,
+            ILogger<ShiftTransferService> logger,
+            IResponsibilityService responsibilityService,
+            IResponsibilityFillingService responsibilityFillingService,
+            IWorkReportService workReportService)
         {
             _context = context;
             _logger = logger;
             _responsibilityService = responsibilityService;
+            _responsibilityFillingService = responsibilityFillingService;
+            _workReportService = workReportService;
         }
 
         public async Task<IEnumerable<ShiftTransfer>> GetAllShiftTransfersAsync()
@@ -151,6 +160,11 @@ namespace server.Services
             transfer.IsConfirmed = true;
             await _context.SaveChangesAsync();
 
+            // Передаём все остатки по складам (ResponsibilityFilling) — материалы, продукты, партии
+            var fillingTransferred = await _responsibilityFillingService.TransferAllResponsibilityFillingAsync(transfer.FromUserId, transfer.ToUserId);
+            _logger.LogInformation("ShiftTransfer {TransferId}: transferred {Count} responsibility filling groups from {FromUserId} to {ToUserId}", id, fillingTransferred, transfer.FromUserId, transfer.ToUserId);
+
+            // Передаём старую модель Responsibility (без склада) для совместимости
             await _responsibilityService.TransferAllAsync(transfer.FromUserId, transfer.ToUserId);
 
             var activeReport = await _context.WorkReports
@@ -160,6 +174,19 @@ namespace server.Services
             {
                 activeReport.FinishWork = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
+            }
+
+            // У принимающего смену автоматически начинается новая смена (WorkReport)
+            var receiverHasActiveShift = await _context.WorkReports
+                .AnyAsync(wr => wr.UserId == transfer.ToUserId && wr.FinishWork == null);
+            if (!receiverHasActiveShift)
+            {
+                var newReport = await _workReportService.StartWorkAsync(transfer.ToUserId);
+                _logger.LogInformation("ShiftTransfer {TransferId}: started new shift for receiver ToUserId={ToUserId}, WorkReportId={WorkReportId}", id, transfer.ToUserId, newReport.Id);
+            }
+            else
+            {
+                _logger.LogWarning("ShiftTransfer {TransferId}: receiver ToUserId={ToUserId} already has active shift, new shift not started", id, transfer.ToUserId);
             }
 
             _logger.LogInformation("ShiftTransfer {TransferId} confirmed", id);

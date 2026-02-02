@@ -83,9 +83,38 @@ namespace server.Controllers
             }
 
             var report = await _shiftReportService.GetReportByWorkReportIdAsync(workReportId);
+
+            // If report does not exist, try to generate it on demand for a finished shift
             if (report == null)
             {
-                return NotFound(new { message = $"ShiftReport for WorkReport {workReportId} not found" });
+                var workReport = await _context.WorkReports
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(wr => wr.Id == workReportId);
+                if (workReport == null)
+                {
+                    return NotFound(new { message = $"WorkReport {workReportId} not found" });
+                }
+                if (workReport.FinishWork == null)
+                {
+                    return NotFound(new { message = "Shift report is available only after the shift is finished" });
+                }
+                // Access: only the shift owner or admin/owner can trigger generation and view
+                if (workReport.UserId != requestingUserId.Value && !await CanAccessAllReports(requestingUserId.Value))
+                {
+                    return Forbid();
+                }
+                try
+                {
+                    report = await _shiftReportService.GenerateReportAsync(workReportId);
+                    _logger.LogInformation("Shift report generated on demand for WorkReport ID: {WorkReportId}, ShiftReport ID: {ShiftReportId}",
+                        workReportId, report.Id);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to generate shift report on demand for WorkReport ID: {WorkReportId}", workReportId);
+                    var errorMessage = ex.InnerException != null ? $"{ex.Message}. {ex.InnerException.Message}" : ex.Message;
+                    return StatusCode(500, new { message = "Не удалось сформировать отчёт смены.", detail = errorMessage });
+                }
             }
 
             var canAccess = await CanAccessReport(requestingUserId.Value, report);

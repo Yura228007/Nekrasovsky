@@ -65,6 +65,10 @@ namespace NekrasovskyAPP
                     sp.GetRequiredService<IAuthService>()));
             builder.Services.AddTransient<ProductsPage>(sp => 
                 new ProductsPage(sp.GetRequiredService<MainViewModel>()));
+            builder.Services.AddTransient<ProductCatalogPage>(sp => 
+                new ProductCatalogPage(sp.GetRequiredService<MainViewModel>()));
+            builder.Services.AddTransient<ProductBatchesPage>(sp => 
+                new ProductBatchesPage(sp.GetRequiredService<MainViewModel>()));
             builder.Services.AddTransient<MaterialsPage>(sp => 
                 new MaterialsPage(sp.GetRequiredService<MainViewModel>()));
             builder.Services.AddTransient<WarehousesPage>(sp => 

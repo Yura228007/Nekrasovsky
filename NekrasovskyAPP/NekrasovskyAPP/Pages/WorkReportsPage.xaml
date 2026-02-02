@@ -98,7 +98,7 @@
                                     <Label Text="📊" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
                                 <VerticalStackLayout Grid.Column="1" Spacing="6">
-                                    <Label Text="{Binding Date, StringFormat='{0:dd.MM.yyyy}'}"
+                                    <Label Text="{Binding DisplayTitle}"
                                            FontSize="16"
                                            FontAttributes="Bold"
                                            TextColor="{StaticResource White}" />

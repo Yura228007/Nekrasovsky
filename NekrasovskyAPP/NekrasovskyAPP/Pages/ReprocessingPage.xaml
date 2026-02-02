@@ -227,6 +227,7 @@
                                                     CommandParameter="{Binding .}" />
                                         </Grid>
 
+                                        <!-- Тип результата -->
                                         <Border BackgroundColor="{StaticResource BackgroundInput}"
                                                 StrokeThickness="0"
                                                 Padding="12,0"
@@ -241,21 +242,113 @@
                                                     TitleColor="{StaticResource Gray500}" />
                                         </Border>
 
-                                        <Border BackgroundColor="{StaticResource BackgroundInput}"
-                                                StrokeThickness="0"
-                                                Padding="12,0"
-                                                HeightRequest="{Binding PickerHeight}">
-                                            <Border.StrokeShape>
-                                                <RoundRectangle CornerRadius="12"/>
-                                            </Border.StrokeShape>
-                                            <Picker Title="Выберите материал или продукт"
-                                                    ItemsSource="{Binding TargetItems}"
-                                                    SelectedItem="{Binding SelectedTarget}"
-                                                    ItemDisplayBinding="{Binding Name}"
-                                                    TextColor="{StaticResource White}"
-                                                    TitleColor="{StaticResource Gray500}" />
-                                        </Border>
+                                        <!-- Для материала: поле ввода кода + кнопка сканирования -->
+                                        <VerticalStackLayout Spacing="8" IsVisible="{Binding IsMaterialSelected}">
+                                            <Label Text="Код материала (артикул)"
+                                                   FontSize="13"
+                                                   TextColor="{StaticResource Gray400}" />
+                                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                                <Border Grid.Column="0"
+                                                        BackgroundColor="{StaticResource BackgroundInput}"
+                                                        StrokeThickness="0"
+                                                        Padding="12,0"
+                                                        HeightRequest="48">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="12"/>
+                                                    </Border.StrokeShape>
+                                                    <Entry Placeholder="Введите или отсканируйте код"
+                                                           Text="{Binding MaterialCode}"
+                                                           TextColor="{StaticResource White}"
+                                                           PlaceholderColor="{StaticResource Gray600}"
+                                                           BackgroundColor="Transparent"
+                                                           VerticalOptions="Center" />
+                                                </Border>
+                                                <Button Grid.Column="1"
+                                                        Text="📷"
+                                                        FontSize="18"
+                                                        BackgroundColor="{StaticResource CardScanner}"
+                                                        TextColor="{StaticResource White}"
+                                                        CornerRadius="12"
+                                                        WidthRequest="48"
+                                                        HeightRequest="48"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ScanMaterialCodeCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                            </Grid>
+                                            <Label Text="Название материала"
+                                                   FontSize="13"
+                                                   TextColor="{StaticResource Gray400}" />
+                                            <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                                    StrokeThickness="0"
+                                                    Padding="12,0"
+                                                    HeightRequest="48">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="12"/>
+                                                </Border.StrokeShape>
+                                                <Entry Placeholder="Название нового материала"
+                                                       Text="{Binding MaterialName}"
+                                                       TextColor="{StaticResource White}"
+                                                       PlaceholderColor="{StaticResource Gray600}"
+                                                       BackgroundColor="Transparent"
+                                                       VerticalOptions="Center" />
+                                            </Border>
+                                            <Label Text="Единица измерения"
+                                                   FontSize="13"
+                                                   TextColor="{StaticResource Gray400}" />
+                                            <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                                    StrokeThickness="0"
+                                                    Padding="12,0"
+                                                    HeightRequest="{Binding PickerHeight}">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="12"/>
+                                                </Border.StrokeShape>
+                                                <Picker Title="Выберите единицу"
+                                                        ItemsSource="{Binding MeasuringUnitOptions}"
+                                                        SelectedItem="{Binding MaterialMeasuringUnit}"
+                                                        TextColor="{StaticResource White}"
+                                                        TitleColor="{StaticResource Gray500}" />
+                                            </Border>
+                                        </VerticalStackLayout>
 
+                                        <!-- Для продукта: поиск и выбор из каталога -->
+                                        <VerticalStackLayout Spacing="8" IsVisible="{Binding IsProductSelected}">
+                                            <Label Text="Выберите продукт из каталога"
+                                                   FontSize="13"
+                                                   TextColor="{StaticResource Gray400}" />
+                                            <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                                    StrokeThickness="0"
+                                                    Padding="12,0"
+                                                    HeightRequest="48">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="12"/>
+                                                </Border.StrokeShape>
+                                                <Entry Placeholder="🔍 Поиск по названию или артикулу..."
+                                                       Text="{Binding ProductSearchText}"
+                                                       TextColor="{StaticResource White}"
+                                                       PlaceholderColor="{StaticResource Gray600}"
+                                                       BackgroundColor="Transparent"
+                                                       VerticalOptions="Center" />
+                                            </Border>
+                                            <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                                    StrokeThickness="0"
+                                                    Padding="12,0"
+                                                    HeightRequest="{Binding PickerHeight}">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="12"/>
+                                                </Border.StrokeShape>
+                                                <Picker Title="Выберите продукт"
+                                                        ItemsSource="{Binding FilteredProducts}"
+                                                        SelectedItem="{Binding SelectedProduct}"
+                                                        ItemDisplayBinding="{Binding DisplayNameWithCode}"
+                                                        TextColor="{StaticResource White}"
+                                                        TitleColor="{StaticResource Gray500}" />
+                                            </Border>
+                                            <Label Text="{Binding SelectedProductInfo}"
+                                                   FontSize="12"
+                                                   TextColor="{StaticResource CardReprocess}"
+                                                   IsVisible="{Binding HasSelectedProduct}" />
+                                        </VerticalStackLayout>
+
+                                        <!-- Количество -->
                                         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
                                             <Border Grid.Column="0"
                                                     BackgroundColor="{StaticResource BackgroundInput}"
@@ -293,6 +386,34 @@
                             FontSize="14"
                             HeightRequest="42"
                             Command="{Binding AddOutputCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Note Section -->
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
+                    StrokeThickness="0"
+                    Padding="16">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Примечание (необязательно)"
+                           FontSize="14"
+                           TextColor="{StaticResource Gray400}" />
+                    <Border BackgroundColor="{StaticResource BackgroundInput}"
+                            StrokeThickness="0"
+                            Padding="12"
+                            MinimumHeightRequest="80">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+                        <Editor x:Name="NoteEditor"
+                                Placeholder="Дополнительная информация о переработке..."
+                                TextColor="{StaticResource White}"
+                                PlaceholderColor="{StaticResource Gray600}"
+                                BackgroundColor="Transparent"
+                                AutoSize="TextChanges"/>
+                    </Border>
                 </VerticalStackLayout>
             </Border>
 

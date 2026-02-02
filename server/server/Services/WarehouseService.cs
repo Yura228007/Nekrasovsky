@@ -60,6 +60,16 @@ namespace server.Services
 
         public async Task<Warehouse> CreateWarehouseAsync(Warehouse warehouse)
         {
+            if (string.Equals(warehouse.Type, "ЭКО", StringComparison.OrdinalIgnoreCase))
+            {
+                var existingEco = await _context.Warehouses
+                    .FirstOrDefaultAsync(w => EF.Functions.ILike(w.Type, "ЭКО"));
+                if (existingEco != null)
+                {
+                    throw new InvalidOperationException("Склад типа ЭКО уже существует. Может быть только один склад ЭКО.");
+                }
+            }
+
             _context.Warehouses.Add(warehouse);
             await _context.SaveChangesAsync();
 
@@ -73,6 +83,17 @@ namespace server.Services
             if (warehouse == null)
             {
                 throw new KeyNotFoundException($"Warehouse with ID {id} not found");
+            }
+
+            if (string.Equals(updatedWarehouse.Type, "ЭКО", StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(warehouse.Type, "ЭКО", StringComparison.OrdinalIgnoreCase))
+            {
+                var existingEco = await _context.Warehouses
+                    .FirstOrDefaultAsync(w => EF.Functions.ILike(w.Type, "ЭКО") && w.Id != id);
+                if (existingEco != null)
+                {
+                    throw new InvalidOperationException("Склад типа ЭКО уже существует. Может быть только один склад ЭКО.");
+                }
             }
 
             warehouse.Name = updatedWarehouse.Name;

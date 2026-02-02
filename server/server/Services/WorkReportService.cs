@@ -8,16 +8,23 @@ namespace server.Services
     {
         private readonly AppDbContext _context;
         private readonly ILogger<WorkReportService> _logger;
+        private readonly IResponsibilityShiftSnapshotService _snapshotService;
 
-        public WorkReportService(AppDbContext context, ILogger<WorkReportService> logger)
+        public WorkReportService(AppDbContext context, ILogger<WorkReportService> logger,
+            IResponsibilityShiftSnapshotService snapshotService)
         {
             _context = context;
             _logger = logger;
+            _snapshotService = snapshotService;
         }
 
         public async Task<IEnumerable<WorkReport>> GetAllWorkReportsAsync()
         {
-            return await _context.WorkReports.ToListAsync();
+            return await _context.WorkReports
+                .Include(wr => wr.User)
+                .OrderByDescending(wr => wr.Date)
+                .ThenByDescending(wr => wr.StartWork)
+                .ToListAsync();
         }
 
         public async Task<WorkReport?> GetWorkReportByIdAsync(int id)
@@ -28,7 +35,10 @@ namespace server.Services
         public async Task<IEnumerable<WorkReport>> GetWorkReportsByUserAsync(int userId)
         {
             return await _context.WorkReports
+                .Include(wr => wr.User)
                 .Where(wr => wr.UserId == userId)
+                .OrderByDescending(wr => wr.Date)
+                .ThenByDescending(wr => wr.StartWork)
                 .ToListAsync();
         }
 
@@ -145,6 +155,8 @@ namespace server.Services
 
             _context.WorkReports.Add(report);
             await _context.SaveChangesAsync();
+
+            await _snapshotService.CreateSnapshotAsync(report.Id, userId);
 
             _logger.LogInformation("Work started for User {UserId}, Report ID: {ReportId}", userId, report.Id);
             return report;

@@ -90,7 +90,7 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10"/>
                     </Border.StrokeShape>
-                    <Picker x:Name="TypePicker"
+                        <Picker x:Name="TypePicker"
                             Title="Тип"
                             SelectedIndexChanged="OnFilterChanged"
                             TextColor="{StaticResource White}"
@@ -102,6 +102,7 @@
                             <x:String>Склад</x:String>
                             <x:String>Производство</x:String>
                             <x:String>Утиль</x:String>
+                            <x:String>ЭКО</x:String>
                             <x:String>Готовая продукция</x:String>
                             <x:String>Сырьё</x:String>
                         </Picker.Items>

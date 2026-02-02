@@ -130,6 +130,11 @@ namespace server.Controllers
                 return CreatedAtAction(nameof(GetById), new { id = createdWarehouse.Id },
                     new { message = "Warehouse created successfully", warehouse = createdWarehouse });
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Validation error while creating warehouse");
+                return BadRequest(new { message = ex.Message });
+            }
             catch (DbUpdateException ex)
             {
                 _logger.LogError(ex, "Database error while creating warehouse");
@@ -175,6 +180,11 @@ namespace server.Controllers
             {
                 _logger.LogWarning(ex, "Warehouse with ID {WarehouseId} not found for update", id);
                 return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Validation error while updating warehouse with ID {WarehouseId}", id);
+                return BadRequest(new { message = ex.Message });
             }
             catch (DbUpdateException ex)
             {

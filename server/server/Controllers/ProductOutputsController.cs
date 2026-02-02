@@ -11,16 +11,40 @@ namespace server.Controllers
     {
         private readonly IProductOutputService _productOutputService;
         private readonly IHistoryService _historyService;
+        private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
+        private readonly IUserPermissionsService _userPermissionsService;
         private readonly ILogger<ProductOutputsController> _logger;
 
         public ProductOutputsController(
             IProductOutputService productOutputService,
             IHistoryService historyService,
+            IUserService userService,
+            IRoleService roleService,
+            IUserPermissionsService userPermissionsService,
             ILogger<ProductOutputsController> logger)
         {
             _productOutputService = productOutputService;
             _historyService = historyService;
+            _userService = userService;
+            _roleService = roleService;
+            _userPermissionsService = userPermissionsService;
             _logger = logger;
+        }
+
+        /// <summary>
+        /// Варианты выпуска для текущего пользователя: только (продукт, склад) под его ответственностью и макс. количество.
+        /// </summary>
+        [HttpGet("options")]
+        public async Task<ActionResult<ProductOutputOptionsResponse>> GetOptions()
+        {
+            var userId = GetUserIdFromHeader();
+            if (!userId.HasValue)
+                return Unauthorized(new { message = "User ID is required (X-User-Id)." });
+
+            var hasSendToSale = await HasSendToSaleAsync(userId.Value);
+            var options = await _productOutputService.GetOutputOptionsForUserAsync(userId.Value, hasSendToSale);
+            return Ok(options);
         }
 
         // GET: api/product-outputs
@@ -80,19 +104,16 @@ namespace server.Controllers
         public async Task<IActionResult> Create([FromBody] ProductOutput productOutput)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(new { message = "Invalid model state", errors = ModelState });
-            }
 
             try
             {
                 var userId = GetUserIdFromHeader();
                 if (userId.HasValue)
-                {
                     productOutput.UserId = userId.Value;
-                }
 
-                var created = await _productOutputService.CreateAsync(productOutput);
+                var hasSendToSale = userId.HasValue && await HasSendToSaleAsync(userId.Value);
+                var created = await _productOutputService.CreateAsync(productOutput, canBypassResponsibility: hasSendToSale);
                 _logger.LogInformation("ProductOutput created with ID: {Id}", created.Id);
 
                 await TryLogAsync(userId, new HistoryEvent
@@ -107,6 +128,10 @@ namespace server.Controllers
                 });
 
                 return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
             catch (DbUpdateException ex)
             {
@@ -136,12 +161,17 @@ namespace server.Controllers
 
             try
             {
-                var result = await _productOutputService.UpdateAsync(id, updated);
+                var userId = GetUserIdFromHeader();
+                var hasSendToSale = userId.HasValue && await HasSendToSaleAsync(userId.Value);
+                if (userId.HasValue)
+                    updated.UserId = userId.Value;
+
+                var result = await _productOutputService.UpdateAsync(id, updated, canBypassResponsibility: hasSendToSale);
                 _logger.LogInformation("ProductOutput updated with ID: {Id}", id);
 
-                await TryLogAsync(GetUserIdFromHeader(), new HistoryEvent
+                await TryLogAsync(userId, new HistoryEvent
                 {
-                    UserId = GetUserIdFromHeader() ?? 0,
+                    UserId = userId ?? 0,
                     Action = "ProductOutput.Updated",
                     EntityType = "ProductOutput",
                     EntityId = result.Id,
@@ -151,6 +181,10 @@ namespace server.Controllers
                 });
 
                 return Ok(result);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
             catch (KeyNotFoundException ex)
             {
@@ -212,6 +246,25 @@ namespace server.Controllers
                 return userId;
             }
             return null;
+        }
+
+        private async Task<bool> HasSendToSaleAsync(int userId)
+        {
+            var user = await _userService.GetUserByIdAsync(userId);
+            if (user == null) return false;
+            if (user.Login.Equals("admin", StringComparison.OrdinalIgnoreCase)) return true;
+            if (user.RoleId.HasValue)
+            {
+                var rolePermissions = await _roleService.GetRolePermissionsAsync(user.RoleId.Value);
+                if (rolePermissions.Any(p => p.Code == "SendToSale")) return true;
+            }
+            if (await _userPermissionsService.HasPermissionAsync(userId, "SendToSale")) return true;
+            if (user.RoleId.HasValue)
+            {
+                var role = await _roleService.GetRoleByIdAsync(user.RoleId.Value);
+                if (role != null && (role.Code == "Owner" || role.Code == "Admin")) return true;
+            }
+            return false;
         }
 
         private async Task TryLogAsync(int? userId, HistoryEvent evt)

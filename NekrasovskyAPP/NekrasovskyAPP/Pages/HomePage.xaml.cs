@@ -21,7 +21,7 @@ namespace NekrasovskyAPP.Pages
         private bool _hasSendToSalePermission;
 
         public string CurrentUserName => _authService.CurrentUser != null
-            ? $"Добро пожаловать, {_authService.CurrentUser.Name} {_authService.CurrentUser.Surname}!"
+            ? $"{_authService.CurrentUser.Surname} {_authService.CurrentUser.Name}"
             : "";
 
         public HomePage(
@@ -160,6 +160,15 @@ namespace NekrasovskyAPP.Pages
                 return;
             }
             await Shell.Current.GoToAsync("ProductsPage");
+        }
+
+        private async void OnProductBatchesClicked(object sender, EventArgs e)
+        {
+            if (!await EnsureShiftAccessAsync("ProductBatchesPage"))
+            {
+                return;
+            }
+            await Shell.Current.GoToAsync("ProductBatchesPage");
         }
 
         private async void OnMaterialsClicked(object sender, EventArgs e)

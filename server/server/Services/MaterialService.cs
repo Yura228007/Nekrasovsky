@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using server.Models;
 using server.Data;
+using server.Models;
 
 namespace server.Services
 {
@@ -172,10 +172,27 @@ namespace server.Services
                 return false;
             }
 
+            // Снимаем ответственность и удаляем остатки по складам
+            var responsibilityFillings = await _context.ResponsibilityFillings
+                .Where(rf => rf.MaterialId == id)
+                .ToListAsync();
+            _context.ResponsibilityFillings.RemoveRange(responsibilityFillings);
+
+            var responsibilities = await _context.Responsibilities
+                .Where(r => r.MaterialId == id)
+                .ToListAsync();
+            _context.Responsibilities.RemoveRange(responsibilities);
+
+            var fillingWarehouses = await _context.FillingWarehouses
+                .Where(fw => fw.MaterialId == id)
+                .ToListAsync();
+            _context.FillingWarehouses.RemoveRange(fillingWarehouses);
+
             _context.Materials.Remove(material);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("Material deleted with ID: {MaterialId}", id);
+            _logger.LogInformation("Material deleted with ID: {MaterialId}. Removed {Rf} responsibility fillings, {R} responsibilities, {Fw} filling warehouse records.",
+                id, responsibilityFillings.Count, responsibilities.Count, fillingWarehouses.Count);
             return true;
         }
 

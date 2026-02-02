@@ -10,12 +10,17 @@ namespace server.Services
         private readonly AppDbContext _context;
         private readonly ILogger<ShiftReportService> _logger;
         private readonly string _reportsDirectory;
+        private readonly IResponsibilityShiftSnapshotService _snapshotService;
+        private readonly IResponsibilityFillingService _fillingService;
 
-        public ShiftReportService(AppDbContext context, ILogger<ShiftReportService> logger, IWebHostEnvironment env)
+        public ShiftReportService(AppDbContext context, ILogger<ShiftReportService> logger, IWebHostEnvironment env,
+            IResponsibilityShiftSnapshotService snapshotService, IResponsibilityFillingService fillingService)
         {
             _context = context;
             _logger = logger;
             _reportsDirectory = Path.Combine(env.ContentRootPath, "reports");
+            _snapshotService = snapshotService;
+            _fillingService = fillingService;
 
             if (!Directory.Exists(_reportsDirectory))
             {
@@ -57,9 +62,13 @@ namespace server.Services
             var productOutputs = await GetProductOutputsForShift(workReport.UserId, shiftStart, shiftEnd);
             var partRequests = await GetPartRequestsForShift(workReport.UserId, shiftStart, shiftEnd);
             var responsibilities = await GetResponsibilitiesForShift(workReport.UserId);
+            var reprocessings = await GetReprocessingsForShift(workReport.UserId, shiftStart, shiftEnd);
+            var responsibilitySnapshot = await _snapshotService.GetByWorkReportIdAsync(workReportId);
+            var responsibilityEnd = await _fillingService.GetResponsibilityFillingsByUserAsync(workReport.UserId);
 
             // Generate Excel
-            var excelBytes = GenerateExcel(user, workReport, productOutputs, partRequests, responsibilities);
+            var excelBytes = GenerateExcel(user, workReport, productOutputs, partRequests, responsibilities, reprocessings,
+                responsibilitySnapshot, responsibilityEnd);
 
             // Save to file
             var fileName = $"report_{user.Surname}_{user.Name}_{shiftStart:yyyy-MM-dd_HH-mm}.xlsx";
@@ -231,6 +240,22 @@ namespace server.Services
                 .ToListAsync();
         }
 
+        private async Task<List<Reprocessing>> GetReprocessingsForShift(int userId, DateTime shiftStart, DateTime shiftEnd)
+        {
+            return await _context.Reprocessings
+                .Include(r => r.Warehouse)
+                .Include(r => r.SourceMaterial)
+                .Include(r => r.Sources)
+                    .ThenInclude(s => s.Material)
+                .Include(r => r.Items)
+                    .ThenInclude(i => i.Material)
+                .Include(r => r.Items)
+                    .ThenInclude(i => i.Product)
+                .Where(r => r.UserId == userId && r.CreatedAt >= shiftStart && r.CreatedAt <= shiftEnd)
+                .OrderBy(r => r.CreatedAt)
+                .ToListAsync();
+        }
+
         private string GenerateSummary(List<ProductOutput> outputs, List<PartRequest> requests, List<Responsibility> responsibilities)
         {
             var totalProduced = outputs.Sum(o => o.ProducedQuantity);
@@ -244,7 +269,9 @@ namespace server.Services
         }
 
         private byte[] GenerateExcel(User user, WorkReport workReport,
-            List<ProductOutput> outputs, List<PartRequest> requests, List<Responsibility> responsibilities)
+            List<ProductOutput> outputs, List<PartRequest> requests, List<Responsibility> responsibilities,
+            List<Reprocessing> reprocessings, ResponsibilityShiftSnapshot? responsibilitySnapshot,
+            List<ResponsibilityFilling> responsibilityEnd)
         {
             using var workbook = new XLWorkbook();
 
@@ -266,6 +293,15 @@ namespace server.Services
             {
                 CreateResponsibilitiesSheet(workbook, user, responsibilities);
             }
+
+            // Sheet: Reprocessing (переработка) — что произвели, что использовали, сколько вышло
+            if (reprocessings.Count > 0)
+            {
+                CreateReprocessingSheet(workbook, user, reprocessings);
+            }
+
+            // Sheet: Ответственность на начало и конец смены (начальный и конечный остаток за человеком)
+            CreateResponsibilityStartEndSheet(workbook, user, responsibilitySnapshot, responsibilityEnd);
 
             using var stream = new MemoryStream();
             workbook.SaveAs(stream);
@@ -501,6 +537,173 @@ namespace server.Services
 
             ws.Cell(row, 1).Value = $"Всего: {responsibilities.Count} (материалов: {materialCount}, продуктов: {productCount})";
             ws.Cell(row, 1).Style.Font.Bold = true;
+
+            ws.Columns().AdjustToContents();
+        }
+
+        private void CreateReprocessingSheet(XLWorkbook workbook, User user, List<Reprocessing> reprocessings)
+        {
+            var ws = workbook.Worksheets.Add("Переработка");
+
+            int row = 1;
+
+            ws.Cell(row, 1).Value = $"ПЕРЕРАБОТКА ЗА СМЕНУ — {user.Surname} {user.Name}";
+            ws.Range(row, 1, row, 7).Merge();
+            ws.Cell(row, 1).Style.Font.Bold = true;
+            ws.Cell(row, 1).Style.Font.FontSize = 14;
+            row += 2;
+
+            var headers = new[] { "Дата", "Время", "Склад", "Использовано (исходное)", "Получено", "Кол-во", "Ед.изм." };
+            for (int i = 0; i < headers.Length; i++)
+            {
+                ws.Cell(row, i + 1).Value = headers[i];
+                ws.Cell(row, i + 1).Style.Font.Bold = true;
+                ws.Cell(row, i + 1).Style.Fill.BackgroundColor = XLColor.LightGray;
+                ws.Cell(row, i + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+            }
+            row++;
+
+            foreach (var r in reprocessings)
+            {
+                var sourceText = string.Join("; ", r.Sources.Select(s => $"{s.Material?.Name ?? $"#{s.MaterialId}"}: {s.Quantity} {s.MeasuringType ?? "шт"}"));
+                if (string.IsNullOrEmpty(sourceText))
+                    sourceText = $"{r.SourceMaterial?.Name ?? $"#{r.SourceMaterialId}"}: {r.SourceQuantity}";
+
+                foreach (var item in r.Items)
+                {
+                    var outputName = item.MaterialId.HasValue
+                        ? (item.Material?.Name ?? $"Материал #{item.MaterialId}")
+                        : (item.Product?.Name ?? $"Продукт #{item.ProductId}");
+                    ws.Cell(row, 1).Value = r.CreatedAt.ToString("dd.MM.yyyy");
+                    ws.Cell(row, 2).Value = r.CreatedAt.ToString("HH:mm");
+                    ws.Cell(row, 3).Value = r.Warehouse?.Name ?? "-";
+                    ws.Cell(row, 4).Value = sourceText;
+                    ws.Cell(row, 5).Value = outputName;
+                    ws.Cell(row, 6).Value = item.Quantity;
+                    ws.Cell(row, 7).Value = item.MeasuringType ?? "шт";
+                    for (int i = 1; i <= 7; i++)
+                        ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    row++;
+                }
+            }
+
+            row += 2;
+            ws.Cell(row, 1).Value = $"Всего операций переработки: {reprocessings.Count}";
+            ws.Cell(row, 1).Style.Font.Bold = true;
+
+            ws.Columns().AdjustToContents();
+        }
+
+        private void CreateResponsibilityStartEndSheet(XLWorkbook workbook, User user,
+            ResponsibilityShiftSnapshot? snapshot, List<ResponsibilityFilling> endFillings)
+        {
+            // Excel: sheet name max 31 chars. "Ответственность на начало и конец" = 33
+            var ws = workbook.Worksheets.Add("Ответств. на начало и конец");
+
+            int row = 1;
+
+            ws.Cell(row, 1).Value = $"ОТВЕТСТВЕННОСТЬ НА НАЧАЛО И КОНЕЦ СМЕНЫ — {user.Surname} {user.Name}";
+            ws.Range(row, 1, row, 5).Merge();
+            ws.Cell(row, 1).Style.Font.Bold = true;
+            ws.Cell(row, 1).Style.Font.FontSize = 14;
+            row += 2;
+
+            // На начало смены
+            ws.Cell(row, 1).Value = "На начало смены";
+            ws.Cell(row, 1).Style.Font.Bold = true;
+            ws.Cell(row, 1).Style.Font.FontSize = 12;
+            row++;
+
+            var startHeaders = new[] { "Тип", "Наименование", "Склад", "Количество", "Ед.изм." };
+            for (int i = 0; i < startHeaders.Length; i++)
+            {
+                ws.Cell(row, i + 1).Value = startHeaders[i];
+                ws.Cell(row, i + 1).Style.Font.Bold = true;
+                ws.Cell(row, i + 1).Style.Fill.BackgroundColor = XLColor.LightGray;
+                ws.Cell(row, i + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+            }
+            row++;
+
+            if (snapshot?.Items != null && snapshot.Items.Count > 0)
+            {
+                foreach (var item in snapshot.Items.OrderBy(i => i.MaterialId.HasValue ? 0 : 1).ThenBy(i => i.Material?.Name ?? i.Product?.Name ?? ""))
+                {
+                    var typeName = item.MaterialId.HasValue ? "Материал" : "Продукт";
+                    var itemName = item.Material?.Name ?? item.Product?.Name ?? "-";
+                    ws.Cell(row, 1).Value = typeName;
+                    ws.Cell(row, 2).Value = itemName;
+                    ws.Cell(row, 3).Value = item.Warehouse?.Name ?? "-";
+                    ws.Cell(row, 4).Value = item.Quantity;
+                    ws.Cell(row, 5).Value = item.MeasuringUnit ?? "-";
+                    for (int i = 1; i <= 5; i++) ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    row++;
+                }
+            }
+            else
+            {
+                ws.Cell(row, 1).Value = "Снимок не был сделан или отсутствует";
+                ws.Cell(row, 1).Style.Font.Italic = true;
+                ws.Range(row, 1, row, 5).Merge();
+                row++;
+            }
+
+            row += 2;
+
+            // На конец смены (агрегируем endFillings по WarehouseId + MaterialId + ProductId)
+            ws.Cell(row, 1).Value = "На конец смены";
+            ws.Cell(row, 1).Style.Font.Bold = true;
+            ws.Cell(row, 1).Style.Font.FontSize = 12;
+            row++;
+
+            for (int i = 0; i < startHeaders.Length; i++)
+            {
+                ws.Cell(row, i + 1).Value = startHeaders[i];
+                ws.Cell(row, i + 1).Style.Font.Bold = true;
+                ws.Cell(row, i + 1).Style.Fill.BackgroundColor = XLColor.LightGray;
+                ws.Cell(row, i + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+            }
+            row++;
+
+            var endAggregated = endFillings
+                .Where(rf => rf.IsActive)
+                .GroupBy(rf => new { rf.WarehouseId, rf.MaterialId, rf.ProductId })
+                .Select(g => new
+                {
+                    g.Key.WarehouseId,
+                    g.Key.MaterialId,
+                    g.Key.ProductId,
+                    Quantity = g.Sum(rf => rf.Quantity),
+                    MeasuringUnit = g.First().MeasuringUnit,
+                    Material = g.First().Material,
+                    Product = g.First().Product,
+                    Warehouse = g.First().Warehouse
+                })
+                .OrderBy(x => x.MaterialId.HasValue ? 0 : 1)
+                .ThenBy(x => x.Material?.Name ?? x.Product?.Name ?? "")
+                .ToList();
+
+            if (endAggregated.Count > 0)
+            {
+                foreach (var a in endAggregated)
+                {
+                    var typeName = a.MaterialId.HasValue ? "Материал" : "Продукт";
+                    var itemName = a.Material?.Name ?? a.Product?.Name ?? "-";
+                    ws.Cell(row, 1).Value = typeName;
+                    ws.Cell(row, 2).Value = itemName;
+                    ws.Cell(row, 3).Value = a.Warehouse?.Name ?? "-";
+                    ws.Cell(row, 4).Value = a.Quantity;
+                    ws.Cell(row, 5).Value = a.MeasuringUnit ?? "-";
+                    for (int i = 1; i <= 5; i++) ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    row++;
+                }
+            }
+            else
+            {
+                ws.Cell(row, 1).Value = "Нет активной ответственности на конец смены";
+                ws.Cell(row, 1).Style.Font.Italic = true;
+                ws.Range(row, 1, row, 5).Merge();
+                row++;
+            }
 
             ws.Columns().AdjustToContents();
         }

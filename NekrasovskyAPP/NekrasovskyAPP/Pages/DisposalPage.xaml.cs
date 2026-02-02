@@ -29,45 +29,45 @@ namespace NekrasovskyAPP.Pages
             await _viewModel.LoadDataAsync();
         }
 
-        private async void OnDeleteClicked(object sender, EventArgs e)
+        private async void OnProcessClicked(object sender, EventArgs e)
         {
             if (sender is not Button button || button.CommandParameter is not DisposalItem item)
                 return;
 
             if (!_viewModel.CanDelete)
             {
-                await DisplayAlert("Нет прав", "У вас нет прав на списание", "OK");
+                await DisplayAlert("Нет прав", "У вас нет прав на обработку утиля", "OK");
                 return;
             }
 
-            // Запрашиваем причину списания
-            var reason = await DisplayPromptAsync(
-                "Списание",
-                $"Укажите причину списания \"{item.Name}\" ({item.Quantity} {item.MeasuringUnit}):",
-                "Списать",
-                "Отмена",
-                "Причина списания",
-                -1,
-                Keyboard.Default);
+            var returnableQty = int.TryParse(item.ReturnableQty, out var r) ? r : 0;
+            var nonReturnableQty = int.TryParse(item.NonReturnableQty, out var n) ? n : 0;
 
-            if (string.IsNullOrWhiteSpace(reason))
+            if (returnableQty <= 0 && nonReturnableQty <= 0)
+            {
+                await DisplayAlert("Ошибка", "Укажите количество возвратного и/или невозвратного брака", "OK");
                 return;
+            }
 
-            // Подтверждение
-            var confirm = await DisplayAlert(
-                "Подтверждение",
-                $"Вы уверены, что хотите списать \"{item.Name}\" ({item.Quantity} {item.MeasuringUnit})?\n\nПричина: {reason}",
-                "Да, списать",
-                "Отмена");
+            var msg = $"Элемент: {item.Name}\n";
+            if (returnableQty > 0)
+                msg += $"В ЭКО (возвратный): {returnableQty} {item.MeasuringUnit}\n";
+            if (nonReturnableQty > 0)
+                msg += $"Списать (невозвратный): {nonReturnableQty} {item.MeasuringUnit}";
 
+            var confirm = await DisplayAlert("Подтверждение", $"{msg}\n\nПродолжить?", "Да", "Отмена");
             if (!confirm)
                 return;
 
-            var success = await _viewModel.DeleteItemAsync(item, reason);
+            var success = await _viewModel.ProcessDisposalAsync(item);
 
             if (success)
             {
-                await DisplayAlert("Успех", $"Элемент \"{item.Name}\" успешно списан", "OK");
+                await DisplayAlert("Успех", "Утиль обработан успешно", "OK");
+            }
+            else if (!string.IsNullOrEmpty(_viewModel.ErrorMessage))
+            {
+                await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
             }
         }
     }

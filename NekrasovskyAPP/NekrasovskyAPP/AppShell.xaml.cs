@@ -14,6 +14,8 @@ namespace NekrasovskyAPP
             
             Routing.RegisterRoute("UsersPage", typeof(UsersPage));
             Routing.RegisterRoute("ProductsPage", typeof(ProductsPage));
+            Routing.RegisterRoute("ProductCatalogPage", typeof(ProductCatalogPage));
+            Routing.RegisterRoute("ProductBatchesPage", typeof(ProductBatchesPage));
             Routing.RegisterRoute("MaterialsPage", typeof(MaterialsPage));
             Routing.RegisterRoute("WarehousesPage", typeof(WarehousesPage));
             Routing.RegisterRoute("WorkReportsPage", typeof(WorkReportsPage));

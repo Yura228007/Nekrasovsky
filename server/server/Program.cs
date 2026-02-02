@@ -16,6 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.CustomSchemaIds(type => type.FullName);
+    options.OperationFilter<server.Extensions.SwaggerXUserIdOperationFilter>();
 });
 
 // Add SignalR
@@ -137,6 +138,32 @@ using (var scope = app.Services.CreateScope())
             logger.LogInformation("Database is up to date. No migrations to apply.");
         }
 
+        // Ensure ProductOutput.ProductBatchId exists (migration may not have been applied on this DB)
+        try
+        {
+            // Try quoted table name first (EF default), then lowercase (PostgreSQL default)
+            try
+            {
+                dbContext.Database.ExecuteSqlRaw(@"ALTER TABLE ""ProductOutput"" ADD COLUMN IF NOT EXISTS ""ProductBatchId"" integer NULL;");
+                dbContext.Database.ExecuteSqlRaw(@"CREATE INDEX IF NOT EXISTS ""IX_ProductOutput_ProductBatchId"" ON ""ProductOutput"" (""ProductBatchId"");");
+            }
+            catch (Npgsql.PostgresException ex) when (ex.SqlState == "42P01")
+            {
+                // relation "ProductOutput" does not exist — try lowercase
+                dbContext.Database.ExecuteSqlRaw(@"ALTER TABLE productoutput ADD COLUMN IF NOT EXISTS ""ProductBatchId"" integer NULL;");
+                dbContext.Database.ExecuteSqlRaw(@"CREATE INDEX IF NOT EXISTS ix_productoutput_productbatchid ON productoutput (""ProductBatchId"");");
+            }
+            logger.LogInformation("ProductOutput.ProductBatchId column ensured.");
+        }
+        catch (Npgsql.PostgresException pgEx) when (pgEx.SqlState == "42701")
+        {
+            // duplicate_column / index already exists — ignore
+        }
+        catch (Exception colEx)
+        {
+            logger.LogWarning(colEx, "Could not ensure ProductOutput.ProductBatchId column.");
+        }
+
         try
         {
             server.Seed.RolePermissionSeeder.SeedRolesAndPermissions(dbContext, logger, AppContext.BaseDirectory);
@@ -148,23 +175,34 @@ using (var scope = app.Services.CreateScope())
 
         try
         {
-            var activeReports = dbContext.WorkReports.Where(wr => wr.FinishWork == null).ToList();
-            if (activeReports.Count > 0)
+            if (!dbContext.Users.Any())
             {
-                var finishTime = DateTime.UtcNow;
-                foreach (var report in activeReports)
+                var adminRole = dbContext.Roles.FirstOrDefault(r => r.Code == "Admin" || r.Code == "Owner");
+                if (adminRole != null)
                 {
-                    report.FinishWork = finishTime;
+                    var passwordService = scope.ServiceProvider.GetRequiredService<server.Services.IPasswordService>();
+                    var adminUser = new server.Models.User
+                    {
+                        Login = "admin",
+                        Name = "Администратор",
+                        Surname = "Система",
+                        Email = "admin@local",
+                        Phone = "",
+                        EncryptedPassword = passwordService.HashPassword("admin"),
+                        RoleId = adminRole.Id,
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    dbContext.Users.Add(adminUser);
+                    dbContext.SaveChanges();
+                    logger.LogInformation("First user created: login=admin, password=admin (role: {Role})", adminRole.Name);
                 }
-
-                dbContext.SaveChanges();
-                logger.LogWarning("Server restart: closed {Count} active shift(s).", activeReports.Count);
             }
         }
-        catch (Exception closeEx)
+        catch (Exception userEx)
         {
-            logger.LogError(closeEx, "Failed to close active shifts on startup.");
+            logger.LogError(userEx, "Failed to seed first user.");
         }
+
     }
     catch (Exception ex)
     {

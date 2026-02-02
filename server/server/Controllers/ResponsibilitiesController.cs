@@ -14,19 +14,22 @@ namespace server.Controllers
         private readonly ILogger<ResponsibilitiesController> _logger;
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
+        private readonly IUserPermissionsService _userPermissionsService;
 
         public ResponsibilitiesController(
             IResponsibilityService responsibilityService,
             IResponsibilityFillingService responsibilityFillingService,
             ILogger<ResponsibilitiesController> logger,
             IUserService userService,
-            IRoleService roleService)
+            IRoleService roleService,
+            IUserPermissionsService userPermissionsService)
         {
             _responsibilityService = responsibilityService;
             _responsibilityFillingService = responsibilityFillingService;
             _logger = logger;
             _userService = userService;
             _roleService = roleService;
+            _userPermissionsService = userPermissionsService;
         }
 
         // GET: api/responsibilities/user/5?activeOnly=true
@@ -61,7 +64,8 @@ namespace server.Controllers
                     return BadRequest(new { message = "UserId must be greater than 0" });
                 }
 
-                var stock = await _responsibilityService.GetResponsibilityStockAsync(userId);
+                // Остатки из ResponsibilityFilling — то же, что передаётся при подтверждении смены
+                var stock = await _responsibilityFillingService.GetResponsibilityStockForUserAsync(userId);
                 return Ok(stock);
             }
             catch (Exception ex)
@@ -163,52 +167,41 @@ namespace server.Controllers
             List<ResponsibilityAssignment> fromFilling,
             List<ResponsibilityAssignment> fromResponsibility)
         {
-            var dict = new Dictionary<(int ItemId, int UserId), ResponsibilityAssignment>();
+            // fromFilling: по одному назначению на (материал, пользователь, склад) — все сохраняем
+            var result = new List<ResponsibilityAssignment>(fromFilling);
+            var fillingKeys = new HashSet<(int ItemId, int UserId)>(fromFilling.Select(a => (a.ItemId, a.UserId)));
 
-            foreach (var a in fromFilling)
+            // fromResponsibility (старая модель без склада): добавляем только те (материал, пользователь), которых нет в fromFilling
+            foreach (var a in fromResponsibility)
             {
                 var k = (a.ItemId, a.UserId);
-                dict[k] = new ResponsibilityAssignment
+                if (fillingKeys.Contains(k))
+                    continue;
+                result.Add(new ResponsibilityAssignment
                 {
                     ItemId = a.ItemId,
                     UserId = a.UserId,
                     UserName = a.UserName,
-                    Quantity = a.Quantity ?? 0,
-                    MeasuringUnit = a.MeasuringUnit
-                };
+                    Quantity = a.Quantity,
+                    MeasuringUnit = a.MeasuringUnit,
+                    WarehouseId = null,
+                    WarehouseName = null
+                });
             }
 
-            foreach (var a in fromResponsibility)
-            {
-                var k = (a.ItemId, a.UserId);
-                if (dict.TryGetValue(k, out var existing))
-                {
-                    existing.Quantity = (existing.Quantity ?? 0) + (a.Quantity ?? 0);
-                    if (string.IsNullOrWhiteSpace(existing.MeasuringUnit) && !string.IsNullOrWhiteSpace(a.MeasuringUnit))
-                        existing.MeasuringUnit = a.MeasuringUnit;
-                }
-                else
-                {
-                    dict[k] = new ResponsibilityAssignment
-                    {
-                        ItemId = a.ItemId,
-                        UserId = a.UserId,
-                        UserName = a.UserName,
-                        Quantity = a.Quantity,
-                        MeasuringUnit = a.MeasuringUnit
-                    };
-                }
-            }
-
-            return dict.Values.ToList();
+            return result;
         }
 
         // POST: api/responsibilities/material/5/assign
         [HttpPost("/api/responsibilities/material/{materialId}/assign")]
-        public async Task<IActionResult> AssignMaterial(int materialId, [FromBody] AssignResponsibilityRequest request)
+        public async Task<IActionResult> AssignMaterial(int materialId, [FromBody] AssignResponsibilityRequest? request)
         {
             try
             {
+                if (request == null)
+                {
+                    return BadRequest(new { message = "Request body is required (UserId, Quantity, MeasuringUnit)" });
+                }
                 if (materialId <= 0 || request.UserId <= 0)
                 {
                     return BadRequest(new { message = "MaterialId and UserId must be greater than 0" });
@@ -227,10 +220,15 @@ namespace server.Controllers
                 _logger.LogWarning(ex, "Assign material responsibility failed");
                 return NotFound(new { message = ex.Message });
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Assign material responsibility invalid operation");
+                return BadRequest(new { message = ex.Message });
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error assigning material responsibility");
-                return StatusCode(500, new { message = "An error occurred while assigning responsibility" });
+                return StatusCode(500, new { message = "An error occurred while assigning responsibility", detail = ex.Message });
             }
         }
 
@@ -415,6 +413,101 @@ namespace server.Controllers
             }
         }
 
+        // POST: api/responsibilities/filling/material/transfer
+        [HttpPost("filling/material/transfer")]
+        public async Task<IActionResult> TransferMaterialFilling([FromBody] TransferResponsibilityFillingRequest request)
+        {
+            try
+            {
+                if (!await IsPrivilegedUserAsync())
+                    return Forbid();
+                if (request.WarehouseId <= 0 || request.MaterialId <= 0 || request.FromUserId <= 0 || request.ToUserId <= 0)
+                    return BadRequest(new { message = "WarehouseId, MaterialId, FromUserId and ToUserId required" });
+                await _responsibilityFillingService.TransferMaterialResponsibilityAsync(
+                    request.WarehouseId, request.MaterialId, request.FromUserId, request.ToUserId, request.QuantityToTransfer);
+                return Ok(new { message = "Responsibility transferred" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error transferring material responsibility");
+                return StatusCode(500, new { message = "An error occurred while transferring responsibility", detail = ex.Message });
+            }
+        }
+
+        // POST: api/responsibilities/filling/product/transfer
+        [HttpPost("filling/product/transfer")]
+        public async Task<IActionResult> TransferProductFilling([FromBody] TransferResponsibilityFillingProductRequest request)
+        {
+            try
+            {
+                if (!await IsPrivilegedUserAsync())
+                    return Forbid();
+                if (request.WarehouseId <= 0 || request.ProductId <= 0 || request.FromUserId <= 0 || request.ToUserId <= 0)
+                    return BadRequest(new { message = "WarehouseId, ProductId, FromUserId and ToUserId required" });
+                await _responsibilityFillingService.TransferProductResponsibilityAsync(
+                    request.WarehouseId, request.ProductId, request.FromUserId, request.ToUserId, request.QuantityToTransfer);
+                return Ok(new { message = "Responsibility transferred" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error transferring product responsibility");
+                return StatusCode(500, new { message = "An error occurred while transferring responsibility", detail = ex.Message });
+            }
+        }
+
+        // POST: api/responsibilities/filling/batch/transfer
+        [HttpPost("filling/batch/transfer")]
+        public async Task<IActionResult> TransferBatchFilling([FromBody] TransferBatchResponsibilityRequest request)
+        {
+            try
+            {
+                if (!await IsPrivilegedUserAsync())
+                    return Forbid();
+                if (request.BatchId <= 0 || request.FromUserId <= 0 || request.ToUserId <= 0)
+                    return BadRequest(new { message = "BatchId, FromUserId and ToUserId required" });
+                await _responsibilityFillingService.TransferBatchResponsibilityAsync(
+                    request.BatchId, request.FromUserId, request.ToUserId, request.QuantityToTransfer);
+                return Ok(new { message = "Responsibility transferred" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error transferring batch responsibility");
+                return StatusCode(500, new { message = "An error occurred while transferring responsibility", detail = ex.Message });
+            }
+        }
+
+        // POST: api/responsibilities/filling/batch/release
+        [HttpPost("filling/batch/release")]
+        public async Task<IActionResult> ReleaseBatchFilling([FromBody] ReleaseBatchResponsibilityRequest request)
+        {
+            try
+            {
+                if (!await IsPrivilegedUserAsync())
+                    return Forbid();
+                if (request.BatchId <= 0 || request.UserId <= 0)
+                    return BadRequest(new { message = "BatchId and UserId required" });
+                await _responsibilityFillingService.ReleaseBatchResponsibilityAsync(request.BatchId, request.UserId);
+                return Ok(new { message = "Responsibility released" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error releasing batch responsibility");
+                return StatusCode(500, new { message = "An error occurred while releasing responsibility", detail = ex.Message });
+            }
+        }
+
         private async Task<bool> IsPrivilegedUserAsync()
         {
             if (!Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) ||
@@ -438,11 +531,18 @@ namespace server.Controllers
             {
                 var role = await _roleService.GetRoleByIdAsync(user.RoleId.Value);
                 if (role != null &&
-                    (role.Code == "Owner" || role.Code == "Admin" ||
-                     role.Name == "Владелец" || role.Name == "Администратор"))
+                    (string.Equals(role.Code, "Owner", StringComparison.OrdinalIgnoreCase) ||
+                     string.Equals(role.Code, "Admin", StringComparison.OrdinalIgnoreCase) ||
+                     string.Equals(role.Name, "Владелец", StringComparison.OrdinalIgnoreCase) ||
+                     string.Equals(role.Name, "Администратор", StringComparison.OrdinalIgnoreCase)))
                 {
                     return true;
                 }
+            }
+
+            if (await _userPermissionsService.HasPermissionAsync(userId, "ManageResponsibility"))
+            {
+                return true;
             }
 
             return false;
@@ -472,5 +572,38 @@ namespace server.Controllers
         public int ProductId { get; set; }
         public int Quantity { get; set; }
         public string? MeasuringUnit { get; set; }
+    }
+
+    public class TransferResponsibilityFillingRequest
+    {
+        public int WarehouseId { get; set; }
+        public int MaterialId { get; set; }
+        public int FromUserId { get; set; }
+        public int ToUserId { get; set; }
+        /// <summary>Сколько передать; null или не указано — передать всё.</summary>
+        public int? QuantityToTransfer { get; set; }
+    }
+
+    public class TransferResponsibilityFillingProductRequest
+    {
+        public int WarehouseId { get; set; }
+        public int ProductId { get; set; }
+        public int FromUserId { get; set; }
+        public int ToUserId { get; set; }
+        public int? QuantityToTransfer { get; set; }
+    }
+
+    public class TransferBatchResponsibilityRequest
+    {
+        public int BatchId { get; set; }
+        public int FromUserId { get; set; }
+        public int ToUserId { get; set; }
+        public int? QuantityToTransfer { get; set; }
+    }
+
+    public class ReleaseBatchResponsibilityRequest
+    {
+        public int BatchId { get; set; }
+        public int UserId { get; set; }
     }
 }

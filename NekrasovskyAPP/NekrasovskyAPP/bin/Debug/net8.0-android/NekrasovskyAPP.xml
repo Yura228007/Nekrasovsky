@@ -26,6 +26,15 @@
             Единица измерения неответственной части.
             </summary>
         </member>
+        <member name="P:NekrasovskyAPP.Models.MaterialDisplayItem.DisplayStocks">
+            <summary>Остатки: либо по складам (WarehouseStocksDisplay), либо общая подпись (StockSummary).</summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.MaterialDisplayItem.MeasuringUnitDisplay">
+            <summary>Единица измерения для отображения в карточке.</summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.PartRequest.StatusDisplay">
+            <summary>Текст статуса для отображения в списке.</summary>
+        </member>
         <member name="T:NekrasovskyAPP.Models.ProductDisplayItem">
             <summary>
             Обертка для отображения продукта с информацией об ответственном лице
@@ -42,6 +51,15 @@
             <summary>
             Единица измерения неответственной части.
             </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ResponsibilityAssignment.WarehouseId">
+            <summary>Склад, за который назначена ответственность (из ResponsibilityFilling).</summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.WorkReport.DisplayTitle">
+            <summary>Формат отображения: "Фамилия Имя - дата".</summary>
+        </member>
+        <member name="F:NekrasovskyAPP.Pages.ProductOutputPage._maxQuantityByProductWarehouse">
+            <summary>Макс. количество для пары (productId, warehouseId). Ключ: warehouseId ?? -1 для "без склада".</summary>
         </member>
         <member name="M:NekrasovskyAPP.Services.ApiService.SetCurrentUserId(System.Nullable{System.Int32})">
             <summary>
@@ -67,6 +85,18 @@
             <summary>
             Очищает состояние ViewModel (используется при выходе или возврате на страницу входа)
             </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.ViewModels.MainViewModel.ProductsForCatalog">
+            <summary>Простой список продуктов для каталога (по одному на продукт).</summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.LoadProductsForCatalogAsync">
+            <summary>Загружает продукты для каталога (по одному элементу на продукт, без ответственности).</summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.SearchProductsForCatalogAsync(System.String,System.String,System.Nullable{System.Boolean},System.String)">
+            <summary>Поиск продуктов для каталога.</summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.FilterProductBatchesByResponsibilityAsync(System.Collections.Generic.IEnumerable{NekrasovskyAPP.Models.ProductBatch})">
+            <summary>Для непривилегированных пользователей оставляет только партии по продуктам, за которые они ответственны.</summary>
         </member>
         <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.CreateMaterialDisplayItemsAsync(System.Collections.Generic.List{NekrasovskyAPP.Models.Material})">
             <summary>
@@ -137,6 +167,9 @@
             <summary>
             Проверяет право на добавление/редактирование (ReceiveGoods или ManageRecipes)
             </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.PartRequestsViewModel.GetFillingByMaterialAsync(System.Int32,System.Int32)">
+            <summary>Получить остаток материала на складе (для отображения доступного количества при создании запроса).</summary>
         </member>
         <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Button.TextColorTo(Microsoft.Maui.Controls.Button,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
             <summary>

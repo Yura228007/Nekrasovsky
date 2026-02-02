@@ -122,10 +122,44 @@ namespace server.Services
                 return false;
             }
 
+            // Нельзя удалить продукт, если есть активные ответственности
+            var hasActiveFilling = await _context.ResponsibilityFillings
+                .AnyAsync(rf => rf.ProductId == id && rf.IsActive && rf.Quantity > 0);
+            var hasActiveResponsibility = await _context.Responsibilities
+                .AnyAsync(r => r.ProductId == id && r.IsActive);
+            if (hasActiveFilling || hasActiveResponsibility)
+            {
+                throw new InvalidOperationException("Нельзя удалить продукт, пока есть активные ответственности. Сначала снимите или передайте ответственность.");
+            }
+
+            // Не удаляем продукт, если есть выпуски (ProductOutput) — у них FK Restrict
+            var hasOutputs = await _context.ProductOutputs.AnyAsync(po => po.ProductId == id);
+            if (hasOutputs)
+            {
+                throw new InvalidOperationException("Невозможно удалить продукт: есть записи о выпуске. Сначала удалите или измените выпуски по этому продукту.");
+            }
+
+            // Удаляем все ответственности и заполнения (история по продукту исчезнет)
+            var responsibilityFillings = await _context.ResponsibilityFillings
+                .Where(rf => rf.ProductId == id)
+                .ToListAsync();
+            _context.ResponsibilityFillings.RemoveRange(responsibilityFillings);
+
+            var responsibilities = await _context.Responsibilities
+                .Where(r => r.ProductId == id)
+                .ToListAsync();
+            _context.Responsibilities.RemoveRange(responsibilities);
+
+            var fillingWarehouses = await _context.FillingWarehouses
+                .Where(fw => fw.ProductId == id)
+                .ToListAsync();
+            _context.FillingWarehouses.RemoveRange(fillingWarehouses);
+
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("Product deleted with ID: {ProductId}", id);
+            _logger.LogInformation("Product deleted with ID: {ProductId}. Removed {Rf} responsibility fillings, {R} responsibilities, {Fw} filling warehouse records.",
+                id, responsibilityFillings.Count, responsibilities.Count, fillingWarehouses.Count);
             return true;
         }
 

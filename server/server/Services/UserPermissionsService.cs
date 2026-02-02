@@ -83,7 +83,7 @@ namespace server.Services
         public async Task<bool> HasPermissionAsync(int userId, string permissionCode)
         {
             return await _context.UserPermissions
-                .AnyAsync(up => up.UserId == userId && up.Permission.Code == permissionCode);
+                .AnyAsync(up => up.UserId == userId && up.Permission != null && up.Permission.Code == permissionCode);
         }
 
         public async Task UpdateUserPermissionsAsync(int userId, IEnumerable<int> permissionIds)

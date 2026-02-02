@@ -30,7 +30,12 @@ namespace NekrasovskyAPP.Models
         public string? Note { get; set; }
 
         // 🔗 Навигационное свойство
-        public virtual User User { get; set; } = null!;
+        public virtual User? User { get; set; }
+
+        /// <summary>Формат отображения: "Фамилия Имя - дата".</summary>
+        public string DisplayTitle => User != null
+            ? $"{User.Surname} {User.Name} - {Date:dd.MM.yyyy}"
+            : $"Смена - {Date:dd.MM.yyyy}";
 
         public string DisplayStartTime => StartWork.ToLocalTime().ToString("HH:mm");
         public string? DisplayFinishTime => FinishWork.HasValue

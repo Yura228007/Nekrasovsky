@@ -79,21 +79,7 @@ namespace NekrasovskyAPP.Pages
                 return;
             }
 
-            // Выбор пользователя-получателя
-            var toUserOptions = availableUsers.Select(u => $"{u.Name} {u.Surname} ({u.Login})").ToArray();
-            var toUserIndex = await DisplayActionSheet("Выберите получателя:", "Отмена", null, toUserOptions);
-            if (toUserIndex == "Отмена" || string.IsNullOrEmpty(toUserIndex))
-                return;
-
-            var toUserArrayIndex = Array.IndexOf(toUserOptions, toUserIndex);
-            if (toUserArrayIndex < 0 || toUserArrayIndex >= availableUsers.Count)
-                return;
-
-            var toUser = availableUsers[toUserArrayIndex];
-            if (toUser == null)
-                return;
-
-            // Выбор склада-отправителя
+            // 1. Склад-отправитель
             var fromWarehouseOptions = _viewModel.Warehouses.Select(w => $"{w.Name} ({w.Type})").ToArray();
             var fromWarehouseIndex = await DisplayActionSheet("Выберите склад-отправитель:", "Отмена", null, fromWarehouseOptions);
             if (fromWarehouseIndex == "Отмена" || string.IsNullOrEmpty(fromWarehouseIndex))
@@ -107,21 +93,7 @@ namespace NekrasovskyAPP.Pages
             if (fromWarehouse == null)
                 return;
 
-            // Выбор склада-получателя
-            var toWarehouseOptions = _viewModel.Warehouses.Select(w => $"{w.Name} ({w.Type})").ToArray();
-            var toWarehouseIndex = await DisplayActionSheet("Выберите склад-получатель:", "Отмена", null, toWarehouseOptions);
-            if (toWarehouseIndex == "Отмена" || string.IsNullOrEmpty(toWarehouseIndex))
-                return;
-
-            var toWarehouseArrayIndex = Array.IndexOf(toWarehouseOptions, toWarehouseIndex);
-            if (toWarehouseArrayIndex < 0 || toWarehouseArrayIndex >= _viewModel.Warehouses.Count)
-                return;
-
-            var toWarehouse = _viewModel.Warehouses[toWarehouseArrayIndex];
-            if (toWarehouse == null)
-                return;
-
-            // Выбор материала
+            // 2. Материал (объект отправки)
             var materialOptions = _viewModel.Materials.Select(m => $"{m.Name} ({m.Code ?? "без кода"})").ToArray();
             var materialIndex = await DisplayActionSheet("Выберите материал:", "Отмена", null, materialOptions);
             if (materialIndex == "Отмена" || string.IsNullOrEmpty(materialIndex))
@@ -135,18 +107,65 @@ namespace NekrasovskyAPP.Pages
             if (material == null)
                 return;
 
-            // Ввод количества
-            var quantityStr = await DisplayPromptAsync("Создание запроса", "Введите количество:", "Создать", "Отмена", "Количество", -1, Keyboard.Numeric, "0");
-            if (quantityStr == null)
-                return; // Пользователь нажал "Отмена"
-            
-            if (string.IsNullOrWhiteSpace(quantityStr) || !int.TryParse(quantityStr, out int quantity) || quantity <= 0)
+            // 3. Доступно на складе: запрос остатка и отображение с единицами измерения
+            var filling = await _viewModel.GetFillingByMaterialAsync(fromWarehouse.Id, material.Id);
+            var availableQty = filling?.Quantity ?? 0;
+            var unit = !string.IsNullOrWhiteSpace(filling?.MeasuringType) ? filling.MeasuringType : (material.MeasuringUnit ?? "ед.");
+
+            if (availableQty <= 0)
             {
-                await DisplayAlert("Ошибка", "Необходимо указать количество больше 0", "OK");
+                await DisplayAlert("Нет на складе", $"На складе «{fromWarehouse.Name}» по материалу «{material.Name}» нет остатка для перемещения.", "OK");
                 return;
             }
 
-            // Создание запроса
+            await DisplayAlert("Доступно для перемещения", $"Доступно: {availableQty} {unit}. Введите количество не больше этого значения.", "OK");
+
+            // 4. Ввод количества (не больше доступного)
+            var quantityStr = await DisplayPromptAsync("Количество", $"Введите количество (макс. {availableQty} {unit}):", "Далее", "Отмена", "0", -1, Keyboard.Numeric, "0");
+            if (quantityStr == null)
+                return;
+
+            if (string.IsNullOrWhiteSpace(quantityStr) || !int.TryParse(quantityStr, out int quantity) || quantity <= 0)
+            {
+                await DisplayAlert("Ошибка", "Укажите количество больше 0", "OK");
+                return;
+            }
+
+            if (quantity > availableQty)
+            {
+                await DisplayAlert("Ошибка", $"Количество не может превышать доступное: {availableQty} {unit}", "OK");
+                return;
+            }
+
+            // 5. Склад-получатель
+            var toWarehouseOptions = _viewModel.Warehouses.Select(w => $"{w.Name} ({w.Type})").ToArray();
+            var toWarehouseIndex = await DisplayActionSheet("Выберите склад-получатель:", "Отмена", null, toWarehouseOptions);
+            if (toWarehouseIndex == "Отмена" || string.IsNullOrEmpty(toWarehouseIndex))
+                return;
+
+            var toWarehouseArrayIndex = Array.IndexOf(toWarehouseOptions, toWarehouseIndex);
+            if (toWarehouseArrayIndex < 0 || toWarehouseArrayIndex >= _viewModel.Warehouses.Count)
+                return;
+
+            var toWarehouse = _viewModel.Warehouses[toWarehouseArrayIndex];
+            if (toWarehouse == null)
+                return;
+
+            // 6. Получатель (ответственный)
+            var toUserOptions = availableUsers.Select(u => $"{u.Name} {u.Surname} ({u.Login})").ToArray();
+            var toUserIndex = await DisplayActionSheet("Выберите получателя:", "Отмена", null, toUserOptions);
+            if (toUserIndex == "Отмена" || string.IsNullOrEmpty(toUserIndex))
+                return;
+
+            var toUserArrayIndex = Array.IndexOf(toUserOptions, toUserIndex);
+            if (toUserArrayIndex < 0 || toUserArrayIndex >= availableUsers.Count)
+                return;
+
+            var toUser = availableUsers[toUserArrayIndex];
+            if (toUser == null)
+                return;
+
+            // Создание запроса (единица измерения — та, что отображали как доступную)
             var request = new PartRequest
             {
                 FromUserId = _viewModel.CurrentUser.Id,
@@ -155,7 +174,7 @@ namespace NekrasovskyAPP.Pages
                 ToWarehouseId = toWarehouse.Id,
                 MaterialId = material.Id,
                 Quantity = quantity,
-                MeasuringType = material.MeasuringUnit,
+                MeasuringType = unit,
                 Status = PartRequestStatus.Pending
             };
 

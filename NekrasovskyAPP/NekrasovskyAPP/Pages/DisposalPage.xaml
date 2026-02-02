@@ -8,6 +8,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:IsStringNotEmptyConverter x:Key="IsStringNotEmpty" />
+            <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -24,7 +25,7 @@
                        FontSize="24"
                        FontAttributes="Bold"
                        TextColor="{StaticResource White}" />
-                <Label Text="Списание и утилизация"
+                <Label Text="Возвратный брак → ЭКО, невозвратный → списание"
                        FontSize="12"
                        TextColor="{StaticResource Gray500}" />
             </VerticalStackLayout>
@@ -45,94 +46,144 @@
         <RefreshView Grid.Row="1"
                      IsRefreshing="{Binding IsLoading}"
                      Refreshing="OnRefreshing">
-            <CollectionView x:Name="ItemsCollectionView"
-                            ItemsSource="{Binding Items}">
-                <CollectionView.EmptyView>
-                    <VerticalStackLayout HorizontalOptions="Center"
-                                         VerticalOptions="Center"
-                                         Spacing="12">
-                        <Border BackgroundColor="{StaticResource BackgroundCard}"
-                                WidthRequest="80"
-                                HeightRequest="80"
-                                StrokeThickness="0">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="20"/>
-                            </Border.StrokeShape>
-                            <Label Text="✅" FontSize="36" HorizontalOptions="Center" VerticalOptions="Center"/>
-                        </Border>
-                        <Label Text="Утиль пуст"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource Gray400}"
-                               HorizontalOptions="Center" />
-                        <Label Text="Нет элементов для списания"
-                               FontSize="13"
-                               TextColor="{StaticResource Gray500}"
-                               HorizontalOptions="Center" />
-                    </VerticalStackLayout>
-                </CollectionView.EmptyView>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border BackgroundColor="{StaticResource BackgroundCard}"
-                                StrokeThickness="0"
-                                Margin="0,0,0,10"
-                                Padding="16">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="16"/>
-                            </Border.StrokeShape>
-                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
-                                <Border Grid.Column="0"
-                                        BackgroundColor="{StaticResource CardDisposal}"
-                                        WidthRequest="48"
-                                        HeightRequest="48"
-                                        StrokeThickness="0"
-                                        VerticalOptions="Center">
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="12"/>
-                                    </Border.StrokeShape>
-                                    <Label Text="{Binding ItemIcon}" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
-                                </Border>
-                                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
-                                    <Label Text="{Binding Name}"
-                                           FontSize="16"
-                                           FontAttributes="Bold"
-                                           TextColor="{StaticResource White}"
-                                           LineBreakMode="TailTruncation" />
-                                    <HorizontalStackLayout Spacing="12">
-                                        <Label Text="{Binding ItemType}"
-                                               FontSize="12"
-                                               TextColor="{StaticResource CardDisposal}" />
-                                        <Label Text="{Binding Code, StringFormat='Код: {0}'}"
-                                               FontSize="12"
-                                               TextColor="{StaticResource Gray500}" />
-                                    </HorizontalStackLayout>
-                                    <HorizontalStackLayout Spacing="4">
-                                        <Label Text="{Binding Quantity}"
-                                               FontSize="14"
-                                               FontAttributes="Bold"
-                                               TextColor="{StaticResource Warning}" />
-                                        <Label Text="{Binding MeasuringUnit}"
-                                               FontSize="14"
-                                               TextColor="{StaticResource Gray400}" />
-                                    </HorizontalStackLayout>
+            <ScrollView>
+                <CollectionView x:Name="ItemsCollectionView"
+                                ItemsSource="{Binding Items}"
+                                SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout HorizontalOptions="Center"
+                                             VerticalOptions="Center"
+                                             Spacing="12">
+                            <Border BackgroundColor="{StaticResource BackgroundCard}"
+                                    WidthRequest="80"
+                                    HeightRequest="80"
+                                    StrokeThickness="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="20"/>
+                                </Border.StrokeShape>
+                                <Label Text="✅" FontSize="36" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Утиль пуст"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray400}"
+                                   HorizontalOptions="Center" />
+                            <Label Text="Нет элементов для обработки"
+                                   FontSize="13"
+                                   TextColor="{StaticResource Gray500}"
+                                   HorizontalOptions="Center" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{StaticResource BackgroundCard}"
+                                    StrokeThickness="0"
+                                    Margin="0,0,0,12"
+                                    Padding="16">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="16"/>
+                                </Border.StrokeShape>
+                                <VerticalStackLayout Spacing="12">
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                                        <Border Grid.Column="0"
+                                                BackgroundColor="{StaticResource CardDisposal}"
+                                                WidthRequest="48"
+                                                HeightRequest="48"
+                                                StrokeThickness="0"
+                                                VerticalOptions="Center">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="12"/>
+                                            </Border.StrokeShape>
+                                            <Label Text="{Binding ItemIcon}" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                            <Label Text="{Binding Name}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource White}"
+                                                   LineBreakMode="TailTruncation" />
+                                            <HorizontalStackLayout Spacing="12">
+                                                <Label Text="{Binding ItemType}"
+                                                       FontSize="12"
+                                                       TextColor="{StaticResource CardDisposal}" />
+                                                <Label Text="{Binding Code, StringFormat='Код: {0}'}"
+                                                       FontSize="12"
+                                                       TextColor="{StaticResource Gray500}" />
+                                            </HorizontalStackLayout>
+                                            <HorizontalStackLayout Spacing="4">
+                                                <Label Text="{Binding Quantity, StringFormat='Остаток: {0}'}"
+                                                       FontSize="14"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource Warning}" />
+                                                <Label Text="{Binding MeasuringUnit}"
+                                                       FontSize="14"
+                                                       TextColor="{StaticResource Gray400}" />
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                            <Label Text="♻️ В ЭКО (возвратный)"
+                                                   FontSize="12"
+                                                   TextColor="{StaticResource Success}" />
+                                            <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                                    StrokeThickness="0"
+                                                    Padding="12,0"
+                                                    HeightRequest="44">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="10"/>
+                                                </Border.StrokeShape>
+                                                <Entry Keyboard="Numeric"
+                                                       Placeholder="0"
+                                                       Text="{Binding ReturnableQty}"
+                                                       TextColor="{StaticResource White}"
+                                                       PlaceholderColor="{StaticResource Gray600}"
+                                                       BackgroundColor="Transparent"
+                                                       VerticalOptions="Center"
+                                                       IsEnabled="{Binding IsProcessing, Converter={StaticResource InvertedBoolConverter}}"
+                                                       Margin="0,-8,0,0" />
+                                            </Border>
+                                        </VerticalStackLayout>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                            <Label Text="🗑️ Списать (невозвратный)"
+                                                   FontSize="12"
+                                                   TextColor="{StaticResource Error}" />
+                                            <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                                    StrokeThickness="0"
+                                                    Padding="12,0"
+                                                    HeightRequest="44">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="10"/>
+                                                </Border.StrokeShape>
+                                                <Entry Keyboard="Numeric"
+                                                       Placeholder="0"
+                                                       Text="{Binding NonReturnableQty}"
+                                                       TextColor="{StaticResource White}"
+                                                       PlaceholderColor="{StaticResource Gray600}"
+                                                       BackgroundColor="Transparent"
+                                                       VerticalOptions="Center"
+                                                       IsEnabled="{Binding IsProcessing, Converter={StaticResource InvertedBoolConverter}}"
+                                                       Margin="0,-8,0,0" />
+                                            </Border>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                    <Button Text="Обработать"
+                                            Clicked="OnProcessClicked"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="{StaticResource CardDisposal}"
+                                            TextColor="{StaticResource White}"
+                                            CornerRadius="12"
+                                            HeightRequest="44"
+                                            FontSize="14"
+                                            FontAttributes="Bold"
+                                            IsEnabled="{Binding CanProcess}"
+                                            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CanDelete}" />
                                 </VerticalStackLayout>
-                                <Button Grid.Column="2"
-                                        Text="🗑️"
-                                        Clicked="OnDeleteClicked"
-                                        CommandParameter="{Binding .}"
-                                        BackgroundColor="{StaticResource Error}"
-                                        TextColor="{StaticResource White}"
-                                        CornerRadius="10"
-                                        WidthRequest="48"
-                                        HeightRequest="48"
-                                        FontSize="18"
-                                        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CanDelete}"
-                                        VerticalOptions="Center" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
         </RefreshView>
 
         <!-- Loading Indicator -->

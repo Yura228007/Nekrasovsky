@@ -19,7 +19,7 @@ namespace NekrasovskyAPP.Pages
         private bool _hasAssignBarcodePermission;
 
         public string CurrentUserName => _authService.CurrentUser != null 
-            ? $"Добро пожаловать, {_authService.CurrentUser.Name} {_authService.CurrentUser.Surname}!"
+            ? $"{_authService.CurrentUser.Surname} {_authService.CurrentUser.Name}"
             : "";
 
         public AdminPage(MainViewModel mainViewModel, IAuthService authService, IApiService apiService, ISignalRService signalRService, IAlarmSoundService alarmSoundService)
@@ -188,9 +188,14 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("UsersPage");
         }
 
-        private async void OnProductsClicked(object sender, EventArgs e)
+        private async void OnProductBatchesClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("ProductsPage");
+            await Shell.Current.GoToAsync("ProductBatchesPage");
+        }
+
+        private async void OnProductCatalogClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("ProductCatalogPage");
         }
 
         private async void OnMaterialsClicked(object sender, EventArgs e)

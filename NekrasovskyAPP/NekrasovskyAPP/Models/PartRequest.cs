@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -52,6 +52,16 @@ namespace NekrasovskyAPP.Models
         public virtual Warehouse FromWarehouse { get; set; } = null!;
         public virtual Warehouse ToWarehouse { get; set; } = null!;
         public virtual Material Material { get; set; } = null!;
+
+        /// <summary>Текст статуса для отображения в списке.</summary>
+        [NotMapped]
+        public string StatusDisplay => Status switch
+        {
+            PartRequestStatus.Pending => "Ожидает",
+            PartRequestStatus.Approved => "Одобрено",
+            PartRequestStatus.Rejected => "Отклонено",
+            _ => "—"
+        };
     }
 
     public enum PartRequestStatus

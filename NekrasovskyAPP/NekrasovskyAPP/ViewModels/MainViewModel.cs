@@ -24,18 +24,23 @@ namespace NekrasovskyAPP.ViewModels
             _authService = authService;
             Users = new ObservableCollection<User>();
             Products = new ObservableCollection<ProductDisplayItem>();
+            ProductsForCatalog = new ObservableCollection<Product>();
             Materials = new ObservableCollection<MaterialDisplayItem>();
             Warehouses = new ObservableCollection<Warehouse>();
             Roles = new ObservableCollection<Role>();
+            ProductBatches = new ObservableCollection<ProductBatch>();
         }
 
         public IApiService ApiService => _apiService;
 
         public ObservableCollection<User> Users { get; }
         public ObservableCollection<ProductDisplayItem> Products { get; }
+        /// <summary>Простой список продуктов для каталога (по одному на продукт).</summary>
+        public ObservableCollection<Product> ProductsForCatalog { get; }
         public ObservableCollection<MaterialDisplayItem> Materials { get; }
         public ObservableCollection<Warehouse> Warehouses { get; }
         public ObservableCollection<Role> Roles { get; }
+        public ObservableCollection<ProductBatch> ProductBatches { get; }
 
         public bool ShowResponsibility
         {
@@ -249,6 +254,56 @@ namespace NekrasovskyAPP.ViewModels
             }
         }
 
+        /// <summary>Загружает продукты для каталога (по одному элементу на продукт, без ответственности).</summary>
+        public async Task LoadProductsForCatalogAsync()
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var products = await _apiService.GetAllProductsAsync();
+                var filtered = await FilterProductsByResponsibilityAsync(products);
+                ProductsForCatalog.Clear();
+                foreach (var p in filtered)
+                {
+                    ProductsForCatalog.Add(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка загрузки каталога: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        /// <summary>Поиск продуктов для каталога.</summary>
+        public async Task SearchProductsForCatalogAsync(string? name, string? code, bool? isActive = null, string? sortBy = null)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var products = await _apiService.SearchProductsAsync(name, code, isActive, sortBy);
+                var filtered = await FilterProductsByResponsibilityAsync(products);
+                ProductsForCatalog.Clear();
+                foreach (var p in filtered)
+                {
+                    ProductsForCatalog.Add(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка поиска каталога: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
         public async Task SearchMaterialsAsync(string? name, string? code, bool? isActive = null, string? sortBy = null)
         {
             try
@@ -364,6 +419,35 @@ namespace NekrasovskyAPP.ViewModels
             return products.Where(p => allowedIds.Contains(p.Id)).ToList();
         }
 
+        /// <summary>Для непривилегированных пользователей оставляет только партии по продуктам, за которые они ответственны.</summary>
+        public async Task<List<ProductBatch>> FilterProductBatchesByResponsibilityAsync(IEnumerable<ProductBatch> batches)
+        {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null)
+            {
+                return new List<ProductBatch>();
+            }
+
+            if (await IsPrivilegedUserAsync())
+            {
+                return batches.ToList();
+            }
+
+            var hasManageResponsibility = await _apiService.CheckPermissionAsync(currentUser.Id, "ManageResponsibility");
+            if (hasManageResponsibility)
+            {
+                return batches.ToList();
+            }
+
+            var responsibilities = await _apiService.GetResponsibilitiesByUserAsync(currentUser.Id, true);
+            var allowedProductIds = responsibilities
+                .Where(r => r.ProductId.HasValue)
+                .Select(r => r.ProductId!.Value)
+                .ToHashSet();
+
+            return batches.Where(b => allowedProductIds.Contains(b.ProductId)).ToList();
+        }
+
         // User management methods
         public async Task<bool> CreateUserAsync(User user)
         {
@@ -471,6 +555,7 @@ namespace NekrasovskyAPP.ViewModels
                 if (response.GetData() != null)
                 {
                     await LoadProductsAsync();
+                    await LoadProductsForCatalogAsync();
                     return true;
                 }
                 else
@@ -501,6 +586,7 @@ namespace NekrasovskyAPP.ViewModels
                 if (response.GetData() != null)
                 {
                     await LoadProductsAsync();
+                    await LoadProductsForCatalogAsync();
                     return true;
                 }
                 else
@@ -535,6 +621,7 @@ namespace NekrasovskyAPP.ViewModels
                 if (!isError)
                 {
                     await LoadProductsAsync();
+                    await LoadProductsForCatalogAsync();
                     return true;
                 }
 
@@ -1121,27 +1208,40 @@ namespace NekrasovskyAPP.ViewModels
                         ? fillingsList 
                         : new List<FillingWarehouse>();
 
-                    // Создаем отдельную карточку для каждого ответственного
+                    // Создаем отдельную карточку для каждого ответственного (по одному на склад)
                     foreach (var assignment in materialAssignments)
                     {
                         var warehouseStocks = new List<WarehouseStockInfo>();
-                        
-                        // Если у ответственного есть количество, показываем все склады где есть материал
-                        // Если ответственный за весь материал (без количества), тоже показываем все склады
-                        foreach (var filling in materialFillingList.Where(f => f.Quantity > 0))
+                        // Показываем только склад этой ответственности (из ResponsibilityFilling)
+                        if (assignment.WarehouseId.HasValue)
                         {
-                            if (warehouseMap.TryGetValue(filling.WarehouseId, out var warehouseName))
+                            var warehouseName = !string.IsNullOrWhiteSpace(assignment.WarehouseName)
+                                ? assignment.WarehouseName
+                                : (warehouseMap.TryGetValue(assignment.WarehouseId.Value, out var name) ? name : $"Склад #{assignment.WarehouseId}");
+                            var qty = assignment.Quantity ?? 0;
+                            var unit = !string.IsNullOrWhiteSpace(assignment.MeasuringUnit) ? assignment.MeasuringUnit : material.MeasuringUnit;
+                            warehouseStocks.Add(new WarehouseStockInfo
                             {
-                                var unit = !string.IsNullOrWhiteSpace(filling.MeasuringType)
-                                    ? filling.MeasuringType
-                                    : material.MeasuringUnit;
-                                
-                                warehouseStocks.Add(new WarehouseStockInfo
+                                WarehouseName = warehouseName,
+                                Quantity = qty,
+                                MeasuringUnit = unit ?? "ед."
+                            });
+                        }
+                        else
+                        {
+                            // Старая модель без склада: показываем все склады, где есть материал (как раньше)
+                            foreach (var filling in materialFillingList.Where(f => f.Quantity > 0))
+                            {
+                                if (warehouseMap.TryGetValue(filling.WarehouseId, out var warehouseName))
                                 {
-                                    WarehouseName = warehouseName,
-                                    Quantity = filling.Quantity,
-                                    MeasuringUnit = unit
-                                });
+                                    var unit = !string.IsNullOrWhiteSpace(filling.MeasuringType) ? filling.MeasuringType : material.MeasuringUnit;
+                                    warehouseStocks.Add(new WarehouseStockInfo
+                                    {
+                                        WarehouseName = warehouseName,
+                                        Quantity = filling.Quantity,
+                                        MeasuringUnit = unit ?? "ед."
+                                    });
+                                }
                             }
                         }
 
@@ -1240,27 +1340,38 @@ namespace NekrasovskyAPP.ViewModels
                         ? fillingsList 
                         : new List<FillingWarehouse>();
 
-                    // Создаем отдельную карточку для каждого ответственного
+                    // Создаем отдельную карточку для каждого ответственного (по одному на склад)
                     foreach (var assignment in productAssignments)
                     {
                         var warehouseStocks = new List<WarehouseStockInfo>();
-                        
-                        // Если у ответственного есть количество, показываем все склады где есть продукт
-                        // Если ответственный за весь продукт (без количества), тоже показываем все склады
-                        foreach (var filling in productFillingList.Where(f => f.Quantity > 0))
+                        if (assignment.WarehouseId.HasValue)
                         {
-                            if (warehouseMap.TryGetValue(filling.WarehouseId, out var warehouseName))
+                            var warehouseName = !string.IsNullOrWhiteSpace(assignment.WarehouseName)
+                                ? assignment.WarehouseName
+                                : (warehouseMap.TryGetValue(assignment.WarehouseId.Value, out var name) ? name : $"Склад #{assignment.WarehouseId}");
+                            var qty = assignment.Quantity ?? 0;
+                            var unit = !string.IsNullOrWhiteSpace(assignment.MeasuringUnit) ? assignment.MeasuringUnit : product.MeasuringUnit;
+                            warehouseStocks.Add(new WarehouseStockInfo
                             {
-                                var unit = !string.IsNullOrWhiteSpace(filling.MeasuringType)
-                                    ? filling.MeasuringType
-                                    : product.MeasuringUnit;
-                                
-                                warehouseStocks.Add(new WarehouseStockInfo
+                                WarehouseName = warehouseName,
+                                Quantity = qty,
+                                MeasuringUnit = unit ?? "ед."
+                            });
+                        }
+                        else
+                        {
+                            foreach (var filling in productFillingList.Where(f => f.Quantity > 0))
+                            {
+                                if (warehouseMap.TryGetValue(filling.WarehouseId, out var warehouseName))
                                 {
-                                    WarehouseName = warehouseName,
-                                    Quantity = filling.Quantity,
-                                    MeasuringUnit = unit
-                                });
+                                    var unit = !string.IsNullOrWhiteSpace(filling.MeasuringType) ? filling.MeasuringType : product.MeasuringUnit;
+                                    warehouseStocks.Add(new WarehouseStockInfo
+                                    {
+                                        WarehouseName = warehouseName,
+                                        Quantity = filling.Quantity,
+                                        MeasuringUnit = unit ?? "ед."
+                                    });
+                                }
                             }
                         }
 
@@ -1535,6 +1646,178 @@ namespace NekrasovskyAPP.ViewModels
             var hasReceiveGoods = await _apiService.CheckPermissionAsync(currentUser.Id, "ReceiveGoods");
             var hasManageRecipes = await _apiService.CheckPermissionAsync(currentUser.Id, "ManageRecipes");
             return hasReceiveGoods || hasManageRecipes;
+        }
+
+        // ==================== Product Batches ====================
+
+        public async Task LoadProductBatchesAsync()
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var batches = await _apiService.GetAllProductBatchesAsync();
+                ProductBatches.Clear();
+                foreach (var batch in batches)
+                {
+                    ProductBatches.Add(batch);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка загрузки партий: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task LoadProductBatchesByProductAsync(int productId)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var batches = await _apiService.GetProductBatchesByProductAsync(productId);
+                ProductBatches.Clear();
+                foreach (var batch in batches)
+                {
+                    ProductBatches.Add(batch);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка загрузки партий: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task LoadProductBatchesByWarehouseAsync(int warehouseId)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var batches = await _apiService.GetProductBatchesByWarehouseAsync(warehouseId);
+                ProductBatches.Clear();
+                foreach (var batch in batches)
+                {
+                    ProductBatches.Add(batch);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка загрузки партий: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task LoadProductBatchesByUserAsync(int userId)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var batches = await _apiService.GetProductBatchesByUserAsync(userId);
+                ProductBatches.Clear();
+                foreach (var batch in batches)
+                {
+                    ProductBatches.Add(batch);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка загрузки партий: {ex.Message}";
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task<bool> CreateProductBatchAsync(ProductBatch batch)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var response = await _apiService.CreateProductBatchAsync(batch);
+                if (response.Batch != null)
+                {
+                    await LoadProductBatchesAsync();
+                    return true;
+                }
+                ErrorMessage = response.Message ?? "Не удалось создать партию";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка создания партии: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task<bool> UpdateProductBatchAsync(int id, ProductBatch batch)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var response = await _apiService.UpdateProductBatchAsync(id, batch);
+                if (response.Batch != null)
+                {
+                    await LoadProductBatchesAsync();
+                    return true;
+                }
+                ErrorMessage = response.Message ?? "Не удалось обновить партию";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка обновления партии: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task<bool> DeleteProductBatchAsync(int id)
+        {
+            try
+            {
+                IsLoading = true;
+                ErrorMessage = string.Empty;
+                var response = await _apiService.DeleteProductBatchAsync(id);
+                if (response.Message?.Contains("успешно") == true || response.Message?.Contains("deleted") == true)
+                {
+                    await LoadProductBatchesAsync();
+                    return true;
+                }
+                ErrorMessage = response.Message ?? "Не удалось удалить партию";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка удаления партии: {ex.Message}";
+                return false;
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
     }
 }

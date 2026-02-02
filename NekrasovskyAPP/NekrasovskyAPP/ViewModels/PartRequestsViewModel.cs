@@ -172,6 +172,19 @@ namespace NekrasovskyAPP.ViewModels
             }
         }
 
+        /// <summary>Получить остаток материала на складе (для отображения доступного количества при создании запроса).</summary>
+        public async Task<FillingWarehouse?> GetFillingByMaterialAsync(int warehouseId, int materialId)
+        {
+            try
+            {
+                return await _apiService.GetFillingByMaterialAsync(warehouseId, materialId);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task LoadDependenciesAsync()
         {
             try

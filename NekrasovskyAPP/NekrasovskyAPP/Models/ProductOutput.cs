@@ -19,6 +19,9 @@ namespace NekrasovskyAPP.Models
         [JsonPropertyName("warehouseId")]
         public int? WarehouseId { get; set; }
 
+        [JsonPropertyName("productBatchId")]
+        public int? ProductBatchId { get; set; }
+
         [JsonPropertyName("machineId")]
         public int? MachineId { get; set; }
 

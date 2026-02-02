@@ -28,6 +28,12 @@ public class ResponsibilityFilling
     [ForeignKey(nameof(Product))]
     public int? ProductId { get; set; }
 
+    /// <summary>
+    /// Партия продукции (если ответственность за конкретную партию)
+    /// </summary>
+    [ForeignKey(nameof(ProductBatch))]
+    public int? ProductBatchId { get; set; }
+
     [Required]
     [Column(TypeName = "integer")]
     public int Quantity { get; set; }
@@ -61,4 +67,8 @@ public class ResponsibilityFilling
     [Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidateNever]
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual Product? Product { get; set; }
+
+    [Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidateNever]
+    [System.Text.Json.Serialization.JsonIgnore]
+    public virtual ProductBatch? ProductBatch { get; set; }
 }

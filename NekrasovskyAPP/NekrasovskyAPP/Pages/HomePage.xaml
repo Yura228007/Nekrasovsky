@@ -39,7 +39,7 @@
             </Grid>
 
             <!-- Navigation Cards -->
-            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
 
                 <!-- Scanner Card -->
                 <Border x:Name="ScannerCard"
@@ -78,7 +78,7 @@
                     </Grid>
                 </Border>
 
-                <!-- Products Card -->
+                <!-- Product Batches Card -->
                 <Border Grid.Row="0" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
@@ -87,11 +87,11 @@
                         <RoundRectangle CornerRadius="20"/>
                     </Border.StrokeShape>
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnProductsClicked"/>
+                        <TapGestureRecognizer Tapped="OnProductBatchesClicked"/>
                     </Border.GestureRecognizers>
                     <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
                         <Border Grid.Row="0"
-                                BackgroundColor="{StaticResource CardProducts}"
+                                BackgroundColor="#9b59b6"
                                 WidthRequest="56"
                                 HeightRequest="56"
                                 HorizontalOptions="Start"
@@ -102,13 +102,13 @@
                             <Label Text="📦" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
                         <Label Grid.Row="1"
-                               Text="Продукты"
+                               Text="Партии"
                                FontSize="18"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
                                Margin="0,4,0,0"/>
                         <Label Grid.Row="2"
-                               Text="Готовая продукция"
+                               Text="Партии продукции"
                                FontSize="12"
                                TextColor="{StaticResource Gray500}"/>
                     </Grid>

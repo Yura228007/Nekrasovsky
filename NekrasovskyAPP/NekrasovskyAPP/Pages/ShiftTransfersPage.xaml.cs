@@ -81,12 +81,9 @@ namespace NekrasovskyAPP.Pages
         {
             if (sender is Button button && button.CommandParameter is ShiftTransfer transfer)
             {
+                // Остатки загружаются из ResponsibilityFilling (то же, что передаётся при подтверждении смены)
                 var stockItems = await _viewModel.LoadResponsibilityStockAsync(transfer.FromUserId);
-                if (stockItems.Count == 0)
-                {
-                    await DisplayAlert("Проверка остатков", "У отправителя нет остатков. Подтверждаю смену.", "OK");
-                }
-                else
+                if (stockItems.Count > 0)
                 {
                     var reviewPage = new ShiftTransferReviewPage(stockItems);
                     await Navigation.PushModalAsync(reviewPage);
@@ -101,6 +98,10 @@ namespace NekrasovskyAPP.Pages
                 if (!success)
                 {
                     await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Готово", "Смена принята. Ответственность переведена на вас, у вас начата новая смена.", "OK");
                 }
             }
         }

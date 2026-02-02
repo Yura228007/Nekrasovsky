@@ -212,6 +212,11 @@ namespace server.Controllers
                 });
                 return Ok(new { message = "Product deleted successfully" });
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Cannot delete product {ProductId}: {Message}", id, ex.Message);
+                return BadRequest(new { message = ex.Message });
+            }
             catch (DbUpdateException ex)
             {
                 _logger.LogError(ex, "Database error while deleting product with ID {ProductId}", id);

@@ -83,5 +83,11 @@ namespace NekrasovskyAPP.Models
         }
         
         public bool HasWarehouseStocks => HasResponsibility && WarehouseStocks.Count > 0;
+
+        /// <summary>Остатки: либо по складам (WarehouseStocksDisplay), либо общая подпись (StockSummary).</summary>
+        public string DisplayStocks => !string.IsNullOrWhiteSpace(WarehouseStocksDisplay) ? WarehouseStocksDisplay : StockSummary;
+
+        /// <summary>Единица измерения для отображения в карточке.</summary>
+        public string MeasuringUnitDisplay => !string.IsNullOrWhiteSpace(Material.MeasuringUnit) ? Material.MeasuringUnit : "ед.";
     }
 }

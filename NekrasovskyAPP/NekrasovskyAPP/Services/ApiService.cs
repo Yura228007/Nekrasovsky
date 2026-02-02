@@ -290,10 +290,16 @@ namespace NekrasovskyAPP.Services
             try
             {
                 var response = await _httpClient.DeleteAsync($"api/products/{id}");
-                response.EnsureSuccessStatusCode();
                 var jsonString = await response.Content.ReadAsStringAsync();
-                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
-                return new ApiResponse<object> { Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "Product deleted successfully" : "Product deleted successfully" };
+                if (!response.IsSuccessStatusCode)
+                {
+                    var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                    var msg = result?.ContainsKey("message") == true ? result["message"]?.ToString() : null;
+                    var fullMsg = msg ?? response.ReasonPhrase ?? "Ошибка удаления продукта";
+                    return new ApiResponse<object> { Message = fullMsg.Contains("Ошибка", StringComparison.OrdinalIgnoreCase) ? fullMsg : "Ошибка: " + fullMsg };
+                }
+                var okResult = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object> { Message = okResult?.ContainsKey("message") == true ? okResult["message"]?.ToString() ?? "Product deleted successfully" : "Product deleted successfully" };
             }
             catch (HttpRequestException ex)
             {
@@ -906,18 +912,30 @@ namespace NekrasovskyAPP.Services
             try
             {
                 var response = await _httpClient.PostAsJsonAsync("api/PartRequests", request, _jsonOptions);
-                response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var message = response.ReasonPhrase ?? "Ошибка создания запроса";
+                    try
+                    {
+                        var err = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                        if (err?.ContainsKey("message") == true && err["message"]?.ToString() is { } msg)
+                            message = msg;
+                    }
+                    catch { /* ignore */ }
+                    return new ApiResponse<PartRequest> { Message = message };
+                }
                 var jsonString = await response.Content.ReadAsStringAsync();
                 var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
                 if (result != null && result.ContainsKey("request"))
                 {
                     var requestJson = System.Text.Json.JsonSerializer.Serialize(result["request"]);
                     var createdRequest = System.Text.Json.JsonSerializer.Deserialize<PartRequest>(requestJson, _jsonOptions);
-                    return new ApiResponse<PartRequest> { Request = createdRequest, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "PartRequest created successfully" : "PartRequest created successfully" };
+                    return new ApiResponse<PartRequest> { Request = createdRequest, Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Запрос создан" : "Запрос создан" };
                 }
-                return new ApiResponse<PartRequest> { Message = "Failed to parse response" };
+                return new ApiResponse<PartRequest> { Message = "Не удалось разобрать ответ сервера" };
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
                 return new ApiResponse<PartRequest> { Message = ex.Message };
             }
@@ -1291,6 +1309,86 @@ namespace NekrasovskyAPP.Services
             }
         }
 
+        public async Task<ApiResponse<object>> TransferMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int fromUserId, int toUserId, int? quantityToTransfer = null)
+        {
+            try
+            {
+                var payload = new { warehouseId, materialId, fromUserId, toUserId, quantityToTransfer };
+                var response = await _httpClient.PostAsJsonAsync("api/responsibilities/filling/material/transfer", payload, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object>
+                {
+                    Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "Responsibility transferred" : "Responsibility transferred"
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<object>> TransferProductResponsibilityFillingAsync(int warehouseId, int productId, int fromUserId, int toUserId, int? quantityToTransfer = null)
+        {
+            try
+            {
+                var payload = new { warehouseId, productId, fromUserId, toUserId, quantityToTransfer };
+                var response = await _httpClient.PostAsJsonAsync("api/responsibilities/filling/product/transfer", payload, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object>
+                {
+                    Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "Responsibility transferred" : "Responsibility transferred"
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<object>> TransferBatchResponsibilityFillingAsync(int batchId, int fromUserId, int toUserId, int? quantityToTransfer = null)
+        {
+            try
+            {
+                var payload = new { batchId, fromUserId, toUserId, quantityToTransfer };
+                var response = await _httpClient.PostAsJsonAsync("api/responsibilities/filling/batch/transfer", payload, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object>
+                {
+                    Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "Responsibility transferred" : "Responsibility transferred"
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<object>> ReleaseBatchResponsibilityAsync(int batchId, int userId)
+        {
+            try
+            {
+                var payload = new { batchId, userId };
+                var response = await _httpClient.PostAsJsonAsync("api/responsibilities/filling/batch/release", payload, _jsonOptions);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                return new ApiResponse<object>
+                {
+                    Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "Responsibility released" : "Responsibility released"
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
         public async Task<ApiResponse<object>> ReleaseMaterialResponsibilityAsync(int materialId)
         {
             try
@@ -1335,7 +1433,32 @@ namespace NekrasovskyAPP.Services
             try
             {
                 var response = await _httpClient.PostAsJsonAsync("api/reprocessings", request, _jsonOptions);
-                response.EnsureSuccessStatusCode();
+                
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    try
+                    {
+                        var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                        var message = errorObj?.ContainsKey("message") == true 
+                            ? errorObj["message"]?.ToString() 
+                            : response.ReasonPhrase ?? "Ошибка переработки";
+                        
+                        // Если есть errors (ModelState), добавляем их
+                        if (errorObj?.ContainsKey("errors") == true)
+                        {
+                            var errorsJson = System.Text.Json.JsonSerializer.Serialize(errorObj["errors"]);
+                            message += $"\nДетали: {errorsJson}";
+                        }
+                        
+                        return new ApiResponse<Reprocessing> { Message = message ?? "Ошибка переработки" };
+                    }
+                    catch
+                    {
+                        return new ApiResponse<Reprocessing> { Message = $"Ошибка {(int)response.StatusCode}: {errorContent}" };
+                    }
+                }
+                
                 var jsonString = await response.Content.ReadAsStringAsync();
                 var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
                 if (result != null && result.ContainsKey("reprocessing"))
@@ -1352,11 +1475,50 @@ namespace NekrasovskyAPP.Services
             }
             catch (HttpRequestException ex)
             {
-                return new ApiResponse<Reprocessing> { Message = ex.Message };
+                return new ApiResponse<Reprocessing> { Message = $"Ошибка сети: {ex.Message}" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<Reprocessing> { Message = $"Неожиданная ошибка: {ex.Message}" };
+            }
+        }
+
+        // Disposal (Утиль)
+        public async Task<ApiResponse<object>> ProcessDisposalAsync(DisposalProcessRequest request)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/disposal/process", request, _jsonOptions);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка списания";
+                    return new ApiResponse<object> { Message = message ?? "Ошибка обработки утиля" };
+                }
+                return new ApiResponse<object> { Message = "Утиль обработан успешно" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
             }
         }
 
         // Product Outputs
+        public async Task<ProductOutputOptionsResponse?> GetProductOutputOptionsAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/product-outputs/options");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<ProductOutputOptionsResponse>(_jsonOptions);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<List<ProductOutput>> GetAllProductOutputsAsync()
         {
             try
@@ -1662,7 +1824,7 @@ namespace NekrasovskyAPP.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/shiftreports/user/{userId}?requestingUserId={_currentUserId}");
+                var response = await _httpClient.GetAsync($"api/ShiftReports/user/{userId}?requestingUserId={_currentUserId}");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<ShiftReport>>(_jsonOptions) ?? new List<ShiftReport>();
             }
@@ -1674,14 +1836,31 @@ namespace NekrasovskyAPP.Services
 
         public async Task<ShiftReport?> GetShiftReportByWorkReportIdAsync(int workReportId)
         {
+            var response = await _httpClient.GetAsync($"api/ShiftReports/by-work-report/{workReportId}?requestingUserId={_currentUserId}");
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadFromJsonAsync<ShiftReport>(_jsonOptions);
+
+            var body = await response.Content.ReadAsStringAsync();
+            string? serverMessage = null;
             try
             {
-                var response = await _httpClient.GetAsync($"api/shiftreports/by-work-report/{workReportId}?requestingUserId={_currentUserId}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    return null;
-                }
-                return await response.Content.ReadFromJsonAsync<ShiftReport>(_jsonOptions);
+                using var doc = JsonDocument.Parse(body);
+                if (doc.RootElement.TryGetProperty("detail", out var detail))
+                    serverMessage = detail.GetString();
+                if (string.IsNullOrEmpty(serverMessage) && doc.RootElement.TryGetProperty("message", out var msg))
+                    serverMessage = msg.GetString();
+            }
+            catch { /* ignore parse */ }
+            throw new HttpRequestException(serverMessage ?? response.ReasonPhrase ?? "Отчет смены не найден");
+        }
+
+        public async Task<byte[]?> DownloadShiftReportAsync(int reportId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/ShiftReports/{reportId}/download?requestingUserId={_currentUserId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsByteArrayAsync();
             }
             catch
             {
@@ -1689,17 +1868,255 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<byte[]?> DownloadShiftReportAsync(int reportId)
+        // Product Batches
+        public async Task<List<ProductBatch>> GetAllProductBatchesAsync()
+        {
+            var response = await _httpClient.GetAsync("api/product-batches");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<ProductBatch>>(_jsonOptions) ?? new List<ProductBatch>();
+            }
+            return new List<ProductBatch>();
+        }
+
+        public async Task<ProductBatch?> GetProductBatchByIdAsync(int id)
+        {
+            var response = await _httpClient.GetAsync($"api/product-batches/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<ProductBatch>(_jsonOptions);
+            }
+            return null;
+        }
+
+        public async Task<List<ProductBatch>> GetProductBatchesByProductAsync(int productId)
+        {
+            var response = await _httpClient.GetAsync($"api/product-batches/product/{productId}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<ProductBatch>>(_jsonOptions) ?? new List<ProductBatch>();
+            }
+            return new List<ProductBatch>();
+        }
+
+        public async Task<List<ProductBatch>> GetProductBatchesByWarehouseAsync(int warehouseId)
+        {
+            var response = await _httpClient.GetAsync($"api/product-batches/warehouse/{warehouseId}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<ProductBatch>>(_jsonOptions) ?? new List<ProductBatch>();
+            }
+            return new List<ProductBatch>();
+        }
+
+        public async Task<List<ProductBatch>> GetProductBatchesByUserAsync(int userId)
+        {
+            var response = await _httpClient.GetAsync($"api/product-batches/user/{userId}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<ProductBatch>>(_jsonOptions) ?? new List<ProductBatch>();
+            }
+            return new List<ProductBatch>();
+        }
+
+        public async Task<ApiResponse<ProductBatch>> CreateProductBatchAsync(ProductBatch batch)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/shiftreports/{reportId}/download?requestingUserId={_currentUserId}");
-                response.EnsureSuccessStatusCode();
-                return await response.Content.ReadAsByteArrayAsync();
+                var response = await _httpClient.PostAsJsonAsync("api/product-batches", batch, _jsonOptions);
+                var result = await response.Content.ReadFromJsonAsync<ProductBatch>(_jsonOptions);
+                return new ApiResponse<ProductBatch> { Batch = result, Message = "Партия создана" };
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                return new ApiResponse<ProductBatch> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<ProductBatch>> UpdateProductBatchAsync(int id, ProductBatch batch)
+        {
+            try
+            {
+                var response = await _httpClient.PutAsJsonAsync($"api/product-batches/{id}", batch, _jsonOptions);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var message = response.ReasonPhrase ?? "Ошибка обновления партии";
+                    try
+                    {
+                        var err = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                        if (err?.ContainsKey("message") == true && err["message"]?.ToString() is { } msg)
+                            message = msg;
+                    }
+                    catch { /* ignore */ }
+                    return new ApiResponse<ProductBatch> { Message = message };
+                }
+                var result = await response.Content.ReadFromJsonAsync<ProductBatch>(_jsonOptions);
+                return new ApiResponse<ProductBatch> { Batch = result, Message = "Партия обновлена" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<ProductBatch> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<object>> DeleteProductBatchAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"api/product-batches/{id}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var message = response.ReasonPhrase ?? "Ошибка удаления партии";
+                    try
+                    {
+                        var err = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                        if (err?.ContainsKey("message") == true && err["message"]?.ToString() is { } msg)
+                            message = msg;
+                    }
+                    catch { /* ignore */ }
+                    return new ApiResponse<object> { Message = message };
+                }
+                return new ApiResponse<object> { Message = "Партия успешно удалена" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
+        // Product Movement Requests
+        public async Task<List<ProductMovementRequest>> GetAllProductMovementRequestsAsync()
+        {
+            var response = await _httpClient.GetAsync("api/product-movement-requests");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<ProductMovementRequest>>(_jsonOptions) ?? new List<ProductMovementRequest>();
+            }
+            return new List<ProductMovementRequest>();
+        }
+
+        public async Task<ProductMovementRequest?> GetProductMovementRequestByIdAsync(int id)
+        {
+            var response = await _httpClient.GetAsync($"api/product-movement-requests/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<ProductMovementRequest>(_jsonOptions);
+            }
+            return null;
+        }
+
+        public async Task<List<ProductMovementRequest>> GetProductMovementRequestsByStatusAsync(ProductMovementStatus status)
+        {
+            var response = await _httpClient.GetAsync($"api/product-movement-requests/status/{(int)status}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<ProductMovementRequest>>(_jsonOptions) ?? new List<ProductMovementRequest>();
+            }
+            return new List<ProductMovementRequest>();
+        }
+
+        public async Task<List<ProductMovementRequest>> GetSentProductMovementRequestsAsync(int userId)
+        {
+            var response = await _httpClient.GetAsync($"api/product-movement-requests/user/{userId}/sent");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<ProductMovementRequest>>(_jsonOptions) ?? new List<ProductMovementRequest>();
+            }
+            return new List<ProductMovementRequest>();
+        }
+
+        public async Task<List<ProductMovementRequest>> GetReceivedProductMovementRequestsAsync(int userId)
+        {
+            var response = await _httpClient.GetAsync($"api/product-movement-requests/user/{userId}/received");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<ProductMovementRequest>>(_jsonOptions) ?? new List<ProductMovementRequest>();
+            }
+            return new List<ProductMovementRequest>();
+        }
+
+        public async Task<ApiResponse<ProductMovementRequest>> CreateProductMovementRequestAsync(ProductMovementRequest request)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/product-movement-requests", request, _jsonOptions);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var message = response.ReasonPhrase ?? "Ошибка создания заявки";
+                    try
+                    {
+                        var err = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                        if (err?.ContainsKey("message") == true && err["message"]?.ToString() is { } msg)
+                            message = msg;
+                    }
+                    catch { /* ignore */ }
+                    return new ApiResponse<ProductMovementRequest> { Message = message };
+                }
+                var result = await response.Content.ReadFromJsonAsync<ProductMovementRequest>(_jsonOptions);
+                return new ApiResponse<ProductMovementRequest> { Request = result, Message = "Заявка создана" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<ProductMovementRequest> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<ProductMovementRequest>> UpdateProductMovementRequestAsync(int id, ProductMovementRequest request)
+        {
+            try
+            {
+                var response = await _httpClient.PutAsJsonAsync($"api/product-movement-requests/{id}", request, _jsonOptions);
+                var result = await response.Content.ReadFromJsonAsync<ProductMovementRequest>(_jsonOptions);
+                return new ApiResponse<ProductMovementRequest> { Request = result, Message = "Заявка обновлена" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<ProductMovementRequest> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<ProductMovementRequest>> ApproveProductMovementRequestAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/product-movement-requests/{id}/approve", null);
+                var result = await response.Content.ReadFromJsonAsync<ProductMovementRequest>(_jsonOptions);
+                return new ApiResponse<ProductMovementRequest> { Request = result, Message = "Заявка одобрена" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<ProductMovementRequest> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<ProductMovementRequest>> RejectProductMovementRequestAsync(int id, string? reason)
+        {
+            try
+            {
+                var content = new { Reason = reason };
+                var response = await _httpClient.PostAsJsonAsync($"api/product-movement-requests/{id}/reject", content, _jsonOptions);
+                var result = await response.Content.ReadFromJsonAsync<ProductMovementRequest>(_jsonOptions);
+                return new ApiResponse<ProductMovementRequest> { Request = result, Message = "Заявка отклонена" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<ProductMovementRequest> { Message = ex.Message };
+            }
+        }
+
+        public async Task<ApiResponse<object>> DeleteProductMovementRequestAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"api/product-movement-requests/{id}");
+                return new ApiResponse<object> { Message = response.IsSuccessStatusCode ? "Заявка удалена" : "Ошибка удаления" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object> { Message = ex.Message };
             }
         }
     }

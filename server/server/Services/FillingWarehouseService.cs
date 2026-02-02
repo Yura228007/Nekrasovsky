@@ -8,11 +8,14 @@ namespace server.Services
     {
         private readonly AppDbContext _context;
         private readonly ILogger<FillingWarehouseService> _logger;
+        private readonly IResponsibilityFillingService _responsibilityFillingService;
 
-        public FillingWarehouseService(AppDbContext context, ILogger<FillingWarehouseService> logger)
+        public FillingWarehouseService(AppDbContext context, ILogger<FillingWarehouseService> logger,
+            IResponsibilityFillingService responsibilityFillingService)
         {
             _context = context;
             _logger = logger;
+            _responsibilityFillingService = responsibilityFillingService;
         }
 
         public async Task<IEnumerable<FillingWarehouse>> GetAllFillingWarehousesAsync()
@@ -210,6 +213,16 @@ namespace server.Services
             filling.Quantity = quantity;
             await _context.SaveChangesAsync();
 
+            var responsibilityFillings = await _responsibilityFillingService.GetByWarehouseAndMaterialAsync(warehouseId, materialId);
+            var totalResponsible = responsibilityFillings.Where(rf => rf.IsActive).Sum(rf => rf.Quantity);
+            if (totalResponsible > quantity)
+            {
+                var toDecrease = totalResponsible - quantity;
+                await _responsibilityFillingService.DecreaseMaterialResponsibilityAtWarehouseByQuantityAsync(warehouseId, materialId, toDecrease);
+                _logger.LogInformation("ResponsibilityFilling decreased for Warehouse {WarehouseId}, Material {MaterialId} by {Quantity} (new stock {Stock})",
+                    warehouseId, materialId, toDecrease, quantity);
+            }
+
             _logger.LogInformation("FillingWarehouse quantity updated: Warehouse {WarehouseId}, Material {MaterialId}, New Quantity {Quantity}",
                 warehouseId, materialId, quantity);
             return filling;
@@ -225,6 +238,16 @@ namespace server.Services
 
             filling.Quantity = quantity;
             await _context.SaveChangesAsync();
+
+            var responsibilityFillings = await _responsibilityFillingService.GetByWarehouseAndProductAsync(warehouseId, productId);
+            var totalResponsible = responsibilityFillings.Where(rf => rf.IsActive).Sum(rf => rf.Quantity);
+            if (totalResponsible > quantity)
+            {
+                var toDecrease = totalResponsible - quantity;
+                await _responsibilityFillingService.DecreaseProductResponsibilityAtWarehouseByQuantityAsync(warehouseId, productId, toDecrease);
+                _logger.LogInformation("ResponsibilityFilling decreased for Warehouse {WarehouseId}, Product {ProductId} by {Quantity} (new stock {Stock})",
+                    warehouseId, productId, toDecrease, quantity);
+            }
 
             _logger.LogInformation("FillingWarehouse quantity updated: Warehouse {WarehouseId}, Product {ProductId}, New Quantity {Quantity}",
                 warehouseId, productId, quantity);

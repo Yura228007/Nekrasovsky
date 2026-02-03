@@ -21,11 +21,6 @@ namespace server.Services
             _reportsDirectory = Path.Combine(env.ContentRootPath, "reports");
             _snapshotService = snapshotService;
             _fillingService = fillingService;
-
-            if (!Directory.Exists(_reportsDirectory))
-            {
-                Directory.CreateDirectory(_reportsDirectory);
-            }
         }
 
         public async Task<ShiftReport> GenerateReportAsync(int workReportId)
@@ -66,25 +61,23 @@ namespace server.Services
             var responsibilitySnapshot = await _snapshotService.GetByWorkReportIdAsync(workReportId);
             var responsibilityEnd = await _fillingService.GetResponsibilityFillingsByUserAsync(workReport.UserId);
 
-            // Generate Excel
+            // Generate Excel (stored in DB, not on disk)
             var excelBytes = GenerateExcel(user, workReport, productOutputs, partRequests, responsibilities, reprocessings,
                 responsibilitySnapshot, responsibilityEnd);
 
-            // Save to file
             var fileName = $"report_{user.Surname}_{user.Name}_{shiftStart:yyyy-MM-dd_HH-mm}.xlsx";
-            var filePath = Path.Combine(_reportsDirectory, fileName);
-            await File.WriteAllBytesAsync(filePath, excelBytes);
 
             // Create summary
             var summary = GenerateSummary(productOutputs, partRequests, responsibilities);
 
-            // Save to database
+            // Save to database (file content in DB, no server folder)
             var report = new ShiftReport
             {
                 WorkReportId = workReportId,
                 UserId = workReport.UserId,
                 FileName = fileName,
-                FilePath = filePath,
+                FilePath = null,
+                FileContent = excelBytes,
                 FileSize = excelBytes.Length,
                 CreatedAt = DateTime.UtcNow.AddHours(4), // Assuming UTC+4 timezone
                 ShiftStart = shiftStart,
@@ -154,12 +147,18 @@ namespace server.Services
                 throw new KeyNotFoundException($"ShiftReport with ID {reportId} not found");
             }
 
-            if (!File.Exists(report.FilePath))
+            if (report.FileContent != null && report.FileContent.Length > 0)
             {
-                throw new FileNotFoundException($"Report file not found: {report.FilePath}");
+                return report.FileContent;
             }
 
-            return await File.ReadAllBytesAsync(report.FilePath);
+            // Legacy: read from disk if stored in server folder
+            if (!string.IsNullOrEmpty(report.FilePath) && File.Exists(report.FilePath))
+            {
+                return await File.ReadAllBytesAsync(report.FilePath);
+            }
+
+            throw new FileNotFoundException($"Report file not found for ShiftReport ID {reportId}");
         }
 
         public async Task<bool> DeleteReportAsync(int id)
@@ -170,8 +169,8 @@ namespace server.Services
                 return false;
             }
 
-            // Delete file if exists
-            if (File.Exists(report.FilePath))
+            // Delete file from disk only if it was stored there (legacy)
+            if (!string.IsNullOrEmpty(report.FilePath) && File.Exists(report.FilePath))
             {
                 File.Delete(report.FilePath);
             }

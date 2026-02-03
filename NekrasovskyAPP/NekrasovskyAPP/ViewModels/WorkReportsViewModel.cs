@@ -3,6 +3,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using CommunityToolkit.Maui.Storage;
+using Microsoft.Maui.Controls;
 using NekrasovskyAPP.Models;
 using NekrasovskyAPP.Services;
 
@@ -225,45 +228,31 @@ namespace NekrasovskyAPP.ViewModels
                     return;
                 }
 
-                // Save to downloads folder
                 var fileName = shiftReport.FileName;
                 if (string.IsNullOrEmpty(fileName))
                 {
                     fileName = $"ShiftReport_{workReportId}.xlsx";
                 }
 
-#if ANDROID
-                var downloadsPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)?.AbsolutePath;
-                if (string.IsNullOrEmpty(downloadsPath))
+                // Диалог «Сохранить как» — пользователь выбирает папку и имя файла (ПК и телефон)
+                using var stream = new MemoryStream(fileBytes);
+                var result = await FileSaver.Default.SaveAsync(fileName, stream, CancellationToken.None);
+
+                if (result.IsSuccessful)
                 {
-                    downloadsPath = FileSystem.AppDataDirectory;
+                    if (Application.Current?.MainPage != null)
+                    {
+                        await Application.Current.MainPage.DisplayAlert(
+                            "Успешно",
+                            $"Отчет сохранен: {result.FilePath ?? fileName}",
+                            "OK");
+                    }
                 }
-#else
-                var downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-#endif
-
-                var filePath = Path.Combine(downloadsPath, fileName);
-
-                // Ensure unique filename
-                var counter = 1;
-                var baseName = Path.GetFileNameWithoutExtension(fileName);
-                var extension = Path.GetExtension(fileName);
-                while (File.Exists(filePath))
+                else if (result.Exception != null)
                 {
-                    filePath = Path.Combine(downloadsPath, $"{baseName}_{counter}{extension}");
-                    counter++;
+                    ErrorMessage = $"Ошибка сохранения: {result.Exception.Message}";
                 }
-
-                await File.WriteAllBytesAsync(filePath, fileBytes);
-
-                // Show success message
-                if (Application.Current?.MainPage != null)
-                {
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Успешно",
-                        $"Отчет сохранен: {Path.GetFileName(filePath)}",
-                        "OK");
-                }
+                // Если пользователь отменил диалог — ничего не показываем
             }
             catch (Exception ex)
             {

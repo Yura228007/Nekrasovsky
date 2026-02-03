@@ -23,9 +23,17 @@ namespace server.Models
         [Column(TypeName = "varchar(255)")]
         public string FileName { get; set; } = string.Empty;
 
-        [Required]
+        /// <summary>
+        /// Legacy: path on server disk. Not used when FileContent is set.
+        /// </summary>
         [Column(TypeName = "varchar(500)")]
-        public string FilePath { get; set; } = string.Empty;
+        public string? FilePath { get; set; }
+
+        /// <summary>
+        /// Report file content (Excel bytes). When set, file is not stored on disk.
+        /// </summary>
+        [Column(TypeName = "bytea")]
+        public byte[]? FileContent { get; set; }
 
         [Required]
         [Column(TypeName = "bigint")]

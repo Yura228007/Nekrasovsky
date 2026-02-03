@@ -10,12 +10,10 @@ namespace server.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "DefectQuantity",
-                table: "Reprocessing",
-                type: "integer",
-                nullable: false,
-                defaultValue: 0);
+            // Idempotent: add column only if not present (fixes broken migration history)
+            migrationBuilder.Sql(@"
+                ALTER TABLE ""Reprocessing"" ADD COLUMN IF NOT EXISTS ""DefectQuantity"" integer NOT NULL DEFAULT 0;
+            ");
         }
 
         /// <inheritdoc />

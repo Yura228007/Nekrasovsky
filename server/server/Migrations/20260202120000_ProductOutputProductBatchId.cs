@@ -10,24 +10,17 @@ namespace server.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "ProductBatchId",
-                table: "ProductOutput",
-                type: "integer",
-                nullable: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductOutput_ProductBatchId",
-                table: "ProductOutput",
-                column: "ProductBatchId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ProductOutput_ProductBatch_ProductBatchId",
-                table: "ProductOutput",
-                column: "ProductBatchId",
-                principalTable: "ProductBatch",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.SetNull);
+            // Idempotent: add column/index/FK only if not present (fixes broken migration history)
+            migrationBuilder.Sql(@"
+                ALTER TABLE ""ProductOutput"" ADD COLUMN IF NOT EXISTS ""ProductBatchId"" integer NULL;
+                CREATE INDEX IF NOT EXISTS ""IX_ProductOutput_ProductBatchId"" ON ""ProductOutput"" (""ProductBatchId"");
+                DO $$ BEGIN
+                    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'FK_ProductOutput_ProductBatch_ProductBatchId') THEN
+                        ALTER TABLE ""ProductOutput"" ADD CONSTRAINT ""FK_ProductOutput_ProductBatch_ProductBatchId""
+                            FOREIGN KEY (""ProductBatchId"") REFERENCES ""ProductBatch"" (""Id"") ON DELETE SET NULL;
+                    END IF;
+                END $$;
+            ");
         }
 
         /// <inheritdoc />

@@ -1,6 +1,0 @@
-/Users/gleb/Documents/GitHub/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/obj/Debug/net8.0-android/NekrasovskyAPP.csproj.AssemblyReference.cache
-/Users/gleb/Documents/GitHub/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/obj/Debug/net8.0-android/NekrasovskyAPP.GeneratedMSBuildEditorConfig.editorconfig
-/Users/gleb/Documents/GitHub/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/obj/Debug/net8.0-android/NekrasovskyAPP.AssemblyInfoInputs.cache
-/Users/gleb/Documents/GitHub/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/obj/Debug/net8.0-android/NekrasovskyAPP.AssemblyInfo.cs
-/Users/gleb/Documents/GitHub/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/obj/Debug/net8.0-android/NekrasovskyAPP.csproj.CoreCompileInputs.cache
-/Users/gleb/Documents/GitHub/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/obj/Debug/net8.0-android/NekrasovskyAPP.sourcelink.json

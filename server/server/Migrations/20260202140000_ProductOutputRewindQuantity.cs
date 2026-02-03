@@ -10,12 +10,10 @@ namespace server.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "RewindQuantity",
-                table: "ProductOutput",
-                type: "integer",
-                nullable: false,
-                defaultValue: 0);
+            // Idempotent: add column only if not present (fixes broken migration history)
+            migrationBuilder.Sql(@"
+                ALTER TABLE ""ProductOutput"" ADD COLUMN IF NOT EXISTS ""RewindQuantity"" integer NOT NULL DEFAULT 0;
+            ");
         }
 
         /// <inheritdoc />

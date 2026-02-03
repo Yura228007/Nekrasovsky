@@ -591,18 +591,32 @@ namespace NekrasovskyAPP.Pages
 
             private void FilterProducts()
             {
+                List<Product> newList;
                 if (string.IsNullOrWhiteSpace(_productSearchText))
                 {
-                    FilteredProducts = _allProducts.ToList();
+                    newList = _allProducts.ToList();
                 }
                 else
                 {
-                    var search = _productSearchText.ToLower();
-                    FilteredProducts = _allProducts
-                        .Where(p => p.Name.ToLower().Contains(search) ||
-                                   (p.Code?.ToLower().Contains(search) ?? false))
+                    var search = _productSearchText.Trim().ToLowerInvariant();
+                    newList = _allProducts
+                        .Where(p => (p.Name?.ToLowerInvariant().Contains(search) ?? false) ||
+                                    (p.Code?.ToLowerInvariant().Contains(search) ?? false))
                         .ToList();
                 }
+
+                // Если выбранный продукт не входит в новый список — сбрасываем выбор,
+                // иначе Picker падает (SelectedItem не из текущего ItemsSource)
+                if (_selectedProduct != null && !newList.Any(p => p.Id == _selectedProduct.Id))
+                {
+                    _selectedProduct = null;
+                    OnPropertyChanged(nameof(SelectedProduct));
+                    OnPropertyChanged(nameof(HasSelectedProduct));
+                    OnPropertyChanged(nameof(SelectedProductInfo));
+                    OnPropertyChanged(nameof(MeasuringUnit));
+                }
+
+                FilteredProducts = newList;
             }
 
             public event PropertyChangedEventHandler? PropertyChanged;

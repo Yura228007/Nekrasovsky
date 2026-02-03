@@ -23,6 +23,9 @@ namespace server.Services
             _fillingService = fillingService;
         }
 
+        /// <summary>Приводит UTC-время к UTC+4 для отображения в отчётах.</summary>
+        private static DateTime ToUtcPlus4(DateTime utc) => utc.AddHours(4);
+
         public async Task<ShiftReport> GenerateReportAsync(int workReportId)
         {
             var workReport = await _context.WorkReports
@@ -322,13 +325,15 @@ namespace server.Services
             ws.Cell(row, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
             row += 2;
 
-            // Header info table
+            // Header info table (время в UTC+4)
+            var startUtc4 = ToUtcPlus4(workReport.StartWork);
+            var endUtc4 = workReport.FinishWork.HasValue ? ToUtcPlus4(workReport.FinishWork.Value) : startUtc4;
             var headerData = new[]
             {
-                ("Дата:", $"{workReport.Date:dd.MM.yyyy} ({shiftType})"),
-                ("Фамилия:", $"{user.Surname} {user.Name}"),
+                ("Дата:", $"{startUtc4:dd.MM.yyyy} ({shiftType})"),
+                ("Фамилия Имя:", $"{user.Surname} {user.Name}"),
                 ("Должность:", roleName),
-                ("Смена:", $"{workReport.StartWork:HH:mm} - {workReport.FinishWork:HH:mm}"),
+                ("Смена:", $"{startUtc4:HH:mm} - {endUtc4:HH:mm}"),
                 ("Продолжительность:", $"{duration.Hours}ч {duration.Minutes}мин"),
                 ("Особые отметки:", workReport.Note ?? "-")
             };
@@ -407,7 +412,7 @@ namespace server.Services
             ws.Cell(row, 1).Value = "Подпись старшего:";
             ws.Cell(row, 2).Value = "_____________________";
             row += 2;
-            ws.Cell(row, 1).Value = $"Дата формирования: {DateTime.Now:dd.MM.yyyy HH:mm}";
+            ws.Cell(row, 1).Value = $"Дата формирования: {ToUtcPlus4(DateTime.UtcNow):dd.MM.yyyy HH:mm}";
             ws.Cell(row, 1).Style.Font.Italic = true;
 
             // Auto-fit columns
@@ -520,7 +525,7 @@ namespace server.Services
                 ws.Cell(row, 2).Value = itemName;
                 ws.Cell(row, 3).Value = quantity;
                 ws.Cell(row, 4).Value = resp.MeasuringUnit ?? "-";
-                ws.Cell(row, 5).Value = resp.AssignedAt.ToString("dd.MM.yyyy HH:mm");
+                ws.Cell(row, 5).Value = ToUtcPlus4(resp.AssignedAt).ToString("dd.MM.yyyy HH:mm");
 
                 for (int i = 1; i <= 5; i++)
                 {
@@ -573,8 +578,9 @@ namespace server.Services
                     var outputName = item.MaterialId.HasValue
                         ? (item.Material?.Name ?? $"Материал #{item.MaterialId}")
                         : (item.Product?.Name ?? $"Продукт #{item.ProductId}");
-                    ws.Cell(row, 1).Value = r.CreatedAt.ToString("dd.MM.yyyy");
-                    ws.Cell(row, 2).Value = r.CreatedAt.ToString("HH:mm");
+                    var createdUtc4 = ToUtcPlus4(r.CreatedAt);
+                    ws.Cell(row, 1).Value = createdUtc4.ToString("dd.MM.yyyy");
+                    ws.Cell(row, 2).Value = createdUtc4.ToString("HH:mm");
                     ws.Cell(row, 3).Value = r.Warehouse?.Name ?? "-";
                     ws.Cell(row, 4).Value = sourceText;
                     ws.Cell(row, 5).Value = outputName;

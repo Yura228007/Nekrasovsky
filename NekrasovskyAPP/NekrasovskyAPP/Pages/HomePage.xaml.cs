@@ -292,6 +292,15 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("ReprocessingPage");
         }
 
+        private async void OnMixingClicked(object sender, EventArgs e)
+        {
+            if (!await EnsureShiftAccessAsync("MixingPage"))
+            {
+                return;
+            }
+            await Shell.Current.GoToAsync("MixingPage");
+        }
+
         private async void OnDisposalClicked(object sender, EventArgs e)
         {
             if (!await EnsureShiftAccessAsync("DisposalPage"))

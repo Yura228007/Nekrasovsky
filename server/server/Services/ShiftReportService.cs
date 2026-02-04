@@ -59,19 +59,18 @@ namespace server.Services
             // Gather data for the report
             var productOutputs = await GetProductOutputsForShift(workReport.UserId, shiftStart, shiftEnd);
             var partRequests = await GetPartRequestsForShift(workReport.UserId, shiftStart, shiftEnd);
-            var responsibilities = await GetResponsibilitiesForShift(workReport.UserId);
             var reprocessings = await GetReprocessingsForShift(workReport.UserId, shiftStart, shiftEnd);
             var responsibilitySnapshot = await _snapshotService.GetByWorkReportIdAsync(workReportId);
             var responsibilityEnd = await _fillingService.GetResponsibilityFillingsByUserAsync(workReport.UserId);
 
             // Generate Excel (stored in DB, not on disk)
-            var excelBytes = GenerateExcel(user, workReport, productOutputs, partRequests, responsibilities, reprocessings,
-                responsibilitySnapshot, responsibilityEnd);
+            var excelBytes = GenerateExcel(user, workReport, productOutputs, partRequests, responsibilityEnd, reprocessings,
+                responsibilitySnapshot);
 
             var fileName = $"report_{user.Surname}_{user.Name}_{shiftStart:yyyy-MM-dd_HH-mm}.xlsx";
 
             // Create summary
-            var summary = GenerateSummary(productOutputs, partRequests, responsibilities);
+            var summary = GenerateSummary(productOutputs, partRequests, responsibilityEnd);
 
             // Save to database (file content in DB, no server folder)
             var report = new ShiftReport
@@ -233,15 +232,6 @@ namespace server.Services
                 .ToListAsync();
         }
 
-        private async Task<List<Responsibility>> GetResponsibilitiesForShift(int userId)
-        {
-            return await _context.Responsibilities
-                .Include(r => r.Material)
-                .Include(r => r.Product)
-                .Where(r => r.UserId == userId && r.IsActive)
-                .ToListAsync();
-        }
-
         private async Task<List<Reprocessing>> GetReprocessingsForShift(int userId, DateTime shiftStart, DateTime shiftEnd)
         {
             return await _context.Reprocessings
@@ -258,7 +248,7 @@ namespace server.Services
                 .ToListAsync();
         }
 
-        private string GenerateSummary(List<ProductOutput> outputs, List<PartRequest> requests, List<Responsibility> responsibilities)
+        private string GenerateSummary(List<ProductOutput> outputs, List<PartRequest> requests, List<ResponsibilityFilling> responsibilityFillings)
         {
             var totalProduced = outputs.Sum(o => o.ProducedQuantity);
             var totalDefects = outputs.Sum(o => o.DefectQuantity);
@@ -267,13 +257,12 @@ namespace server.Services
 
             return $"Произведено: {totalProduced}, Брак: {totalDefects}, Эко: {totalEco}, " +
                    $"Заявок: {requests.Count} (одобрено: {approvedRequests}), " +
-                   $"Ответственностей: {responsibilities.Count}";
+                   $"Ответственностей: {responsibilityFillings.Count}";
         }
 
         private byte[] GenerateExcel(User user, WorkReport workReport,
-            List<ProductOutput> outputs, List<PartRequest> requests, List<Responsibility> responsibilities,
-            List<Reprocessing> reprocessings, ResponsibilityShiftSnapshot? responsibilitySnapshot,
-            List<ResponsibilityFilling> responsibilityEnd)
+            List<ProductOutput> outputs, List<PartRequest> requests, List<ResponsibilityFilling> responsibilityFillings,
+            List<Reprocessing> reprocessings, ResponsibilityShiftSnapshot? responsibilitySnapshot)
         {
             using var workbook = new XLWorkbook();
 
@@ -291,9 +280,9 @@ namespace server.Services
             }
 
             // Sheet 3: Responsibilities (if any)
-            if (responsibilities.Count > 0)
+            if (responsibilityFillings.Count > 0)
             {
-                CreateResponsibilitiesSheet(workbook, user, responsibilities);
+                CreateResponsibilitiesSheet(workbook, user, responsibilityFillings);
             }
 
             // Sheet: Reprocessing (переработка) — что произвели, что использовали, сколько вышло
@@ -303,7 +292,7 @@ namespace server.Services
             }
 
             // Sheet: Ответственность на начало и конец смены (начальный и конечный остаток за человеком)
-            CreateResponsibilityStartEndSheet(workbook, user, responsibilitySnapshot, responsibilityEnd);
+            CreateResponsibilityStartEndSheet(workbook, user, responsibilitySnapshot, responsibilityFillings);
 
             using var stream = new MemoryStream();
             workbook.SaveAs(stream);
@@ -490,7 +479,7 @@ namespace server.Services
             ws.Columns().AdjustToContents();
         }
 
-        private void CreateResponsibilitiesSheet(XLWorkbook workbook, User user, List<Responsibility> responsibilities)
+        private void CreateResponsibilitiesSheet(XLWorkbook workbook, User user, List<ResponsibilityFilling> responsibilityFillings)
         {
             var ws = workbook.Worksheets.Add("Ответственности");
 
@@ -498,13 +487,13 @@ namespace server.Services
 
             // Title
             ws.Cell(row, 1).Value = $"ОТВЕТСТВЕННОСТИ - {user.Surname} {user.Name}";
-            ws.Range(row, 1, row, 5).Merge();
+            ws.Range(row, 1, row, 6).Merge();
             ws.Cell(row, 1).Style.Font.Bold = true;
             ws.Cell(row, 1).Style.Font.FontSize = 14;
             row += 2;
 
             // Header row
-            var headers = new[] { "Тип", "Наименование", "Количество", "Ед.изм.", "Назначено" };
+            var headers = new[] { "Тип", "Наименование", "Склад", "Количество", "Ед.изм.", "Назначено" };
             for (int i = 0; i < headers.Length; i++)
             {
                 ws.Cell(row, i + 1).Value = headers[i];
@@ -515,19 +504,20 @@ namespace server.Services
             row++;
 
             // Data rows
-            foreach (var resp in responsibilities)
+            foreach (var rf in responsibilityFillings)
             {
-                var typeName = resp.MaterialId.HasValue ? "Материал" : "Продукт";
-                var itemName = resp.Material?.Name ?? resp.Product?.Name ?? "-";
-                var quantity = resp.Quantity?.ToString() ?? "Весь";
+                var typeName = rf.MaterialId.HasValue ? "Материал" : "Продукт";
+                var itemName = rf.Material?.Name ?? rf.Product?.Name ?? "-";
+                var warehouseName = rf.Warehouse?.Name ?? $"Склад #{rf.WarehouseId}";
 
                 ws.Cell(row, 1).Value = typeName;
                 ws.Cell(row, 2).Value = itemName;
-                ws.Cell(row, 3).Value = quantity;
-                ws.Cell(row, 4).Value = resp.MeasuringUnit ?? "-";
-                ws.Cell(row, 5).Value = ToUtcPlus4(resp.AssignedAt).ToString("dd.MM.yyyy HH:mm");
+                ws.Cell(row, 3).Value = warehouseName;
+                ws.Cell(row, 4).Value = rf.Quantity;
+                ws.Cell(row, 5).Value = rf.MeasuringUnit ?? "-";
+                ws.Cell(row, 6).Value = ToUtcPlus4(rf.AssignedAt).ToString("dd.MM.yyyy HH:mm");
 
-                for (int i = 1; i <= 5; i++)
+                for (int i = 1; i <= 6; i++)
                 {
                     ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                 }
@@ -536,10 +526,10 @@ namespace server.Services
 
             // Summary
             row += 2;
-            var materialCount = responsibilities.Count(r => r.MaterialId.HasValue);
-            var productCount = responsibilities.Count(r => r.ProductId.HasValue);
+            var materialCount = responsibilityFillings.Count(rf => rf.MaterialId.HasValue);
+            var productCount = responsibilityFillings.Count(rf => rf.ProductId.HasValue);
 
-            ws.Cell(row, 1).Value = $"Всего: {responsibilities.Count} (материалов: {materialCount}, продуктов: {productCount})";
+            ws.Cell(row, 1).Value = $"Всего: {responsibilityFillings.Count} (материалов: {materialCount}, продуктов: {productCount})";
             ws.Cell(row, 1).Style.Font.Bold = true;
 
             ws.Columns().AdjustToContents();

@@ -54,9 +54,6 @@ namespace server.Extensions
             // Register history service
             services.AddScoped<IHistoryService, HistoryService>();
 
-            // Register responsibility service
-            services.AddScoped<IResponsibilityService, ResponsibilityService>();
-
             // Register responsibility filling service (ответственность по складам)
             services.AddScoped<IResponsibilityFillingService, ResponsibilityFillingService>();
 

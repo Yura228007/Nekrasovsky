@@ -8,13 +8,11 @@ namespace server.Services
     {
         private readonly AppDbContext _context;
         private readonly ILogger<ProductService> _logger;
-        private readonly IResponsibilityService _responsibilityService;
 
-        public ProductService(AppDbContext context, ILogger<ProductService> logger, IResponsibilityService responsibilityService)
+        public ProductService(AppDbContext context, ILogger<ProductService> logger)
         {
             _context = context;
             _logger = logger;
-            _responsibilityService = responsibilityService;
         }
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
@@ -125,9 +123,7 @@ namespace server.Services
             // Нельзя удалить продукт, если есть активные ответственности
             var hasActiveFilling = await _context.ResponsibilityFillings
                 .AnyAsync(rf => rf.ProductId == id && rf.IsActive && rf.Quantity > 0);
-            var hasActiveResponsibility = await _context.Responsibilities
-                .AnyAsync(r => r.ProductId == id && r.IsActive);
-            if (hasActiveFilling || hasActiveResponsibility)
+            if (hasActiveFilling)
             {
                 throw new InvalidOperationException("Нельзя удалить продукт, пока есть активные ответственности. Сначала снимите или передайте ответственность.");
             }
@@ -145,11 +141,6 @@ namespace server.Services
                 .ToListAsync();
             _context.ResponsibilityFillings.RemoveRange(responsibilityFillings);
 
-            var responsibilities = await _context.Responsibilities
-                .Where(r => r.ProductId == id)
-                .ToListAsync();
-            _context.Responsibilities.RemoveRange(responsibilities);
-
             var fillingWarehouses = await _context.FillingWarehouses
                 .Where(fw => fw.ProductId == id)
                 .ToListAsync();
@@ -158,8 +149,8 @@ namespace server.Services
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("Product deleted with ID: {ProductId}. Removed {Rf} responsibility fillings, {R} responsibilities, {Fw} filling warehouse records.",
-                id, responsibilityFillings.Count, responsibilities.Count, fillingWarehouses.Count);
+            _logger.LogInformation("Product deleted with ID: {ProductId}. Removed {Rf} responsibility fillings, {Fw} filling warehouse records.",
+                id, responsibilityFillings.Count, fillingWarehouses.Count);
             return true;
         }
 

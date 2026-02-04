@@ -92,9 +92,9 @@ namespace NekrasovskyAPP.Services
         Task<bool> CheckPermissionAsync(int userId, string permissionCode);
 
         // Responsibilities
-        Task<List<Responsibility>> GetResponsibilitiesByUserAsync(int userId, bool activeOnly = true);
-        Task<Responsibility?> GetResponsibilityByMaterialAsync(int materialId, bool activeOnly = true);
-        Task<Responsibility?> GetResponsibilityByProductAsync(int productId, bool activeOnly = true);
+        Task<List<ResponsibilityAssignment>> GetResponsibilitiesByUserAsync(int userId, bool activeOnly = true);
+        Task<ResponsibilityAssignment?> GetResponsibilityByMaterialAsync(int materialId, bool activeOnly = true);
+        Task<ResponsibilityAssignment?> GetResponsibilityByProductAsync(int productId, bool activeOnly = true);
         Task<List<ResponsibilityStockItem>> GetResponsibilityStockAsync(int userId);
         Task<List<ResponsibilityAssignment>> GetActiveMaterialAssignmentsAsync();
         Task<List<ResponsibilityAssignment>> GetActiveProductAssignmentsAsync();
@@ -120,8 +120,8 @@ namespace NekrasovskyAPP.Services
         Task<ApiResponse<ProductMovementRequest>> ApproveProductMovementRequestAsync(int id);
         Task<ApiResponse<ProductMovementRequest>> RejectProductMovementRequestAsync(int id, string? reason);
         Task<ApiResponse<object>> DeleteProductMovementRequestAsync(int id);
-        Task<ApiResponse<Responsibility>> AssignMaterialResponsibilityAsync(int materialId, int userId, int? quantity = null, string? measuringUnit = null);
-        Task<ApiResponse<Responsibility>> AssignProductResponsibilityAsync(int productId, int userId, int? quantity = null, string? measuringUnit = null);
+        Task<ApiResponse<ResponsibilityAssignment>> AssignMaterialResponsibilityAsync(int materialId, int userId, int? quantity = null, string? measuringUnit = null);
+        Task<ApiResponse<ResponsibilityAssignment>> AssignProductResponsibilityAsync(int productId, int userId, int? quantity = null, string? measuringUnit = null);
         Task<ApiResponse<object>> TransferMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int fromUserId, int toUserId, int? quantityToTransfer = null);
         Task<ApiResponse<object>> TransferProductResponsibilityFillingAsync(int warehouseId, int productId, int fromUserId, int toUserId, int? quantityToTransfer = null);
         Task<ApiResponse<object>> TransferBatchResponsibilityFillingAsync(int batchId, int fromUserId, int toUserId, int? quantityToTransfer = null);

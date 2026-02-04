@@ -8,20 +8,17 @@ namespace server.Services
     {
         private readonly AppDbContext _context;
         private readonly ILogger<ShiftTransferService> _logger;
-        private readonly IResponsibilityService _responsibilityService;
         private readonly IResponsibilityFillingService _responsibilityFillingService;
         private readonly IWorkReportService _workReportService;
 
         public ShiftTransferService(
             AppDbContext context,
             ILogger<ShiftTransferService> logger,
-            IResponsibilityService responsibilityService,
             IResponsibilityFillingService responsibilityFillingService,
             IWorkReportService workReportService)
         {
             _context = context;
             _logger = logger;
-            _responsibilityService = responsibilityService;
             _responsibilityFillingService = responsibilityFillingService;
             _workReportService = workReportService;
         }
@@ -163,9 +160,6 @@ namespace server.Services
             // Передаём все остатки по складам (ResponsibilityFilling) — материалы, продукты, партии
             var fillingTransferred = await _responsibilityFillingService.TransferAllResponsibilityFillingAsync(transfer.FromUserId, transfer.ToUserId);
             _logger.LogInformation("ShiftTransfer {TransferId}: transferred {Count} responsibility filling groups from {FromUserId} to {ToUserId}", id, fillingTransferred, transfer.FromUserId, transfer.ToUserId);
-
-            // Передаём старую модель Responsibility (без склада) для совместимости
-            await _responsibilityService.TransferAllAsync(transfer.FromUserId, transfer.ToUserId);
 
             var activeReport = await _context.WorkReports
                 .FirstOrDefaultAsync(wr => wr.UserId == transfer.FromUserId && wr.FinishWork == null);

@@ -9,7 +9,6 @@ namespace server.Controllers
     [Route("api/responsibilities")]
     public class ResponsibilitiesController : ControllerBase
     {
-        private readonly IResponsibilityService _responsibilityService;
         private readonly IResponsibilityFillingService _responsibilityFillingService;
         private readonly ILogger<ResponsibilitiesController> _logger;
         private readonly IUserService _userService;
@@ -17,40 +16,17 @@ namespace server.Controllers
         private readonly IUserPermissionsService _userPermissionsService;
 
         public ResponsibilitiesController(
-            IResponsibilityService responsibilityService,
             IResponsibilityFillingService responsibilityFillingService,
             ILogger<ResponsibilitiesController> logger,
             IUserService userService,
             IRoleService roleService,
             IUserPermissionsService userPermissionsService)
         {
-            _responsibilityService = responsibilityService;
             _responsibilityFillingService = responsibilityFillingService;
             _logger = logger;
             _userService = userService;
             _roleService = roleService;
             _userPermissionsService = userPermissionsService;
-        }
-
-        // GET: api/responsibilities/user/5?activeOnly=true
-        [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<Responsibility>>> GetByUser(int userId, [FromQuery] bool activeOnly = true)
-        {
-            try
-            {
-                if (userId <= 0)
-                {
-                    return BadRequest(new { message = "UserId must be greater than 0" });
-                }
-
-                var responsibilities = await _responsibilityService.GetResponsibilitiesByUserAsync(userId, activeOnly);
-                return Ok(responsibilities);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting responsibilities for user {UserId}", userId);
-                return StatusCode(500, new { message = "An error occurred while retrieving responsibilities" });
-            }
         }
 
         // GET: api/responsibilities/user/5/stock
@@ -64,7 +40,6 @@ namespace server.Controllers
                     return BadRequest(new { message = "UserId must be greater than 0" });
                 }
 
-                // Остатки из ResponsibilityFilling — то же, что передаётся при подтверждении смены
                 var stock = await _responsibilityFillingService.GetResponsibilityStockForUserAsync(userId);
                 return Ok(stock);
             }
@@ -75,68 +50,14 @@ namespace server.Controllers
             }
         }
 
-        // GET: api/responsibilities/material/5?activeOnly=true
-        [HttpGet("material/{materialId}")]
-        public async Task<ActionResult<Responsibility>> GetByMaterial(int materialId, [FromQuery] bool activeOnly = true)
-        {
-            try
-            {
-                if (materialId <= 0)
-                {
-                    return BadRequest(new { message = "MaterialId must be greater than 0" });
-                }
-
-                var responsibility = await _responsibilityService.GetResponsibilityByMaterialAsync(materialId, activeOnly);
-                if (responsibility == null)
-                {
-                    return NotFound(new { message = $"Responsibility for material {materialId} not found" });
-                }
-
-                return Ok(responsibility);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting responsibility for material {MaterialId}", materialId);
-                return StatusCode(500, new { message = "An error occurred while retrieving responsibility" });
-            }
-        }
-
-        // GET: api/responsibilities/product/5?activeOnly=true
-        [HttpGet("product/{productId}")]
-        public async Task<ActionResult<Responsibility>> GetByProduct(int productId, [FromQuery] bool activeOnly = true)
-        {
-            try
-            {
-                if (productId <= 0)
-                {
-                    return BadRequest(new { message = "ProductId must be greater than 0" });
-                }
-
-                var responsibility = await _responsibilityService.GetResponsibilityByProductAsync(productId, activeOnly);
-                if (responsibility == null)
-                {
-                    return NotFound(new { message = $"Responsibility for product {productId} not found" });
-                }
-
-                return Ok(responsibility);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while getting responsibility for product {ProductId}", productId);
-                return StatusCode(500, new { message = "An error occurred while retrieving responsibility" });
-            }
-        }
-
         // GET: api/responsibilities/materials/active
         [HttpGet("materials/active")]
         public async Task<ActionResult<IEnumerable<ResponsibilityAssignment>>> GetActiveMaterialAssignments()
         {
             try
             {
-                var fromFilling = await _responsibilityFillingService.GetActiveMaterialAssignmentsFromFillingAsync();
-                var fromResponsibility = await _responsibilityService.GetActiveMaterialAssignmentsAsync();
-                var merged = MergeAssignments(fromFilling, fromResponsibility);
-                return Ok(merged);
+                var assignments = await _responsibilityFillingService.GetActiveMaterialAssignmentsFromFillingAsync();
+                return Ok(assignments);
             }
             catch (Exception ex)
             {
@@ -151,177 +72,13 @@ namespace server.Controllers
         {
             try
             {
-                var fromFilling = await _responsibilityFillingService.GetActiveProductAssignmentsFromFillingAsync();
-                var fromResponsibility = await _responsibilityService.GetActiveProductAssignmentsAsync();
-                var merged = MergeAssignments(fromFilling, fromResponsibility);
-                return Ok(merged);
+                var assignments = await _responsibilityFillingService.GetActiveProductAssignmentsFromFillingAsync();
+                return Ok(assignments);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while getting active product responsibilities");
                 return StatusCode(500, new { message = "An error occurred while retrieving responsibilities" });
-            }
-        }
-
-        private static List<ResponsibilityAssignment> MergeAssignments(
-            List<ResponsibilityAssignment> fromFilling,
-            List<ResponsibilityAssignment> fromResponsibility)
-        {
-            // fromFilling: по одному назначению на (материал, пользователь, склад) — все сохраняем
-            var result = new List<ResponsibilityAssignment>(fromFilling);
-            var fillingKeys = new HashSet<(int ItemId, int UserId)>(fromFilling.Select(a => (a.ItemId, a.UserId)));
-
-            // fromResponsibility (старая модель без склада): добавляем только те (материал, пользователь), которых нет в fromFilling
-            foreach (var a in fromResponsibility)
-            {
-                var k = (a.ItemId, a.UserId);
-                if (fillingKeys.Contains(k))
-                    continue;
-                result.Add(new ResponsibilityAssignment
-                {
-                    ItemId = a.ItemId,
-                    UserId = a.UserId,
-                    UserName = a.UserName,
-                    Quantity = a.Quantity,
-                    MeasuringUnit = a.MeasuringUnit,
-                    WarehouseId = null,
-                    WarehouseName = null
-                });
-            }
-
-            return result;
-        }
-
-        // POST: api/responsibilities/material/5/assign
-        [HttpPost("/api/responsibilities/material/{materialId}/assign")]
-        public async Task<IActionResult> AssignMaterial(int materialId, [FromBody] AssignResponsibilityRequest? request)
-        {
-            try
-            {
-                if (request == null)
-                {
-                    return BadRequest(new { message = "Request body is required (UserId, Quantity, MeasuringUnit)" });
-                }
-                if (materialId <= 0 || request.UserId <= 0)
-                {
-                    return BadRequest(new { message = "MaterialId and UserId must be greater than 0" });
-                }
-
-                if (!await IsPrivilegedUserAsync())
-                {
-                    return Forbid();
-                }
-
-                var responsibility = await _responsibilityService.AssignMaterialAsync(materialId, request.UserId, request.Quantity, request.MeasuringUnit);
-                return Ok(new { message = "Responsibility assigned", responsibility });
-            }
-            catch (KeyNotFoundException ex)
-            {
-                _logger.LogWarning(ex, "Assign material responsibility failed");
-                return NotFound(new { message = ex.Message });
-            }
-            catch (InvalidOperationException ex)
-            {
-                _logger.LogWarning(ex, "Assign material responsibility invalid operation");
-                return BadRequest(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error assigning material responsibility");
-                return StatusCode(500, new { message = "An error occurred while assigning responsibility", detail = ex.Message });
-            }
-        }
-
-        // POST: api/responsibilities/product/5/assign
-        [HttpPost("/api/responsibilities/product/{productId}/assign")]
-        public async Task<IActionResult> AssignProduct(int productId, [FromBody] AssignResponsibilityRequest request)
-        {
-            try
-            {
-                if (productId <= 0 || request.UserId <= 0)
-                {
-                    return BadRequest(new { message = "ProductId and UserId must be greater than 0" });
-                }
-
-                if (!await IsPrivilegedUserAsync())
-                {
-                    return Forbid();
-                }
-
-                var responsibility = await _responsibilityService.AssignProductAsync(productId, request.UserId, request.Quantity, request.MeasuringUnit);
-                return Ok(new { message = "Responsibility assigned", responsibility });
-            }
-            catch (KeyNotFoundException ex)
-            {
-                _logger.LogWarning(ex, "Assign product responsibility failed");
-                return NotFound(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error assigning product responsibility");
-                return StatusCode(500, new { message = "An error occurred while assigning responsibility" });
-            }
-        }
-
-        // POST: api/responsibilities/material/5/release
-        [HttpPost("/api/responsibilities/material/{materialId}/release")]
-        public async Task<IActionResult> ReleaseMaterial(int materialId)
-        {
-            try
-            {
-                if (materialId <= 0)
-                {
-                    return BadRequest(new { message = "MaterialId must be greater than 0" });
-                }
-
-                if (!await IsPrivilegedUserAsync())
-                {
-                    return Forbid();
-                }
-
-                var released = await _responsibilityService.ReleaseMaterialAsync(materialId);
-                if (!released)
-                {
-                    return NotFound(new { message = $"Responsibility for material {materialId} not found" });
-                }
-
-                return Ok(new { message = "Responsibility released" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error releasing material responsibility");
-                return StatusCode(500, new { message = "An error occurred while releasing responsibility" });
-            }
-        }
-
-        // POST: api/responsibilities/product/5/release
-        [HttpPost("/api/responsibilities/product/{productId}/release")]
-        public async Task<IActionResult> ReleaseProduct(int productId)
-        {
-            try
-            {
-                if (productId <= 0)
-                {
-                    return BadRequest(new { message = "ProductId must be greater than 0" });
-                }
-
-                if (!await IsPrivilegedUserAsync())
-                {
-                    return Forbid();
-                }
-
-                var released = await _responsibilityService.ReleaseProductAsync(productId);
-                if (!released)
-                {
-                    return NotFound(new { message = $"Responsibility for product {productId} not found" });
-                }
-
-                return Ok(new { message = "Responsibility released" });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error releasing product responsibility");
-                return StatusCode(500, new { message = "An error occurred while releasing responsibility" });
             }
         }
 
@@ -547,13 +304,6 @@ namespace server.Controllers
 
             return false;
         }
-    }
-
-    public class AssignResponsibilityRequest
-    {
-        public int UserId { get; set; }
-        public int? Quantity { get; set; }
-        public string? MeasuringUnit { get; set; }
     }
 
     public class AssignResponsibilityFillingRequest

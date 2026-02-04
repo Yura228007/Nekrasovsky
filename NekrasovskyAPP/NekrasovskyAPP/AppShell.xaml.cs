@@ -22,6 +22,7 @@ namespace NekrasovskyAPP
             Routing.RegisterRoute("PartRequestsPage", typeof(PartRequestsPage));
             Routing.RegisterRoute("ShiftTransfersPage", typeof(ShiftTransfersPage));
             Routing.RegisterRoute("ReprocessingPage", typeof(ReprocessingPage));
+            Routing.RegisterRoute("MixingPage", typeof(MixingPage));
             Routing.RegisterRoute("SettingsPage", typeof(SettingsPage));
             Routing.RegisterRoute("HistoryPage", typeof(HistoryPage));
             Routing.RegisterRoute("RolePermissionsPage", typeof(RolePermissionsPage));

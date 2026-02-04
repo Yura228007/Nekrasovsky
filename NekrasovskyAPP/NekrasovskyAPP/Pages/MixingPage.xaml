@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:NekrasovskyAPP.Converters"
+             x:Class="NekrasovskyAPP.Pages.MixingPage"
+             BackgroundColor="{StaticResource BackgroundDark}"
+             Title="Смешивание">
+    <ContentPage.Resources>
+        <converters:IsStringNotEmptyConverter x:Key="IsStringNotEmptyConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <!-- Header -->
+            <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,12">
+                <VerticalStackLayout>
+                    <Label Text="Смешивание"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
+                    <Label Text="Смешивание материалов"
+                           FontSize="12"
+                           TextColor="{StaticResource Gray500}" />
+                </VerticalStackLayout>
+                <Border Grid.Column="1"
+                        BackgroundColor="{StaticResource CardMixing}"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        StrokeThickness="0"
+                        VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Label Text="🧪" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+            </Grid>
+
+            <!-- Source Section -->
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
+                    StrokeThickness="0"
+                    Padding="16">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="14">
+                    <HorizontalStackLayout Spacing="10">
+                        <Border BackgroundColor="{StaticResource CardMaterials}"
+                                WidthRequest="32"
+                                HeightRequest="32"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Label Text="📥" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Text="Исходные материалы"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Склад"
+                               FontSize="13"
+                               TextColor="{StaticResource Gray400}" />
+                        <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                StrokeThickness="0"
+                                Padding="12,0"
+                                x:Name="WarehousePickerBorder">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12"/>
+                            </Border.StrokeShape>
+                            <Picker x:Name="WarehousePicker"
+                                    Title="Выберите склад"
+                                    ItemDisplayBinding="{Binding Name}"
+                                    TextColor="{StaticResource White}"
+                                    TitleColor="{StaticResource Gray500}"
+                                    SelectedIndexChanged="OnWarehouseSelected" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <CollectionView ItemsSource="{Binding Sources}"
+                                    SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BackgroundColor="{StaticResource BackgroundCard}"
+                                        StrokeThickness="0"
+                                        Padding="14">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12"/>
+                                    </Border.StrokeShape>
+                                    <VerticalStackLayout Spacing="10">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label Text="Материал для смешивания"
+                                                   FontSize="14"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource White}"
+                                                   VerticalOptions="Center"/>
+                                            <Button Grid.Column="1"
+                                                    Text="Удалить"
+                                                    FontSize="12"
+                                                    BackgroundColor="{StaticResource Error}"
+                                                    TextColor="{StaticResource White}"
+                                                    CornerRadius="10"
+                                                    Padding="10,4"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RemoveSourceCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                        </Grid>
+
+                                        <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                                StrokeThickness="0"
+                                                Padding="12,0"
+                                                HeightRequest="{Binding PickerHeight}">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="12"/>
+                                            </Border.StrokeShape>
+                                            <Picker Title="Выберите материал"
+                                                    ItemsSource="{Binding Materials}"
+                                                    SelectedItem="{Binding SelectedMaterial}"
+                                                    ItemDisplayBinding="{Binding Name}"
+                                                    TextColor="{StaticResource White}"
+                                                    TitleColor="{StaticResource Gray500}" />
+                                        </Border>
+
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                            <Border Grid.Column="0"
+                                                    BackgroundColor="{StaticResource BackgroundInput}"
+                                                    StrokeThickness="0"
+                                                    Padding="12,0"
+                                                    HeightRequest="48">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="12"/>
+                                                </Border.StrokeShape>
+                                                <Entry Keyboard="Numeric"
+                                                       Placeholder="Количество"
+                                                       Text="{Binding Quantity}"
+                                                       TextColor="{StaticResource White}"
+                                                       PlaceholderColor="{StaticResource Gray600}"
+                                                       BackgroundColor="Transparent"
+                                                       VerticalOptions="Center" />
+                                            </Border>
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding MeasuringUnit}"
+                                                   FontSize="14"
+                                                   TextColor="{StaticResource CardMaterials}"
+                                                   VerticalOptions="Center"
+                                                   IsVisible="{Binding MeasuringUnit, Converter={StaticResource IsStringNotEmptyConverter}}" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Button Text="Добавить материал"
+                            BackgroundColor="{StaticResource CardMaterials}"
+                            TextColor="{StaticResource White}"
+                            CornerRadius="12"
+                            FontSize="14"
+                            HeightRequest="42"
+                            Command="{Binding AddSourceCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Output Section -->
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
+                    StrokeThickness="0"
+                    Padding="16">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <HorizontalStackLayout Spacing="10">
+                        <Border BackgroundColor="{StaticResource CardMixing}"
+                                WidthRequest="32"
+                                HeightRequest="32"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Label Text="✅" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Text="Результат смешивания"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Код материала (артикул)"
+                               FontSize="13"
+                               TextColor="{StaticResource Gray400}" />
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                            <Border Grid.Column="0"
+                                    BackgroundColor="{StaticResource BackgroundInput}"
+                                    StrokeThickness="0"
+                                    Padding="12,0"
+                                    HeightRequest="48">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12"/>
+                                </Border.StrokeShape>
+                                <Entry x:Name="OutputCodeEntry"
+                                       Placeholder="Введите или отсканируйте код"
+                                       TextColor="{StaticResource White}"
+                                       PlaceholderColor="{StaticResource Gray600}"
+                                       BackgroundColor="Transparent"
+                                       VerticalOptions="Center" />
+                            </Border>
+                            <Button Grid.Column="1"
+                                    Text="📷"
+                                    FontSize="18"
+                                    BackgroundColor="{StaticResource CardScanner}"
+                                    TextColor="{StaticResource White}"
+                                    CornerRadius="12"
+                                    WidthRequest="48"
+                                    HeightRequest="48"
+                                    Clicked="OnScanCodeClicked" />
+                        </Grid>
+
+                        <Label Text="Название материала"
+                               FontSize="13"
+                               TextColor="{StaticResource Gray400}" />
+                        <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                StrokeThickness="0"
+                                Padding="12,0"
+                                HeightRequest="48">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12"/>
+                            </Border.StrokeShape>
+                            <Entry x:Name="OutputNameEntry"
+                                   Placeholder="Название нового материала"
+                                   TextColor="{StaticResource White}"
+                                   PlaceholderColor="{StaticResource Gray600}"
+                                   BackgroundColor="Transparent"
+                                   VerticalOptions="Center" />
+                        </Border>
+
+                        <Label Text="Единица измерения"
+                               FontSize="13"
+                               TextColor="{StaticResource Gray400}" />
+                        <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                StrokeThickness="0"
+                                Padding="12,0"
+                                x:Name="MeasuringUnitPickerBorder">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12"/>
+                            </Border.StrokeShape>
+                            <Picker x:Name="MeasuringUnitPicker"
+                                    Title="Выберите единицу"
+                                    TextColor="{StaticResource White}"
+                                    TitleColor="{StaticResource Gray500}" />
+                        </Border>
+
+                        <Label Text="Количество"
+                               FontSize="13"
+                               TextColor="{StaticResource Gray400}" />
+                        <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                StrokeThickness="0"
+                                Padding="12,0"
+                                HeightRequest="48">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12"/>
+                            </Border.StrokeShape>
+                            <Entry x:Name="OutputQuantityEntry"
+                                   Keyboard="Numeric"
+                                   Placeholder="Количество"
+                                   TextColor="{StaticResource White}"
+                                   PlaceholderColor="{StaticResource Gray600}"
+                                   BackgroundColor="Transparent"
+                                   VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Defect Section -->
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
+                    StrokeThickness="0"
+                    Padding="16">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <HorizontalStackLayout Spacing="10">
+                        <Border BackgroundColor="{StaticResource Error}"
+                                WidthRequest="32"
+                                HeightRequest="32"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Label Text="🗑️" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Text="Брак (в утиль)"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+
+                    <Label Text="Количество брака из исходных материалов"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray400}" />
+                    <Border BackgroundColor="{StaticResource BackgroundInput}"
+                            StrokeThickness="0"
+                            Padding="12,0"
+                            HeightRequest="48">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+                        <Entry x:Name="DefectQuantityEntry"
+                               Keyboard="Numeric"
+                               Placeholder="0"
+                               Text="0"
+                               TextColor="{StaticResource White}"
+                               PlaceholderColor="{StaticResource Gray600}"
+                               BackgroundColor="Transparent"
+                               VerticalOptions="Center" />
+                    </Border>
+                    <Label Text="Брак будет автоматически отправлен на склад Утиль"
+                           FontSize="11"
+                           TextColor="{StaticResource Gray500}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Note Section -->
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
+                    StrokeThickness="0"
+                    Padding="16">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Примечание (необязательно)"
+                           FontSize="14"
+                           TextColor="{StaticResource Gray400}" />
+                    <Border BackgroundColor="{StaticResource BackgroundInput}"
+                            StrokeThickness="0"
+                            Padding="12"
+                            MinimumHeightRequest="80">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+                        <Editor x:Name="NoteEditor"
+                                Placeholder="Дополнительная информация о смешивании..."
+                                TextColor="{StaticResource White}"
+                                PlaceholderColor="{StaticResource Gray600}"
+                                BackgroundColor="Transparent"
+                                AutoSize="TextChanges"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Submit Button -->
+            <Button Text="Смешать"
+                    Clicked="OnSubmitClicked"
+                    BackgroundColor="{StaticResource CardMixing}"
+                    TextColor="{StaticResource White}"
+                    CornerRadius="14"
+                    HeightRequest="52"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Margin="0,8,0,16" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

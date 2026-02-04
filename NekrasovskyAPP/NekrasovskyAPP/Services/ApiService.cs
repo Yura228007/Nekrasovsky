@@ -1156,14 +1156,14 @@ namespace NekrasovskyAPP.Services
         }
 
         // Responsibilities
-        public async Task<List<Responsibility>> GetResponsibilitiesByUserAsync(int userId, bool activeOnly = true)
+        public async Task<List<ResponsibilityAssignment>> GetResponsibilitiesByUserAsync(int userId, bool activeOnly = true)
         {
             var activeOnlyParam = activeOnly.ToString().ToLower();
             var responsibilities = await TryGetResponsibilitiesAsync(
                                        $"api/responsibilities/user/{userId}?activeOnly={activeOnlyParam}")
                                    ?? await TryGetResponsibilitiesAsync(
                                        $"api/Responsibilities/user/{userId}?activeOnly={activeOnlyParam}")
-                                   ?? new List<Responsibility>();
+                                   ?? new List<ResponsibilityAssignment>();
 
             if (!activeOnly || responsibilities.Count > 0)
             {
@@ -1175,14 +1175,12 @@ namespace NekrasovskyAPP.Services
                                           $"api/responsibilities/user/{userId}?activeOnly=false")
                                       ?? await TryGetResponsibilitiesAsync(
                                           $"api/Responsibilities/user/{userId}?activeOnly=false")
-                                      ?? new List<Responsibility>();
+                                      ?? new List<ResponsibilityAssignment>();
 
-            return allResponsibilities
-                .Where(r => r.IsActive || r.ReleasedAt == null)
-                .ToList();
+            return allResponsibilities;
         }
 
-        private async Task<List<Responsibility>?> TryGetResponsibilitiesAsync(string relativeUrl)
+        private async Task<List<ResponsibilityAssignment>?> TryGetResponsibilitiesAsync(string relativeUrl)
         {
             try
             {
@@ -1192,8 +1190,8 @@ namespace NekrasovskyAPP.Services
                     return null;
                 }
 
-                return await response.Content.ReadFromJsonAsync<List<Responsibility>>(_jsonOptions)
-                    ?? new List<Responsibility>();
+                return await response.Content.ReadFromJsonAsync<List<ResponsibilityAssignment>>(_jsonOptions)
+                    ?? new List<ResponsibilityAssignment>();
             }
             catch
             {
@@ -1201,13 +1199,13 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<Responsibility?> GetResponsibilityByMaterialAsync(int materialId, bool activeOnly = true)
+        public async Task<ResponsibilityAssignment?> GetResponsibilityByMaterialAsync(int materialId, bool activeOnly = true)
         {
             try
             {
                 var response = await _httpClient.GetAsync($"api/responsibilities/material/{materialId}?activeOnly={activeOnly.ToString().ToLower()}");
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<Responsibility>(_jsonOptions);
+                return await response.Content.ReadFromJsonAsync<ResponsibilityAssignment>(_jsonOptions);
             }
             catch
             {
@@ -1215,13 +1213,13 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<Responsibility?> GetResponsibilityByProductAsync(int productId, bool activeOnly = true)
+        public async Task<ResponsibilityAssignment?> GetResponsibilityByProductAsync(int productId, bool activeOnly = true)
         {
             try
             {
                 var response = await _httpClient.GetAsync($"api/responsibilities/product/{productId}?activeOnly={activeOnly.ToString().ToLower()}");
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadFromJsonAsync<Responsibility>(_jsonOptions);
+                return await response.Content.ReadFromJsonAsync<ResponsibilityAssignment>(_jsonOptions);
             }
             catch
             {
@@ -1271,7 +1269,7 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<ApiResponse<Responsibility>> AssignMaterialResponsibilityAsync(int materialId, int userId, int? quantity = null, string? measuringUnit = null)
+        public async Task<ApiResponse<ResponsibilityAssignment>> AssignMaterialResponsibilityAsync(int materialId, int userId, int? quantity = null, string? measuringUnit = null)
         {
             try
             {
@@ -1283,22 +1281,22 @@ namespace NekrasovskyAPP.Services
                 if (result != null && result.ContainsKey("responsibility"))
                 {
                     var responsibilityJson = System.Text.Json.JsonSerializer.Serialize(result["responsibility"]);
-                    var responsibility = System.Text.Json.JsonSerializer.Deserialize<Responsibility>(responsibilityJson, _jsonOptions);
-                    return new ApiResponse<Responsibility>
+                    var responsibility = System.Text.Json.JsonSerializer.Deserialize<ResponsibilityAssignment>(responsibilityJson, _jsonOptions);
+                    return new ApiResponse<ResponsibilityAssignment>
                     {
                         Responsibility = responsibility,
                         Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Responsibility assigned" : "Responsibility assigned"
                     };
                 }
-                return new ApiResponse<Responsibility> { Message = "Failed to parse response" };
+                return new ApiResponse<ResponsibilityAssignment> { Message = "Failed to parse response" };
             }
             catch (HttpRequestException ex)
             {
-                return new ApiResponse<Responsibility> { Message = ex.Message };
+                return new ApiResponse<ResponsibilityAssignment> { Message = ex.Message };
             }
         }
 
-        public async Task<ApiResponse<Responsibility>> AssignProductResponsibilityAsync(int productId, int userId, int? quantity = null, string? measuringUnit = null)
+        public async Task<ApiResponse<ResponsibilityAssignment>> AssignProductResponsibilityAsync(int productId, int userId, int? quantity = null, string? measuringUnit = null)
         {
             try
             {
@@ -1310,18 +1308,18 @@ namespace NekrasovskyAPP.Services
                 if (result != null && result.ContainsKey("responsibility"))
                 {
                     var responsibilityJson = System.Text.Json.JsonSerializer.Serialize(result["responsibility"]);
-                    var responsibility = System.Text.Json.JsonSerializer.Deserialize<Responsibility>(responsibilityJson, _jsonOptions);
-                    return new ApiResponse<Responsibility>
+                    var responsibility = System.Text.Json.JsonSerializer.Deserialize<ResponsibilityAssignment>(responsibilityJson, _jsonOptions);
+                    return new ApiResponse<ResponsibilityAssignment>
                     {
                         Responsibility = responsibility,
                         Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Responsibility assigned" : "Responsibility assigned"
                     };
                 }
-                return new ApiResponse<Responsibility> { Message = "Failed to parse response" };
+                return new ApiResponse<ResponsibilityAssignment> { Message = "Failed to parse response" };
             }
             catch (HttpRequestException ex)
             {
-                return new ApiResponse<Responsibility> { Message = ex.Message };
+                return new ApiResponse<ResponsibilityAssignment> { Message = ex.Message };
             }
         }
 

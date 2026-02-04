@@ -8,20 +8,17 @@ namespace server.Services
     {
         private readonly AppDbContext _context;
         private readonly ILogger<MaterialService> _logger;
-        private readonly IResponsibilityService _responsibilityService;
         private readonly IResponsibilityFillingService _responsibilityFillingService;
         private readonly IFillingWarehouseService _fillingWarehouseService;
 
         public MaterialService(
             AppDbContext context,
             ILogger<MaterialService> logger,
-            IResponsibilityService responsibilityService,
             IResponsibilityFillingService responsibilityFillingService,
             IFillingWarehouseService fillingWarehouseService)
         {
             _context = context;
             _logger = logger;
-            _responsibilityService = responsibilityService;
             _responsibilityFillingService = responsibilityFillingService;
             _fillingWarehouseService = fillingWarehouseService;
         }
@@ -101,8 +98,6 @@ namespace server.Services
                 measuringUnit = material.MeasuringUnit;
             }
 
-            await _responsibilityService.AssignMaterialAsync(material.Id, userId, quantity, measuringUnit);
-
             // При указании склада и количества — создаём остаток на складе и запись в ResponsibilityFilling
             if (warehouseId.HasValue && quantity.HasValue && quantity.Value > 0)
             {
@@ -178,11 +173,6 @@ namespace server.Services
                 .ToListAsync();
             _context.ResponsibilityFillings.RemoveRange(responsibilityFillings);
 
-            var responsibilities = await _context.Responsibilities
-                .Where(r => r.MaterialId == id)
-                .ToListAsync();
-            _context.Responsibilities.RemoveRange(responsibilities);
-
             var fillingWarehouses = await _context.FillingWarehouses
                 .Where(fw => fw.MaterialId == id)
                 .ToListAsync();
@@ -191,8 +181,8 @@ namespace server.Services
             _context.Materials.Remove(material);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("Material deleted with ID: {MaterialId}. Removed {Rf} responsibility fillings, {R} responsibilities, {Fw} filling warehouse records.",
-                id, responsibilityFillings.Count, responsibilities.Count, fillingWarehouses.Count);
+            _logger.LogInformation("Material deleted with ID: {MaterialId}. Removed {Rf} responsibility fillings, {Fw} filling warehouse records.",
+                id, responsibilityFillings.Count, fillingWarehouses.Count);
             return true;
         }
 

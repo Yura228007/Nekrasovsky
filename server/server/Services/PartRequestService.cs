@@ -8,7 +8,6 @@ namespace server.Services
     {
         private readonly AppDbContext _context;
         private readonly ILogger<PartRequestService> _logger;
-        private readonly IResponsibilityService _responsibilityService;
         private readonly IResponsibilityFillingService _responsibilityFillingService;
         // Хранилище для подсчета отказов: ключ - комбинация fromUserId-toUserId, значение - количество отказов
         private static readonly Dictionary<string, int> _rejectionCounts = new Dictionary<string, int>();
@@ -16,12 +15,10 @@ namespace server.Services
         public PartRequestService(
             AppDbContext context,
             ILogger<PartRequestService> logger,
-            IResponsibilityService responsibilityService,
             IResponsibilityFillingService responsibilityFillingService)
         {
             _context = context;
             _logger = logger;
-            _responsibilityService = responsibilityService;
             _responsibilityFillingService = responsibilityFillingService;
         }
 
@@ -188,26 +185,21 @@ namespace server.Services
 
                 await _context.SaveChangesAsync();
 
-                // Ответственность: привязка к складу (ResponsibilityFilling) или старая модель (Responsibility)
+                // Ответственность: привязка к складу (ResponsibilityFilling)
                 var senderResponsibleAtWarehouse = await _responsibilityFillingService.GetUserResponsibleQuantityAtWarehouseAsync(
                     request.FromUserId, request.FromWarehouseId, request.MaterialId);
 
-                if (senderResponsibleAtWarehouse >= request.Quantity)
+                if (senderResponsibleAtWarehouse > 0)
                 {
+                    var decreaseAmount = Math.Min(senderResponsibleAtWarehouse, request.Quantity);
                     await _responsibilityFillingService.DecreaseMaterialResponsibilityAtWarehouseAsync(
-                        request.FromWarehouseId, request.MaterialId, request.Quantity, request.FromUserId);
-                    await _responsibilityFillingService.AssignMaterialAtWarehouseAsync(
-                        request.ToUserId, request.ToWarehouseId, request.MaterialId, request.Quantity,
-                        request.MeasuringType ?? request.Material?.MeasuringUnit);
+                        request.FromWarehouseId, request.MaterialId, decreaseAmount, request.FromUserId);
                 }
-                else
-                {
-                    await _responsibilityService.DecreaseResponsibilityQuantityAsync(
-                        request.MaterialId, request.Quantity, request.FromUserId);
-                    await _responsibilityService.AssignMaterialAsync(
-                        request.MaterialId, request.ToUserId, request.Quantity,
-                        request.MeasuringType ?? request.Material?.MeasuringUnit);
-                }
+
+                // Назначаем ответственность получателю
+                await _responsibilityFillingService.AssignMaterialAtWarehouseAsync(
+                    request.ToUserId, request.ToWarehouseId, request.MaterialId, request.Quantity,
+                    request.MeasuringType ?? request.Material?.MeasuringUnit);
 
                 request.Status = PartRequestStatus.Approved;
                 await _context.SaveChangesAsync();

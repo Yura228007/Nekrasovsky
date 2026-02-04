@@ -88,6 +88,8 @@ namespace NekrasovskyAPP
             builder.Services.AddTransient<ShiftTransferReviewPage>();
             builder.Services.AddTransient<ReprocessingPage>(sp =>
                 new ReprocessingPage(sp.GetRequiredService<IApiService>(), sp.GetRequiredService<IAuthService>()));
+            builder.Services.AddTransient<MixingPage>(sp =>
+                new MixingPage(sp.GetRequiredService<IApiService>(), sp.GetRequiredService<IAuthService>()));
             builder.Services.AddTransient<SettingsPage>(sp =>
                 new SettingsPage(sp.GetRequiredService<IApiService>()));
             builder.Services.AddTransient<ViewModels.HistoryViewModel>();

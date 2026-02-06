@@ -5,7 +5,7 @@ namespace server.Models
         public int DisposalWarehouseId { get; set; }
         public int? MaterialId { get; set; }
         public int? ProductId { get; set; }
-        public int ReturnableQuantity { get; set; }
-        public int NonReturnableQuantity { get; set; }
+        public double ReturnableQuantity { get; set; }
+        public double NonReturnableQuantity { get; set; }
     }
 }

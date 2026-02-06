@@ -15,7 +15,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         _logger = logger;
     }
 
-    public async Task<ResponsibilityFilling> AssignMaterialAtWarehouseAsync(int userId, int warehouseId, int materialId, int quantity, string? measuringUnit = null)
+    public async Task<ResponsibilityFilling> AssignMaterialAtWarehouseAsync(int userId, int warehouseId, int materialId, double quantity, string? measuringUnit = null)
     {
         if (quantity <= 0)
             throw new ArgumentOutOfRangeException(nameof(quantity), "Quantity must be positive.");
@@ -71,7 +71,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         return rf;
     }
 
-    public async Task<ResponsibilityFilling> AssignProductAtWarehouseAsync(int userId, int warehouseId, int productId, int quantity, string? measuringUnit = null)
+    public async Task<ResponsibilityFilling> AssignProductAtWarehouseAsync(int userId, int warehouseId, int productId, double quantity, string? measuringUnit = null)
     {
         if (quantity <= 0)
             throw new ArgumentOutOfRangeException(nameof(quantity), "Quantity must be positive.");
@@ -127,7 +127,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         return rf;
     }
 
-    public async Task<bool> DecreaseMaterialResponsibilityAtWarehouseAsync(int warehouseId, int materialId, int quantity, int userId)
+    public async Task<bool> DecreaseMaterialResponsibilityAtWarehouseAsync(int warehouseId, int materialId, double quantity, int userId)
     {
         if (quantity <= 0)
             return false;
@@ -140,12 +140,12 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         if (fillings.Count == 0)
             return false;
 
-        int remaining = quantity;
+        double remaining = quantity;
         foreach (var rf in fillings)
         {
             if (remaining <= 0)
                 break;
-            int decrease = Math.Min(remaining, rf.Quantity);
+            double decrease = Math.Min(remaining, rf.Quantity);
             rf.Quantity -= decrease;
             remaining -= decrease;
             if (rf.Quantity <= 0)
@@ -162,7 +162,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         return true;
     }
 
-    public async Task<bool> DecreaseProductResponsibilityAtWarehouseAsync(int warehouseId, int productId, int quantity, int userId)
+    public async Task<bool> DecreaseProductResponsibilityAtWarehouseAsync(int warehouseId, int productId, double quantity, int userId)
     {
         if (quantity <= 0)
             return false;
@@ -175,12 +175,12 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         if (fillings.Count == 0)
             return false;
 
-        int remaining = quantity;
+        double remaining = quantity;
         foreach (var rf in fillings)
         {
             if (remaining <= 0)
                 break;
-            int decrease = Math.Min(remaining, rf.Quantity);
+            double decrease = Math.Min(remaining, rf.Quantity);
             rf.Quantity -= decrease;
             remaining -= decrease;
             if (rf.Quantity <= 0)
@@ -200,7 +200,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
     /// <summary>
     /// Уменьшить ответственность за материал на складе на quantity (по записям AssignedAt desc, снимая/уменьшая по пользователям).
     /// </summary>
-    public async Task<bool> DecreaseMaterialResponsibilityAtWarehouseByQuantityAsync(int warehouseId, int materialId, int quantity)
+    public async Task<bool> DecreaseMaterialResponsibilityAtWarehouseByQuantityAsync(int warehouseId, int materialId, double quantity)
     {
         if (quantity <= 0)
             return false;
@@ -213,12 +213,12 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         if (fillings.Count == 0)
             return true; // нет назначений — не ошибка
 
-        int remaining = quantity;
+        double remaining = quantity;
         foreach (var rf in fillings)
         {
             if (remaining <= 0)
                 break;
-            int decrease = Math.Min(remaining, rf.Quantity);
+            double decrease = Math.Min(remaining, rf.Quantity);
             rf.Quantity -= decrease;
             remaining -= decrease;
             if (rf.Quantity <= 0)
@@ -238,7 +238,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
     /// <summary>
     /// Уменьшить ответственность за продукт на складе на quantity.
     /// </summary>
-    public async Task<bool> DecreaseProductResponsibilityAtWarehouseByQuantityAsync(int warehouseId, int productId, int quantity)
+    public async Task<bool> DecreaseProductResponsibilityAtWarehouseByQuantityAsync(int warehouseId, int productId, double quantity)
     {
         if (quantity <= 0)
             return false;
@@ -251,12 +251,12 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         if (fillings.Count == 0)
             return true;
 
-        int remaining = quantity;
+        double remaining = quantity;
         foreach (var rf in fillings)
         {
             if (remaining <= 0)
                 break;
-            int decrease = Math.Min(remaining, rf.Quantity);
+            double decrease = Math.Min(remaining, rf.Quantity);
             rf.Quantity -= decrease;
             remaining -= decrease;
             if (rf.Quantity <= 0)
@@ -273,14 +273,14 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         return true;
     }
 
-    public async Task<int> GetUserResponsibleQuantityAtWarehouseAsync(int userId, int warehouseId, int materialId)
+    public async Task<double> GetUserResponsibleQuantityAtWarehouseAsync(int userId, int warehouseId, int materialId)
     {
         return await _context.ResponsibilityFillings
             .Where(rf => rf.IsActive && rf.UserId == userId && rf.WarehouseId == warehouseId && rf.MaterialId == materialId)
             .SumAsync(rf => rf.Quantity);
     }
 
-    public async Task<int> GetUserResponsibleProductQuantityAtWarehouseAsync(int userId, int warehouseId, int productId)
+    public async Task<double> GetUserResponsibleProductQuantityAtWarehouseAsync(int userId, int warehouseId, int productId)
     {
         return await _context.ResponsibilityFillings
             .Where(rf => rf.IsActive && rf.UserId == userId && rf.WarehouseId == warehouseId && rf.ProductId == productId)
@@ -339,7 +339,8 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
             Quantity = rf.Quantity,
             MeasuringUnit = rf.MeasuringUnit,
             WarehouseId = rf.WarehouseId,
-            WarehouseName = rf.Warehouse?.Name
+            WarehouseName = rf.Warehouse?.Name,
+            ResponsibilityFillingId = rf.Id
         }).ToList();
     }
 
@@ -366,11 +367,12 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
             Quantity = rf.Quantity,
             MeasuringUnit = rf.MeasuringUnit,
             WarehouseId = rf.WarehouseId,
-            WarehouseName = rf.Warehouse?.Name
+            WarehouseName = rf.Warehouse?.Name,
+            ResponsibilityFillingId = rf.Id
         }).ToList();
     }
 
-    public async Task TransferMaterialResponsibilityAsync(int warehouseId, int materialId, int fromUserId, int toUserId, int? quantityToTransfer = null)
+    public async Task TransferMaterialResponsibilityAsync(int warehouseId, int materialId, int fromUserId, int toUserId, double? quantityToTransfer = null)
     {
         if (fromUserId == toUserId)
             throw new InvalidOperationException("FromUserId and ToUserId must be different.");
@@ -379,7 +381,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         if (totalFrom <= 0)
             throw new InvalidOperationException($"User {fromUserId} has no responsibility for material {materialId} at warehouse {warehouseId}.");
 
-        int transferAmount = quantityToTransfer.HasValue
+        double transferAmount = quantityToTransfer.HasValue
             ? Math.Clamp(quantityToTransfer.Value, 1, totalFrom)
             : totalFrom;
 
@@ -392,7 +394,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
             warehouseId, materialId, fromUserId, toUserId, transferAmount);
     }
 
-    public async Task TransferProductResponsibilityAsync(int warehouseId, int productId, int fromUserId, int toUserId, int? quantityToTransfer = null)
+    public async Task TransferProductResponsibilityAsync(int warehouseId, int productId, int fromUserId, int toUserId, double? quantityToTransfer = null)
     {
         if (fromUserId == toUserId)
             throw new InvalidOperationException("FromUserId and ToUserId must be different.");
@@ -401,7 +403,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         if (totalFrom <= 0)
             throw new InvalidOperationException($"User {fromUserId} has no responsibility for product {productId} at warehouse {warehouseId}.");
 
-        int transferAmount = quantityToTransfer.HasValue
+        double transferAmount = quantityToTransfer.HasValue
             ? Math.Clamp(quantityToTransfer.Value, 1, totalFrom)
             : totalFrom;
 
@@ -414,7 +416,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
             warehouseId, productId, fromUserId, toUserId, transferAmount);
     }
 
-    public async Task AssignBatchResponsibilityAsync(int userId, int batchId, int quantity, string? measuringUnit)
+    public async Task AssignBatchResponsibilityAsync(int userId, int batchId, double quantity, string? measuringUnit)
     {
         var batch = await _context.ProductBatches
             .Include(pb => pb.Product)
@@ -442,7 +444,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
             userId, batchId, quantity);
     }
 
-    public async Task DecreaseBatchResponsibilityAsync(int batchId, int quantity, int userId)
+    public async Task DecreaseBatchResponsibilityAsync(int batchId, double quantity, int userId)
     {
         var responsibilities = await _context.ResponsibilityFillings
             .Where(rf => rf.ProductBatchId == batchId && rf.UserId == userId && rf.IsActive)
@@ -476,14 +478,14 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         await _context.SaveChangesAsync();
     }
 
-    public async Task<int> GetUserResponsibleQuantityForBatchAsync(int userId, int batchId)
+    public async Task<double> GetUserResponsibleQuantityForBatchAsync(int userId, int batchId)
     {
         return await _context.ResponsibilityFillings
             .Where(rf => rf.ProductBatchId == batchId && rf.UserId == userId && rf.IsActive)
             .SumAsync(rf => rf.Quantity);
     }
 
-    public async Task TransferBatchResponsibilityAsync(int batchId, int fromUserId, int toUserId, int? quantityToTransfer = null)
+    public async Task TransferBatchResponsibilityAsync(int batchId, int fromUserId, int toUserId, double? quantityToTransfer = null)
     {
         if (fromUserId == toUserId)
             throw new InvalidOperationException("FromUserId and ToUserId must be different.");
@@ -492,7 +494,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         if (totalFrom <= 0)
             throw new InvalidOperationException($"User {fromUserId} has no responsibility for batch {batchId}.");
 
-        int transferAmount = quantityToTransfer.HasValue
+        double transferAmount = quantityToTransfer.HasValue
             ? Math.Clamp(quantityToTransfer.Value, 1, totalFrom)
             : totalFrom;
 

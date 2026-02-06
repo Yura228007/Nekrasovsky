@@ -382,10 +382,10 @@ namespace NekrasovskyAPP.ViewModels
                 return materials.ToList();
             }
 
-            var responsibilities = await _apiService.GetResponsibilitiesByUserAsync(currentUser.Id, true);
-            var allowedIds = responsibilities
-                .Where(r => r.MaterialId.HasValue)
-                .Select(r => r.MaterialId!.Value)
+            var materialAssignments = await _apiService.GetActiveMaterialAssignmentsAsync();
+            var allowedIds = materialAssignments
+                .Where(r => r.UserId == currentUser.Id)
+                .Select(r => r.ItemId)
                 .ToHashSet();
 
             return materials.Where(m => allowedIds.Contains(m.Id)).ToList();
@@ -410,10 +410,10 @@ namespace NekrasovskyAPP.ViewModels
                 return products.ToList();
             }
 
-            var responsibilities = await _apiService.GetResponsibilitiesByUserAsync(currentUser.Id, true);
-            var allowedIds = responsibilities
-                .Where(r => r.ProductId.HasValue)
-                .Select(r => r.ProductId!.Value)
+            var productAssignments = await _apiService.GetActiveProductAssignmentsAsync();
+            var allowedIds = productAssignments
+                .Where(r => r.UserId == currentUser.Id)
+                .Select(r => r.ItemId)
                 .ToHashSet();
 
             return products.Where(p => allowedIds.Contains(p.Id)).ToList();
@@ -439,13 +439,23 @@ namespace NekrasovskyAPP.ViewModels
                 return batches.ToList();
             }
 
-            var responsibilities = await _apiService.GetResponsibilitiesByUserAsync(currentUser.Id, true);
-            var allowedProductIds = responsibilities
-                .Where(r => r.ProductId.HasValue)
-                .Select(r => r.ProductId!.Value)
+            // Получаем ответственность за партии через ResponsibilityFilling
+            var responsibilityFillings = await _apiService.GetResponsibilityFillingsByUserAsync(currentUser.Id);
+            var allowedBatchIds = responsibilityFillings
+                .Where(rf => rf.ProductBatchId.HasValue && rf.IsActive && rf.Quantity > 0)
+                .Select(rf => rf.ProductBatchId!.Value)
                 .ToHashSet();
 
-            return batches.Where(b => allowedProductIds.Contains(b.ProductId)).ToList();
+            // Также проверяем ответственность за продукт (для обратной совместимости)
+            var productAssignments = await _apiService.GetActiveProductAssignmentsAsync();
+            var allowedProductIds = productAssignments
+                .Where(r => r.UserId == currentUser.Id)
+                .Select(r => r.ItemId)
+                .ToHashSet();
+
+            return batches.Where(b => 
+                allowedBatchIds.Contains(b.Id) || 
+                allowedProductIds.Contains(b.ProductId)).ToList();
         }
 
         // User management methods
@@ -1552,7 +1562,7 @@ namespace NekrasovskyAPP.ViewModels
         }
 
         /// <summary>
-        /// Проверяет право на управление рецептурами (переработка, редактирование)
+        /// Проверяет право на управление рецептурами (производство, редактирование)
         /// </summary>
         public async Task<bool> HasManageRecipesPermissionAsync()
         {

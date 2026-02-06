@@ -16,7 +16,7 @@ public class ProductBatch
     public int WarehouseId { get; set; }
 
     [Required]
-    public int Quantity { get; set; } = 0;
+    public double Quantity { get; set; } = 0;
 
     public string? MeasuringUnit { get; set; }
 
@@ -26,8 +26,6 @@ public class ProductBatch
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public string? BatchNumber { get; set; }
-
-    public int? ProductOutputId { get; set; }
 
     public string? Note { get; set; }
 

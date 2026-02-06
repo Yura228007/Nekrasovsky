@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NekrasovskyAPP.Pages.ProductOutputPage"
              BackgroundColor="{StaticResource BackgroundDark}"
-             Title="Выпуск продукции">
+             Title="Упаковка продукции">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Добавить" Clicked="OnAddClicked" />
@@ -15,10 +15,10 @@
         <!-- Header -->
         <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,4,0,12">
             <VerticalStackLayout>
-                <Label Text="Выпуск продукции"
-                       FontSize="24"
-                       FontAttributes="Bold"
-                       TextColor="{StaticResource White}" />
+                    <Label Text="Упаковка продукции"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource White}" />
                 <Label Text="Произведено, брак, эко, перемотка"
                        FontSize="12"
                        TextColor="{StaticResource Gray500}" />
@@ -143,7 +143,7 @@
                             </Border.StrokeShape>
                             <Label Text="📭" FontSize="36" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
-                        <Label Text="Нет записей о выпуске"
+                            <Label Text="Нет записей об упаковке"
                                FontSize="16"
                                FontAttributes="Bold"
                                TextColor="{StaticResource Gray400}"

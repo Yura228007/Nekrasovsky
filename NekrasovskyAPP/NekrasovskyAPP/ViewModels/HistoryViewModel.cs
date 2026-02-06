@@ -341,7 +341,7 @@ namespace NekrasovskyAPP.ViewModels
 
         private static string BuildReprocessingDescription(string materialName, string warehouseName, string? quantity, string? unit)
         {
-            var baseText = $"Переработка материала {materialName}";
+            var baseText = $"Производство материала {materialName}";
             if (warehouseName != "неизвестно")
             {
                 baseText += $" на складе {warehouseName}";

@@ -8,7 +8,7 @@ namespace NekrasovskyAPP.Models
         public int ItemId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string MeasuringUnit { get; set; } = string.Empty;
-        public int TotalQuantity { get; set; }
+        public double TotalQuantity { get; set; }
         public ObservableCollection<ResponsibilityWarehouseStock> Warehouses { get; set; } = new();
         public bool IsChecked { get; set; }
     }
@@ -17,7 +17,7 @@ namespace NekrasovskyAPP.Models
     {
         public int WarehouseId { get; set; }
         public string WarehouseName { get; set; } = string.Empty;
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
         public string MeasuringType { get; set; } = string.Empty;
     }
 }

@@ -26,6 +26,6 @@ public class ProductOutputOption
     public int? TargetWarehouseId { get; set; }
     public string? TargetWarehouseName { get; set; }
     /// <summary>Максимум, сколько можно выпустить по этой партии. null = без лимита.</summary>
-    public int? MaxQuantity { get; set; }
+    public double? MaxQuantity { get; set; }
     public string? MeasuringUnit { get; set; }
 }

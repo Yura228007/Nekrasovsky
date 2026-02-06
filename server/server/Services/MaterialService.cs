@@ -76,7 +76,7 @@ namespace server.Services
                 .ToListAsync();
         }
 
-        public async Task<Material> CreateMaterialAsync(Material material, int userId, int? quantity = null, string? measuringUnit = null, int? warehouseId = null)
+        public async Task<Material> CreateMaterialAsync(Material material, int userId, double? quantity = null, string? measuringUnit = null, int? warehouseId = null)
         {
             // Проверка уникальности артикула
             if (!string.IsNullOrWhiteSpace(material.Code))

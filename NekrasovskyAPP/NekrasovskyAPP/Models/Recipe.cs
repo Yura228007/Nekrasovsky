@@ -15,8 +15,8 @@ namespace NekrasovskyAPP.Models
         public int MaterialId { get; set; }
 
         [Required]
-        [Column(TypeName = "integer")]
-        public int Quantity { get; set; }
+        [Column(TypeName = "double precision")]
+        public double Quantity { get; set; }
 
         [Column(TypeName = "varchar(20)")]
         public string? MeasuringType { get; set; }

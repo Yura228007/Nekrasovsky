@@ -28,13 +28,21 @@ namespace server.Models
         [ForeignKey(nameof(ToWarehouse))]
         public int ToWarehouseId { get; set; }
 
-        [Required]
+        /// <summary>
+        /// ID материала (для запросов на материалы). Должен быть заполнен только один из MaterialId или ProductId.
+        /// </summary>
         [ForeignKey(nameof(Material))]
-        public int MaterialId { get; set; }
+        public int? MaterialId { get; set; }
+
+        /// <summary>
+        /// ID продукта (для запросов на продукты, например, перемотка). Должен быть заполнен только один из MaterialId или ProductId.
+        /// </summary>
+        [ForeignKey(nameof(Product))]
+        public int? ProductId { get; set; }
 
         [Required]
         [Column(TypeName = "integer")]
-        public int Quantity { get; set; } = 0;
+        public double Quantity { get; set; } = 0;
 
         [Column(TypeName = "varchar(20)")]
         public string? MeasuringType { get; set; }
@@ -63,6 +71,10 @@ namespace server.Models
         [JsonIgnore]
         [ValidateNever]
         public virtual Material? Material { get; set; }
+
+        [JsonIgnore]
+        [ValidateNever]
+        public virtual Product? Product { get; set; }
     }
 
     public enum PartRequestStatus

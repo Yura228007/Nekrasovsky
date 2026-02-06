@@ -21,6 +21,7 @@ namespace NekrasovskyAPP.Pages
         private bool _hasDisposalPermission;
         private bool _hasWriteOffPermission;
         private bool _hasSendToSalePermission;
+        private bool _hasManageFinishedGoodsPermission;
         private static bool _lockDialogShownThisSession;
         private static bool _unlockDeviceHandlerSet;
 
@@ -315,6 +316,15 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("ProductOutputPage");
         }
 
+        private async void OnFinishedGoodsClicked(object sender, EventArgs e)
+        {
+            if (!await EnsureShiftAccessAsync("FinishedGoodsPage"))
+            {
+                return;
+            }
+            await Shell.Current.GoToAsync("FinishedGoodsPage");
+        }
+
         private async void OnAlarmClicked(object sender, EventArgs e)
         {
             if (_authService.CurrentUser == null)
@@ -391,8 +401,9 @@ namespace NekrasovskyAPP.Pages
                 var scrapTask = CheckPermissionAsync(currentUser, "SendToScrap");
                 var writeOffTask = CheckPermissionAsync(currentUser, "WriteOff");
                 var sendToSaleTask = CheckPermissionAsync(currentUser, "SendToSale");
+                var finishedGoodsTask = CheckPermissionAsync(currentUser, "ManageFinishedGoodsWarehouses");
 
-                await Task.WhenAll(shiftTask, barcodeTask, recipesTask, scrapTask, writeOffTask, sendToSaleTask);
+                await Task.WhenAll(shiftTask, barcodeTask, recipesTask, scrapTask, writeOffTask, sendToSaleTask, finishedGoodsTask);
 
                 _hasShiftTransferPermission = shiftTask.Result;
                 _hasAssignBarcodePermission = barcodeTask.Result;
@@ -400,6 +411,7 @@ namespace NekrasovskyAPP.Pages
                 _hasWriteOffPermission = writeOffTask.Result;
                 _hasSendToSalePermission = sendToSaleTask.Result;
                 _hasDisposalPermission = scrapTask.Result || writeOffTask.Result;
+                _hasManageFinishedGoodsPermission = finishedGoodsTask.Result;
 
                 UpdateCardVisibility();
             }
@@ -442,14 +454,17 @@ namespace NekrasovskyAPP.Pages
             // Передача смены - только с правом ShiftTransfer
             ShiftTransfersCard.IsVisible = _hasShiftTransferPermission || _isPrivilegedUser;
 
-            // Переработка - только с правом ManageRecipes
+            // Производство - только с правом ManageRecipes
             ReprocessingCard.IsVisible = _hasManageRecipesPermission || _isPrivilegedUser;
 
             // Утиль - только с правом WriteOff
             DisposalCard.IsVisible = _hasWriteOffPermission || _isPrivilegedUser;
 
-            // Выпуск - только с правом SendToSale
+            // Упаковка - только с правом SendToSale
             ProductOutputCard.IsVisible = _hasSendToSalePermission || _isPrivilegedUser;
+
+            // Готовая продукция - только с правом ManageFinishedGoodsWarehouses
+            FinishedGoodsCard.IsVisible = _hasManageFinishedGoodsPermission || _isPrivilegedUser;
         }
 
         private async Task<bool> EnsureShiftAccessAsync(string destination)

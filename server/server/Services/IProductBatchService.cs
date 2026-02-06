@@ -13,8 +13,8 @@ public interface IProductBatchService
     Task<ProductBatch> CreateBatchAsync(ProductBatch batch);
     Task<ProductBatch> UpdateBatchAsync(int id, ProductBatch updatedBatch);
     Task<bool> DeleteBatchAsync(int id);
-    Task<ProductBatch> DecreaseBatchQuantityAsync(int batchId, int quantity);
-    Task<int> GetTotalQuantityByProductAndWarehouseAsync(int productId, int warehouseId);
+    Task<ProductBatch> DecreaseBatchQuantityAsync(int batchId, double quantity);
+    Task<double> GetTotalQuantityByProductAndWarehouseAsync(int productId, int warehouseId);
     /// <summary>Пересчитывает и обновляет FillingWarehouse для продукта на складе (после создания партии в той же транзакции).</summary>
     Task UpdateFillingWarehouseForProductAsync(int productId, int warehouseId);
 }

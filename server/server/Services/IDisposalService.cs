@@ -6,6 +6,6 @@ namespace server.Services
         /// Обработать утиль: невозвратный брак списывается, возвратный перемещается в склад ЭКО.
         /// </summary>
         Task ProcessDisposalAsync(int disposalWarehouseId, int? materialId, int? productId,
-            int returnableQuantity, int nonReturnableQuantity);
+            double returnableQuantity, double nonReturnableQuantity);
     }
 }

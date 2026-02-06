@@ -15,8 +15,8 @@ namespace server.Services
         Task<FillingWarehouse> UpdateFillingWarehouseByProductAsync(int warehouseId, int productId, FillingWarehouse updatedFilling);
         Task<bool> DeleteFillingWarehouseByMaterialAsync(int warehouseId, int materialId);
         Task<bool> DeleteFillingWarehouseByProductAsync(int warehouseId, int productId);
-        Task<FillingWarehouse> UpdateQuantityByMaterialAsync(int warehouseId, int materialId, int quantity);
-        Task<FillingWarehouse> UpdateQuantityByProductAsync(int warehouseId, int productId, int quantity);
+        Task<FillingWarehouse> UpdateQuantityByMaterialAsync(int warehouseId, int materialId, double quantity);
+        Task<FillingWarehouse> UpdateQuantityByProductAsync(int warehouseId, int productId, double quantity);
         Task<IEnumerable<FillingWarehouse>> GetWarehouseStockAsync(int warehouseId);
     }
 }

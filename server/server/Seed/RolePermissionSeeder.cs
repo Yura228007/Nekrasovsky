@@ -208,7 +208,8 @@ namespace server.Seed
                 new() { Code = "ManageRecipes", Name = "Создание и добавление рецептур, единиц хранения", Description = "Управление рецептурами и единицами хранения" },
                 new() { Code = "Inventory", Name = "Инвентаризация", Description = "Инвентаризация" },
                 new() { Code = "ManageUsers", Name = "Управление пользователями", Description = "Добавление/редактирование/удаление пользователей" },
-                new() { Code = "ManageResponsibility", Name = "Управление ответственностью", Description = "Назначение и изменение ответственных" }
+                new() { Code = "ManageResponsibility", Name = "Управление ответственностью", Description = "Назначение и изменение ответственных" },
+                new() { Code = "ManageFinishedGoodsWarehouses", Name = "Управление складами готовой продукции", Description = "Управление перемещениями продукции на склады готовой продукции" }
             };
 
             // Словарь прав по ролям
@@ -219,14 +220,14 @@ namespace server.Seed
                     "AddUsersAll", "AddUsersLower", "ReceiveGoods", "AssignBarcode",
                     "SendToScrap", "SendToSDH", "SendToSale", "WriteOff",
                     "TransferMainToWorkshops", "TransferWorkshopsToMain", "ShiftTransfer",
-                    "ManageRecipes", "Inventory", "ManageUsers", "ManageResponsibility"
+                    "ManageRecipes", "Inventory", "ManageUsers", "ManageResponsibility", "ManageFinishedGoodsWarehouses"
                 },
                 ["Администратор"] = new[]
                 {
                     "AddUsersLower", "ReceiveGoods", "AssignBarcode",
                     "SendToScrap", "SendToSDH", "SendToSale",
                     "TransferMainToWorkshops", "TransferWorkshopsToMain", "ShiftTransfer",
-                    "ManageRecipes", "Inventory", "ManageUsers", "ManageResponsibility"
+                    "ManageRecipes", "Inventory", "ManageUsers", "ManageResponsibility", "ManageFinishedGoodsWarehouses"
                 },
                 ["Старший экструзионщик"] = new[]
                 {
@@ -250,7 +251,7 @@ namespace server.Seed
                 },
                 ["Старшая упаковщица"] = new[]
                 {
-                    "AssignBarcode", "SendToScrap", "SendToSale", "TransferWorkshopsToMain", "ShiftTransfer"
+                    "AssignBarcode", "SendToScrap", "SendToSale", "TransferWorkshopsToMain", "ShiftTransfer", "ManageFinishedGoodsWarehouses"
                 },
                 ["Кладовщик готовой продукции"] = new[]
                 {

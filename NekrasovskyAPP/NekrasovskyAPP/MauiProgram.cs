@@ -105,6 +105,12 @@ namespace NekrasovskyAPP
                     sp.GetRequiredService<IAuthService>()));
             builder.Services.AddTransient<DisposalPage>(sp =>
                 new DisposalPage(sp.GetRequiredService<ViewModels.DisposalViewModel>()));
+            builder.Services.AddTransient<ViewModels.FinishedGoodsViewModel>(sp =>
+                new ViewModels.FinishedGoodsViewModel(
+                    sp.GetRequiredService<IApiService>(),
+                    sp.GetRequiredService<IAuthService>()));
+            builder.Services.AddTransient<FinishedGoodsPage>(sp =>
+                new FinishedGoodsPage(sp.GetRequiredService<ViewModels.FinishedGoodsViewModel>()));
             builder.Services.AddTransient<QrCodesPage>(sp =>
                 new QrCodesPage(sp.GetRequiredService<QrCodeService>()));
             builder.Services.AddTransient<ProductOutputPage>(sp =>

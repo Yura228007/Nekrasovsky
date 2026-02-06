@@ -11,7 +11,7 @@ namespace server.Services
         Task<Recipe> CreateRecipeAsync(Recipe recipe);
         Task<Recipe> UpdateRecipeAsync(int productId, int materialId, Recipe updatedRecipe);
         Task<bool> DeleteRecipeAsync(int productId, int materialId);
-        Task<Recipe> AddMaterialToRecipeAsync(int productId, int materialId, int quantity, string? measuringType);
+        Task<Recipe> AddMaterialToRecipeAsync(int productId, int materialId, double quantity, string? measuringType);
         Task<bool> RemoveMaterialFromRecipeAsync(int productId, int materialId);
     }
 }

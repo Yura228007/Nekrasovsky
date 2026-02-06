@@ -1,0 +1,390 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NekrasovskyAPP</name>
+    </assembly>
+    <members>
+        <member name="T:NekrasovskyAPP.Models.WarehouseStockInfo">
+            <summary>
+            Информация о количестве материала на конкретном складе
+            </summary>
+        </member>
+        <member name="T:NekrasovskyAPP.Models.MaterialDisplayItem">
+            <summary>
+            Обертка для отображения материала с информацией об ответственном лице
+            Позволяет отображать несколько карточек для одного материала, если у него несколько ответственных
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.MaterialDisplayItem.UnassignedQuantity">
+            <summary>
+            Количество неответственной части (только для карточки с Responsibility == null).
+            При назначении ответственности передаётся это количество, а не null.
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.MaterialDisplayItem.UnassignedMeasuringUnit">
+            <summary>
+            Единица измерения неответственной части.
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.MaterialDisplayItem.DisplayStocks">
+            <summary>Остатки: либо по складам (WarehouseStocksDisplay), либо общая подпись (StockSummary).</summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.MaterialDisplayItem.MeasuringUnitDisplay">
+            <summary>Единица измерения для отображения в карточке.</summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.PartRequest.StatusDisplay">
+            <summary>Текст статуса для отображения в списке.</summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.PartRequest.ItemName">
+            <summary>Название материала или продукта для отображения.</summary>
+        </member>
+        <member name="T:NekrasovskyAPP.Models.ProductDisplayItem">
+            <summary>
+            Обертка для отображения продукта с информацией об ответственном лице
+            Позволяет отображать несколько карточек для одного продукта, если у него несколько ответственных
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ProductDisplayItem.UnassignedQuantity">
+            <summary>
+            Количество неответственной части (только для карточки с Responsibility == null).
+            При назначении ответственности передаётся это количество, а не null.
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ProductDisplayItem.UnassignedMeasuringUnit">
+            <summary>
+            Единица измерения неответственной части.
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ReprocessingCreateRequest.DefectQuantity">
+            <summary>
+            Количество невозвратного брака, которое отправляется на склад "Утиль"
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ReprocessingCreateRequest.DefectWarehouseId">
+            <summary>
+            ID склада утиля для невозвратного брака
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ReprocessingCreateRequest.RecyclingQuantity">
+            <summary>
+            Количество на переработку, которое отправляется на склад "Утиль"
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ReprocessingCreateRequest.RecyclingWarehouseId">
+            <summary>
+            ID склада утиля для переработки
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ReprocessingCreateRequest.Note">
+            <summary>
+            Примечание к переработке (сохраняется в партии)
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ReprocessingOutput.OutputType">
+            <summary>
+            Тип результата: Normal (нормальный) или Eco (ЭКО)
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ResponsibilityAssignment.WarehouseId">
+            <summary>Склад, за который назначена ответственность (из ResponsibilityFilling).</summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ResponsibilityAssignment.ResponsibilityFillingId">
+            <summary>ID ResponsibilityFilling для работы с конкретной карточкой.</summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.WorkReport.DisplayTitle">
+            <summary>Формат отображения: "Фамилия Имя - дата".</summary>
+        </member>
+        <member name="M:NekrasovskyAPP.Pages.HomePage.ResetLockDialogShown">
+            <summary>Сбросить флаг показа диалога блокировки (вызывать при выходе, чтобы при следующем входе диалог снова показался).</summary>
+        </member>
+        <member name="F:NekrasovskyAPP.Pages.ProductOutputPage._maxQuantityByProductWarehouse">
+            <summary>Макс. количество для пары (productId, warehouseId). Ключ: warehouseId ?? -1 для "без склада".</summary>
+        </member>
+        <member name="T:NekrasovskyAPP.Platforms.Android.DeviceLockService">
+            <summary>
+            Реализация блокировки устройства на Android (Screen Pinning / Lock Task Mode).
+            Разблокировка и закрытие приложения по команде с админ-панели.
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.Services.ApiService.SetCurrentUserId(System.Nullable{System.Int32})">
+            <summary>
+            Устанавливает ID текущего пользователя для добавления в заголовки запросов
+            </summary>
+        </member>
+        <member name="T:NekrasovskyAPP.Services.DeviceLockService">
+            <summary>
+            Заглушка для платформ без поддержки блокировки (Windows и др.). Реальная блокировка только на Android.
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.Services.IAlarmNotificationService.InitializeAsync">
+            <summary>
+            Инициализирует сервис и подключается к SignalR
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.Services.IAlarmNotificationService.SendAlarmAsync(System.String,System.String)">
+            <summary>
+            Отправляет тревогу на сервер
+            </summary>
+        </member>
+        <member name="E:NekrasovskyAPP.Services.IAlarmNotificationService.AlarmReceived">
+            <summary>
+            Событие при получении тревоги от другого пользователя
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.Services.IApiService.UnlockUserDeviceAsync(System.Int32)">
+            <summary>Отправить команду разблокировки/закрытия приложения на устройство пользователя (для админа).</summary>
+        </member>
+        <member name="T:NekrasovskyAPP.Services.IDeviceLockService">
+            <summary>
+            Сервис блокировки устройства (режим киоска): блокировка выхода из приложения и разблокировка по команде с сервера.
+            На Android используется Screen Pinning (Lock Task Mode).
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Services.IDeviceLockService.IsLockSupported">
+            <summary>
+            Поддерживается ли блокировка на текущей платформе (например, только Android).
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.Services.IDeviceLockService.LockAsync">
+            <summary>
+            Включить блокировку: пользователь не может выйти из приложения (на Android — закрепить экран).
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.Services.IDeviceLockService.UnlockAndCloseAsync">
+            <summary>
+            Снять блокировку и при необходимости закрыть приложение (вызывается по команде с админ-панели).
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.Services.ISignalRService.RegisterUserIdAsync(System.Int32)">
+            <summary>Регистрация подключения по Id пользователя (для команды разблокировки с админ-панели).</summary>
+        </member>
+        <member name="M:NekrasovskyAPP.Services.ISignalRService.SetOnUnlockDevice(System.Action)">
+            <summary>Подписка на команду разблокировки устройства (с админ-панели).</summary>
+        </member>
+        <member name="P:NekrasovskyAPP.MainActivity.Instance">
+            <summary>
+            Текущая активность для доступа из DeviceLockService (блокировка выхода из приложения).
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.MainActivity.EnterLockTask">
+            <summary>
+            Включить закрепление экрана (пользователь не может выйти из приложения без разблокировки с сервера).
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.MainActivity.ExitLockTask">
+            <summary>
+            Отключить закрепление экрана (по команде с админ-панели).
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.LoginViewModel.ClearState">
+            <summary>
+            Очищает состояние ViewModel (используется при выходе или возврате на страницу входа)
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.ViewModels.MainViewModel.ProductsForCatalog">
+            <summary>Простой список продуктов для каталога (по одному на продукт).</summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.LoadProductsForCatalogAsync">
+            <summary>Загружает продукты для каталога (по одному элементу на продукт, без ответственности).</summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.SearchProductsForCatalogAsync(System.String,System.String,System.Nullable{System.Boolean},System.String)">
+            <summary>Поиск продуктов для каталога.</summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.FilterProductBatchesByResponsibilityAsync(System.Collections.Generic.IEnumerable{NekrasovskyAPP.Models.ProductBatch})">
+            <summary>Для непривилегированных пользователей оставляет только партии по продуктам, за которые они ответственны.</summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.CreateMaterialDisplayItemsAsync(System.Collections.Generic.List{NekrasovskyAPP.Models.Material})">
+            <summary>
+            Создает список MaterialDisplayItem из списка материалов
+            Для каждого материала с несколькими ответственными создается несколько карточек
+            Если сумма количеств ответственных меньше общего количества на складах, добавляется карточка для неответственной части
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.CreateProductDisplayItemsAsync(System.Collections.Generic.List{NekrasovskyAPP.Models.Product})">
+            <summary>
+            Создает список ProductDisplayItem из списка продуктов
+            Для каждого продукта с несколькими ответственными создается несколько карточек
+            Если сумма количеств ответственных меньше общего количества на складах, добавляется карточка для неответственной части
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.CanDeleteItemsAsync">
+            <summary>
+            Проверяет, может ли текущий пользователь удалять продукты/материалы.
+            Удаление разрешено привилегированным пользователям или с правом WriteOff.
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.HasAssignBarcodePermissionAsync">
+            <summary>
+            Проверяет право на сканирование/назначение штрих-кодов
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.HasReceiveGoodsPermissionAsync">
+            <summary>
+            Проверяет право на приемку товаров (добавление продуктов/материалов)
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.HasManageRecipesPermissionAsync">
+            <summary>
+            Проверяет право на управление рецептурами (производство, редактирование)
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.HasShiftTransferPermissionAsync">
+            <summary>
+            Проверяет право на передачу смены
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.HasSendToScrapPermissionAsync">
+            <summary>
+            Проверяет право на отправку в утиль
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.HasWriteOffPermissionAsync">
+            <summary>
+            Проверяет право на списание
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.HasManageUsersPermissionAsync">
+            <summary>
+            Проверяет право на управление пользователями
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.HasTransferPermissionAsync">
+            <summary>
+            Проверяет право на перенос ТМЦ (изменение количества на складах)
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.HasDisposalAccessAsync">
+            <summary>
+            Проверяет право на доступ к утилю (SendToScrap или WriteOff)
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.MainViewModel.CanAddOrEditItemsAsync">
+            <summary>
+            Проверяет право на добавление/редактирование (ReceiveGoods или ManageRecipes)
+            </summary>
+        </member>
+        <member name="M:NekrasovskyAPP.ViewModels.PartRequestsViewModel.GetFillingByMaterialAsync(System.Int32,System.Int32)">
+            <summary>Получить остаток материала на складе (для отображения доступного количества при создании запроса).</summary>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Button.TextColorTo(Microsoft.Maui.Controls.Button,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_DatePicker.TextColorTo(Microsoft.Maui.Controls.DatePicker,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Editor.TextColorTo(Microsoft.Maui.Controls.Editor,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Entry.TextColorTo(Microsoft.Maui.Controls.Entry,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_InputView.TextColorTo(Microsoft.Maui.Controls.InputView,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Label.TextColorTo(Microsoft.Maui.Controls.Label,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Picker.TextColorTo(Microsoft.Maui.Controls.Picker,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_RadioButton.TextColorTo(Microsoft.Maui.Controls.RadioButton,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_SearchBar.TextColorTo(Microsoft.Maui.Controls.SearchBar,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_TimePicker.TextColorTo(Microsoft.Maui.Controls.TimePicker,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+    </members>
+</doc>

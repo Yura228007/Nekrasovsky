@@ -24,7 +24,7 @@ public class ProductBatch
 
     [Required]
     [Column(TypeName = "integer")]
-    public int Quantity { get; set; } = 0;
+    public double Quantity { get; set; } = 0;
 
     [Column(TypeName = "varchar(20)")]
     public string? MeasuringUnit { get; set; }
@@ -48,11 +48,6 @@ public class ProductBatch
     [Column(TypeName = "varchar(50)")]
     public string? BatchNumber { get; set; }
 
-    /// <summary>
-    /// Связь с выпуском продукции (если партия создана при производстве)
-    /// </summary>
-    [ForeignKey(nameof(ProductOutput))]
-    public int? ProductOutputId { get; set; }
 
     /// <summary>
     /// Примечание
@@ -74,7 +69,4 @@ public class ProductBatch
     [Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidateNever]
     public virtual User? CreatedByUser { get; set; }
 
-    [Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidateNever]
-    [System.Text.Json.Serialization.JsonIgnore]
-    public virtual ProductOutput? ProductOutput { get; set; }
 }

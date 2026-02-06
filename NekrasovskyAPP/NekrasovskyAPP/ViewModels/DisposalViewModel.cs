@@ -14,7 +14,7 @@ namespace NekrasovskyAPP.ViewModels
         public int? ProductId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Code { get; set; } = string.Empty;
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
         public string MeasuringUnit { get; set; } = string.Empty;
         public string ItemType { get; set; } = string.Empty; // "Материал" или "Продукт"
         public string ItemIcon => ItemType == "Продукт" ? "📦" : "🔧";
@@ -61,6 +61,7 @@ namespace NekrasovskyAPP.ViewModels
         private bool _canDelete;
 
         public ObservableCollection<DisposalItem> Items { get; } = new();
+        public ObservableCollection<DisposalRequest> Requests { get; } = new();
 
         public bool IsLoading
         {
@@ -100,8 +101,20 @@ namespace NekrasovskyAPP.ViewModels
                 // Проверяем права на удаление
                 await CheckDeletePermissionAsync();
 
+                // Загружаем справочники, наполнение и запросы
+                var materialsTask = _apiService.GetAllMaterialsAsync();
+                var productsTask = _apiService.GetAllProductsAsync();
+                var warehousesTask = _apiService.GetAllWarehousesAsync();
+                var usersTask = _apiService.GetAllUsersAsync();
+
+                await Task.WhenAll(materialsTask, productsTask, warehousesTask, usersTask);
+
+                var materials = materialsTask.Result ?? new List<Material>();
+                var products = productsTask.Result ?? new List<Product>();
+                var warehouses = warehousesTask.Result ?? new List<Warehouse>();
+                var users = usersTask.Result ?? new List<User>();
+
                 // Находим склад "Утиль"
-                var warehouses = await _apiService.GetAllWarehousesAsync();
                 _disposalWarehouse = warehouses.FirstOrDefault(w =>
                     w.Type.Equals("Утиль", StringComparison.OrdinalIgnoreCase) ||
                     w.Name.Contains("Утиль", StringComparison.OrdinalIgnoreCase));
@@ -112,22 +125,23 @@ namespace NekrasovskyAPP.ViewModels
                     return;
                 }
 
-                // Загружаем справочники
-                var materialsTask = _apiService.GetAllMaterialsAsync();
-                var productsTask = _apiService.GetAllProductsAsync();
                 var fillingsTask = _apiService.GetFillingsByWarehouseAsync(_disposalWarehouse.Id);
+                var requestsTask = _apiService.GetPendingDisposalRequestsAsync(_disposalWarehouse.Id);
 
-                await Task.WhenAll(materialsTask, productsTask, fillingsTask);
+                await Task.WhenAll(fillingsTask, requestsTask);
 
-                var materials = materialsTask.Result ?? new List<Material>();
-                var products = productsTask.Result ?? new List<Product>();
                 var fillings = fillingsTask.Result ?? new List<FillingWarehouse>();
+                var requests = requestsTask.Result ?? new List<DisposalRequest>();
 
                 var materialMap = materials.ToDictionary(m => m.Id, m => m);
                 var productMap = products.ToDictionary(p => p.Id, p => p);
+                var warehouseMap = warehouses.ToDictionary(w => w.Id, w => w);
+                var userMap = users.ToDictionary(u => u.Id, u => $"{u.Surname} {u.Name}");
 
                 Items.Clear();
+                Requests.Clear();
 
+                // Заполняем наполнение склада
                 foreach (var filling in fillings.Where(f => f.Quantity > 0))
                 {
                     var item = new DisposalItem
@@ -161,6 +175,39 @@ namespace NekrasovskyAPP.ViewModels
                     }
 
                     Items.Add(item);
+                }
+
+                // Заполняем запросы на утиль
+                // Имена уже должны быть заполнены с сервера, но заполняем на случай если их нет
+                foreach (var request in requests)
+                {
+                    // Если имена не заполнены с сервера, заполняем на клиенте
+                    if (string.IsNullOrEmpty(request.MaterialName) && string.IsNullOrEmpty(request.ProductName))
+                    {
+                        if (request.MaterialId.HasValue && materialMap.TryGetValue(request.MaterialId.Value, out var material))
+                        {
+                            request.MaterialName = material.Name;
+                        }
+                        else if (request.ProductId.HasValue && productMap.TryGetValue(request.ProductId.Value, out var product))
+                        {
+                            request.ProductName = product.Name;
+                            request.MaterialName = product.Name; // Для отображения используем MaterialName
+                        }
+                    }
+                    
+                    if (string.IsNullOrEmpty(request.FromWarehouseName) && warehouseMap.TryGetValue(request.FromWarehouseId, out var fromWarehouse))
+                    {
+                        request.FromWarehouseName = fromWarehouse.Name;
+                    }
+                    if (string.IsNullOrEmpty(request.ToWarehouseName) && warehouseMap.TryGetValue(request.ToWarehouseId, out var toWarehouse))
+                    {
+                        request.ToWarehouseName = toWarehouse.Name;
+                    }
+                    if (string.IsNullOrEmpty(request.FromUserName) && userMap.TryGetValue(request.FromUserId, out var fromUserName))
+                    {
+                        request.FromUserName = fromUserName;
+                    }
+                    Requests.Add(request);
                 }
             }
             catch (Exception ex)
@@ -264,6 +311,46 @@ namespace NekrasovskyAPP.ViewModels
             finally
             {
                 item.IsProcessing = false;
+            }
+        }
+
+        public async Task<bool> ApproveDisposalRequestAsync(DisposalRequest request)
+        {
+            try
+            {
+                var result = await _apiService.ApproveDisposalRequestAsync(request.Id);
+                if (result.IsSuccess)
+                {
+                    await LoadDataAsync();
+                    return true;
+                }
+                ErrorMessage = result.Message ?? "Не удалось подтвердить запрос";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка: {ex.Message}";
+                return false;
+            }
+        }
+
+        public async Task<bool> RejectDisposalRequestAsync(DisposalRequest request)
+        {
+            try
+            {
+                var result = await _apiService.RejectDisposalRequestAsync(request.Id);
+                if (result.IsSuccess)
+                {
+                    await LoadDataAsync();
+                    return true;
+                }
+                ErrorMessage = result.Message ?? "Не удалось отклонить запрос";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка: {ex.Message}";
+                return false;
             }
         }
 

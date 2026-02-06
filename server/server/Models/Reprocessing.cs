@@ -25,14 +25,14 @@ namespace server.Models
         public int SourceMaterialId { get; set; }
 
         [Required]
-        [Column(TypeName = "integer")]
-        public int SourceQuantity { get; set; }
+        [Column(TypeName = "double precision")]
+        public double SourceQuantity { get; set; }
 
         /// <summary>
         /// Количество брака, отправленное на склад утиля
         /// </summary>
-        [Column(TypeName = "integer")]
-        public int DefectQuantity { get; set; }
+        [Column(TypeName = "double precision")]
+        public double DefectQuantity { get; set; }
 
         [Required]
         [Column(TypeName = "timestamp with time zone")]

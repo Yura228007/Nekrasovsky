@@ -266,7 +266,7 @@ public partial class ProductBatchesPage : ContentPage
 
         var currentQty = batch.Quantity;
         var unit = batch.MeasuringUnit ?? "ед.";
-        int? quantityToTransfer = null;
+        double? quantityToTransfer = null;
 
         if (currentQty > 0)
         {
@@ -290,7 +290,7 @@ public partial class ProductBatchesPage : ContentPage
                     Keyboard.Numeric);
                 if (qtyText == null)
                     return;
-                if (!int.TryParse(qtyText, out var qty) || qty <= 0 || qty > currentQty)
+                if (!double.TryParse(qtyText, out var qty) || qty <= 0 || qty > currentQty)
                 {
                     await DisplayAlert("Ошибка", $"Введите число от 1 до {currentQty}.", "OK");
                     return;

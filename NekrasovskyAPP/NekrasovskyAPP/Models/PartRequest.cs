@@ -27,13 +27,15 @@ namespace NekrasovskyAPP.Models
         [ForeignKey(nameof(ToWarehouse))]
         public int ToWarehouseId { get; set; }
 
-        [Required]
         [ForeignKey(nameof(Material))]
-        public int MaterialId { get; set; }
+        public int? MaterialId { get; set; }
+
+        [ForeignKey(nameof(Product))]
+        public int? ProductId { get; set; }
 
         [Required]
         [Column(TypeName = "integer")]
-        public int Quantity { get; set; } = 0;
+        public double Quantity { get; set; } = 0;
 
         [Column(TypeName = "varchar(20)")]
         public string? MeasuringType { get; set; }
@@ -51,7 +53,8 @@ namespace NekrasovskyAPP.Models
         public virtual User ToUser { get; set; } = null!;
         public virtual Warehouse FromWarehouse { get; set; } = null!;
         public virtual Warehouse ToWarehouse { get; set; } = null!;
-        public virtual Material Material { get; set; } = null!;
+        public virtual Material? Material { get; set; }
+        public virtual Product? Product { get; set; }
 
         /// <summary>Текст статуса для отображения в списке.</summary>
         [NotMapped]
@@ -62,6 +65,10 @@ namespace NekrasovskyAPP.Models
             PartRequestStatus.Rejected => "Отклонено",
             _ => "—"
         };
+
+        /// <summary>Название материала или продукта для отображения.</summary>
+        [NotMapped]
+        public string ItemName => Material?.Name ?? Product?.Name ?? (MaterialId.HasValue ? $"Материал #{MaterialId}" : ProductId.HasValue ? $"Продукт #{ProductId}" : "—");
     }
 
     public enum PartRequestStatus

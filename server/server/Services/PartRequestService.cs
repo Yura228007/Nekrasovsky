@@ -132,6 +132,7 @@ namespace server.Services
         {
             var request = await _context.PartRequests
                 .Include(pr => pr.Material)
+                .Include(pr => pr.Product)
                 .FirstOrDefaultAsync(pr => pr.Id == id);
             
             if (request == null)
@@ -144,62 +145,129 @@ namespace server.Services
                 throw new InvalidOperationException($"PartRequest {id} is already {request.Status}");
             }
 
+            // Проверяем, что заполнен только один из MaterialId или ProductId
+            if (request.MaterialId.HasValue == request.ProductId.HasValue)
+            {
+                throw new InvalidOperationException("PartRequest must have either MaterialId or ProductId, but not both");
+            }
+
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                // Перемещаем материал между складами
-                var fromFilling = await _context.FillingWarehouses
-                    .FirstOrDefaultAsync(fw => fw.WarehouseId == request.FromWarehouseId && 
-                                               fw.MaterialId == request.MaterialId);
-
-                if (fromFilling == null || fromFilling.Quantity < request.Quantity)
+                if (request.MaterialId.HasValue)
                 {
-                    throw new InvalidOperationException($"Insufficient material quantity in source warehouse. Available: {fromFilling?.Quantity ?? 0}, Required: {request.Quantity}");
-                }
+                    // Обработка материала
+                    var materialId = request.MaterialId.Value;
+                    var fromFilling = await _context.FillingWarehouses
+                        .FirstOrDefaultAsync(fw => fw.WarehouseId == request.FromWarehouseId && 
+                                                   fw.MaterialId == materialId);
 
-                // Уменьшаем количество на исходном складе
-                fromFilling.Quantity -= request.Quantity;
-
-                // Увеличиваем количество на целевом складе
-                var toFilling = await _context.FillingWarehouses
-                    .FirstOrDefaultAsync(fw => fw.WarehouseId == request.ToWarehouseId && 
-                                              fw.MaterialId == request.MaterialId);
-
-                if (toFilling == null)
-                {
-                    toFilling = new FillingWarehouse
+                    if (fromFilling == null || fromFilling.Quantity < request.Quantity)
                     {
-                        WarehouseId = request.ToWarehouseId,
-                        MaterialId = request.MaterialId,
-                        Quantity = 0,
-                        MeasuringType = request.MeasuringType ?? request.Material?.MeasuringUnit
-                    };
-                    _context.FillingWarehouses.Add(toFilling);
-                }
+                        throw new InvalidOperationException($"Insufficient material quantity in source warehouse. Available: {fromFilling?.Quantity ?? 0}, Required: {request.Quantity}");
+                    }
 
-                toFilling.Quantity += request.Quantity;
-                if (!string.IsNullOrWhiteSpace(request.MeasuringType))
+                    // Уменьшаем количество на исходном складе
+                    fromFilling.Quantity -= request.Quantity;
+
+                    // Увеличиваем количество на целевом складе
+                    var toFilling = await _context.FillingWarehouses
+                        .FirstOrDefaultAsync(fw => fw.WarehouseId == request.ToWarehouseId && 
+                                                  fw.MaterialId == materialId);
+
+                    if (toFilling == null)
+                    {
+                        toFilling = new FillingWarehouse
+                        {
+                            WarehouseId = request.ToWarehouseId,
+                            MaterialId = materialId,
+                            Quantity = 0,
+                            MeasuringType = request.MeasuringType ?? request.Material?.MeasuringUnit
+                        };
+                        _context.FillingWarehouses.Add(toFilling);
+                    }
+
+                    toFilling.Quantity += request.Quantity;
+                    if (!string.IsNullOrWhiteSpace(request.MeasuringType))
+                    {
+                        toFilling.MeasuringType = request.MeasuringType;
+                    }
+
+                    await _context.SaveChangesAsync();
+
+                    // Ответственность: привязка к складу (ResponsibilityFilling)
+                    var senderResponsibleAtWarehouse = await _responsibilityFillingService.GetUserResponsibleQuantityAtWarehouseAsync(
+                        request.FromUserId, request.FromWarehouseId, materialId);
+
+                    if (senderResponsibleAtWarehouse > 0)
+                    {
+                        var decreaseAmount = Math.Min(senderResponsibleAtWarehouse, request.Quantity);
+                        await _responsibilityFillingService.DecreaseMaterialResponsibilityAtWarehouseAsync(
+                            request.FromWarehouseId, materialId, decreaseAmount, request.FromUserId);
+                    }
+
+                    // Назначаем ответственность получателю
+                    await _responsibilityFillingService.AssignMaterialAtWarehouseAsync(
+                        request.ToUserId, request.ToWarehouseId, materialId, request.Quantity,
+                        request.MeasuringType ?? request.Material?.MeasuringUnit);
+                }
+                else if (request.ProductId.HasValue)
                 {
-                    toFilling.MeasuringType = request.MeasuringType;
+                    // Обработка продукта
+                    var productId = request.ProductId.Value;
+                    var fromFilling = await _context.FillingWarehouses
+                        .FirstOrDefaultAsync(fw => fw.WarehouseId == request.FromWarehouseId && 
+                                                   fw.ProductId == productId);
+
+                    if (fromFilling == null || fromFilling.Quantity < request.Quantity)
+                    {
+                        throw new InvalidOperationException($"Insufficient product quantity in source warehouse. Available: {fromFilling?.Quantity ?? 0}, Required: {request.Quantity}");
+                    }
+
+                    // Уменьшаем количество на исходном складе
+                    fromFilling.Quantity -= request.Quantity;
+
+                    // Увеличиваем количество на целевом складе
+                    var toFilling = await _context.FillingWarehouses
+                        .FirstOrDefaultAsync(fw => fw.WarehouseId == request.ToWarehouseId && 
+                                                  fw.ProductId == productId);
+
+                    if (toFilling == null)
+                    {
+                        toFilling = new FillingWarehouse
+                        {
+                            WarehouseId = request.ToWarehouseId,
+                            ProductId = productId,
+                            Quantity = 0,
+                            MeasuringType = request.MeasuringType ?? request.Product?.MeasuringUnit
+                        };
+                        _context.FillingWarehouses.Add(toFilling);
+                    }
+
+                    toFilling.Quantity += request.Quantity;
+                    if (!string.IsNullOrWhiteSpace(request.MeasuringType))
+                    {
+                        toFilling.MeasuringType = request.MeasuringType;
+                    }
+
+                    await _context.SaveChangesAsync();
+
+                    // Ответственность: привязка к складу (ResponsibilityFilling)
+                    var senderResponsibleAtWarehouse = await _responsibilityFillingService.GetUserResponsibleProductQuantityAtWarehouseAsync(
+                        request.FromUserId, request.FromWarehouseId, productId);
+
+                    if (senderResponsibleAtWarehouse > 0)
+                    {
+                        var decreaseAmount = Math.Min(senderResponsibleAtWarehouse, request.Quantity);
+                        await _responsibilityFillingService.DecreaseProductResponsibilityAtWarehouseAsync(
+                            request.FromWarehouseId, productId, decreaseAmount, request.FromUserId);
+                    }
+
+                    // Назначаем ответственность получателю
+                    await _responsibilityFillingService.AssignProductAtWarehouseAsync(
+                        request.ToUserId, request.ToWarehouseId, productId, request.Quantity,
+                        request.MeasuringType ?? request.Product?.MeasuringUnit);
                 }
-
-                await _context.SaveChangesAsync();
-
-                // Ответственность: привязка к складу (ResponsibilityFilling)
-                var senderResponsibleAtWarehouse = await _responsibilityFillingService.GetUserResponsibleQuantityAtWarehouseAsync(
-                    request.FromUserId, request.FromWarehouseId, request.MaterialId);
-
-                if (senderResponsibleAtWarehouse > 0)
-                {
-                    var decreaseAmount = Math.Min(senderResponsibleAtWarehouse, request.Quantity);
-                    await _responsibilityFillingService.DecreaseMaterialResponsibilityAtWarehouseAsync(
-                        request.FromWarehouseId, request.MaterialId, decreaseAmount, request.FromUserId);
-                }
-
-                // Назначаем ответственность получателю
-                await _responsibilityFillingService.AssignMaterialAtWarehouseAsync(
-                    request.ToUserId, request.ToWarehouseId, request.MaterialId, request.Quantity,
-                    request.MeasuringType ?? request.Material?.MeasuringUnit);
 
                 request.Status = PartRequestStatus.Approved;
                 await _context.SaveChangesAsync();
@@ -215,8 +283,10 @@ namespace server.Services
                     }
                 }
 
-                _logger.LogInformation("PartRequest {RequestId} approved. Material {MaterialId} moved from warehouse {FromWarehouseId} to {ToWarehouseId}, quantity {Quantity}", 
-                    id, request.MaterialId, request.FromWarehouseId, request.ToWarehouseId, request.Quantity);
+                var itemType = request.MaterialId.HasValue ? "Material" : "Product";
+                var itemId = request.MaterialId ?? request.ProductId ?? 0;
+                _logger.LogInformation("PartRequest {RequestId} approved. {ItemType} {ItemId} moved from warehouse {FromWarehouseId} to {ToWarehouseId}, quantity {Quantity}", 
+                    id, itemType, itemId, request.FromWarehouseId, request.ToWarehouseId, request.Quantity);
                 return request;
             }
             catch

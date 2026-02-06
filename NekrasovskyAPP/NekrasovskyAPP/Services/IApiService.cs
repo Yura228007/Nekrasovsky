@@ -28,7 +28,7 @@ namespace NekrasovskyAPP.Services
         Task<List<Material>> GetAllMaterialsAsync();
         Task<Material?> GetMaterialByIdAsync(int id);
         Task<List<Material>> SearchMaterialsAsync(string? name, string? code, bool? isActive = null, string? sortBy = null);
-        Task<ApiResponse<Material>> AddMaterialAsync(Material material, int? quantity = null, string? measuringUnit = null, int? warehouseId = null);
+        Task<ApiResponse<Material>> AddMaterialAsync(Material material, double? quantity = null, string? measuringUnit = null, int? warehouseId = null);
         Task<ApiResponse<Material>> EditMaterialAsync(int id, Material material);
         Task<ApiResponse<object>> DeleteMaterialAsync(int id);
 
@@ -120,20 +120,40 @@ namespace NekrasovskyAPP.Services
         Task<ApiResponse<ProductMovementRequest>> ApproveProductMovementRequestAsync(int id);
         Task<ApiResponse<ProductMovementRequest>> RejectProductMovementRequestAsync(int id, string? reason);
         Task<ApiResponse<object>> DeleteProductMovementRequestAsync(int id);
-        Task<ApiResponse<ResponsibilityAssignment>> AssignMaterialResponsibilityAsync(int materialId, int userId, int? quantity = null, string? measuringUnit = null);
-        Task<ApiResponse<ResponsibilityAssignment>> AssignProductResponsibilityAsync(int productId, int userId, int? quantity = null, string? measuringUnit = null);
-        Task<ApiResponse<object>> TransferMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int fromUserId, int toUserId, int? quantityToTransfer = null);
-        Task<ApiResponse<object>> TransferProductResponsibilityFillingAsync(int warehouseId, int productId, int fromUserId, int toUserId, int? quantityToTransfer = null);
-        Task<ApiResponse<object>> TransferBatchResponsibilityFillingAsync(int batchId, int fromUserId, int toUserId, int? quantityToTransfer = null);
+        Task<ApiResponse<ResponsibilityAssignment>> AssignMaterialResponsibilityAsync(int materialId, int userId, double? quantity = null, string? measuringUnit = null);
+        Task<ApiResponse<ResponsibilityAssignment>> AssignProductResponsibilityAsync(int productId, int userId, double? quantity = null, string? measuringUnit = null);
+        Task<ApiResponse<object>> TransferMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int fromUserId, int toUserId, double? quantityToTransfer = null);
+        Task<ApiResponse<object>> TransferProductResponsibilityFillingAsync(int warehouseId, int productId, int fromUserId, int toUserId, double? quantityToTransfer = null);
+        Task<ApiResponse<object>> TransferBatchResponsibilityFillingAsync(int batchId, int fromUserId, int toUserId, double? quantityToTransfer = null);
         Task<ApiResponse<object>> ReleaseMaterialResponsibilityAsync(int materialId);
         Task<ApiResponse<object>> ReleaseProductResponsibilityAsync(int productId);
-        Task<ApiResponse<object>> ReleaseBatchResponsibilityAsync(int batchId, int userId);
+        Task<ApiResponse<object>> ReleaseBatchResponsibilityAsync(int batchId, int userId, double? quantityToRelease = null);
+        
+        // ResponsibilityFilling methods
+        Task<List<ResponsibilityFilling>> GetResponsibilityFillingsByUserAsync(int userId);
+        Task<ApiResponse<object>> ReleaseMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int userId, double? quantityToRelease = null);
+        Task<ApiResponse<object>> UpdateMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int userId, double newQuantity, string? measuringUnit = null);
+        Task<ApiResponse<object>> DeleteResponsibilityFillingAsync(int fillingId);
 
         // Reprocessing
         Task<ApiResponse<Reprocessing>> CreateReprocessingAsync(ReprocessingCreateRequest request);
 
         // Disposal (Утиль)
         Task<ApiResponse<object>> ProcessDisposalAsync(DisposalProcessRequest request);
+        
+        // Disposal Requests (Запросы на утиль)
+        Task<List<DisposalRequest>> GetPendingDisposalRequestsAsync(int disposalWarehouseId);
+        Task<ApiResponse<DisposalRequest>> ApproveDisposalRequestAsync(int requestId);
+        Task<ApiResponse<DisposalRequest>> RejectDisposalRequestAsync(int requestId);
+
+        // Finished Goods Requests (Запросы на склад готовой продукции)
+        Task<List<FinishedGoodsRequest>> GetPendingFinishedGoodsRequestsAsync(int warehouseId);
+        Task<ApiResponse<FinishedGoodsRequest>> ApproveFinishedGoodsRequestAsync(int requestId);
+        Task<ApiResponse<FinishedGoodsRequest>> RejectFinishedGoodsRequestAsync(int requestId);
+        
+        // Finished Goods Management (Управление готовой продукцией)
+        Task<ApiResponse<object>> ProcessProductSaleAsync(int warehouseId, int productId, double quantity, string? measuringUnit);
+        Task<ApiResponse<object>> ProcessFinishedGoodsDisposalAsync(int warehouseId, int productId, double quantity, string? measuringUnit);
 
         // Product Outputs
         Task<ProductOutputOptionsResponse?> GetProductOutputOptionsAsync();

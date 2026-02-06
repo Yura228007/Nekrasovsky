@@ -38,7 +38,7 @@ namespace NekrasovskyAPP.Models
         public string? TargetWarehouseName { get; set; }
 
         [JsonPropertyName("maxQuantity")]
-        public int? MaxQuantity { get; set; }
+        public double? MaxQuantity { get; set; }
 
         [JsonPropertyName("measuringUnit")]
         public string? MeasuringUnit { get; set; }

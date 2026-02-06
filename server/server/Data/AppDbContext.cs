@@ -34,6 +34,9 @@ public class AppDbContext : DbContext
     public DbSet<ResponsibilityShiftSnapshotItem> ResponsibilityShiftSnapshotItems { get; set; } = null!;
     public DbSet<ProductBatch> ProductBatches { get; set; } = null!;
     public DbSet<ProductMovementRequest> ProductMovementRequests { get; set; } = null!;
+    public DbSet<DisposalRequest> DisposalRequests { get; set; } = null!;
+    public DbSet<FinishedGoodsRequest> FinishedGoodsRequests { get; set; } = null!;
+    public DbSet<ProductSale> ProductSales { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -182,7 +185,20 @@ public class AppDbContext : DbContext
             .HasOne(pr => pr.Material)
             .WithMany()
             .HasForeignKey(pr => pr.MaterialId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
+
+        modelBuilder.Entity<PartRequest>()
+            .HasOne(pr => pr.Product)
+            .WithMany()
+            .HasForeignKey(pr => pr.ProductId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
+
+        // XOR constraint: только один из MaterialId или ProductId должен быть заполнен
+        modelBuilder.Entity<PartRequest>()
+            .HasCheckConstraint("CK_PartRequest_MaterialOrProduct", 
+                @$"(""MaterialId"" IS NOT NULL AND ""ProductId"" IS NULL) OR (""MaterialId"" IS NULL AND ""ProductId"" IS NOT NULL)");
 
         // =============================
         // ShiftTransfer
@@ -413,10 +429,35 @@ public class AppDbContext : DbContext
             .HasForeignKey(po => po.ProductBatchId)
             .OnDelete(DeleteBehavior.SetNull);
 
+
         modelBuilder.Entity<ProductOutput>()
-            .HasOne(po => po.Machine)
+            .HasOne(po => po.NormalWarehouse)
             .WithMany()
-            .HasForeignKey(po => po.MachineId)
+            .HasForeignKey(po => po.NormalWarehouseId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<ProductOutput>()
+            .HasOne(po => po.EcoWarehouse)
+            .WithMany()
+            .HasForeignKey(po => po.EcoWarehouseId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<ProductOutput>()
+            .HasOne(po => po.DefectWarehouse)
+            .WithMany()
+            .HasForeignKey(po => po.DefectWarehouseId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<ProductOutput>()
+            .HasOne(po => po.RewindWarehouse)
+            .WithMany()
+            .HasForeignKey(po => po.RewindWarehouseId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<ProductOutput>()
+            .HasOne(po => po.RewindToUser)
+            .WithMany()
+            .HasForeignKey(po => po.RewindToUserId)
             .OnDelete(DeleteBehavior.SetNull);
 
         // =============================
@@ -477,6 +518,115 @@ public class AppDbContext : DbContext
             .HasOne(i => i.Product)
             .WithMany()
             .HasForeignKey(i => i.ProductId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // =============================
+        // DisposalRequest
+        // =============================
+
+        modelBuilder.Entity<DisposalRequest>()
+            .HasOne(dr => dr.FromUser)
+            .WithMany()
+            .HasForeignKey(dr => dr.FromUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<DisposalRequest>()
+            .HasOne(dr => dr.ApprovedByUser)
+            .WithMany()
+            .HasForeignKey(dr => dr.ApprovedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<DisposalRequest>()
+            .HasOne(dr => dr.FromWarehouse)
+            .WithMany()
+            .HasForeignKey(dr => dr.FromWarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<DisposalRequest>()
+            .HasOne(dr => dr.ToWarehouse)
+            .WithMany()
+            .HasForeignKey(dr => dr.ToWarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<DisposalRequest>()
+            .HasOne(dr => dr.Material)
+            .WithMany()
+            .HasForeignKey(dr => dr.MaterialId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
+
+        modelBuilder.Entity<DisposalRequest>()
+            .HasOne(dr => dr.Product)
+            .WithMany()
+            .HasForeignKey(dr => dr.ProductId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
+
+        // XOR constraint: только один из MaterialId или ProductId должен быть заполнен
+        modelBuilder.Entity<DisposalRequest>()
+            .HasCheckConstraint("CK_DisposalRequest_MaterialOrProduct", 
+                @$"(""MaterialId"" IS NOT NULL AND ""ProductId"" IS NULL) OR (""MaterialId"" IS NULL AND ""ProductId"" IS NOT NULL)");
+
+        // =============================
+        // FinishedGoodsRequest
+        // =============================
+
+        modelBuilder.Entity<FinishedGoodsRequest>()
+            .HasOne(fgr => fgr.FromUser)
+            .WithMany()
+            .HasForeignKey(fgr => fgr.FromUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<FinishedGoodsRequest>()
+            .HasOne(fgr => fgr.ApprovedByUser)
+            .WithMany()
+            .HasForeignKey(fgr => fgr.ApprovedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<FinishedGoodsRequest>()
+            .HasOne(fgr => fgr.FromWarehouse)
+            .WithMany()
+            .HasForeignKey(fgr => fgr.FromWarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<FinishedGoodsRequest>()
+            .HasOne(fgr => fgr.ToWarehouse)
+            .WithMany()
+            .HasForeignKey(fgr => fgr.ToWarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<FinishedGoodsRequest>()
+            .HasOne(fgr => fgr.Product)
+            .WithMany()
+            .HasForeignKey(fgr => fgr.ProductId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<FinishedGoodsRequest>()
+            .HasOne(fgr => fgr.ProductOutput)
+            .WithMany()
+            .HasForeignKey(fgr => fgr.ProductOutputId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        // =============================
+        // ProductSale
+        // =============================
+
+        modelBuilder.Entity<ProductSale>()
+            .HasOne(ps => ps.User)
+            .WithMany()
+            .HasForeignKey(ps => ps.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ProductSale>()
+            .HasOne(ps => ps.Warehouse)
+            .WithMany()
+            .HasForeignKey(ps => ps.WarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ProductSale>()
+            .HasOne(ps => ps.Product)
+            .WithMany()
+            .HasForeignKey(ps => ps.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -4,7 +4,7 @@
              xmlns:converters="clr-namespace:NekrasovskyAPP.Converters"
              x:Class="NekrasovskyAPP.Pages.ReprocessingPage"
              BackgroundColor="{StaticResource BackgroundDark}"
-             Title="Переработать">
+             Title="Производство">
     <ContentPage.Resources>
         <converters:IsStringNotEmptyConverter x:Key="IsStringNotEmptyConverter" />
     </ContentPage.Resources>
@@ -19,7 +19,7 @@
             <!-- Header -->
             <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,12">
                 <VerticalStackLayout>
-                    <Label Text="Переработка"
+                    <Label Text="Производство"
                            FontSize="24"
                            FontAttributes="Bold"
                            TextColor="{StaticResource White}" />
@@ -171,7 +171,7 @@
                 </VerticalStackLayout>
             </Border>
 
-            <!-- Outputs Section -->
+            <!-- Normal Outputs Section -->
             <Border BackgroundColor="{StaticResource BackgroundCard}"
                     StrokeThickness="0"
                     Padding="16">
@@ -189,14 +189,14 @@
                             </Border.StrokeShape>
                             <Label Text="✅" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
-                        <Label Text="Результаты"
+                        <Label Text="Нормальные результаты"
                                FontSize="16"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
                                VerticalOptions="Center"/>
                     </HorizontalStackLayout>
 
-                    <CollectionView ItemsSource="{Binding Outputs}"
+                    <CollectionView ItemsSource="{Binding NormalOutputs}"
                                     SelectionMode="None">
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
@@ -389,6 +389,153 @@
                 </VerticalStackLayout>
             </Border>
 
+            <!-- Eco Outputs Section -->
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
+                    StrokeThickness="0"
+                    Padding="16">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <HorizontalStackLayout Spacing="10">
+                        <Border BackgroundColor="{StaticResource Success}"
+                                WidthRequest="32"
+                                HeightRequest="32"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Label Text="🌱" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Text="ЭКО продукция"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+
+                    <Label Text="Укажите количество ЭКО продукции для каждого нормального результата"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray400}" />
+
+                    <CollectionView ItemsSource="{Binding NormalOutputs}"
+                                    SelectionMode="None">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BackgroundColor="{StaticResource BackgroundCard}"
+                                        StrokeThickness="0"
+                                        Padding="14">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12"/>
+                                    </Border.StrokeShape>
+                                    <VerticalStackLayout Spacing="10">
+                                        <Label Text="{Binding OutputDisplayName}"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource White}" />
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                            <Border Grid.Column="0"
+                                                    BackgroundColor="{StaticResource BackgroundInput}"
+                                                    StrokeThickness="0"
+                                                    Padding="12,0"
+                                                    HeightRequest="48">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="12"/>
+                                                </Border.StrokeShape>
+                                                <Entry Keyboard="Numeric"
+                                                       Placeholder="Количество ЭКО"
+                                                       Text="{Binding EcoQuantity}"
+                                                       TextColor="{StaticResource White}"
+                                                       PlaceholderColor="{StaticResource Gray600}"
+                                                       BackgroundColor="Transparent"
+                                                       VerticalOptions="Center" />
+                                            </Border>
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding MeasuringUnit}"
+                                                   FontSize="14"
+                                                   TextColor="{StaticResource Success}"
+                                                   VerticalOptions="Center"
+                                                   IsVisible="{Binding MeasuringUnit, Converter={StaticResource IsStringNotEmptyConverter}}" />
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Recycling Section -->
+            <Border BackgroundColor="{StaticResource BackgroundCard}"
+                    StrokeThickness="0"
+                    Padding="16">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <HorizontalStackLayout Spacing="10">
+                        <Border BackgroundColor="{StaticResource CardDisposal}"
+                                WidthRequest="32"
+                                HeightRequest="32"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
+                            <Label Text="♻️" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Text="Производство (в утиль)"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+
+                    <Label Text="Количество исходного материала на переработку"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray400}" />
+                    <Border BackgroundColor="{StaticResource BackgroundInput}"
+                            StrokeThickness="0"
+                            Padding="12,0"
+                            HeightRequest="48">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+                        <Entry x:Name="RecyclingQuantityEntry"
+                               Keyboard="Numeric"
+                               Placeholder="0"
+                               Text="0"
+                               TextColor="{StaticResource White}"
+                               PlaceholderColor="{StaticResource Gray600}"
+                               BackgroundColor="Transparent"
+                               VerticalOptions="Center" />
+                    </Border>
+                    
+                    <Label Text="Выберите склад утиля для переработки"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray400}" />
+                    <Border BackgroundColor="{StaticResource BackgroundInput}"
+                            StrokeThickness="0"
+                            Padding="12,0"
+                            x:Name="RecyclingWarehousePickerBorder">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+                        <Picker x:Name="RecyclingWarehousePicker"
+                                Title="Выберите склад утиля"
+                                ItemDisplayBinding="{Binding Name}"
+                                TextColor="{StaticResource White}"
+                                TitleColor="{StaticResource Gray500}"
+                                SelectedIndexChanged="OnRecyclingWarehouseSelected" />
+                    </Border>
+                    <Label Text="Материал будет отправлен на выбранный склад утиля для переработки"
+                           FontSize="11"
+                           TextColor="{StaticResource Gray500}" />
+                </VerticalStackLayout>
+            </Border>
+
             <!-- Defect Section -->
             <Border BackgroundColor="{StaticResource BackgroundCard}"
                     StrokeThickness="0"
@@ -414,7 +561,7 @@
                                VerticalOptions="Center"/>
                     </HorizontalStackLayout>
 
-                    <Label Text="Количество брака из исходного материала"
+                    <Label Text="Количество невозвратного брака из исходного материала"
                            FontSize="13"
                            TextColor="{StaticResource Gray400}" />
                     <Border BackgroundColor="{StaticResource BackgroundInput}"
@@ -433,7 +580,25 @@
                                BackgroundColor="Transparent"
                                VerticalOptions="Center" />
                     </Border>
-                    <Label Text="Брак будет автоматически отправлен на склад Утиль"
+                    
+                    <Label Text="Выберите склад утиля для невозвратного брака"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray400}" />
+                    <Border BackgroundColor="{StaticResource BackgroundInput}"
+                            StrokeThickness="0"
+                            Padding="12,0"
+                            x:Name="DefectWarehousePickerBorder">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+                        <Picker x:Name="DefectWarehousePicker"
+                                Title="Выберите склад утиля"
+                                ItemDisplayBinding="{Binding Name}"
+                                TextColor="{StaticResource White}"
+                                TitleColor="{StaticResource Gray500}"
+                                SelectedIndexChanged="OnDefectWarehouseSelected" />
+                    </Border>
+                    <Label Text="Невозвратный брак будет отправлен на выбранный склад утиля"
                            FontSize="11"
                            TextColor="{StaticResource Gray500}" />
                 </VerticalStackLayout>
@@ -468,7 +633,7 @@
             </Border>
 
             <!-- Submit Button -->
-            <Button Text="Переработать"
+            <Button Text="Произвести"
                     Clicked="OnSubmitClicked"
                     BackgroundColor="{StaticResource CardReprocess}"
                     TextColor="{StaticResource White}"

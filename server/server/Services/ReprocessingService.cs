@@ -17,6 +17,7 @@ namespace server.Services
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IFillingWarehouseService _fillingWarehouseService;
+        private readonly IDisposalRequestService _disposalRequestService;
 
         public ReprocessingService(
             AppDbContext context,
@@ -26,7 +27,8 @@ namespace server.Services
             IUserPermissionsService userPermissionsService,
             IUserService userService,
             IRoleService roleService,
-            IFillingWarehouseService fillingWarehouseService)
+            IFillingWarehouseService fillingWarehouseService,
+            IDisposalRequestService disposalRequestService)
         {
             _context = context;
             _logger = logger;
@@ -36,6 +38,7 @@ namespace server.Services
             _userService = userService;
             _roleService = roleService;
             _fillingWarehouseService = fillingWarehouseService;
+            _disposalRequestService = disposalRequestService;
         }
 
         public async Task<Reprocessing> CreateReprocessingAsync(ReprocessingCreateRequest request, int userId)
@@ -56,9 +59,13 @@ namespace server.Services
                 throw new KeyNotFoundException($"Warehouse with ID {request.WarehouseId} not found");
             }
 
+            // Валидация количества (с учетом единиц измерения)
+            ValidateQuantitiesBalance(sources, request.Outputs, request.DefectQuantity, request.RecyclingQuantity);
+
             var canManage = await HasManageResponsibilityAsync(userId);
             var sourceMaterialIds = sources.Select(s => s.MaterialId).Distinct().ToList();
 
+            // Валидация outputs
             foreach (var output in request.Outputs)
             {
                 var hasMaterial = output.MaterialId.HasValue;
@@ -66,7 +73,6 @@ namespace server.Services
                                      !string.IsNullOrWhiteSpace(output.NewMaterialName);
                 var hasProduct = output.ProductId.HasValue;
 
-                // Один из вариантов должен быть выбран
                 var optionsCount = (hasMaterial ? 1 : 0) + (hasNewMaterial ? 1 : 0) + (hasProduct ? 1 : 0);
                 if (optionsCount != 1)
                 {
@@ -89,45 +95,128 @@ namespace server.Services
                 }
             }
 
+            // Валидация складов утиля
+            if (request.DefectQuantity > 0 && !request.DefectWarehouseId.HasValue)
+            {
+                throw new InvalidOperationException("DefectWarehouseId is required when DefectQuantity > 0");
+            }
+
+            if (request.RecyclingQuantity > 0 && !request.RecyclingWarehouseId.HasValue)
+            {
+                throw new InvalidOperationException("RecyclingWarehouseId is required when RecyclingQuantity > 0");
+            }
+
             var sourceTotals = sources
                 .GroupBy(s => s.MaterialId)
                 .ToDictionary(g => g.Key, g => g.Sum(x => x.Quantity));
+
+            // Вычисляем общее количество для списания (исходные - брак - переработка)
+            var firstSourceMaterialId = sources[0].MaterialId;
+            var firstSourceMaterial = await _context.Materials.FindAsync(firstSourceMaterialId);
+            var firstSourceMeasuringUnit = firstSourceMaterial?.MeasuringUnit ?? sources[0].MeasuringType ?? "шт";
+
+            // Количество для списания = исходные - брак - переработка
+            var totalToDeduct = sourceTotals.Values.Sum() - request.DefectQuantity - request.RecyclingQuantity;
+            if (totalToDeduct <= 0)
+            {
+                throw new InvalidOperationException("Сумма брака и переработки не может превышать количество исходных материалов.");
+            }
 
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
                 await ValidateSourceMaterialsAsync(request.WarehouseId, sourceMaterialIds);
-                await ValidateSourceResponsibilitiesAsync(userId, canManage, request.WarehouseId, sourceTotals);
-
-                foreach (var sourceTotal in sourceTotals)
+                
+                // Валидация ответственности для количества, которое будет списано (без брака и переработки)
+                var sourceTotalsForDeduction = new Dictionary<int, double>();
+                foreach (var (materialId, totalQty) in sourceTotals)
                 {
+                    // Распределяем брак и переработку пропорционально (берем из первого материала)
+                    var materialDefectQty = materialId == firstSourceMaterialId ? request.DefectQuantity : 0;
+                    var materialRecyclingQty = materialId == firstSourceMaterialId ? request.RecyclingQuantity : 0;
+                    sourceTotalsForDeduction[materialId] = totalQty - materialDefectQty - materialRecyclingQty;
+                }
+                await ValidateSourceResponsibilitiesAsync(userId, canManage, request.WarehouseId, sourceTotalsForDeduction);
+
+                // 1) Списываем исходные материалы (только часть, которая идет в результаты, без брака и переработки)
+                foreach (var (materialId, totalQty) in sourceTotals)
+                {
+                    var materialDefectQty = materialId == firstSourceMaterialId ? request.DefectQuantity : 0;
+                    var materialRecyclingQty = materialId == firstSourceMaterialId ? request.RecyclingQuantity : 0;
+                    var qtyToDeduct = totalQty - materialDefectQty - materialRecyclingQty;
+
+                    if (qtyToDeduct <= 0) continue;
+
                     var sourceFilling = await _context.FillingWarehouses
-                        .FirstOrDefaultAsync(fw => fw.WarehouseId == request.WarehouseId && fw.MaterialId == sourceTotal.Key);
+                        .FirstOrDefaultAsync(fw => fw.WarehouseId == request.WarehouseId && fw.MaterialId == materialId);
 
                     if (sourceFilling == null)
                     {
                         throw new InvalidOperationException("Source material is not present in the selected warehouse.");
                     }
 
-                    if (sourceFilling.Quantity < sourceTotal.Value)
+                    if (sourceFilling.Quantity < qtyToDeduct)
                     {
                         throw new InvalidOperationException("Source quantity exceeds available stock.");
                     }
 
-                    sourceFilling.Quantity -= sourceTotal.Value;
+                    sourceFilling.Quantity -= qtyToDeduct;
 
-                    // Уменьшаем ответственность пользователя за материал на складе (ResponsibilityFilling)
+                    // Уменьшаем ответственность пользователя (только для части, которая идет в результаты)
                     var decreased = await _responsibilityFillingService.DecreaseMaterialResponsibilityAtWarehouseAsync(
-                        request.WarehouseId, sourceTotal.Key, sourceTotal.Value, userId);
+                        request.WarehouseId, materialId, qtyToDeduct, userId);
                     if (!decreased)
                     {
-                        throw new InvalidOperationException($"Недостаточно ответственности за материал (ID {sourceTotal.Key}) на складе.");
+                        throw new InvalidOperationException($"Недостаточно ответственности за материал (ID {materialId}) на складе.");
                     }
                 }
 
-                var productBatchesCreated = new List<(int ProductId, int WarehouseId)>();
+                // 1.5) Списываем брак и переработку со склада (но ответственность НЕ уменьшаем - остается у создателя)
+                if (request.DefectQuantity > 0)
+                {
+                    var defectFilling = await _context.FillingWarehouses
+                        .FirstOrDefaultAsync(fw => fw.WarehouseId == request.WarehouseId && fw.MaterialId == firstSourceMaterialId);
 
-                // 1) Обновляем остатки на складе (материалы и партии) — без назначения ответственности
+                    if (defectFilling == null || defectFilling.Quantity < request.DefectQuantity)
+                    {
+                        throw new InvalidOperationException($"Недостаточно материала для брака: требуется {request.DefectQuantity}, доступно {defectFilling?.Quantity ?? 0}.");
+                    }
+
+                    defectFilling.Quantity -= request.DefectQuantity;
+
+                    // Перемещаем на склад утиля, если указан
+                    if (request.DefectWarehouseId.HasValue)
+                    {
+                        await MoveMaterialToDisposalWarehouseAsync(
+                            request.WarehouseId, request.DefectWarehouseId.Value,
+                            firstSourceMaterialId, request.DefectQuantity, firstSourceMeasuringUnit, userId);
+                    }
+                }
+
+                if (request.RecyclingQuantity > 0)
+                {
+                    var recyclingFilling = await _context.FillingWarehouses
+                        .FirstOrDefaultAsync(fw => fw.WarehouseId == request.WarehouseId && fw.MaterialId == firstSourceMaterialId);
+
+                    if (recyclingFilling == null || recyclingFilling.Quantity < request.RecyclingQuantity)
+                    {
+                        throw new InvalidOperationException($"Недостаточно материала для переработки: требуется {request.RecyclingQuantity}, доступно {recyclingFilling?.Quantity ?? 0}.");
+                    }
+
+                    recyclingFilling.Quantity -= request.RecyclingQuantity;
+
+                    // Перемещаем на склад утиля, если указан
+                    if (request.RecyclingWarehouseId.HasValue)
+                    {
+                        await MoveMaterialToDisposalWarehouseAsync(
+                            request.WarehouseId, request.RecyclingWarehouseId.Value,
+                            firstSourceMaterialId, request.RecyclingQuantity, firstSourceMeasuringUnit, userId);
+                    }
+                }
+
+                var productBatchesCreated = new List<(int BatchId, ReprocessingOutput Output)>();
+
+                // 2) Создаем результаты (нормальные и ЭКО)
                 foreach (var output in request.Outputs)
                 {
                     if (output.MaterialId.HasValue)
@@ -141,6 +230,7 @@ namespace server.Services
                         {
                             Name = output.NewMaterialName,
                             Code = output.NewMaterialCode,
+                            Description = output.NewMaterialDescription,
                             MeasuringUnit = output.MeasuringType ?? "шт",
                             IsActive = true
                         };
@@ -156,6 +246,9 @@ namespace server.Services
                         var product = await _context.Products.FirstAsync(p => p.Id == output.ProductId.Value);
                         var code = product.Code ?? "PROD";
                         var timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+                        
+                        // Для ЭКО продукции добавляем "ECO" в начало BatchNumber
+                        var batchNumberPrefix = output.OutputType == ReprocessingOutputType.Eco ? "ECO-" : "";
                         var batch = new ProductBatch
                         {
                             ProductId = output.ProductId.Value,
@@ -165,25 +258,27 @@ namespace server.Services
                             CreatedByUserId = userId,
                             CreatedAt = DateTime.UtcNow,
                             IsActive = true,
-                            BatchNumber = $"{code}-{timestamp}"
+                            BatchNumber = $"{batchNumberPrefix}{code}-{timestamp}",
+                            Note = request.Note // Сохраняем примечание
                         };
                         _context.ProductBatches.Add(batch);
-                        productBatchesCreated.Add((output.ProductId.Value, request.WarehouseId));
-                        _logger.LogInformation("ProductBatch created from reprocessing: Product {ProductId}, Quantity {Quantity}", output.ProductId.Value, output.Quantity);
+                        await _context.SaveChangesAsync(); // Сохраняем, чтобы получить ID партии
+                        productBatchesCreated.Add((batch.Id, output));
+                        _logger.LogInformation("ProductBatch created from reprocessing: Batch {BatchId}, Product {ProductId}, Quantity {Quantity}, Type {OutputType}",
+                            batch.Id, output.ProductId.Value, output.Quantity, output.OutputType);
                     }
                 }
 
-                // Сохраняем изменения остатков и партий, чтобы Assign видел актуальный FillingWarehouse
-                await _context.SaveChangesAsync();
-
-                // Обновляем FillingWarehouse для продукции (сумма по партиям) до назначения ответственности
-                foreach (var (productId, warehouseId) in productBatchesCreated)
+                // Обновляем FillingWarehouse для продукции
+                var uniqueProductIds = productBatchesCreated.Select(x => x.Output.ProductId!.Value).Distinct().ToList();
+                foreach (var productId in uniqueProductIds)
                 {
-                    await _productBatchService.UpdateFillingWarehouseForProductAsync(productId, warehouseId);
+                    await _productBatchService.UpdateFillingWarehouseForProductAsync(productId, request.WarehouseId);
                 }
                 await _context.SaveChangesAsync();
 
-                // 2) Назначаем ответственность — наполнение уже обновлено, ошибки «total responsible > stock» не должно быть
+                // 3) Назначаем ответственность за результаты
+                // Для материалов - как раньше
                 foreach (var output in request.Outputs)
                 {
                     if (output.MaterialId.HasValue)
@@ -191,41 +286,61 @@ namespace server.Services
                         await _responsibilityFillingService.AssignMaterialAtWarehouseAsync(
                             userId, request.WarehouseId, output.MaterialId.Value, output.Quantity, output.MeasuringType);
                     }
-                    else if (output.ProductId.HasValue && output.ProductId.Value > 0)
-                    {
-                        await _responsibilityFillingService.AssignProductAtWarehouseAsync(
-                            userId, request.WarehouseId, output.ProductId.Value, output.Quantity, output.MeasuringType);
-                    }
                 }
 
-                // 3) Отправляем брак на склад утиля (если указано DefectQuantity)
-                if (request.DefectQuantity > 0)
+                // Для продуктов - назначаем ответственность на партии
+                foreach (var (batchId, output) in productBatchesCreated)
                 {
-                    var disposalWarehouse = await _context.Warehouses
-                        .FirstOrDefaultAsync(w => w.IsActive && EF.Functions.ILike(w.Type, DisposalWarehouseType));
-
-                    if (disposalWarehouse != null)
+                    var batch = await _context.ProductBatches.FindAsync(batchId);
+                    if (batch != null)
                     {
-                        // Берём первый исходный материал как материал брака
-                        var defectMaterialId = sources[0].MaterialId;
-                        var defectMaterial = await _context.Materials.FirstOrDefaultAsync(m => m.Id == defectMaterialId);
-                        var measuringType = defectMaterial?.MeasuringUnit ?? "шт";
-
-                        await AddMaterialQuantityToWarehouseAsync(
-                            disposalWarehouse.Id, defectMaterialId, request.DefectQuantity, measuringType);
-
-                        _logger.LogInformation(
-                            "Defect from reprocessing sent to disposal warehouse: Material {MaterialId}, Quantity {Quantity}",
-                            defectMaterialId, request.DefectQuantity);
-                    }
-                    else
-                    {
-                        _logger.LogWarning(
-                            "Склад типа «{Type}» не найден; брак ({Qty}) из переработки не перемещён на склад утиля.",
-                            DisposalWarehouseType, request.DefectQuantity);
+                        await _responsibilityFillingService.AssignBatchResponsibilityAsync(
+                            userId, batchId, output.Quantity, output.MeasuringType ?? batch.MeasuringUnit);
+                        _logger.LogInformation("Batch responsibility assigned: User {UserId}, Batch {BatchId}, Quantity {Quantity}",
+                            userId, batchId, output.Quantity);
                     }
                 }
 
+                // 4) Создаем запросы на утиль для брака и переработки (материал уже перемещен через MoveMaterialToDisposalWarehouseAsync)
+                if (request.DefectQuantity > 0 && request.DefectWarehouseId.HasValue)
+                {
+                    var defectRequest = new DisposalRequest
+                    {
+                        FromUserId = userId,
+                        FromWarehouseId = request.WarehouseId,
+                        ToWarehouseId = request.DefectWarehouseId.Value,
+                        MaterialId = firstSourceMaterialId,
+                        Quantity = request.DefectQuantity,
+                        MeasuringUnit = firstSourceMeasuringUnit,
+                        RequestType = DisposalRequestType.Defect,
+                        Status = DisposalRequestStatus.Pending,
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    _context.DisposalRequests.Add(defectRequest);
+                    _logger.LogInformation("DisposalRequest created for defect: Material {MaterialId}, Quantity {Quantity}, Warehouse {WarehouseId}",
+                        firstSourceMaterialId, request.DefectQuantity, request.DefectWarehouseId.Value);
+                }
+
+                if (request.RecyclingQuantity > 0 && request.RecyclingWarehouseId.HasValue)
+                {
+                    var recyclingRequest = new DisposalRequest
+                    {
+                        FromUserId = userId,
+                        FromWarehouseId = request.WarehouseId,
+                        ToWarehouseId = request.RecyclingWarehouseId.Value,
+                        MaterialId = firstSourceMaterialId,
+                        Quantity = request.RecyclingQuantity,
+                        MeasuringUnit = firstSourceMeasuringUnit,
+                        RequestType = DisposalRequestType.Recycling,
+                        Status = DisposalRequestStatus.Pending,
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    _context.DisposalRequests.Add(recyclingRequest);
+                    _logger.LogInformation("DisposalRequest created for recycling: Material {MaterialId}, Quantity {Quantity}, Warehouse {WarehouseId}",
+                        firstSourceMaterialId, request.RecyclingQuantity, request.RecyclingWarehouseId.Value);
+                }
+
+                // 5) Сохраняем запись переработки
                 var reprocessing = new Reprocessing
                 {
                     UserId = userId,
@@ -292,7 +407,7 @@ namespace server.Services
             }
         }
 
-        private async Task ValidateSourceResponsibilitiesAsync(int userId, bool canManage, int warehouseId, Dictionary<int, int> sourceTotals)
+        private async Task ValidateSourceResponsibilitiesAsync(int userId, bool canManage, int warehouseId, Dictionary<int, double> sourceTotals)
         {
             if (canManage)
             {
@@ -366,7 +481,7 @@ namespace server.Services
         }
 
         /// <summary>Добавляет количество материала на склад (создаёт или обновляет FillingWarehouse).</summary>
-        private async Task AddMaterialQuantityToWarehouseAsync(int warehouseId, int materialId, int quantity, string? measuringType)
+        private async Task AddMaterialQuantityToWarehouseAsync(int warehouseId, int materialId, double quantity, string? measuringType)
         {
             if (quantity <= 0) return;
 
@@ -385,6 +500,157 @@ namespace server.Services
             {
                 await _fillingWarehouseService.UpdateQuantityByMaterialAsync(
                     warehouseId, materialId, filling.Quantity + quantity);
+            }
+        }
+
+        /// <summary>
+        /// Конвертирует граммы в килограммы для сравнения количеств
+        /// </summary>
+        /// <summary>
+        /// Перемещает материал на склад утиля без передачи ответственности (ответственность остается у создателя)
+        /// </summary>
+        /// <summary>
+        /// Перемещает материал на склад утиля без передачи ответственности (ответственность остается у создателя)
+        /// Примечание: материал уже списан со склада fromWarehouseId выше, здесь только добавляем на склад утиля
+        /// </summary>
+        private async Task MoveMaterialToDisposalWarehouseAsync(
+            int fromWarehouseId, int toWarehouseId, int materialId, double quantity, string? measuringUnit, int userId)
+        {
+            // Добавляем материал на склад утиля
+            var toFilling = await _context.FillingWarehouses
+                .FirstOrDefaultAsync(fw => fw.WarehouseId == toWarehouseId && fw.MaterialId == materialId);
+
+            if (toFilling == null)
+            {
+                var material = await _context.Materials.FindAsync(materialId);
+                toFilling = new FillingWarehouse
+                {
+                    WarehouseId = toWarehouseId,
+                    MaterialId = materialId,
+                    Quantity = quantity,
+                    MeasuringType = measuringUnit ?? material?.MeasuringUnit ?? "шт"
+                };
+                _context.FillingWarehouses.Add(toFilling);
+            }
+            else
+            {
+                toFilling.Quantity += quantity;
+            }
+
+            // Списываем ответственность с текущего склада
+            await _responsibilityFillingService.DecreaseMaterialResponsibilityAtWarehouseAsync(
+                fromWarehouseId, materialId, quantity, userId);
+
+            // Добавляем ответственность на склад утиля (отдельной строкой)
+            // Ответственность остается у того же пользователя (userId), но теперь на складе утиля
+            await _responsibilityFillingService.AssignMaterialAtWarehouseAsync(
+                userId, toWarehouseId, materialId, quantity, measuringUnit);
+
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation(
+                "Material {MaterialId} moved to disposal warehouse {ToWarehouseId} from {FromWarehouseId}, quantity {Quantity}. Responsibility transferred to disposal warehouse for user {UserId}",
+                materialId, toWarehouseId, fromWarehouseId, quantity, userId);
+        }
+
+        private static double ConvertToKilograms(double quantity, string? measuringUnit)
+        {
+            if (string.IsNullOrWhiteSpace(measuringUnit))
+                return quantity;
+
+            var unit = measuringUnit.Trim().ToLowerInvariant();
+            if (unit == "г" || unit == "грамм" || unit == "граммы" || unit == "g" || unit == "gram" || unit == "grams")
+            {
+                return quantity / 1000.0; // граммы -> килограммы
+            }
+            else if (unit == "кг" || unit == "килограмм" || unit == "килограммы" || unit == "kg" || unit == "kilogram" || unit == "kilograms")
+            {
+                return quantity; // уже в килограммах
+            }
+
+            // Для других единиц измерения возвращаем как есть (шт, л, м и т.д.)
+            return quantity;
+        }
+
+        /// <summary>
+        /// Проверяет, является ли единица измерения весовой (кг, г)
+        /// </summary>
+        private static bool IsWeightUnit(string? measuringUnit)
+        {
+            if (string.IsNullOrWhiteSpace(measuringUnit))
+                return false;
+
+            var unit = measuringUnit.Trim().ToLowerInvariant();
+            return unit == "г" || unit == "грамм" || unit == "граммы" || 
+                   unit == "g" || unit == "gram" || unit == "grams" ||
+                   unit == "кг" || unit == "килограмм" || unit == "килограммы" || 
+                   unit == "kg" || unit == "kilogram" || unit == "kilograms";
+        }
+
+        /// <summary>
+        /// Валидирует, что сумма исходных материалов равна сумме результатов (с учетом единиц измерения)
+        /// Сравнивает все количества как числа, без учета единиц измерения (шт сравнивается с кг и т.д.)
+        /// </summary>
+        private static void ValidateQuantitiesBalance(List<ReprocessingSource> sources, List<ReprocessingOutput> outputs, 
+            double defectQuantity, double recyclingQuantity)
+        {
+            if (sources.Count == 0)
+                return;
+
+            var firstSourceMeasuringUnit = sources.FirstOrDefault()?.MeasuringType;
+            bool allSourcesAreWeight = sources.All(s => IsWeightUnit(s.MeasuringType));
+
+            // Если исходные материалы в весовых единицах, конвертируем граммы в килограммы
+            if (allSourcesAreWeight)
+            {
+                // Суммируем исходные материалы в килограммах (конвертируем граммы в кг)
+                double totalSource = 0;
+                foreach (var source in sources)
+                {
+                    totalSource += ConvertToKilograms(source.Quantity, source.MeasuringType);
+                }
+
+                // Суммируем все результаты как числа (шт, л и т.д. просто как числа, граммы конвертируем в кг)
+                double totalOutput = 0;
+                foreach (var output in outputs)
+                {
+                    if (IsWeightUnit(output.MeasuringType))
+                    {
+                        // Для весовых единиц конвертируем граммы в кг
+                        totalOutput += ConvertToKilograms(output.Quantity, output.MeasuringType);
+                    }
+                    else
+                    {
+                        // Для невесовых единиц просто добавляем как число
+                        totalOutput += output.Quantity;
+                    }
+                }
+
+                // Добавляем брак и переработку (конвертируем граммы в кг, если нужно)
+                totalOutput += ConvertToKilograms(defectQuantity, firstSourceMeasuringUnit);
+                totalOutput += ConvertToKilograms(recyclingQuantity, firstSourceMeasuringUnit);
+
+                // Сравниваем с небольшой погрешностью (0.001) для учета округления
+                if (Math.Abs(totalSource - totalOutput) > 0.001)
+                {
+                    throw new InvalidOperationException(
+                        $"Количество исходных материалов ({totalSource:F3}) не совпадает с количеством результатов ({totalOutput:F3}). " +
+                        $"Разница: {Math.Abs(totalSource - totalOutput):F3}");
+                }
+            }
+            // Если исходные материалы в невесовых единицах
+            else
+            {
+                // Просто сравниваем все как числа
+                double totalSource = sources.Sum(s => s.Quantity);
+                double totalOutput = outputs.Sum(o => o.Quantity) + defectQuantity + recyclingQuantity;
+
+                if (totalSource != totalOutput)
+                {
+                    throw new InvalidOperationException(
+                        $"Количество исходных материалов ({totalSource} {sources.First().MeasuringType}) не совпадает с количеством результатов ({totalOutput}). " +
+                        $"Разница: {Math.Abs(totalSource - totalOutput)}");
+                }
             }
         }
     }

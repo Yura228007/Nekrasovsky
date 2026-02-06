@@ -15,7 +15,7 @@ namespace NekrasovskyAPP.Models
         /// Количество неответственной части (только для карточки с Responsibility == null).
         /// При назначении ответственности передаётся это количество, а не null.
         /// </summary>
-        public int? UnassignedQuantity { get; set; }
+        public double? UnassignedQuantity { get; set; }
 
         /// <summary>
         /// Единица измерения неответственной части.

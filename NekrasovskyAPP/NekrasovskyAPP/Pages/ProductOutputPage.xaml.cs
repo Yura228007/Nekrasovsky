@@ -11,9 +11,11 @@ namespace NekrasovskyAPP.Pages
         private ProductOutputOptionsResponse? _outputOptions;
         private List<Product> _products = new();
         private List<Warehouse> _warehouses = new();
-        private List<Machine> _machines = new();
+        private List<Warehouse> _finishedGoodsWarehouses = new();
+        private List<Warehouse> _disposalWarehouses = new();
+        private List<User> _allUsers = new();
         /// <summary>Макс. количество для пары (productId, warehouseId). Ключ: warehouseId ?? -1 для "без склада".</summary>
-        private Dictionary<(int productId, int warehouseKey), int?> _maxQuantityByProductWarehouse = new();
+        private Dictionary<(int productId, int warehouseKey), double?> _maxQuantityByProductWarehouse = new();
 
         public ProductOutputPage(IApiService apiService, IAuthService authService)
         {
@@ -45,7 +47,7 @@ namespace NekrasovskyAPP.Pages
                 _outputOptions = await _apiService.GetProductOutputOptionsAsync();
                 if (_outputOptions == null)
                 {
-                    await DisplayAlert("Ошибка", "Не удалось загрузить варианты выпуска", "OK");
+                    await DisplayAlert("Ошибка", "Не удалось загрузить варианты упаковки", "OK");
                     return;
                 }
 
@@ -64,7 +66,7 @@ namespace NekrasovskyAPP.Pages
                 _maxQuantityByProductWarehouse.Clear();
                 foreach (var o in options)
                 {
-                    // При выпуске из партии: ключ (productId, -productBatchId); иначе (productId, warehouseId ?? -1)
+                    // При упаковке из партии: ключ (productId, -productBatchId); иначе (productId, warehouseId ?? -1)
                     var secondKey = o.ProductBatchId.HasValue ? -o.ProductBatchId.Value : (o.WarehouseId ?? -1);
                     _maxQuantityByProductWarehouse[(o.ProductId, secondKey)] = o.MaxQuantity;
                 }
@@ -74,12 +76,23 @@ namespace NekrasovskyAPP.Pages
                 else
                 {
                     var warehouseIds = options.Where(o => o.WarehouseId.HasValue).Select(o => o.WarehouseId!.Value).Distinct().ToList();
-                    var allWarehouses = await _apiService.GetAllWarehousesAsync();
-                    _warehouses = allWarehouses.Where(w => warehouseIds.Contains(w.Id)).ToList();
+                    var allWarehousesTemp = await _apiService.GetAllWarehousesAsync();
+                    _warehouses = allWarehousesTemp.Where(w => warehouseIds.Contains(w.Id)).ToList();
                 }
 
-                _machines = await _apiService.GetActiveMachinesAsync();
                 _outputs = await _apiService.GetProductOutputsByUserAsync(currentUser.Id);
+
+                // Загружаем склады готовой продукции и утиля
+                var allWarehousesForDisposal = await _apiService.GetAllWarehousesAsync();
+                _finishedGoodsWarehouses = allWarehousesForDisposal
+                    .Where(w => w.IsActive && w.Type?.Contains("Готовая продукция", StringComparison.OrdinalIgnoreCase) == true)
+                    .ToList();
+                _disposalWarehouses = allWarehousesForDisposal
+                    .Where(w => w.IsActive && w.Type?.Contains("Утиль", StringComparison.OrdinalIgnoreCase) == true)
+                    .ToList();
+
+                // Загружаем пользователей для перемотки
+                _allUsers = await _apiService.GetAllUsersAsync();
 
                 OutputsCollectionView.ItemsSource = _outputs;
                 UpdateSummary();
@@ -131,7 +144,7 @@ namespace NekrasovskyAPP.Pages
                 OutputsCollectionView.SelectedItem = null;
 
                 var action = await DisplayActionSheet(
-                    $"Выпуск: {selectedOutput.ProductName}",
+                    $"Упаковка: {selectedOutput.ProductName}",
                     "Отмена",
                     null,
                     "Редактировать",
@@ -151,123 +164,71 @@ namespace NekrasovskyAPP.Pages
 
         private async Task ShowAddEditDialogAsync(ProductOutput? existingOutput)
         {
+            var currentUser = _authService.CurrentUser;
+            if (currentUser == null)
+            {
+                await DisplayAlert("Ошибка", "Пользователь не авторизован", "OK");
+                return;
+            }
+
             if (_outputOptions == null || !_products.Any())
             {
                 await DisplayAlert("Ошибка", "Нет доступных продуктов под вашей ответственностью", "OK");
                 return;
             }
 
-            var title = existingOutput == null ? "Новый выпуск" : "Редактировать выпуск";
+            var title = existingOutput == null ? "Новая упаковка" : "Редактировать упаковку";
             var hasSendToSale = _outputOptions.HasSendToSale;
 
             ProductOutputOption? selectedOption = null;
             int? selectedWarehouseId = null;
             int warehouseKey = -1;
-            string? selectedProductName = null;
             Product? selectedProduct = null;
 
-            if (hasSendToSale)
+            // Выбор партии напрямую (всегда из партий под ответственностью)
+            var batchOptions = _outputOptions.Options
+                .Where(o => o.ProductBatchId.HasValue && o.MaxQuantity.HasValue && o.MaxQuantity.Value > 0)
+                .Select(o => new
+                {
+                    Option = o,
+                    DisplayName = $"{o.ProductName} - {o.BatchNumber ?? $"Партия #{o.ProductBatchId}"} ({o.WarehouseName ?? "Без склада"}: {o.MaxQuantity} {o.MeasuringUnit ?? "шт"})"
+                })
+                .ToList();
+
+            if (batchOptions.Count == 0)
             {
-                // Выбор продукта
-                var productOptions = _products.Select(p => p.Name).ToArray();
-                selectedProductName = await DisplayActionSheet($"{title} - Выберите продукт:", "Отмена", null, productOptions);
-                if (selectedProductName == "Отмена" || string.IsNullOrEmpty(selectedProductName))
-                    return;
-
-                selectedProduct = _products.FirstOrDefault(p => p.Name == selectedProductName);
-                if (selectedProduct == null)
-                    return;
-
-                var warehousesForProduct = _outputOptions.Options
-                    .Where(o => o.ProductId == selectedProduct.Id)
-                    .ToList();
-                var warehouseChoices = warehousesForProduct
-                    .Select(o => o.WarehouseName ?? "Без склада")
-                    .Distinct()
-                    .ToList();
-                if (!warehouseChoices.Contains("Без склада"))
-                    warehouseChoices.Insert(0, "Без склада");
-
-                var warehouseOptions = warehouseChoices.ToArray();
-                if (warehouseOptions.Length == 0)
-                {
-                    await DisplayAlert("Ошибка", "Нет складов для этого продукта", "OK");
-                    return;
-                }
-
-                var selectedWarehouseName = await DisplayActionSheet("Выберите склад:", "Отмена", null, warehouseOptions);
-                if (selectedWarehouseName == "Отмена")
-                    return;
-
-                if (selectedWarehouseName != "Без склада")
-                {
-                    var opt = warehousesForProduct.FirstOrDefault(o => o.WarehouseName == selectedWarehouseName);
-                    selectedWarehouseId = opt?.WarehouseId;
-                }
-                warehouseKey = selectedWarehouseId ?? -1;
-                selectedOption = warehousesForProduct.FirstOrDefault(o =>
-                    (o.WarehouseName ?? "Без склада") == selectedWarehouseName);
-            }
-            else
-            {
-                // Выпуск только из партий: выбор партии (продукт + партия + макс. количество)
-                var batchChoices = _outputOptions.Options
-                    .Where(o => o.ProductBatchId.HasValue && o.MaxQuantity.HasValue)
-                    .Select(o => $"{o.ProductName} — партия {o.BatchNumber ?? o.ProductBatchId.ToString()} (макс. {o.MaxQuantity})")
-                    .ToArray();
-                if (batchChoices.Length == 0)
-                {
-                    await DisplayAlert("Ошибка", "Нет доступных партий под вашей ответственностью для выпуска", "OK");
-                    return;
-                }
-
-                var selectedChoice = await DisplayActionSheet($"{title} - Выберите партию для выпуска:", "Отмена", null, batchChoices);
-                if (selectedChoice == "Отмена" || string.IsNullOrEmpty(selectedChoice))
-                    return;
-
-                var idx = Array.IndexOf(batchChoices, selectedChoice);
-                selectedOption = _outputOptions.Options
-                    .Where(o => o.ProductBatchId.HasValue && o.MaxQuantity.HasValue)
-                    .ElementAtOrDefault(idx);
-                if (selectedOption == null)
-                    return;
-                warehouseKey = selectedOption.ProductBatchId.HasValue ? -selectedOption.ProductBatchId.Value : -1;
+                await DisplayAlert("Ошибка", "Нет доступных партий под вашей ответственностью", "OK");
+                return;
             }
 
-            if (hasSendToSale)
-                selectedProduct = _products.FirstOrDefault(p => p.Name == selectedProductName!);
-            else if (selectedOption != null)
-                selectedProduct = new Product
-                {
-                    Id = selectedOption.ProductId,
-                    Name = selectedOption.ProductName,
-                    MeasuringUnit = selectedOption.MeasuringUnit ?? "шт",
-                    IsActive = true
-                };
-            if (selectedProduct == null)
+            var batchChoices = batchOptions.Select(b => b.DisplayName).ToArray();
+            var selectedBatchChoice = await DisplayActionSheet($"{title} - Выберите партию:", "Отмена", null, batchChoices);
+            if (selectedBatchChoice == "Отмена" || string.IsNullOrEmpty(selectedBatchChoice))
                 return;
 
-            // Select machine (optional)
-            Machine? selectedMachine = null;
-            if (_machines.Any())
-            {
-                var machineOptions = new[] { "Без станка" }.Concat(_machines.Select(m => m.DisplayName)).ToArray();
-                var selectedMachineName = await DisplayActionSheet("Выберите станок/линию (опционально):", "Отмена", null, machineOptions);
-                if (selectedMachineName == "Отмена")
-                    return;
+            var selectedBatchOption = batchOptions.FirstOrDefault(b => b.DisplayName == selectedBatchChoice);
+            if (selectedBatchOption == null)
+                return;
 
-                selectedMachine = selectedMachineName == "Без станка" ? null : _machines.FirstOrDefault(m => m.DisplayName == selectedMachineName);
+            selectedOption = selectedBatchOption.Option;
+            if (selectedOption == null || !selectedOption.ProductBatchId.HasValue)
+            {
+                await DisplayAlert("Ошибка", "Не удалось выбрать партию", "OK");
+                return;
             }
 
-            // Доступное количество для выбранной пары (продукт + склад) или партии
-            var baseAvailableQuantity = _maxQuantityByProductWarehouse.TryGetValue((selectedProduct.Id, warehouseKey), out var maxQty) ? maxQty : null;
-            int? availableQuantity = baseAvailableQuantity;
-            if (existingOutput != null && existingOutput.ProductId == selectedProduct.Id && baseAvailableQuantity.HasValue)
+            selectedWarehouseId = selectedOption.WarehouseId;
+            warehouseKey = selectedOption.ProductBatchId.HasValue ? -selectedOption.ProductBatchId.Value : (selectedWarehouseId ?? -1);
+            
+            // Получаем продукт для дальнейшей работы (для совместимости, но используем selectedOption)
+            selectedProduct = _products.FirstOrDefault(p => p.Id == selectedOption.ProductId);
+
+            // Доступное количество для выбранной партии
+            var baseAvailableQuantity = selectedOption.MaxQuantity;
+            double? availableQuantity = baseAvailableQuantity;
+            if (existingOutput != null && existingOutput.ProductBatchId == selectedOption.ProductBatchId && baseAvailableQuantity.HasValue)
             {
-                var sameSource = hasSendToSale
-                    ? existingOutput.WarehouseId == selectedWarehouseId
-                    : existingOutput.ProductBatchId == selectedOption?.ProductBatchId;
-                if (sameSource)
+                if (existingOutput.WarehouseId == selectedWarehouseId)
                 {
                     var oldTotalUsed = existingOutput.ProducedQuantity + existingOutput.DefectQuantity + existingOutput.EcoQuantity + existingOutput.RewindQuantity;
                     availableQuantity = baseAvailableQuantity.Value + oldTotalUsed;
@@ -275,7 +236,7 @@ namespace NekrasovskyAPP.Pages
             }
 
             var quantityLimitText = availableQuantity.HasValue
-                ? $"\n(Можно выпустить: {availableQuantity.Value} {selectedProduct.MeasuringUnit})"
+                ? $"\n(Можно выпустить: {availableQuantity.Value} {selectedOption.MeasuringUnit ?? "шт"})"
                 : "";
 
             // Enter produced quantity
@@ -301,41 +262,9 @@ namespace NekrasovskyAPP.Pages
             {
                 await DisplayAlert(
                     "Ошибка", 
-                    $"Количество произведенной продукции ({produced} {selectedProduct.MeasuringUnit}) превышает доступное количество ({availableQuantity.Value} {selectedProduct.MeasuringUnit})",
+                    $"Количество произведенной продукции ({produced} {selectedOption.MeasuringUnit ?? "шт"}) превышает доступное количество ({availableQuantity.Value} {selectedOption.MeasuringUnit ?? "шт"})",
                     "OK");
                 return;
-            }
-
-            // Enter defect quantity
-            var defectStr = await DisplayPromptAsync(
-                title,
-                $"Количество брака:{quantityLimitText}",
-                "Далее",
-                "Отмена",
-                "0",
-                -1,
-                Keyboard.Numeric,
-                existingOutput?.DefectQuantity.ToString() ?? "0");
-            if (defectStr == null)
-                return;
-            if (!int.TryParse(defectStr, out var defect) || defect < 0)
-            {
-                await DisplayAlert("Ошибка", "Введите корректное число", "OK");
-                return;
-            }
-            
-            // Проверяем доступное количество для брака
-            if (availableQuantity.HasValue)
-            {
-                var totalUsed = produced + defect;
-                if (totalUsed > availableQuantity.Value)
-                {
-                    await DisplayAlert(
-                        "Ошибка", 
-                        $"Сумма произведенной продукции и брака ({totalUsed} {selectedProduct.MeasuringUnit}) превышает доступное количество ({availableQuantity.Value} {selectedProduct.MeasuringUnit})",
-                        "OK");
-                    return;
-                }
             }
 
             // Enter eco quantity
@@ -359,15 +288,95 @@ namespace NekrasovskyAPP.Pages
             // Проверяем доступное количество для эко
             if (availableQuantity.HasValue)
             {
-                var totalUsed = produced + defect + eco;
+                var totalUsed = produced + eco;
                 if (totalUsed > availableQuantity.Value)
                 {
                     await DisplayAlert(
                         "Ошибка",
-                        $"Сумма (произведено + брак + эко = {totalUsed} {selectedProduct.MeasuringUnit}) превышает доступное количество ({availableQuantity.Value} {selectedProduct.MeasuringUnit})",
+                        $"Сумма (произведено + эко = {totalUsed} {selectedOption.MeasuringUnit ?? "шт"}) превышает доступное количество ({availableQuantity.Value} {selectedOption.MeasuringUnit ?? "шт"})",
                         "OK");
                     return;
                 }
+            }
+
+            // Выбор склада готовой продукции для нормальной и ЭКО продукции (один склад для обоих)
+            int? normalWarehouseId = null;
+            if (produced > 0 || eco > 0)
+            {
+                if (_finishedGoodsWarehouses.Count == 0)
+                {
+                    await DisplayAlert("Ошибка", "Нет доступных складов готовой продукции", "OK");
+                    return;
+                }
+
+                var finishedGoodsOptions = _finishedGoodsWarehouses.Select(w => w.Name).ToArray();
+                var selectedFinishedGoodsName = await DisplayActionSheet(
+                    "Выберите склад готовой продукции для нормальной и ЭКО продукции:",
+                    "Отмена", null, finishedGoodsOptions);
+                if (selectedFinishedGoodsName == "Отмена")
+                    return;
+
+                normalWarehouseId = _finishedGoodsWarehouses
+                    .FirstOrDefault(w => w.Name == selectedFinishedGoodsName)?.Id;
+                if (normalWarehouseId == null)
+                    return;
+            }
+            // ЭКО использует тот же склад что и нормальная
+            int? ecoWarehouseId = normalWarehouseId;
+
+            // Enter defect quantity
+            var defectStr = await DisplayPromptAsync(
+                title,
+                $"Количество брака:{quantityLimitText}",
+                "Далее",
+                "Отмена",
+                "0",
+                -1,
+                Keyboard.Numeric,
+                existingOutput?.DefectQuantity.ToString() ?? "0");
+            if (defectStr == null)
+                return;
+            if (!int.TryParse(defectStr, out var defect) || defect < 0)
+            {
+                await DisplayAlert("Ошибка", "Введите корректное число", "OK");
+                return;
+            }
+            
+            // Проверяем доступное количество для брака
+            if (availableQuantity.HasValue)
+            {
+                var totalUsed = produced + eco + defect;
+                if (totalUsed > availableQuantity.Value)
+                {
+                    await DisplayAlert(
+                        "Ошибка", 
+                        $"Сумма (произведено + эко + брак = {totalUsed} {selectedOption.MeasuringUnit ?? "шт"}) превышает доступное количество ({availableQuantity.Value} {selectedOption.MeasuringUnit ?? "шт"})",
+                        "OK");
+                    return;
+                }
+            }
+
+            // Выбор склада утиля для брака
+            int? defectWarehouseId = null;
+            if (defect > 0)
+            {
+                if (_disposalWarehouses.Count == 0)
+                {
+                    await DisplayAlert("Ошибка", "Нет доступных складов утиля", "OK");
+                    return;
+                }
+
+                var disposalOptions = _disposalWarehouses.Select(w => w.Name).ToArray();
+                var selectedDisposalName = await DisplayActionSheet(
+                    "Выберите склад утиля для брака:",
+                    "Отмена", null, disposalOptions);
+                if (selectedDisposalName == "Отмена")
+                    return;
+
+                defectWarehouseId = _disposalWarehouses
+                    .FirstOrDefault(w => w.Name == selectedDisposalName)?.Id;
+                if (defectWarehouseId == null)
+                    return;
             }
 
             // Enter rewind quantity
@@ -396,32 +405,87 @@ namespace NekrasovskyAPP.Pages
                 {
                     await DisplayAlert(
                         "Ошибка",
-                        $"Общее количество (произведено + брак + эко + перемотка = {totalUsed} {selectedProduct.MeasuringUnit}) превышает доступное количество ({availableQuantity.Value} {selectedProduct.MeasuringUnit})",
+                        $"Общее количество (произведено + брак + эко + перемотка = {totalUsed} {selectedOption.MeasuringUnit ?? "шт"}) превышает доступное количество ({availableQuantity.Value} {selectedOption.MeasuringUnit ?? "шт"})",
                         "OK");
                     return;
                 }
             }
 
-            var currentUser = _authService.CurrentUser;
-            if (currentUser == null)
+            // Выбор склада и пользователя для перемотки
+            int? rewindWarehouseId = null;
+            int? rewindToUserId = null;
+            if (rewind > 0)
             {
-                await DisplayAlert("Ошибка", "Пользователь не авторизован", "OK");
-                return;
+                // Выбор склада для перемотки
+                var allWarehouses = await _apiService.GetAllWarehousesAsync();
+                var rewindWarehouseOptions = allWarehouses
+                    .Where(w => w.IsActive)
+                    .Select(w => w.Name)
+                    .ToArray();
+                
+                if (rewindWarehouseOptions.Length == 0)
+                {
+                    await DisplayAlert("Ошибка", "Нет доступных складов", "OK");
+                    return;
+                }
+
+                var selectedRewindWarehouseName = await DisplayActionSheet(
+                    "Выберите склад для перемотки:",
+                    "Отмена", null, rewindWarehouseOptions);
+                if (selectedRewindWarehouseName == "Отмена")
+                    return;
+
+                rewindWarehouseId = allWarehouses
+                    .FirstOrDefault(w => w.Name == selectedRewindWarehouseName && w.IsActive)?.Id;
+                if (rewindWarehouseId == null)
+                    return;
+
+                // Выбор пользователя для перемотки
+                var userOptions = _allUsers
+                    .Where(u => u.Id != currentUser.Id)
+                    .Select(u => $"{u.Name} {u.Surname}")
+                    .ToArray();
+
+                if (userOptions.Length == 0)
+                {
+                    await DisplayAlert("Ошибка", "Нет доступных пользователей", "OK");
+                    return;
+                }
+
+                var selectedUserName = await DisplayActionSheet(
+                    "Выберите пользователя для перемотки:",
+                    "Отмена", null, userOptions);
+                if (selectedUserName == "Отмена")
+                    return;
+
+                var selectedUser = _allUsers
+                    .FirstOrDefault(u => $"{u.Name} {u.Surname}" == selectedUserName);
+                if (selectedUser == null)
+                    return;
+
+                rewindToUserId = selectedUser.Id;
             }
+
+            // currentUser уже объявлен в начале метода
 
             var output = new ProductOutput
             {
                 Id = existingOutput?.Id ?? 0,
                 UserId = currentUser.Id,
-                ProductId = selectedProduct.Id,
-                WarehouseId = hasSendToSale ? selectedWarehouseId : selectedOption?.TargetWarehouseId,
-                ProductBatchId = selectedOption?.ProductBatchId,
-                MachineId = selectedMachine?.Id,
+                ProductId = selectedOption.ProductId,
+                WarehouseId = selectedWarehouseId,
+                ProductBatchId = selectedOption.ProductBatchId,
                 ProducedQuantity = produced,
                 DefectQuantity = defect,
                 EcoQuantity = eco,
                 RewindQuantity = rewind,
-                MeasuringUnit = selectedProduct.MeasuringUnit
+                NormalWarehouseId = normalWarehouseId,
+                EcoWarehouseId = ecoWarehouseId,
+                DefectWarehouseId = defectWarehouseId,
+                RewindWarehouseId = rewindWarehouseId,
+                RewindToUserId = rewindToUserId,
+                MeasuringUnit = selectedOption.MeasuringUnit ?? "шт",
+                CreatedAt = existingOutput?.CreatedAt ?? DateTime.UtcNow
             };
 
             try
@@ -464,7 +528,7 @@ namespace NekrasovskyAPP.Pages
         {
             var confirm = await DisplayAlert(
                 "Удаление",
-                $"Удалить запись о выпуске продукта \"{output.ProductName}\"?",
+                $"Удалить запись об упаковке продукта \"{output.ProductName}\"?",
                 "Удалить",
                 "Отмена");
 

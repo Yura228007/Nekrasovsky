@@ -464,7 +464,7 @@ namespace NekrasovskyAPP.Pages
             }
 
             // Назначение без склада (неответственная часть или старая модель Responsibility)
-            int? quantity = displayItem.Responsibility == null
+            double? quantity = displayItem.Responsibility == null
                 ? displayItem.UnassignedQuantity
                 : displayItem.Responsibility.Quantity;
             string? measuringUnit = displayItem.Responsibility == null

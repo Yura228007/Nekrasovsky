@@ -29,39 +29,64 @@ namespace server.Models
         [ForeignKey(nameof(ProductBatch))]
         public int? ProductBatchId { get; set; }
 
-        [ForeignKey(nameof(Machine))]
-        public int? MachineId { get; set; }
 
         /// <summary>
         /// Количество произведённой продукции
         /// </summary>
         [Required]
-        [Column(TypeName = "integer")]
-        public int ProducedQuantity { get; set; } = 0;
+        [Column(TypeName = "double precision")]
+        public double ProducedQuantity { get; set; } = 0;
 
         /// <summary>
         /// Количество брака
         /// </summary>
-        [Column(TypeName = "integer")]
-        public int DefectQuantity { get; set; } = 0;
+        [Column(TypeName = "double precision")]
+        public double DefectQuantity { get; set; } = 0;
 
         /// <summary>
         /// Количество эко-продукции (переработка/вторсырьё)
         /// </summary>
-        [Column(TypeName = "integer")]
-        public int EcoQuantity { get; set; } = 0;
+        [Column(TypeName = "double precision")]
+        public double EcoQuantity { get; set; } = 0;
 
         /// <summary>
         /// Количество на перемотку (отправляется на склад "Перемотка")
         /// </summary>
-        [Column(TypeName = "integer")]
-        public int RewindQuantity { get; set; } = 0;
+        [Column(TypeName = "double precision")]
+        public double RewindQuantity { get; set; } = 0;
+
+        /// <summary>
+        /// Склад готовой продукции для нормальной продукции (если отличается от WarehouseId)
+        /// </summary>
+        [ForeignKey(nameof(NormalWarehouse))]
+        public int? NormalWarehouseId { get; set; }
+
+        /// <summary>
+        /// Склад готовой продукции для ЭКО продукции
+        /// </summary>
+        [ForeignKey(nameof(EcoWarehouse))]
+        public int? EcoWarehouseId { get; set; }
+
+        /// <summary>
+        /// Склад утиля для брака
+        /// </summary>
+        [ForeignKey(nameof(DefectWarehouse))]
+        public int? DefectWarehouseId { get; set; }
+
+        /// <summary>
+        /// Склад для перемотки
+        /// </summary>
+        [ForeignKey(nameof(RewindWarehouse))]
+        public int? RewindWarehouseId { get; set; }
+
+        /// <summary>
+        /// Пользователь, которому отправляется перемотка
+        /// </summary>
+        [ForeignKey(nameof(RewindToUser))]
+        public int? RewindToUserId { get; set; }
 
         [Column(TypeName = "varchar(50)")]
         public string? MeasuringUnit { get; set; }
-
-        [Column(TypeName = "text")]
-        public string? Note { get; set; }
 
         [Required]
         [Column(TypeName = "timestamp with time zone")]
@@ -76,6 +101,10 @@ namespace server.Models
         public virtual Product? Product { get; set; }
         public virtual Warehouse? Warehouse { get; set; }
         public virtual ProductBatch? ProductBatch { get; set; }
-        public virtual Machine? Machine { get; set; }
+        public virtual Warehouse? NormalWarehouse { get; set; }
+        public virtual Warehouse? EcoWarehouse { get; set; }
+        public virtual Warehouse? DefectWarehouse { get; set; }
+        public virtual Warehouse? RewindWarehouse { get; set; }
+        public virtual User? RewindToUser { get; set; }
     }
 }

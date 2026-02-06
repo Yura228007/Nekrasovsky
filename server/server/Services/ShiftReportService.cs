@@ -215,7 +215,6 @@ namespace server.Services
             return await _context.ProductOutputs
                 .Include(po => po.Product)
                 .Include(po => po.Warehouse)
-                .Include(po => po.Machine)
                 .Where(po => po.UserId == userId && po.CreatedAt >= start && po.CreatedAt <= end)
                 .OrderBy(po => po.CreatedAt)
                 .ToListAsync();
@@ -362,7 +361,7 @@ namespace server.Services
                 {
                     ws.Cell(row, 1).Value = output.Product?.Code ?? "-";
                     ws.Cell(row, 2).Value = output.Product?.Name ?? $"Продукт #{output.ProductId}";
-                    ws.Cell(row, 3).Value = output.Machine?.Name ?? "-";
+                    ws.Cell(row, 3).Value = "-"; // Machine removed
                     ws.Cell(row, 4).Value = output.ProducedQuantity;
                     ws.Cell(row, 5).Value = output.DefectQuantity;
                     ws.Cell(row, 6).Value = output.EcoQuantity;

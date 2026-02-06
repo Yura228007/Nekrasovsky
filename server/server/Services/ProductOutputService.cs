@@ -28,6 +28,9 @@ namespace server.Services
         private readonly IResponsibilityFillingService _responsibilityFillingService;
         private readonly IWarehouseService _warehouseService;
         private readonly IFillingWarehouseService _fillingWarehouseService;
+        private readonly IFinishedGoodsRequestService _finishedGoodsRequestService;
+        private readonly IDisposalRequestService _disposalRequestService;
+        private readonly IPartRequestService _partRequestService;
         private readonly ILogger<ProductOutputService> _logger;
 
         public ProductOutputService(
@@ -36,6 +39,9 @@ namespace server.Services
             IResponsibilityFillingService responsibilityFillingService,
             IWarehouseService warehouseService,
             IFillingWarehouseService fillingWarehouseService,
+            IFinishedGoodsRequestService finishedGoodsRequestService,
+            IDisposalRequestService disposalRequestService,
+            IPartRequestService partRequestService,
             ILogger<ProductOutputService> logger)
         {
             _context = context;
@@ -43,6 +49,9 @@ namespace server.Services
             _responsibilityFillingService = responsibilityFillingService;
             _warehouseService = warehouseService;
             _fillingWarehouseService = fillingWarehouseService;
+            _finishedGoodsRequestService = finishedGoodsRequestService;
+            _disposalRequestService = disposalRequestService;
+            _partRequestService = partRequestService;
             _logger = logger;
         }
 
@@ -54,7 +63,6 @@ namespace server.Services
                 .Include(po => po.Warehouse)
                 .Include(po => po.ProductBatch)
                 .Include(po => po.WorkReport)
-                .Include(po => po.Machine)
                 .OrderByDescending(po => po.CreatedAt)
                 .ToListAsync();
         }
@@ -67,7 +75,6 @@ namespace server.Services
                 .Include(po => po.Warehouse)
                 .Include(po => po.ProductBatch)
                 .Include(po => po.WorkReport)
-                .Include(po => po.Machine)
                 .Where(po => po.UserId == userId)
                 .OrderByDescending(po => po.CreatedAt)
                 .ToListAsync();
@@ -81,7 +88,6 @@ namespace server.Services
                 .Include(po => po.Warehouse)
                 .Include(po => po.ProductBatch)
                 .Include(po => po.WorkReport)
-                .Include(po => po.Machine)
                 .Where(po => po.WorkReportId == workReportId)
                 .OrderByDescending(po => po.CreatedAt)
                 .ToListAsync();
@@ -95,7 +101,6 @@ namespace server.Services
                 .Include(po => po.Warehouse)
                 .Include(po => po.ProductBatch)
                 .Include(po => po.WorkReport)
-                .Include(po => po.Machine)
                 .FirstOrDefaultAsync(po => po.Id == id);
         }
 
@@ -103,43 +108,7 @@ namespace server.Services
         {
             var response = new ProductOutputOptionsResponse { HasSendToSale = hasSendToSale };
 
-            if (hasSendToSale)
-            {
-                var products = await _context.Products.Where(p => p.IsActive).ToListAsync();
-                var warehouses = await _context.Warehouses.Where(w => w.IsActive).ToListAsync();
-                var finishedGoods = (await _warehouseService.GetWarehousesByTypeAsync(FinishedGoodsWarehouseType)).FirstOrDefault();
-                foreach (var p in products)
-                {
-                    foreach (var w in warehouses)
-                    {
-                        response.Options.Add(new ProductOutputOption
-                        {
-                            ProductId = p.Id,
-                            ProductName = p.Name,
-                            WarehouseId = w.Id,
-                            WarehouseName = w.Name,
-                            TargetWarehouseId = finishedGoods?.Id,
-                            TargetWarehouseName = finishedGoods?.Name,
-                            MaxQuantity = null,
-                            MeasuringUnit = p.MeasuringUnit
-                        });
-                    }
-                    response.Options.Add(new ProductOutputOption
-                    {
-                        ProductId = p.Id,
-                        ProductName = p.Name,
-                        WarehouseId = null,
-                        WarehouseName = "Без склада",
-                        TargetWarehouseId = finishedGoods?.Id,
-                        TargetWarehouseName = finishedGoods?.Name,
-                        MaxQuantity = null,
-                        MeasuringUnit = p.MeasuringUnit
-                    });
-                }
-                return response;
-            }
-
-            // Выпуск только из партий, доступных пользователю (ResponsibilityFilling по партиям)
+            // Получаем партии под ответственностью пользователя
             var batchFillings = await _context.ResponsibilityFillings
                 .Where(rf => rf.UserId == userId && rf.IsActive && rf.ProductBatchId != null && rf.Quantity > 0)
                 .Include(rf => rf.ProductBatch!)
@@ -153,9 +122,18 @@ namespace server.Services
                 _logger.LogWarning("Warehouse type '{Type}' not found; product output options may have no target warehouse.", FinishedGoodsWarehouseType);
             }
 
-            var batchIds = batchFillings.Select(rf => rf.ProductBatchId!.Value).Distinct().ToList();
-            foreach (var batchId in batchIds)
+            // Группируем по партиям
+            var batchGroups = batchFillings
+                .GroupBy(rf => rf.ProductBatchId!.Value)
+                .ToList();
+
+            // Сначала добавляем обычные партии, потом ЭКО
+            var normalBatches = new List<(int BatchId, ProductBatch Batch, double ResponsibleQty, Warehouse? Warehouse)>();
+            var ecoBatches = new List<(int BatchId, ProductBatch Batch, double ResponsibleQty, Warehouse? Warehouse)>();
+
+            foreach (var group in batchGroups)
             {
+                var batchId = group.Key;
                 var batch = await _batchService.GetBatchByIdAsync(batchId);
                 if (batch == null || !batch.IsActive || batch.Quantity <= 0) continue;
 
@@ -163,20 +141,61 @@ namespace server.Services
                 if (responsibleQty <= 0) continue;
 
                 var maxQty = Math.Min(responsibleQty, batch.Quantity);
-                var first = batchFillings.First(rf => rf.ProductBatchId == batchId);
-                var product = batch.Product ?? first.ProductBatch?.Product;
+                var first = group.First();
+                var warehouse = first.Warehouse ?? batch.Warehouse;
+
+                // Проверяем, является ли партия ЭКО (BatchNumber начинается с "ECO-")
+                var isEco = !string.IsNullOrEmpty(batch.BatchNumber) && batch.BatchNumber.StartsWith("ECO-", StringComparison.OrdinalIgnoreCase);
+
+                if (isEco)
+                {
+                    ecoBatches.Add((batchId, batch, maxQty, warehouse));
+                }
+                else
+                {
+                    normalBatches.Add((batchId, batch, maxQty, warehouse));
+                }
+            }
+
+            // Добавляем обычные партии
+            foreach (var (batchId, batch, maxQty, warehouse) in normalBatches)
+            {
+                var product = batch.Product;
+                if (product == null || !product.IsActive) continue;
+
                 response.Options.Add(new ProductOutputOption
                 {
                     ProductId = batch.ProductId,
-                    ProductName = product?.Name ?? $"Продукт #{batch.ProductId}",
+                    ProductName = product.Name,
                     ProductBatchId = batch.Id,
                     BatchNumber = batch.BatchNumber,
                     WarehouseId = batch.WarehouseId,
-                    WarehouseName = first.Warehouse?.Name ?? batch.Warehouse?.Name,
+                    WarehouseName = warehouse?.Name ?? batch.Warehouse?.Name ?? "Без склада",
                     TargetWarehouseId = finishedGoodsWarehouse?.Id,
                     TargetWarehouseName = finishedGoodsWarehouse?.Name,
                     MaxQuantity = maxQty,
-                    MeasuringUnit = batch.MeasuringUnit ?? product?.MeasuringUnit
+                    MeasuringUnit = batch.MeasuringUnit ?? product.MeasuringUnit
+                });
+            }
+
+            // Добавляем ЭКО партии с префиксом "ЭКО:"
+            foreach (var (batchId, batch, maxQty, warehouse) in ecoBatches)
+            {
+                var product = batch.Product;
+                if (product == null || !product.IsActive) continue;
+
+                response.Options.Add(new ProductOutputOption
+                {
+                    ProductId = batch.ProductId,
+                    ProductName = $"ЭКО: {product.Name}",
+                    ProductBatchId = batch.Id,
+                    BatchNumber = batch.BatchNumber,
+                    WarehouseId = batch.WarehouseId,
+                    WarehouseName = warehouse?.Name ?? batch.Warehouse?.Name ?? "Без склада",
+                    TargetWarehouseId = finishedGoodsWarehouse?.Id,
+                    TargetWarehouseName = finishedGoodsWarehouse?.Name,
+                    MaxQuantity = maxQty,
+                    MeasuringUnit = batch.MeasuringUnit ?? product.MeasuringUnit
                 });
             }
 
@@ -189,126 +208,254 @@ namespace server.Services
             if (totalQty <= 0)
                 throw new InvalidOperationException("Укажите количество (произведено + брак + эко + перемотка).");
 
-            if (!canBypassResponsibility)
-            {
-                if (!productOutput.ProductBatchId.HasValue)
-                    throw new InvalidOperationException("Для выпуска без права «Отправка на реализацию» необходимо указать партию (ProductBatchId).");
+            // Проверяем ответственность пользователя
+            if (!productOutput.WarehouseId.HasValue)
+                throw new InvalidOperationException("Необходимо указать склад (WarehouseId).");
 
+            // Получаем продукт для единицы измерения
+            var product = await _context.Products.FindAsync(productOutput.ProductId);
+            if (product == null)
+                throw new KeyNotFoundException($"Продукт с ID {productOutput.ProductId} не найден.");
+
+            var measuringUnit = productOutput.MeasuringUnit ?? product.MeasuringUnit ?? "шт";
+
+            // Если указана партия, работаем с партией, иначе с продуктом напрямую (для обратной совместимости)
+            if (productOutput.ProductBatchId.HasValue)
+            {
+                // Работаем с партией
                 var batch = await _batchService.GetBatchByIdAsync(productOutput.ProductBatchId.Value);
                 if (batch == null)
-                    throw new KeyNotFoundException($"Партия с ID {productOutput.ProductBatchId} не найдена.");
-                if (!batch.IsActive || batch.Quantity <= 0)
-                    throw new InvalidOperationException("Партия неактивна или пуста.");
+                    throw new KeyNotFoundException($"Партия с ID {productOutput.ProductBatchId.Value} не найдена.");
 
-                var responsible = await _responsibilityFillingService.GetUserResponsibleQuantityForBatchAsync(
-                    productOutput.UserId, batch.Id);
-                if (totalQty > responsible)
-                    throw new InvalidOperationException(
-                        $"Сумма (произведено + брак + эко + перемотка = {totalQty}) превышает вашу ответственность по партии ({responsible}).");
-                if (totalQty > batch.Quantity)
-                    throw new InvalidOperationException(
-                        $"Сумма ({totalQty}) превышает количество в партии ({batch.Quantity}).");
+                if (batch.ProductId != productOutput.ProductId)
+                    throw new InvalidOperationException($"Партия {productOutput.ProductBatchId.Value} не соответствует продукту {productOutput.ProductId}.");
 
-                var finishedGoods = (await _warehouseService.GetWarehousesByTypeAsync(FinishedGoodsWarehouseType)).FirstOrDefault();
-                if (finishedGoods == null)
-                    throw new InvalidOperationException($"Склад типа «{FinishedGoodsWarehouseType}» не найден. Создайте склад для выпуска готовой продукции.");
+                // Проверяем ответственность за партию
+                var userResponsibleQty = await _responsibilityFillingService.GetUserResponsibleQuantityForBatchAsync(
+                    productOutput.UserId, productOutput.ProductBatchId.Value);
 
-                productOutput.ProductId = batch.ProductId;
-                productOutput.WarehouseId = finishedGoods.Id;
-                productOutput.MeasuringUnit = productOutput.MeasuringUnit ?? batch.MeasuringUnit ?? batch.Product?.MeasuringUnit;
-            }
-
-            productOutput.CreatedAt = DateTime.UtcNow;
-            _context.ProductOutputs.Add(productOutput);
-            await _context.SaveChangesAsync();
-
-            if (!canBypassResponsibility && productOutput.ProductBatchId.HasValue && totalQty > 0)
-            {
-                var batch = await _batchService.GetBatchByIdAsync(productOutput.ProductBatchId.Value);
-                var finishedGoods = (await _warehouseService.GetWarehousesByTypeAsync(FinishedGoodsWarehouseType)).FirstOrDefault();
-                if (batch == null || finishedGoods == null) { /* уже проверено выше */ }
-                else
+                if (userResponsibleQty < totalQty)
                 {
-                    // Уменьшаем количество в партии (новая партия не создаётся)
-                    var decreasedBatch = await _batchService.DecreaseBatchQuantityAsync(batch.Id, totalQty);
+                    throw new InvalidOperationException(
+                        $"Недостаточно ответственности за партию {batch.BatchNumber ?? $"#{batch.Id}"}: требуется {totalQty}, под ответственностью {userResponsibleQty}.");
+                }
 
-                    var product = await _context.Products.FindAsync(batch.ProductId);
-                    var measuringType = batch.MeasuringUnit ?? product?.MeasuringUnit ?? "шт";
+                // Проверяем количество в партии
+                if (batch.Quantity < totalQty)
+                {
+                    throw new InvalidOperationException(
+                        $"Недостаточно товара в партии {batch.BatchNumber ?? $"#{batch.Id}"}: требуется {totalQty}, доступно {batch.Quantity}.");
+                }
+            }
+            else
+            {
+                // Работаем с продуктом напрямую (для обратной совместимости)
+                var userResponsibleQty = await _responsibilityFillingService.GetUserResponsibleProductQuantityAtWarehouseAsync(
+                    productOutput.UserId, productOutput.WarehouseId.Value, productOutput.ProductId);
 
-                    // Произведено → склад готовой продукции
-                    if (productOutput.ProducedQuantity > 0)
-                    {
-                        await AddProductQuantityToWarehouseAsync(
-                            finishedGoods.Id, batch.ProductId, productOutput.ProducedQuantity, measuringType);
-                    }
-
-                    // Невозвратный брак → склад утиля
-                    if (productOutput.DefectQuantity > 0)
-                    {
-                        var disposalWarehouse = (await _warehouseService.GetWarehousesByTypeAsync(DisposalWarehouseType)).FirstOrDefault();
-                        if (disposalWarehouse != null)
-                        {
-                            await AddProductQuantityToWarehouseAsync(
-                                disposalWarehouse.Id, batch.ProductId, productOutput.DefectQuantity, measuringType);
-                        }
-                        else
-                        {
-                            _logger.LogWarning("Склад типа «{Type}» не найден; невозвратный брак ({Qty}) не перемещён на склад утиля.", DisposalWarehouseType, productOutput.DefectQuantity);
-                        }
-                    }
-
-                    // Возвратный брак (эко) → склад ЭКО
-                    if (productOutput.EcoQuantity > 0)
-                    {
-                        var ecoWarehouses = await _context.Warehouses
-                            .Where(w => w.IsActive && EF.Functions.ILike(w.Type, EcoWarehouseType))
-                            .ToListAsync();
-                        var ecoWarehouse = ecoWarehouses.FirstOrDefault();
-                        if (ecoWarehouse != null)
-                        {
-                            await AddProductQuantityToWarehouseAsync(
-                                ecoWarehouse.Id, batch.ProductId, productOutput.EcoQuantity, measuringType);
-                        }
-                        else
-                        {
-                            _logger.LogWarning("Склад типа «{Type}» не найден; возвратный брак ({Qty}) не перемещён на склад ЭКО.", EcoWarehouseType, productOutput.EcoQuantity);
-                        }
-                    }
-
-                    // Перемотка → склад Перемотка
-                    if (productOutput.RewindQuantity > 0)
-                    {
-                        var rewindWarehouses = await _context.Warehouses
-                            .Where(w => w.IsActive && EF.Functions.ILike(w.Type, RewindWarehouseType))
-                            .ToListAsync();
-                        var rewindWarehouse = rewindWarehouses.FirstOrDefault();
-                        if (rewindWarehouse != null)
-                        {
-                            await AddProductQuantityToWarehouseAsync(
-                                rewindWarehouse.Id, batch.ProductId, productOutput.RewindQuantity, measuringType);
-                        }
-                        else
-                        {
-                            _logger.LogWarning("Склад типа «{Type}» не найден; перемотка ({Qty}) не перемещена на склад перемотки.", RewindWarehouseType, productOutput.RewindQuantity);
-                        }
-                    }
-
-                    // Партия полностью выпущена: активность = 0, перемещаем на склад готовой продукции
-                    if (decreasedBatch.Quantity == 0)
-                    {
-                        decreasedBatch.IsActive = false;
-                        decreasedBatch.WarehouseId = finishedGoods.Id;
-                        await _context.SaveChangesAsync();
-                        await _batchService.UpdateFillingWarehouseForProductAsync(batch.ProductId, finishedGoods.Id);
-                    }
-
-                    // Снимаем ответственность пользователя по партии
-                    await _responsibilityFillingService.DecreaseBatchResponsibilityAsync(
-                        batch.Id, totalQty, productOutput.UserId);
+                if (userResponsibleQty < totalQty)
+                {
+                    throw new InvalidOperationException(
+                        $"Недостаточно ответственности за продукт (ID {productOutput.ProductId}) на складе {productOutput.WarehouseId}: требуется {totalQty}, под ответственностью {userResponsibleQty}.");
                 }
             }
 
-            return await GetByIdAsync(productOutput.Id) ?? productOutput;
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                // 1. Списываем ответственность: либо с партии, либо с продукта
+                if (productOutput.ProductBatchId.HasValue)
+                {
+                    // Списываем ответственность с партии
+                    await _responsibilityFillingService.DecreaseBatchResponsibilityAsync(
+                        productOutput.ProductBatchId.Value, totalQty, productOutput.UserId);
+                }
+                else
+                {
+                    // Списываем ответственность с продукта (для обратной совместимости)
+                    await _responsibilityFillingService.DecreaseProductResponsibilityAtWarehouseAsync(
+                        productOutput.WarehouseId.Value, productOutput.ProductId, totalQty, productOutput.UserId);
+                }
+
+                // 2. Списывается то же число с наполнения склада (физическое наполнение)
+                var fromFilling = await _context.FillingWarehouses
+                    .FirstOrDefaultAsync(fw => fw.WarehouseId == productOutput.WarehouseId.Value && fw.ProductId == productOutput.ProductId);
+
+                if (fromFilling == null || fromFilling.Quantity < totalQty)
+                {
+                    throw new InvalidOperationException(
+                        $"Недостаточно продукции на складе {productOutput.WarehouseId}: требуется {totalQty}, доступно {fromFilling?.Quantity ?? 0}.");
+                }
+
+                fromFilling.Quantity -= totalQty;
+
+                // 3. Создается ProductOutput (без изменения БД - только сохранение записи)
+                productOutput.MeasuringUnit = measuringUnit;
+                productOutput.CreatedAt = DateTime.UtcNow;
+                _context.ProductOutputs.Add(productOutput);
+                await _context.SaveChangesAsync();
+
+                // 3.1. Если указана партия, списываем товар с партии
+                if (productOutput.ProductBatchId.HasValue)
+                {
+                    var batch = await _batchService.GetBatchByIdAsync(productOutput.ProductBatchId.Value);
+                    if (batch != null && batch.IsActive)
+                    {
+                        // Количество уже проверено выше, просто списываем
+                        batch.Quantity -= totalQty;
+                        if (batch.Quantity <= 0)
+                        {
+                            batch.IsActive = false;
+                        }
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
+                // 4. Создается ответственность с producedQuantity+ecoQuantity на складе normalWarehouseId и его заполнение, создается запрос
+                var finishedGoodsQty = productOutput.ProducedQuantity + productOutput.EcoQuantity;
+                if (finishedGoodsQty > 0 && productOutput.NormalWarehouseId.HasValue)
+                {
+                    // Добавляем продукцию на склад готовой продукции
+                    var toFilling = await _context.FillingWarehouses
+                        .FirstOrDefaultAsync(fw => fw.WarehouseId == productOutput.NormalWarehouseId.Value && fw.ProductId == productOutput.ProductId);
+
+                    if (toFilling == null)
+                    {
+                        toFilling = new FillingWarehouse
+                        {
+                            WarehouseId = productOutput.NormalWarehouseId.Value,
+                            ProductId = productOutput.ProductId,
+                            Quantity = finishedGoodsQty,
+                            MeasuringType = measuringUnit
+                        };
+                        _context.FillingWarehouses.Add(toFilling);
+                    }
+                    else
+                    {
+                        toFilling.Quantity += finishedGoodsQty;
+                    }
+
+                    // Сохраняем изменения FillingWarehouse перед назначением ответственности
+                    await _context.SaveChangesAsync();
+
+                    // Назначаем ответственность на склад готовой продукции
+                    await _responsibilityFillingService.AssignProductAtWarehouseAsync(
+                        productOutput.UserId, productOutput.NormalWarehouseId.Value, productOutput.ProductId, finishedGoodsQty, measuringUnit);
+
+                    // Создаем запросы отдельно для нормальной и ЭКО продукции
+                    if (productOutput.ProducedQuantity > 0)
+                    {
+                        var request = new FinishedGoodsRequest
+                        {
+                            FromUserId = productOutput.UserId,
+                            FromWarehouseId = productOutput.WarehouseId.Value,
+                            ToWarehouseId = productOutput.NormalWarehouseId.Value,
+                            ProductId = productOutput.ProductId,
+                            Quantity = productOutput.ProducedQuantity,
+                            MeasuringUnit = measuringUnit,
+                            RequestType = FinishedGoodsRequestType.Normal,
+                            Status = FinishedGoodsRequestStatus.Pending,
+                            CreatedAt = DateTime.UtcNow,
+                            ProductOutputId = productOutput.Id
+                        };
+                        _context.FinishedGoodsRequests.Add(request);
+                    }
+
+                    if (productOutput.EcoQuantity > 0)
+                    {
+                        var request = new FinishedGoodsRequest
+                        {
+                            FromUserId = productOutput.UserId,
+                            FromWarehouseId = productOutput.WarehouseId.Value,
+                            ToWarehouseId = productOutput.NormalWarehouseId.Value,
+                            ProductId = productOutput.ProductId,
+                            Quantity = productOutput.EcoQuantity,
+                            MeasuringUnit = measuringUnit,
+                            RequestType = FinishedGoodsRequestType.Eco,
+                            Status = FinishedGoodsRequestStatus.Pending,
+                            CreatedAt = DateTime.UtcNow,
+                            ProductOutputId = productOutput.Id
+                        };
+                        _context.FinishedGoodsRequests.Add(request);
+                    }
+                }
+
+                // 5. Создается запрос на отправку брака на утиль
+                // Продукт уже списан со склада источника (в totalQty), нужно добавить на склад утиля и создать запрос
+                if (productOutput.DefectQuantity > 0 && productOutput.DefectWarehouseId.HasValue)
+                {
+                    // Добавляем продукцию на склад утиля (физическое наполнение)
+                    var defectFilling = await _context.FillingWarehouses
+                        .FirstOrDefaultAsync(fw => fw.WarehouseId == productOutput.DefectWarehouseId.Value && fw.ProductId == productOutput.ProductId);
+
+                    if (defectFilling == null)
+                    {
+                        defectFilling = new FillingWarehouse
+                        {
+                            WarehouseId = productOutput.DefectWarehouseId.Value,
+                            ProductId = productOutput.ProductId,
+                            Quantity = productOutput.DefectQuantity,
+                            MeasuringType = measuringUnit
+                        };
+                        _context.FillingWarehouses.Add(defectFilling);
+                    }
+                    else
+                    {
+                        defectFilling.Quantity += productOutput.DefectQuantity;
+                    }
+
+                    // Сохраняем изменения FillingWarehouse перед назначением ответственности
+                    await _context.SaveChangesAsync();
+
+                    // Назначаем ответственность на склад утиля
+                    await _responsibilityFillingService.AssignProductAtWarehouseAsync(
+                        productOutput.UserId, productOutput.DefectWarehouseId.Value, productOutput.ProductId, productOutput.DefectQuantity, measuringUnit);
+
+                    // Создаем запрос (продукт уже перемещен, ответственность назначена)
+                    var disposalRequest = new DisposalRequest
+                    {
+                        FromUserId = productOutput.UserId,
+                        FromWarehouseId = productOutput.WarehouseId.Value,
+                        ToWarehouseId = productOutput.DefectWarehouseId.Value,
+                        ProductId = productOutput.ProductId,
+                        Quantity = productOutput.DefectQuantity,
+                        MeasuringUnit = measuringUnit,
+                        RequestType = DisposalRequestType.Defect,
+                        Status = DisposalRequestStatus.Pending,
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    _context.DisposalRequests.Add(disposalRequest);
+                }
+
+                // 6. Создается запрос на передачу продукта в количестве rewindQuantity, пользователю rewindToUserId, на склад rewindWarehouseId
+                // Ответственность и склад не меняются пока пользователь не подтвердит в запросах
+                if (productOutput.RewindQuantity > 0 && productOutput.RewindWarehouseId.HasValue && productOutput.RewindToUserId.HasValue)
+                {
+                    var partRequest = new PartRequest
+                    {
+                        FromUserId = productOutput.UserId,
+                        ToUserId = productOutput.RewindToUserId.Value,
+                        FromWarehouseId = productOutput.WarehouseId.Value,
+                        ToWarehouseId = productOutput.RewindWarehouseId.Value,
+                        ProductId = productOutput.ProductId,
+                        Quantity = productOutput.RewindQuantity,
+                        MeasuringType = measuringUnit,
+                        Status = PartRequestStatus.Pending,
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    _context.PartRequests.Add(partRequest);
+                }
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return await GetByIdAsync(productOutput.Id) ?? productOutput;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         public async Task<ProductOutput> UpdateAsync(int id, ProductOutput updated, bool canBypassResponsibility)
@@ -320,8 +467,6 @@ namespace server.Services
             // Выпуск из партии: изменение количества при обновлении не поддерживается (логика по партии только при создании)
             if (existing.ProductBatchId.HasValue)
             {
-                existing.MachineId = updated.MachineId;
-                existing.Note = updated.Note;
                 await _context.SaveChangesAsync();
                 return await GetByIdAsync(id) ?? existing;
             }
@@ -349,13 +494,11 @@ namespace server.Services
 
             existing.ProductId = updated.ProductId;
             existing.WarehouseId = updated.WarehouseId;
-            existing.MachineId = updated.MachineId;
             existing.ProducedQuantity = updated.ProducedQuantity;
             existing.DefectQuantity = updated.DefectQuantity;
             existing.EcoQuantity = updated.EcoQuantity;
             existing.RewindQuantity = updated.RewindQuantity;
             existing.MeasuringUnit = updated.MeasuringUnit;
-            existing.Note = updated.Note;
 
             await _context.SaveChangesAsync();
 
@@ -384,7 +527,7 @@ namespace server.Services
         }
 
         /// <summary>Добавляет количество продукта на склад (создаёт или обновляет FillingWarehouse).</summary>
-        private async Task AddProductQuantityToWarehouseAsync(int warehouseId, int productId, int quantity, string? measuringType)
+        private async Task AddProductQuantityToWarehouseAsync(int warehouseId, int productId, double quantity, string? measuringType)
         {
             if (quantity <= 0) return;
 

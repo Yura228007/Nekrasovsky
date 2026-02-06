@@ -1,4 +1,5 @@
 using NekrasovskyAPP.ViewModels;
+using NekrasovskyAPP.Models;
 
 namespace NekrasovskyAPP.Pages
 {
@@ -64,6 +65,52 @@ namespace NekrasovskyAPP.Pages
             if (success)
             {
                 await DisplayAlert("Успех", "Утиль обработан успешно", "OK");
+            }
+            else if (!string.IsNullOrEmpty(_viewModel.ErrorMessage))
+            {
+                await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+            }
+        }
+
+        private async void OnApproveRequestClicked(object sender, EventArgs e)
+        {
+            if (sender is not Button button || button.CommandParameter is not DisposalRequest request)
+                return;
+
+            var confirm = await DisplayAlert("Подтверждение", 
+                $"Подтвердить запрос на перемещение?\n\nЭлемент: {request.ItemName}\nКоличество: {request.Quantity} {request.MeasuringUnit}\nТип: {(request.RequestType == DisposalRequestType.Defect ? "Невозвратный брак" : "Переработка")}",
+                "Подтвердить", "Отмена");
+            
+            if (!confirm)
+                return;
+
+            var success = await _viewModel.ApproveDisposalRequestAsync(request);
+            if (success)
+            {
+                await DisplayAlert("Успех", "Запрос подтвержден. Ответственность передана вам.", "OK");
+            }
+            else if (!string.IsNullOrEmpty(_viewModel.ErrorMessage))
+            {
+                await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+            }
+        }
+
+        private async void OnRejectRequestClicked(object sender, EventArgs e)
+        {
+            if (sender is not Button button || button.CommandParameter is not DisposalRequest request)
+                return;
+
+            var confirm = await DisplayAlert("Отклонение", 
+                $"Отклонить запрос на перемещение?\n\nЭлемент: {request.ItemName}\nКоличество: {request.Quantity} {request.MeasuringUnit}\nТип: {(request.RequestType == DisposalRequestType.Defect ? "Невозвратный брак" : "Переработка")}\n\nОтветственность останется у создателя запроса.",
+                "Отклонить", "Отмена");
+            
+            if (!confirm)
+                return;
+
+            var success = await _viewModel.RejectDisposalRequestAsync(request);
+            if (success)
+            {
+                await DisplayAlert("Успех", "Запрос отклонен. Ответственность осталась у создателя.", "OK");
             }
             else if (!string.IsNullOrEmpty(_viewModel.ErrorMessage))
             {

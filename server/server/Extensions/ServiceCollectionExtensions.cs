@@ -90,6 +90,15 @@ namespace server.Extensions
             // Register disposal service
             services.AddScoped<IDisposalService, DisposalService>();
 
+            // Register disposal request service
+            services.AddScoped<IDisposalRequestService, DisposalRequestService>();
+
+            // Register finished goods request service
+            services.AddScoped<IFinishedGoodsRequestService, FinishedGoodsRequestService>();
+
+            // Register finished goods service
+            services.AddScoped<IFinishedGoodsService, FinishedGoodsService>();
+
             return services;
         }
     }

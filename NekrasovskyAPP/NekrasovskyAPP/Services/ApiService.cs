@@ -18,7 +18,7 @@ namespace NekrasovskyAPP.Services
             //using var stream = await FileSystem.OpenAppPackageFileAsync("server_ip.txt");
             //using var reader = new StreamReader(stream);
             //return (await reader.ReadToEndAsync()).Trim().ToString();
-            return "http://192.168.0.47:9000/";
+            return "http://192.168.1.121:9000/";
 #else 
             return "http://localhost:9000/";
 #endif
@@ -373,7 +373,7 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<ApiResponse<Material>> AddMaterialAsync(Material material, int? quantity = null, string? measuringUnit = null, int? warehouseId = null)
+        public async Task<ApiResponse<Material>> AddMaterialAsync(Material material, double? quantity = null, string? measuringUnit = null, int? warehouseId = null)
         {
             try
             {
@@ -1269,7 +1269,7 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<ApiResponse<ResponsibilityAssignment>> AssignMaterialResponsibilityAsync(int materialId, int userId, int? quantity = null, string? measuringUnit = null)
+        public async Task<ApiResponse<ResponsibilityAssignment>> AssignMaterialResponsibilityAsync(int materialId, int userId, double? quantity = null, string? measuringUnit = null)
         {
             try
             {
@@ -1296,7 +1296,7 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<ApiResponse<ResponsibilityAssignment>> AssignProductResponsibilityAsync(int productId, int userId, int? quantity = null, string? measuringUnit = null)
+        public async Task<ApiResponse<ResponsibilityAssignment>> AssignProductResponsibilityAsync(int productId, int userId, double? quantity = null, string? measuringUnit = null)
         {
             try
             {
@@ -1323,7 +1323,7 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<ApiResponse<object>> TransferMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int fromUserId, int toUserId, int? quantityToTransfer = null)
+        public async Task<ApiResponse<object>> TransferMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int fromUserId, int toUserId, double? quantityToTransfer = null)
         {
             try
             {
@@ -1343,7 +1343,7 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<ApiResponse<object>> TransferProductResponsibilityFillingAsync(int warehouseId, int productId, int fromUserId, int toUserId, int? quantityToTransfer = null)
+        public async Task<ApiResponse<object>> TransferProductResponsibilityFillingAsync(int warehouseId, int productId, int fromUserId, int toUserId, double? quantityToTransfer = null)
         {
             try
             {
@@ -1363,7 +1363,7 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<ApiResponse<object>> TransferBatchResponsibilityFillingAsync(int batchId, int fromUserId, int toUserId, int? quantityToTransfer = null)
+        public async Task<ApiResponse<object>> TransferBatchResponsibilityFillingAsync(int batchId, int fromUserId, int toUserId, double? quantityToTransfer = null)
         {
             try
             {
@@ -1383,19 +1383,20 @@ namespace NekrasovskyAPP.Services
             }
         }
 
-        public async Task<ApiResponse<object>> ReleaseBatchResponsibilityAsync(int batchId, int userId)
+        public async Task<ApiResponse<object>> ReleaseBatchResponsibilityAsync(int batchId, int userId, double? quantityToRelease = null)
         {
             try
             {
-                var payload = new { batchId, userId };
+                var payload = new { batchId, userId, quantityToRelease };
                 var response = await _httpClient.PostAsJsonAsync("api/responsibilities/filling/batch/release", payload, _jsonOptions);
-                response.EnsureSuccessStatusCode();
-                var jsonString = await response.Content.ReadAsStringAsync();
-                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
-                return new ApiResponse<object>
+                if (!response.IsSuccessStatusCode)
                 {
-                    Message = result?.ContainsKey("message") == true ? result["message"]?.ToString() ?? "Responsibility released" : "Responsibility released"
-                };
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка снятия ответственности";
+                    return new ApiResponse<object> { Message = message };
+                }
+                return new ApiResponse<object> { Message = "Ответственность снята" };
             }
             catch (HttpRequestException ex)
             {
@@ -1417,6 +1418,82 @@ namespace NekrasovskyAPP.Services
                 };
             }
             catch (HttpRequestException ex)
+            {
+                return new ApiResponse<object> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
+        public async Task<List<ResponsibilityFilling>> GetResponsibilityFillingsByUserAsync(int userId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/responsibilities/filling/user/{userId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<ResponsibilityFilling>>(_jsonOptions) ?? new List<ResponsibilityFilling>();
+            }
+            catch
+            {
+                return new List<ResponsibilityFilling>();
+            }
+        }
+
+        public async Task<ApiResponse<object>> ReleaseMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int userId, double? quantityToRelease = null)
+        {
+            try
+            {
+                var payload = new { warehouseId, materialId, userId, quantityToRelease };
+                var response = await _httpClient.PostAsJsonAsync("api/responsibilities/filling/material/release", payload, _jsonOptions);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка снятия ответственности";
+                    return new ApiResponse<object> { Message = message };
+                }
+                return new ApiResponse<object> { Message = "Ответственность снята" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
+        public async Task<ApiResponse<object>> UpdateMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int userId, double newQuantity, string? measuringUnit = null)
+        {
+            try
+            {
+                var payload = new { warehouseId, materialId, userId, newQuantity, measuringUnit };
+                var response = await _httpClient.PutAsJsonAsync("api/responsibilities/filling/material/update", payload, _jsonOptions);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка обновления ответственности";
+                    return new ApiResponse<object> { Message = message };
+                }
+                return new ApiResponse<object> { Message = "Ответственность обновлена" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
+        public async Task<ApiResponse<object>> DeleteResponsibilityFillingAsync(int fillingId)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"api/responsibilities/filling/{fillingId}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка удаления карточки";
+                    return new ApiResponse<object> { Message = message };
+                }
+                return new ApiResponse<object> { Message = "Карточка удалена" };
+            }
+            catch (Exception ex)
             {
                 return new ApiResponse<object> { Message = $"Ошибка: {ex.Message}" };
             }
@@ -1515,6 +1592,156 @@ namespace NekrasovskyAPP.Services
             catch (HttpRequestException ex)
             {
                 return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
+        // Disposal Requests (Запросы на утиль)
+        public async Task<List<DisposalRequest>> GetPendingDisposalRequestsAsync(int disposalWarehouseId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/disposal-requests/pending/{disposalWarehouseId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<DisposalRequest>>(_jsonOptions) ?? new List<DisposalRequest>();
+            }
+            catch
+            {
+                return new List<DisposalRequest>();
+            }
+        }
+
+        public async Task<ApiResponse<DisposalRequest>> ApproveDisposalRequestAsync(int requestId)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/disposal-requests/{requestId}/approve", null);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка подтверждения";
+                    return new ApiResponse<DisposalRequest> { Message = message ?? "Ошибка подтверждения запроса" };
+                }
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("request"))
+                {
+                    var payload = System.Text.Json.JsonSerializer.Serialize(result["request"]);
+                    var request = System.Text.Json.JsonSerializer.Deserialize<DisposalRequest>(payload, _jsonOptions);
+                    return new ApiResponse<DisposalRequest>
+                    {
+                        Request = request,
+                        Message = result.ContainsKey("message") ? result["message"]?.ToString() ?? "Запрос подтвержден" : "Запрос подтвержден"
+                    };
+                }
+                return new ApiResponse<DisposalRequest> { Message = "Failed to parse response" };
+            }
+            catch (HttpRequestException ex)
+            {
+                return new ApiResponse<DisposalRequest> { Message = $"Ошибка сети: {ex.Message}" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<DisposalRequest> { Message = $"Неожиданная ошибка: {ex.Message}" };
+            }
+        }
+
+        public async Task<ApiResponse<DisposalRequest>> RejectDisposalRequestAsync(int requestId)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/disposal-requests/{requestId}/reject", null);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка отклонения";
+                    return new ApiResponse<DisposalRequest> { Message = message ?? "Ошибка отклонения запроса" };
+                }
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null && result.ContainsKey("request"))
+                {
+                    var requestJson = System.Text.Json.JsonSerializer.Serialize(result["request"]);
+                    var request = System.Text.Json.JsonSerializer.Deserialize<DisposalRequest>(requestJson, _jsonOptions);
+                    return new ApiResponse<DisposalRequest> { Request = request };
+                }
+                return new ApiResponse<DisposalRequest> { Message = "Не удалось десериализовать ответ" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<DisposalRequest> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
+        // Finished Goods Requests (Запросы на склад готовой продукции)
+        public async Task<List<FinishedGoodsRequest>> GetPendingFinishedGoodsRequestsAsync(int warehouseId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/finished-goods-requests/pending/{warehouseId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<FinishedGoodsRequest>>(_jsonOptions) ?? new List<FinishedGoodsRequest>();
+            }
+            catch
+            {
+                return new List<FinishedGoodsRequest>();
+            }
+        }
+
+        public async Task<ApiResponse<FinishedGoodsRequest>> ApproveFinishedGoodsRequestAsync(int requestId)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/finished-goods-requests/{requestId}/approve", null);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка подтверждения";
+                    return new ApiResponse<FinishedGoodsRequest> { Message = message ?? "Ошибка подтверждения запроса" };
+                }
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null)
+                {
+                    var requestJson = System.Text.Json.JsonSerializer.Serialize(result);
+                    var request = System.Text.Json.JsonSerializer.Deserialize<FinishedGoodsRequest>(requestJson, _jsonOptions);
+                    return new ApiResponse<FinishedGoodsRequest> { Request = request };
+                }
+                return new ApiResponse<FinishedGoodsRequest> { Message = "Не удалось десериализовать ответ" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<FinishedGoodsRequest> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
+        public async Task<ApiResponse<FinishedGoodsRequest>> RejectFinishedGoodsRequestAsync(int requestId)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/finished-goods-requests/{requestId}/reject", null);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка отклонения";
+                    return new ApiResponse<FinishedGoodsRequest> { Message = message ?? "Ошибка отклонения запроса" };
+                }
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString, _jsonOptions);
+                if (result != null)
+                {
+                    var requestJson = System.Text.Json.JsonSerializer.Serialize(result);
+                    var request = System.Text.Json.JsonSerializer.Deserialize<FinishedGoodsRequest>(requestJson, _jsonOptions);
+                    return new ApiResponse<FinishedGoodsRequest> { Request = request };
+                }
+                return new ApiResponse<FinishedGoodsRequest> { Message = "Не удалось десериализовать ответ" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<FinishedGoodsRequest> { Message = $"Ошибка: {ex.Message}" };
             }
         }
 
@@ -2131,6 +2358,61 @@ namespace NekrasovskyAPP.Services
             catch (Exception ex)
             {
                 return new ApiResponse<object> { Message = ex.Message };
+            }
+        }
+
+        // Finished Goods Management (Управление готовой продукцией)
+        public async Task<ApiResponse<object>> ProcessProductSaleAsync(int warehouseId, int productId, double quantity, string? measuringUnit)
+        {
+            try
+            {
+                var request = new
+                {
+                    warehouseId,
+                    productId,
+                    quantity,
+                    measuringUnit
+                };
+                var response = await _httpClient.PostAsJsonAsync("api/finished-goods/sale", request, _jsonOptions);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка продажи";
+                    return new ApiResponse<object> { Message = message ?? "Ошибка продажи" };
+                }
+                return new ApiResponse<object> { Request = new object() };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
+        public async Task<ApiResponse<object>> ProcessFinishedGoodsDisposalAsync(int warehouseId, int productId, double quantity, string? measuringUnit)
+        {
+            try
+            {
+                var request = new
+                {
+                    warehouseId,
+                    productId,
+                    quantity,
+                    measuringUnit
+                };
+                var response = await _httpClient.PostAsJsonAsync("api/finished-goods/disposal", request, _jsonOptions);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка отправки в утиль";
+                    return new ApiResponse<object> { Message = message ?? "Ошибка отправки в утиль" };
+                }
+                return new ApiResponse<object> { Request = new object() };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object> { Message = $"Ошибка: {ex.Message}" };
             }
         }
     }

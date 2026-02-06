@@ -106,7 +106,7 @@ namespace server.Controllers
 
         // POST: api/materials?quantity=0&measuringUnit=шт&warehouseId=1
         [HttpPost]
-        public async Task<IActionResult> CreateMaterial([FromBody] Material material, [FromQuery] int? quantity = null, [FromQuery] string? measuringUnit = null, [FromQuery] int? warehouseId = null)
+        public async Task<IActionResult> CreateMaterial([FromBody] Material material, [FromQuery] double? quantity = null, [FromQuery] string? measuringUnit = null, [FromQuery] int? warehouseId = null)
         {
             if (!ModelState.IsValid)
             {

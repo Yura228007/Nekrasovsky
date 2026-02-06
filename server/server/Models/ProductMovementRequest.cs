@@ -39,7 +39,7 @@ public class ProductMovementRequest
 
     [Required]
     [Column(TypeName = "integer")]
-    public int Quantity { get; set; } = 0;
+    public double Quantity { get; set; } = 0;
 
     [Column(TypeName = "varchar(20)")]
     public string? MeasuringType { get; set; }

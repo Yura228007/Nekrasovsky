@@ -36,7 +36,7 @@ public class ResponsibilityFilling
 
     [Required]
     [Column(TypeName = "integer")]
-    public int Quantity { get; set; }
+    public double Quantity { get; set; }
 
     [Column(TypeName = "varchar(20)")]
     public string? MeasuringUnit { get; set; }

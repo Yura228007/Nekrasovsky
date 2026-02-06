@@ -24,7 +24,7 @@ namespace server.Services
         }
 
         public async Task ProcessDisposalAsync(int disposalWarehouseId, int? materialId, int? productId,
-            int returnableQuantity, int nonReturnableQuantity)
+            double returnableQuantity, double nonReturnableQuantity)
         {
             var totalQty = returnableQuantity + nonReturnableQuantity;
             if (totalQty <= 0)
@@ -80,7 +80,7 @@ namespace server.Services
         }
 
         private async Task ProcessMaterialDisposalAsync(int disposalWarehouseId, int materialId,
-            int returnableQty, int nonReturnableQty, int? ecoWarehouseId)
+            double returnableQty, double nonReturnableQty, int? ecoWarehouseId)
         {
             var filling = await _fillingService.GetFillingByMaterialAsync(disposalWarehouseId, materialId);
             if (filling == null)
@@ -134,7 +134,7 @@ namespace server.Services
         }
 
         private async Task ProcessProductDisposalAsync(int disposalWarehouseId, int productId,
-            int returnableQty, int nonReturnableQty, int? ecoWarehouseId)
+            double returnableQty, double nonReturnableQty, int? ecoWarehouseId)
         {
             var filling = await _fillingService.GetFillingByProductAsync(disposalWarehouseId, productId);
             if (filling == null)

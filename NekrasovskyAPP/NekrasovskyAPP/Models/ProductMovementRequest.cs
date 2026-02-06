@@ -25,7 +25,7 @@ public class ProductMovementRequest
     public int ProductBatchId { get; set; }
 
     [Required]
-    public int Quantity { get; set; } = 0;
+    public double Quantity { get; set; } = 0;
 
     public string? MeasuringType { get; set; }
 

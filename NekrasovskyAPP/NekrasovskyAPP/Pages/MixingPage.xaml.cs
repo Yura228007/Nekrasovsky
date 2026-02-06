@@ -1,5 +1,6 @@
 using NekrasovskyAPP.Models;
 using NekrasovskyAPP.Services;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -204,30 +205,56 @@ namespace NekrasovskyAPP.Pages
             }
 
             var measuringUnit = MeasuringUnitPicker.SelectedItem as string ?? "шт";
+            var description = OutputDescriptionEntry?.Text?.Trim() ?? string.Empty;
+
+            // Валидация количества с конвертацией единиц измерения
+            if (!ValidateQuantitiesBalance(sources, outputQuantity, measuringUnit))
+            {
+                await DisplayAlert("Ошибка", "Количество исходных материалов не совпадает с количеством результата. Проверьте единицы измерения (граммы конвертируются в килограммы).", "OK");
+                return;
+            }
+
+            // Показываем диалог подтверждения
+            var sourceSummary = string.Join("\n", sources.Select(s => 
+            {
+                var material = _materials.FirstOrDefault(m => m.Id == s.MaterialId);
+                return $"  • {material?.Name ?? "Неизвестно"}: {s.Quantity} {s.MeasuringType ?? "шт"}";
+            }));
+
+            var confirmMessage = $"Подтвердите смешивание:\n\n" +
+                               $"Исходные материалы:\n{sourceSummary}\n\n" +
+                               $"Результат:\n" +
+                               $"  • Код: {OutputCodeEntry.Text.Trim()}\n" +
+                               $"  • Название: {OutputNameEntry.Text.Trim()}\n" +
+                               $"  • Количество: {outputQuantity} {measuringUnit}\n" +
+                               $"  • Склад: {warehouse.Name}";
+
+            var confirm = await DisplayAlert("Подтверждение", confirmMessage, "Смешать", "Отмена");
+            if (!confirm)
+            {
+                return;
+            }
 
             var output = new ReprocessingOutput
             {
                 MaterialId = null,
                 NewMaterialCode = OutputCodeEntry.Text.Trim(),
                 NewMaterialName = OutputNameEntry.Text.Trim(),
+                NewMaterialDescription = description,
                 ProductId = null,
                 Quantity = outputQuantity,
                 MeasuringType = measuringUnit
             };
-
-            // Получаем количество брака
-            var defectQuantity = 0;
-            if (int.TryParse(DefectQuantityEntry.Text, out var parsedDefect) && parsedDefect > 0)
-            {
-                defectQuantity = parsedDefect;
-            }
 
             var request = new ReprocessingCreateRequest
             {
                 WarehouseId = warehouse.Id,
                 Sources = sources,
                 Outputs = new List<ReprocessingOutput> { output },
-                DefectQuantity = defectQuantity
+                DefectQuantity = 0,
+                DefectWarehouseId = null,
+                RecyclingQuantity = 0,
+                RecyclingWarehouseId = null
             };
 
             var response = await _apiService.CreateReprocessingAsync(request);
@@ -250,10 +277,9 @@ namespace NekrasovskyAPP.Pages
             _selectedWarehouse = null;
             OutputCodeEntry.Text = string.Empty;
             OutputNameEntry.Text = string.Empty;
+            OutputDescriptionEntry.Text = string.Empty;
             OutputQuantityEntry.Text = string.Empty;
             MeasuringUnitPicker.SelectedItem = "шт";
-            DefectQuantityEntry.Text = "0";
-            NoteEditor.Text = string.Empty;
         }
 
         private static bool TryBuildSource(MixingSourceItem sourceItem, out ReprocessingSource source)
@@ -270,6 +296,43 @@ namespace NekrasovskyAPP.Pages
             source.Quantity = quantity;
             source.MeasuringType = material.MeasuringUnit;
             return true;
+        }
+
+        private bool ValidateQuantitiesBalance(List<ReprocessingSource> sources, int outputQuantity, string outputMeasuringUnit)
+        {
+            // Суммируем исходные материалы (конвертируем граммы в кг)
+            double totalSource = 0;
+            foreach (var source in sources)
+            {
+                totalSource += ConvertToKilograms(source.Quantity, source.MeasuringType);
+            }
+
+            // Конвертируем результат в килограммы
+            double totalOutput = ConvertToKilograms(outputQuantity, outputMeasuringUnit);
+
+            // Сравниваем с небольшой погрешностью (0.001 кг) для учета округления
+            return Math.Abs(totalSource - totalOutput) <= 0.001;
+        }
+
+        private static double ConvertToKilograms(double quantity, string? measuringUnit)
+        {
+            if (string.IsNullOrWhiteSpace(measuringUnit))
+                return quantity;
+
+            var unit = measuringUnit.Trim().ToLowerInvariant();
+            if (unit == "г" || unit == "грамм" || unit == "граммы" || unit == "g" || unit == "gram" || unit == "grams")
+            {
+                return quantity / 1000.0; // граммы -> килограммы
+            }
+            else if (unit == "кг" || unit == "килограмм" || unit == "килограммы" || unit == "kg" || unit == "kilogram" || unit == "kilograms")
+            {
+                return quantity; // уже в килограммах
+            }
+            else
+            {
+                // Для других единиц измерения (шт, л, мл, м, см) не конвертируем
+                return quantity;
+            }
         }
 
         public class MixingSourceItem : INotifyPropertyChanged

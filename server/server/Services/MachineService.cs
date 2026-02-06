@@ -89,12 +89,7 @@ namespace server.Services
                 throw new KeyNotFoundException($"Machine with ID {id} not found");
             }
 
-            // Check if machine is used in any product outputs
-            var hasOutputs = await _context.ProductOutputs.AnyAsync(po => po.MachineId == id);
-            if (hasOutputs)
-            {
-                throw new InvalidOperationException("Невозможно удалить станок, так как он используется в записях выпуска продукции");
-            }
+            // Machine is no longer used in ProductOutput
 
             _context.Machines.Remove(existing);
             await _context.SaveChangesAsync();

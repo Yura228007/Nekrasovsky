@@ -39,7 +39,7 @@
             </Grid>
 
             <!-- Admin Navigation Cards -->
-            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
 
                 <!-- Scanner Card -->
                 <Border x:Name="ScannerCard"
@@ -390,7 +390,7 @@
                             <Label Text="♻️" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
                         <Label Grid.Row="1"
-                               Text="Переработка"
+                               Text="Производство"
                                FontSize="18"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
@@ -402,8 +402,44 @@
                     </Grid>
                 </Border>
 
-                <!-- Disposal Card -->
+                <!-- Mixing Card -->
                 <Border Grid.Row="5" Grid.Column="0"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="0"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnMixingClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource CardMixing}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="🧪" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Смешивание"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Смешивание материалов"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
+                </Border>
+
+                <!-- Disposal Card -->
+                <Border Grid.Row="5" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -438,8 +474,44 @@
                     </Grid>
                 </Border>
 
+                <!-- Finished Goods Card -->
+                <Border Grid.Row="6" Grid.Column="0"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="0"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnFinishedGoodsClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource Primary}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="📦" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="Готовая продукция"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Управление складом"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
+                </Border>
+
                 <!-- System Settings -->
-                <Border Grid.Row="5" Grid.Column="1"
+                <Border Grid.Row="6" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -476,7 +548,7 @@
 
                 <!-- Role Permissions Management (только для Owner) -->
                 <Border x:Name="RolePermissionsCard"
-                        Grid.Row="6" Grid.Column="0"
+                        Grid.Row="7" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16"
@@ -513,7 +585,7 @@
                 </Border>
 
                 <!-- History -->
-                <Border Grid.Row="6" Grid.Column="1"
+                <Border Grid.Row="7" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -549,7 +621,7 @@
                 </Border>
 
                 <!-- Machines Management -->
-                <Border Grid.Row="7" Grid.Column="0"
+                <Border Grid.Row="8" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -586,7 +658,7 @@
 
                 <!-- Product Outputs -->
                 <Border x:Name="ProductOutputCard"
-                        Grid.Row="7" Grid.Column="1"
+                        Grid.Row="8" Grid.Column="1"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">
@@ -609,7 +681,7 @@
                             <Label Text="📈" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
                         <Label Grid.Row="1"
-                               Text="Выпуск"
+                               Text="Упаковка"
                                FontSize="18"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
@@ -622,7 +694,7 @@
                 </Border>
 
                 <!-- QR Codes -->
-                <Border Grid.Row="8" Grid.Column="0"
+                <Border Grid.Row="9" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">

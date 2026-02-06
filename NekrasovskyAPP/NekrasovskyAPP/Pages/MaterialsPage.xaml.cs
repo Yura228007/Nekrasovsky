@@ -236,26 +236,34 @@ namespace NekrasovskyAPP.Pages
                             break;
 
                         case "Изменить количество":
-                            await ShowMaterialQuantityDialogAsync(selectedMaterial);
+                            await ShowMaterialQuantityDialogAsync(displayItem);
                             break;
 
                         case "Удалить":
+                            // Удаляем только конкретную карточку (ResponsibilityFilling), а не весь материал
+                            if (displayItem.Responsibility == null || !displayItem.Responsibility.ResponsibilityFillingId.HasValue)
+                            {
+                                await DisplayAlert("Ошибка", "Эта операция доступна только для карточек с ответственным лицом.", "OK");
+                                break;
+                            }
+
                             var confirm = await DisplayAlert(
                                 "Подтверждение удаления",
-                                $"Вы уверены, что хотите удалить материал {selectedMaterial.Name}?",
+                                $"Вы уверены, что хотите удалить эту карточку?\n\nМатериал: {selectedMaterial.Name}\nОтветственный: {displayItem.Responsibility.UserName}\nКоличество: {displayItem.Responsibility.Quantity} {displayItem.Responsibility.MeasuringUnit ?? selectedMaterial.MeasuringUnit}",
                                 "Удалить",
                                 "Отмена");
 
                             if (confirm)
                             {
-                                var success = await _viewModel.DeleteMaterialAsync(selectedMaterial.Id);
-                                if (!success)
+                                var response = await _viewModel.ApiService.DeleteResponsibilityFillingAsync(displayItem.Responsibility.ResponsibilityFillingId.Value);
+                                if (!response.IsSuccess)
                                 {
-                                    await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
+                                    await DisplayAlert("Ошибка", response.Message ?? "Произошла ошибка", "OK");
                                 }
                                 else
                                 {
-                                    await DisplayAlert("Успех", "Материал успешно удален", "OK");
+                                    await DisplayAlert("Успех", "Карточка успешно удалена", "OK");
+                                    await _viewModel.LoadMaterialsAsync();
                                 }
                             }
                             break;
@@ -263,7 +271,7 @@ namespace NekrasovskyAPP.Pages
                             await ChangeMaterialResponsibilityAsync(displayItem);
                             break;
                         case "Снять ответственность":
-                            await ReleaseMaterialResponsibilityAsync(selectedMaterial);
+                            await ReleaseMaterialResponsibilityAsync(displayItem);
                             break;
                     }
 
@@ -272,58 +280,28 @@ namespace NekrasovskyAPP.Pages
             }
         }
 
-        private async Task ShowMaterialQuantityDialogAsync(Material material)
+        private async Task ShowMaterialQuantityDialogAsync(MaterialDisplayItem displayItem)
         {
-            var fillings = await _viewModel.ApiService.GetFillingsByMaterialAsync(material.Id);
-            if (fillings.Count == 0)
+            var material = displayItem.Material;
+            
+            // Работаем только с карточками, где есть ответственное лицо
+            if (displayItem.Responsibility == null || !displayItem.Responsibility.WarehouseId.HasValue)
             {
-                await DisplayAlert("Нет остатков", "Для этого материала нет записей по складам.", "OK");
+                await DisplayAlert("Ошибка", "Эта операция доступна только для карточек с ответственным лицом и складом.", "OK");
                 return;
             }
 
-            var activeWarehouses = await GetActiveWarehousesAsync();
-            var warehouseMap = activeWarehouses.ToDictionary(
-                w => w.Id,
-                w => $"{w.Name} ({w.Type})");
+            var warehouseId = displayItem.Responsibility.WarehouseId.Value;
+            var userId = displayItem.Responsibility.UserId;
+            var currentQuantity = displayItem.Responsibility.Quantity ?? 0;
+            var unit = displayItem.Responsibility.MeasuringUnit ?? material.MeasuringUnit ?? "ед.";
 
-            var options = fillings
-                .Where(filling => warehouseMap.ContainsKey(filling.WarehouseId))
-                .Select(filling =>
-            {
-                var name = warehouseMap.TryGetValue(filling.WarehouseId, out var label)
-                    ? label
-                    : $"Склад #{filling.WarehouseId}";
-                var unit = string.IsNullOrWhiteSpace(filling.MeasuringType)
-                    ? material.MeasuringUnit
-                    : filling.MeasuringType;
-                return $"{name}: {filling.Quantity} {unit}";
-            }).ToArray();
-
-            if (options.Length == 0)
-            {
-                await DisplayAlert("Нет доступных складов", "Все склады с остатками остановлены. Нельзя изменять количество.", "OK");
-                return;
-            }
-
-            var choice = await DisplayActionSheet("Выберите склад", "Отмена", null, options);
-            if (string.IsNullOrWhiteSpace(choice) || choice == "Отмена")
-            {
-                return;
-            }
-
-            var index = Array.IndexOf(options, choice);
-            if (index < 0 || index >= fillings.Count)
-            {
-                return;
-            }
-
-            var selectedFilling = fillings[index];
             var quantityText = await DisplayPromptAsync(
                 "Изменить количество",
-                $"Новое количество (сейчас {selectedFilling.Quantity}):",
+                $"Текущее количество: {currentQuantity} {unit}\nВведите новое количество:",
                 "Сохранить",
                 "Отмена",
-                selectedFilling.Quantity.ToString(),
+                currentQuantity.ToString(),
                 -1,
                 Keyboard.Numeric);
 
@@ -332,19 +310,19 @@ namespace NekrasovskyAPP.Pages
                 return;
             }
 
-            if (!int.TryParse(quantityText, out var quantity))
+            if (!double.TryParse(quantityText, out var newQuantity))
             {
                 await DisplayAlert("Ошибка", "Количество должно быть числом.", "OK");
                 return;
             }
 
-            if (quantity < 0)
+            if (newQuantity < 0)
             {
                 await DisplayAlert("Ошибка", "Количество не может быть отрицательным.", "OK");
                 return;
             }
 
-            if (quantity == 0)
+            if (newQuantity == 0)
             {
                 var confirmZero = await DisplayAlert(
                     "Подтверждение",
@@ -357,17 +335,9 @@ namespace NekrasovskyAPP.Pages
                 }
             }
 
-            var update = new FillingWarehouse
-            {
-                WarehouseId = selectedFilling.WarehouseId,
-                MaterialId = material.Id,
-                Quantity = quantity,
-                MeasuringType = string.IsNullOrWhiteSpace(selectedFilling.MeasuringType)
-                    ? material.MeasuringUnit
-                    : selectedFilling.MeasuringType
-            };
-
-            var response = await _viewModel.ApiService.UpdateFillingQuantityByMaterialAsync(update);
+            var response = await _viewModel.ApiService.UpdateMaterialResponsibilityFillingAsync(
+                warehouseId, material.Id, userId, newQuantity, unit);
+            
             if (!response.IsSuccess)
             {
                 await DisplayAlert("Ошибка", response.Message ?? "Произошла ошибка", "OK");
@@ -468,7 +438,7 @@ namespace NekrasovskyAPP.Pages
             }
 
             // Назначение без склада (неответственная часть или старая модель Responsibility)
-            int? quantity = displayItem.Responsibility == null
+            double? quantity = displayItem.Responsibility == null
                 ? displayItem.UnassignedQuantity
                 : displayItem.Responsibility.Quantity;
             string? measuringUnit = displayItem.Responsibility == null
@@ -517,19 +487,69 @@ namespace NekrasovskyAPP.Pages
             await _viewModel.LoadMaterialsAsync();
         }
 
-        private async Task ReleaseMaterialResponsibilityAsync(Material material)
+        private async Task ReleaseMaterialResponsibilityAsync(MaterialDisplayItem displayItem)
         {
-            var confirm = await DisplayAlert(
+            var material = displayItem.Material;
+            
+            // Работаем только с карточками, где есть ответственное лицо
+            if (displayItem.Responsibility == null || !displayItem.Responsibility.WarehouseId.HasValue)
+            {
+                await DisplayAlert("Ошибка", "Эта операция доступна только для карточек с ответственным лицом и складом.", "OK");
+                return;
+            }
+
+            var warehouseId = displayItem.Responsibility.WarehouseId.Value;
+            var userId = displayItem.Responsibility.UserId;
+            var availableQuantity = displayItem.Responsibility.Quantity ?? 0;
+            var unit = displayItem.Responsibility.MeasuringUnit ?? material.MeasuringUnit ?? "ед.";
+
+            if (availableQuantity <= 0)
+            {
+                await DisplayAlert("Ошибка", "Нет ответственности для снятия.", "OK");
+                return;
+            }
+
+            var quantityText = await DisplayPromptAsync(
                 "Снять ответственность",
-                $"Снять ответственность с материала {material.Name}?",
+                $"Доступно для снятия: {availableQuantity} {unit}\nВведите количество для снятия (оставьте пустым для снятия всей ответственности):",
+                "Снять",
+                "Отмена",
+                availableQuantity.ToString(),
+                -1,
+                Keyboard.Numeric);
+
+            if (quantityText == null)
+            {
+                return;
+            }
+
+            double? quantityToRelease = null;
+            if (!string.IsNullOrWhiteSpace(quantityText))
+            {
+                if (!double.TryParse(quantityText, out var qty) || qty <= 0 || qty > availableQuantity)
+                {
+                    await DisplayAlert("Ошибка", $"Введите число от 1 до {availableQuantity}.", "OK");
+                    return;
+                }
+                quantityToRelease = qty;
+            }
+
+            var confirm = await DisplayAlert(
+                "Подтверждение",
+                quantityToRelease.HasValue
+                    ? $"Снять ответственность в количестве {quantityToRelease} {unit}?"
+                    : $"Снять всю ответственность ({availableQuantity} {unit})?",
                 "Снять",
                 "Отмена");
+            
             if (!confirm)
             {
                 return;
             }
 
-            var response = await _viewModel.ApiService.ReleaseMaterialResponsibilityAsync(material.Id);
+            var response = await _viewModel.ApiService.ReleaseMaterialResponsibilityFillingAsync(
+                warehouseId, material.Id, userId, quantityToRelease);
+            
             if (!response.IsSuccess)
             {
                 await DisplayAlert("Ошибка", response.Message ?? "Произошла ошибка", "OK");
@@ -537,7 +557,6 @@ namespace NekrasovskyAPP.Pages
             }
 
             await DisplayAlert("Успех", "Ответственность снята", "OK");
-            // Перезагружаем материалы для обновления списка
             await _viewModel.LoadMaterialsAsync();
         }
 

@@ -20,9 +20,15 @@ namespace NekrasovskyAPP.Pages
         private readonly List<FillingWarehouse> _fillingWarehouses = new();
         private List<ResponsibilityStockItem> _responsibilityStock = new();
         private Warehouse? _selectedWarehouse;
+        private List<Warehouse> _disposalWarehouses = new();
+        private Warehouse? _selectedDefectWarehouse;
+        private Warehouse? _selectedRecyclingWarehouse;
 
         public ObservableCollection<SourceItem> Sources { get; } = new();
-        public ObservableCollection<OutputItem> Outputs { get; } = new();
+        public ObservableCollection<OutputItem> NormalOutputs { get; } = new();
+        
+        // Для обратной совместимости (используется в XAML)
+        public ObservableCollection<OutputItem> Outputs => NormalOutputs;
         public ICommand AddSourceCommand { get; }
         public ICommand RemoveSourceCommand { get; }
         public ICommand AddOutputCommand { get; }
@@ -42,7 +48,7 @@ namespace NekrasovskyAPP.Pages
             BindingContext = this;
             // Инициализируем с пустым списком, данные загрузятся в OnAppearing
             Sources.Add(new SourceItem(new List<Material>(), IsDesktop()));
-            Outputs.Add(new OutputItem(_products));
+            NormalOutputs.Add(new OutputItem(_products) { OutputType = ReprocessingOutputType.Normal });
         }
 
         protected override async void OnAppearing()
@@ -55,13 +61,23 @@ namespace NekrasovskyAPP.Pages
         private void SetPickerHeights()
         {
             // Устанавливаем высоту 58 для Picker на ПК
-            if (IsDesktop() && WarehousePickerBorder != null)
+            if (IsDesktop())
             {
-                WarehousePickerBorder.HeightRequest = 58.0;
+                if (WarehousePickerBorder != null)
+                    WarehousePickerBorder.HeightRequest = 58.0;
+                if (DefectWarehousePickerBorder != null)
+                    DefectWarehousePickerBorder.HeightRequest = 58.0;
+                if (RecyclingWarehousePickerBorder != null)
+                    RecyclingWarehousePickerBorder.HeightRequest = 58.0;
             }
-            else if (WarehousePickerBorder != null)
+            else
             {
-                WarehousePickerBorder.HeightRequest = 48.0;
+                if (WarehousePickerBorder != null)
+                    WarehousePickerBorder.HeightRequest = 48.0;
+                if (DefectWarehousePickerBorder != null)
+                    DefectWarehousePickerBorder.HeightRequest = 48.0;
+                if (RecyclingWarehousePickerBorder != null)
+                    RecyclingWarehousePickerBorder.HeightRequest = 48.0;
             }
         }
 
@@ -86,6 +102,11 @@ namespace NekrasovskyAPP.Pages
             _materials.AddRange(await _apiService.GetAllMaterialsAsync());
             _products.AddRange(await _apiService.GetAllProductsAsync());
             _fillingWarehouses.AddRange(await _apiService.GetAllFillingWarehousesAsync());
+            
+            // Загружаем склады утиля
+            _disposalWarehouses = _warehouses
+                .Where(w => w.Type != null && w.Type.Equals("Утиль", StringComparison.OrdinalIgnoreCase))
+                .ToList();
 
             // Остатки под ответственностью пользователя — из ResponsibilityFilling (то же, что при передаче смены)
             _responsibilityStock = await _apiService.GetResponsibilityStockAsync(user.Id);
@@ -100,11 +121,27 @@ namespace NekrasovskyAPP.Pages
 
             WarehousePicker.ItemsSource = _warehouses;
             
+            // Инициализируем Picker'ы для складов утиля
+            DefectWarehousePicker.ItemsSource = _disposalWarehouses;
+            RecyclingWarehousePicker.ItemsSource = _disposalWarehouses;
+            
+            // Устанавливаем высоту Picker'ов
+            if (IsDesktop())
+            {
+                DefectWarehousePickerBorder.HeightRequest = 58.0;
+                RecyclingWarehousePickerBorder.HeightRequest = 58.0;
+            }
+            else
+            {
+                DefectWarehousePickerBorder.HeightRequest = 48.0;
+                RecyclingWarehousePickerBorder.HeightRequest = 48.0;
+            }
+            
             // Обновляем материалы для исходников после загрузки данных
             UpdateSourceMaterials();
             
             // Обновляем продукты для результатов
-            foreach (var output in Outputs)
+            foreach (var output in NormalOutputs)
             {
                 output.UpdateProducts(_products);
             }
@@ -114,6 +151,16 @@ namespace NekrasovskyAPP.Pages
         {
             _selectedWarehouse = WarehousePicker.SelectedItem as Warehouse;
             UpdateSourceMaterials();
+        }
+
+        private void OnDefectWarehouseSelected(object? sender, EventArgs e)
+        {
+            _selectedDefectWarehouse = DefectWarehousePicker.SelectedItem as Warehouse;
+        }
+
+        private void OnRecyclingWarehouseSelected(object? sender, EventArgs e)
+        {
+            _selectedRecyclingWarehouse = RecyclingWarehousePicker.SelectedItem as Warehouse;
         }
 
         private void UpdateSourceMaterials()
@@ -163,7 +210,7 @@ namespace NekrasovskyAPP.Pages
 
         private void AddOutput()
         {
-            Outputs.Add(new OutputItem(_products));
+            NormalOutputs.Add(new OutputItem(_products) { OutputType = ReprocessingOutputType.Normal });
         }
 
         private async void ScanMaterialCode(OutputItem? outputItem)
@@ -194,12 +241,11 @@ namespace NekrasovskyAPP.Pages
 
         private void RemoveOutput(OutputItem? item)
         {
-            if (item == null || Outputs.Count <= 1)
+            if (item == null || NormalOutputs.Count <= 1)
             {
                 return;
             }
-
-            Outputs.Remove(item);
+            NormalOutputs.Remove(item);
         }
 
         private async void OnRefreshClicked(object? sender, EventArgs e)
@@ -230,22 +276,87 @@ namespace NekrasovskyAPP.Pages
 
             var outputs = new List<ReprocessingOutput>();
 
-            foreach (var outputItem in Outputs)
+            // Обрабатываем нормальные результаты и создаем ЭКО результаты при необходимости
+            foreach (var outputItem in NormalOutputs)
             {
                 if (!TryBuildOutput(outputItem, out var output))
                 {
-                    await DisplayAlert("Ошибка", "Заполните все результаты корректно", "OK");
+                    await DisplayAlert("Ошибка", "Заполните все нормальные результаты корректно", "OK");
                     return;
                 }
-
+                output.OutputType = ReprocessingOutputType.Normal;
                 outputs.Add(output);
+
+                // Если указано количество ЭКО, создаем ЭКО результат с тем же продуктом/материалом
+                if (int.TryParse(outputItem.EcoQuantity, out var ecoQty) && ecoQty > 0)
+                {
+                    var ecoOutput = new ReprocessingOutput
+                    {
+                        OutputType = ReprocessingOutputType.Eco,
+                        Quantity = ecoQty,
+                        MeasuringType = output.MeasuringType,
+                        MaterialId = output.MaterialId,
+                        ProductId = output.ProductId,
+                        NewMaterialCode = output.NewMaterialCode,
+                        NewMaterialName = output.NewMaterialName,
+                        NewMaterialDescription = output.NewMaterialDescription
+                    };
+                    outputs.Add(ecoOutput);
+                }
             }
 
-            // Получаем количество брака
+            // Получаем количество брака и переработки
             var defectQuantity = 0;
-            if (int.TryParse(DefectQuantityEntry.Text, out var parsedDefect) && parsedDefect > 0)
+            var recyclingQuantity = 0;
+            int? defectWarehouseId = null;
+            int? recyclingWarehouseId = null;
+
+            if (int.TryParse(DefectQuantityEntry?.Text, out var parsedDefect) && parsedDefect > 0)
             {
                 defectQuantity = parsedDefect;
+                if (_selectedDefectWarehouse != null)
+                {
+                    defectWarehouseId = _selectedDefectWarehouse.Id;
+                }
+                else if (_disposalWarehouses.Count == 1)
+                {
+                    // Если только один склад утиля, используем его
+                    defectWarehouseId = _disposalWarehouses[0].Id;
+                }
+                else if (_disposalWarehouses.Count > 1)
+                {
+                    await DisplayAlert("Ошибка", "Выберите склад утиля для невозвратного брака", "OK");
+                    return;
+                }
+                else if (_disposalWarehouses.Count == 0)
+                {
+                    await DisplayAlert("Ошибка", "Склад утиля не найден. Создайте склад с типом 'Утиль'", "OK");
+                    return;
+                }
+            }
+
+            if (int.TryParse(RecyclingQuantityEntry?.Text, out var parsedRecycling) && parsedRecycling > 0)
+            {
+                recyclingQuantity = parsedRecycling;
+                if (_selectedRecyclingWarehouse != null)
+                {
+                    recyclingWarehouseId = _selectedRecyclingWarehouse.Id;
+                }
+                else if (_disposalWarehouses.Count == 1)
+                {
+                    // Если только один склад утиля, используем его
+                    recyclingWarehouseId = _disposalWarehouses[0].Id;
+                }
+                else if (_disposalWarehouses.Count > 1)
+                {
+                    await DisplayAlert("Ошибка", "Выберите склад утиля для переработки", "OK");
+                    return;
+                }
+                else if (_disposalWarehouses.Count == 0)
+                {
+                    await DisplayAlert("Ошибка", "Склад утиля не найден. Создайте склад с типом 'Утиль'", "OK");
+                    return;
+                }
             }
 
             var request = new ReprocessingCreateRequest
@@ -253,7 +364,11 @@ namespace NekrasovskyAPP.Pages
                 WarehouseId = warehouse.Id,
                 Sources = sources,
                 Outputs = outputs,
-                DefectQuantity = defectQuantity
+                DefectQuantity = defectQuantity,
+                DefectWarehouseId = defectWarehouseId,
+                RecyclingQuantity = recyclingQuantity,
+                RecyclingWarehouseId = recyclingWarehouseId,
+                Note = NoteEditor?.Text?.Trim()
             };
 
             var response = await _apiService.CreateReprocessingAsync(request);
@@ -263,7 +378,7 @@ namespace NekrasovskyAPP.Pages
                 return;
             }
 
-            await DisplayAlert("Успех", "Переработка выполнена", "OK");
+            await DisplayAlert("Успех", "Производство выполнено", "OK");
             ClearForm();
         }
 
@@ -427,6 +542,7 @@ namespace NekrasovskyAPP.Pages
             private readonly bool _isDesktop;
             private string? _selectedType;
             private string? _quantity;
+            private ReprocessingOutputType _outputType = ReprocessingOutputType.Normal;
             
             // Для материала
             private string? _materialCode;
@@ -437,6 +553,9 @@ namespace NekrasovskyAPP.Pages
             private string? _productSearchText;
             private Product? _selectedProduct;
             private List<Product> _filteredProducts = new();
+            
+            // Для ЭКО продукции
+            private string? _ecoQuantity;
 
             public OutputItem(List<Product> products)
             {
@@ -470,6 +589,7 @@ namespace NekrasovskyAPP.Pages
                     MaterialName = null;
                     SelectedProduct = null;
                     ProductSearchText = null;
+                    OnPropertyChanged(nameof(OutputDisplayName));
                 }
             }
 
@@ -497,6 +617,7 @@ namespace NekrasovskyAPP.Pages
                     _materialName = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(MeasuringUnit));
+                    OnPropertyChanged(nameof(OutputDisplayName));
                 }
             }
 
@@ -546,6 +667,7 @@ namespace NekrasovskyAPP.Pages
                     OnPropertyChanged(nameof(MeasuringUnit));
                     OnPropertyChanged(nameof(HasSelectedProduct));
                     OnPropertyChanged(nameof(SelectedProductInfo));
+                    OnPropertyChanged(nameof(OutputDisplayName));
                 }
             }
 
@@ -580,6 +702,44 @@ namespace NekrasovskyAPP.Pages
                     if (_quantity == value) return;
                     _quantity = value;
                     OnPropertyChanged();
+                }
+            }
+
+            public ReprocessingOutputType OutputType
+            {
+                get => _outputType;
+                set
+                {
+                    if (_outputType == value) return;
+                    _outputType = value;
+                    OnPropertyChanged();
+                }
+            }
+
+            public string? EcoQuantity
+            {
+                get => _ecoQuantity;
+                set
+                {
+                    if (_ecoQuantity == value) return;
+                    _ecoQuantity = value;
+                    OnPropertyChanged();
+                }
+            }
+
+            public string OutputDisplayName
+            {
+                get
+                {
+                    if (IsMaterialSelected && !string.IsNullOrWhiteSpace(_materialName))
+                    {
+                        return $"Материал: {_materialName}";
+                    }
+                    if (IsProductSelected && _selectedProduct != null)
+                    {
+                        return $"Продукт: {_selectedProduct.Name}";
+                    }
+                    return "Результат";
                 }
             }
 

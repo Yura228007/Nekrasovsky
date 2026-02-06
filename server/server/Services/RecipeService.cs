@@ -103,7 +103,7 @@ namespace server.Services
             return true;
         }
 
-        public async Task<Recipe> AddMaterialToRecipeAsync(int productId, int materialId, int quantity, string? measuringType)
+        public async Task<Recipe> AddMaterialToRecipeAsync(int productId, int materialId, double quantity, string? measuringType)
         {
             var recipe = new Recipe
             {

@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using server.Data;
 using server.Models;
 using server.Services;
 using System;
@@ -14,19 +16,22 @@ namespace server.Controllers
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IUserPermissionsService _userPermissionsService;
+        private readonly AppDbContext _context;
 
         public ResponsibilitiesController(
             IResponsibilityFillingService responsibilityFillingService,
             ILogger<ResponsibilitiesController> logger,
             IUserService userService,
             IRoleService roleService,
-            IUserPermissionsService userPermissionsService)
+            IUserPermissionsService userPermissionsService,
+            AppDbContext context)
         {
             _responsibilityFillingService = responsibilityFillingService;
             _logger = logger;
             _userService = userService;
             _roleService = roleService;
             _userPermissionsService = userPermissionsService;
+            _context = context;
         }
 
         // GET: api/responsibilities/user/5/stock
@@ -255,13 +260,146 @@ namespace server.Controllers
                     return Forbid();
                 if (request.BatchId <= 0 || request.UserId <= 0)
                     return BadRequest(new { message = "BatchId and UserId required" });
-                await _responsibilityFillingService.ReleaseBatchResponsibilityAsync(request.BatchId, request.UserId);
+                
+                if (request.QuantityToRelease.HasValue && request.QuantityToRelease.Value > 0)
+                {
+                    await _responsibilityFillingService.DecreaseBatchResponsibilityAsync(request.BatchId, request.QuantityToRelease.Value, request.UserId);
+                }
+                else
+                {
+                    await _responsibilityFillingService.ReleaseBatchResponsibilityAsync(request.BatchId, request.UserId);
+                }
                 return Ok(new { message = "Responsibility released" });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error releasing batch responsibility");
                 return StatusCode(500, new { message = "An error occurred while releasing responsibility", detail = ex.Message });
+            }
+        }
+
+        // POST: api/responsibilities/filling/material/release
+        [HttpPost("filling/material/release")]
+        public async Task<IActionResult> ReleaseMaterialFilling([FromBody] ReleaseMaterialResponsibilityRequest request)
+        {
+            try
+            {
+                if (!await IsPrivilegedUserAsync())
+                    return Forbid();
+                if (request.WarehouseId <= 0 || request.MaterialId <= 0 || request.UserId <= 0)
+                    return BadRequest(new { message = "WarehouseId, MaterialId and UserId required" });
+                
+                if (request.QuantityToRelease.HasValue && request.QuantityToRelease.Value > 0)
+                {
+                    await _responsibilityFillingService.DecreaseMaterialResponsibilityAtWarehouseAsync(
+                        request.WarehouseId, request.MaterialId, request.QuantityToRelease.Value, request.UserId);
+                }
+                else
+                {
+                    // Снимаем всю ответственность пользователя за материал на складе
+                    var totalQty = await _responsibilityFillingService.GetUserResponsibleQuantityAtWarehouseAsync(
+                        request.UserId, request.WarehouseId, request.MaterialId);
+                    if (totalQty > 0)
+                    {
+                        await _responsibilityFillingService.DecreaseMaterialResponsibilityAtWarehouseAsync(
+                            request.WarehouseId, request.MaterialId, totalQty, request.UserId);
+                    }
+                }
+                return Ok(new { message = "Responsibility released" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error releasing material responsibility");
+                return StatusCode(500, new { message = "An error occurred while releasing responsibility", detail = ex.Message });
+            }
+        }
+
+        // PUT: api/responsibilities/filling/material/update
+        [HttpPut("filling/material/update")]
+        public async Task<IActionResult> UpdateMaterialFilling([FromBody] UpdateMaterialResponsibilityRequest request)
+        {
+            try
+            {
+                if (!await IsPrivilegedUserAsync())
+                    return Forbid();
+                if (request.WarehouseId <= 0 || request.MaterialId <= 0 || request.UserId <= 0 || request.NewQuantity < 0)
+                    return BadRequest(new { message = "WarehouseId, MaterialId, UserId and non-negative NewQuantity required" });
+                
+                // Получаем текущее количество ответственности
+                var currentQty = await _responsibilityFillingService.GetUserResponsibleQuantityAtWarehouseAsync(
+                    request.UserId, request.WarehouseId, request.MaterialId);
+                
+                if (request.NewQuantity > currentQty)
+                {
+                    // Увеличиваем ответственность
+                    var diff = request.NewQuantity - currentQty;
+                    await _responsibilityFillingService.AssignMaterialAtWarehouseAsync(
+                        request.UserId, request.WarehouseId, request.MaterialId, diff, request.MeasuringUnit);
+                }
+                else if (request.NewQuantity < currentQty)
+                {
+                    // Уменьшаем ответственность
+                    var diff = currentQty - request.NewQuantity;
+                    await _responsibilityFillingService.DecreaseMaterialResponsibilityAtWarehouseAsync(
+                        request.WarehouseId, request.MaterialId, diff, request.UserId);
+                }
+                // Если равны, ничего не делаем
+                
+                return Ok(new { message = "Responsibility updated" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating material responsibility");
+                return StatusCode(500, new { message = "An error occurred while updating responsibility", detail = ex.Message });
+            }
+        }
+
+        // DELETE: api/responsibilities/filling/{id}
+        [HttpDelete("filling/{id}")]
+        public async Task<IActionResult> DeleteResponsibilityFilling(int id)
+        {
+            try
+            {
+                if (!await IsPrivilegedUserAsync())
+                    return Forbid();
+                if (id <= 0)
+                    return BadRequest(new { message = "Id must be greater than 0" });
+                
+                var filling = await _context.ResponsibilityFillings.FindAsync(id);
+                if (filling == null)
+                    return NotFound(new { message = "ResponsibilityFilling not found" });
+                
+                // Помечаем как неактивную и уменьшаем количество на складе
+                filling.IsActive = false;
+                filling.ReleasedAt = DateTime.UtcNow;
+                
+                // Уменьшаем количество на складе
+                if (filling.MaterialId.HasValue)
+                {
+                    var materialFilling = await _context.FillingWarehouses
+                        .FirstOrDefaultAsync(fw => fw.WarehouseId == filling.WarehouseId && fw.MaterialId == filling.MaterialId);
+                    if (materialFilling != null)
+                    {
+                        materialFilling.Quantity = Math.Max(0, materialFilling.Quantity - filling.Quantity);
+                    }
+                }
+                else if (filling.ProductId.HasValue)
+                {
+                    var productFilling = await _context.FillingWarehouses
+                        .FirstOrDefaultAsync(fw => fw.WarehouseId == filling.WarehouseId && fw.ProductId == filling.ProductId);
+                    if (productFilling != null)
+                    {
+                        productFilling.Quantity = Math.Max(0, productFilling.Quantity - filling.Quantity);
+                    }
+                }
+                
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "ResponsibilityFilling deleted" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting responsibility filling");
+                return StatusCode(500, new { message = "An error occurred while deleting responsibility filling", detail = ex.Message });
             }
         }
 
@@ -311,7 +449,7 @@ namespace server.Controllers
         public int UserId { get; set; }
         public int WarehouseId { get; set; }
         public int MaterialId { get; set; }
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
         public string? MeasuringUnit { get; set; }
     }
 
@@ -320,7 +458,7 @@ namespace server.Controllers
         public int UserId { get; set; }
         public int WarehouseId { get; set; }
         public int ProductId { get; set; }
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
         public string? MeasuringUnit { get; set; }
     }
 
@@ -331,7 +469,7 @@ namespace server.Controllers
         public int FromUserId { get; set; }
         public int ToUserId { get; set; }
         /// <summary>Сколько передать; null или не указано — передать всё.</summary>
-        public int? QuantityToTransfer { get; set; }
+        public double? QuantityToTransfer { get; set; }
     }
 
     public class TransferResponsibilityFillingProductRequest
@@ -340,7 +478,7 @@ namespace server.Controllers
         public int ProductId { get; set; }
         public int FromUserId { get; set; }
         public int ToUserId { get; set; }
-        public int? QuantityToTransfer { get; set; }
+        public double? QuantityToTransfer { get; set; }
     }
 
     public class TransferBatchResponsibilityRequest
@@ -348,12 +486,30 @@ namespace server.Controllers
         public int BatchId { get; set; }
         public int FromUserId { get; set; }
         public int ToUserId { get; set; }
-        public int? QuantityToTransfer { get; set; }
+        public double? QuantityToTransfer { get; set; }
     }
 
     public class ReleaseBatchResponsibilityRequest
     {
         public int BatchId { get; set; }
         public int UserId { get; set; }
+        public double? QuantityToRelease { get; set; }
+    }
+
+    public class ReleaseMaterialResponsibilityRequest
+    {
+        public int WarehouseId { get; set; }
+        public int MaterialId { get; set; }
+        public int UserId { get; set; }
+        public double? QuantityToRelease { get; set; }
+    }
+
+    public class UpdateMaterialResponsibilityRequest
+    {
+        public int WarehouseId { get; set; }
+        public int MaterialId { get; set; }
+        public int UserId { get; set; }
+        public double NewQuantity { get; set; }
+        public string? MeasuringUnit { get; set; }
     }
 }

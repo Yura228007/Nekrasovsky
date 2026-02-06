@@ -85,7 +85,7 @@
                                             </Border.StrokeShape>
                                             <VerticalStackLayout Spacing="8">
                                                 <HorizontalStackLayout Spacing="12">
-                                                    <Label Text="{Binding Material.Name}"
+                                                    <Label Text="{Binding ItemName}"
                                                            FontSize="15"
                                                            FontAttributes="Bold"
                                                            TextColor="{StaticResource White}" />
@@ -179,7 +179,7 @@
                                             </Border.StrokeShape>
                                             <VerticalStackLayout Spacing="8">
                                                 <HorizontalStackLayout Spacing="12">
-                                                    <Label Text="{Binding Material.Name}"
+                                                    <Label Text="{Binding ItemName}"
                                                            FontSize="15"
                                                            FontAttributes="Bold"
                                                            TextColor="{StaticResource White}" />

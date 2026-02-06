@@ -138,7 +138,7 @@ namespace NekrasovskyAPP.Pages
             // Сканер - только с правом AssignBarcode
             ScannerCard.IsVisible = _hasAssignBarcodePermission || _isPrivilegedUser;
             
-            // Выпуск - только с правом SendToSale
+            // Упаковка - только с правом SendToSale
             ProductOutputCard.IsVisible = _hasSendToSalePermission || _isPrivilegedUser;
         }
 
@@ -340,6 +340,16 @@ namespace NekrasovskyAPP.Pages
         private async void OnDisposalClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("DisposalPage");
+        }
+
+        private async void OnFinishedGoodsClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("FinishedGoodsPage");
+        }
+
+        private async void OnMixingClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("MixingPage");
         }
 
         private async void OnLogoutClicked(object sender, EventArgs e)

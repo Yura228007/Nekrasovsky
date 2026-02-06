@@ -47,6 +47,22 @@ namespace NekrasovskyAPP.Platforms.Android
 
         public override IBinder? OnBind(Intent? intent) => null;
 
+        public override void OnTaskRemoved(Intent? rootIntent)
+        {
+            // Перезапускаем сервис при попытке закрытия приложения
+            var restartIntent = new Intent(ApplicationContext, typeof(AlarmForegroundService));
+            restartIntent.SetPackage(ApplicationContext?.PackageName);
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            {
+                ApplicationContext?.StartForegroundService(restartIntent);
+            }
+            else
+            {
+                ApplicationContext?.StartService(restartIntent);
+            }
+            base.OnTaskRemoved(rootIntent);
+        }
+
         public override void OnDestroy()
         {
             _ = DisconnectAsync();

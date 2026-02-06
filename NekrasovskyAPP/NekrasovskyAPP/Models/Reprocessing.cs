@@ -18,7 +18,7 @@ namespace NekrasovskyAPP.Models
 
         public int SourceMaterialId { get; set; }
 
-        public int SourceQuantity { get; set; }
+        public double SourceQuantity { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
@@ -30,7 +30,7 @@ namespace NekrasovskyAPP.Models
     public class ReprocessingSourceItem
     {
         public int MaterialId { get; set; }
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
         public string? MeasuringType { get; set; }
     }
 }

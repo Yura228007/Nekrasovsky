@@ -1,0 +1,1 @@
+D:\Projects\Nekrasovsky\NekrasovskyAPP\NekrasovskyAPP\NekrasovskyAPP.csproj;x64

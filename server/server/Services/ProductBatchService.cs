@@ -172,7 +172,7 @@ public class ProductBatchService : IProductBatchService
         return true;
     }
 
-    public async Task<ProductBatch> DecreaseBatchQuantityAsync(int batchId, int quantity)
+    public async Task<ProductBatch> DecreaseBatchQuantityAsync(int batchId, double quantity)
     {
         var batch = await _context.ProductBatches.FindAsync(batchId);
         if (batch == null)
@@ -198,7 +198,7 @@ public class ProductBatchService : IProductBatchService
         return batch;
     }
 
-    public async Task<int> GetTotalQuantityByProductAndWarehouseAsync(int productId, int warehouseId)
+    public async Task<double> GetTotalQuantityByProductAndWarehouseAsync(int productId, int warehouseId)
     {
         return await _context.ProductBatches
             .Where(pb => pb.ProductId == productId && pb.WarehouseId == warehouseId && pb.IsActive)

@@ -8,7 +8,7 @@ namespace NekrasovskyAPP.Models
     public class WarehouseStockInfo
     {
         public string WarehouseName { get; set; } = string.Empty;
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
         public string MeasuringUnit { get; set; } = string.Empty;
     }
 
@@ -25,7 +25,7 @@ namespace NekrasovskyAPP.Models
         /// Количество неответственной части (только для карточки с Responsibility == null).
         /// При назначении ответственности передаётся это количество, а не null.
         /// </summary>
-        public int? UnassignedQuantity { get; set; }
+        public double? UnassignedQuantity { get; set; }
 
         /// <summary>
         /// Единица измерения неответственной части.

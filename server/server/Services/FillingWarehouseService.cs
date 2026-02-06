@@ -202,7 +202,7 @@ namespace server.Services
             return true;
         }
 
-        public async Task<FillingWarehouse> UpdateQuantityByMaterialAsync(int warehouseId, int materialId, int quantity)
+        public async Task<FillingWarehouse> UpdateQuantityByMaterialAsync(int warehouseId, int materialId, double quantity)
         {
             var filling = await GetFillingByMaterialAsync(warehouseId, materialId);
             if (filling == null)
@@ -228,7 +228,7 @@ namespace server.Services
             return filling;
         }
 
-        public async Task<FillingWarehouse> UpdateQuantityByProductAsync(int warehouseId, int productId, int quantity)
+        public async Task<FillingWarehouse> UpdateQuantityByProductAsync(int warehouseId, int productId, double quantity)
         {
             var filling = await GetFillingByProductAsync(warehouseId, productId);
             if (filling == null)

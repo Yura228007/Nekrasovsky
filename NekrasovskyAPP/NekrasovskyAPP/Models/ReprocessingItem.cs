@@ -16,7 +16,7 @@ namespace NekrasovskyAPP.Models
 
         public int? ProductId { get; set; }
 
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
 
         public string? MeasuringType { get; set; }
     }

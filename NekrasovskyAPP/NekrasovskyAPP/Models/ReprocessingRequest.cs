@@ -32,6 +32,11 @@ namespace NekrasovskyAPP.Models
         /// Примечание к переработке (сохраняется в партии)
         /// </summary>
         public string? Note { get; set; }
+
+        /// <summary>
+        /// ID станка типа "Линия" (для отчетов)
+        /// </summary>
+        public int? MachineId { get; set; }
     }
 
     public class ReprocessingSource

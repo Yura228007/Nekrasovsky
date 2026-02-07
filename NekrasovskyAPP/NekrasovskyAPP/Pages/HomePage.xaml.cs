@@ -279,11 +279,6 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("PartRequestsPage");
         }
 
-        private async void OnShiftTransfersClicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync("ShiftTransfersPage");
-        }
-
         private async void OnReprocessingClicked(object sender, EventArgs e)
         {
             if (!await EnsureShiftAccessAsync("ReprocessingPage"))
@@ -457,11 +452,8 @@ namespace NekrasovskyAPP.Pages
             // Сканер - только с правом AssignBarcode
             ScannerCard.IsVisible = _hasAssignBarcodePermission || _isPrivilegedUser;
 
-            // Отчеты - скрываем если есть право на передачу смены (кроме привилегированных)
-            WorkReportsCard.IsVisible = !_hasShiftTransferPermission || _isPrivilegedUser;
-
-            // Передача смены - только с правом ShiftTransfer
-            ShiftTransfersCard.IsVisible = _hasShiftTransferPermission || _isPrivilegedUser;
+            // Отчеты - видимы для всех пользователей
+            WorkReportsCard.IsVisible = true;
 
             // Производство - только с правом ManageRecipes
             ReprocessingCard.IsVisible = _hasManageRecipesPermission || _isPrivilegedUser;
@@ -485,24 +477,13 @@ namespace NekrasovskyAPP.Pages
                 return true;
             }
 
-            if (destination == "ShiftTransfersPage")
+            // Отчеты доступны всем пользователям
+            if (destination == "WorkReportsPage")
             {
                 return true;
             }
 
-            if (destination == "WorkReportsPage" && !_hasShiftTransferPermission)
-            {
-                return true;
-            }
-
-            if (destination == "WorkReportsPage" && _isPrivilegedUser)
-            {
-                return true;
-            }
-
-            var message = _hasShiftTransferPermission && !_isPrivilegedUser
-                ? "Смена не начата. Доступна только передача смены."
-                : "Смена не начата. Доступно только начало смены или передача смены.";
+            var message = "Смена не начата. Доступно только начало смены.";
             await DisplayAlert("Смена не начата", message, "OK");
             return false;
         }

@@ -29,6 +29,12 @@ namespace server.Models
         public double SourceQuantity { get; set; }
 
         /// <summary>
+        /// ID станка типа "Линия" (для отчетов)
+        /// </summary>
+        [ForeignKey(nameof(Machine))]
+        public int? MachineId { get; set; }
+
+        /// <summary>
         /// Количество брака, отправленное на склад утиля
         /// </summary>
         [Column(TypeName = "double precision")]
@@ -49,6 +55,10 @@ namespace server.Models
         [Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidateNever]
         [System.Text.Json.Serialization.JsonIgnore]
         public virtual Material SourceMaterial { get; set; } = null!;
+
+        [Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidateNever]
+        [System.Text.Json.Serialization.JsonIgnore]
+        public virtual Machine? Machine { get; set; }
 
         public virtual ICollection<ReprocessingItem> Items { get; set; } = new List<ReprocessingItem>();
 

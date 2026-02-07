@@ -60,17 +60,23 @@ namespace server.Services
             var productOutputs = await GetProductOutputsForShift(workReport.UserId, shiftStart, shiftEnd);
             var partRequests = await GetPartRequestsForShift(workReport.UserId, shiftStart, shiftEnd);
             var reprocessings = await GetReprocessingsForShift(workReport.UserId, shiftStart, shiftEnd);
+            var finishedGoodsRequests = await GetFinishedGoodsRequestsForShift(workReport.UserId, shiftStart, shiftEnd);
+            var productSales = await GetProductSalesForShift(workReport.UserId, shiftStart, shiftEnd);
+            var sdhRequests = await GetSDHRequestsForShift(workReport.UserId, shiftStart, shiftEnd);
+            var sdhSales = await GetSDHSalesForShift(workReport.UserId, shiftStart, shiftEnd);
+            var disposalRequests = await GetDisposalRequestsForShift(workReport.UserId, shiftStart, shiftEnd);
             var responsibilitySnapshot = await _snapshotService.GetByWorkReportIdAsync(workReportId);
             var responsibilityEnd = await _fillingService.GetResponsibilityFillingsByUserAsync(workReport.UserId);
 
             // Generate Excel (stored in DB, not on disk)
             var excelBytes = GenerateExcel(user, workReport, productOutputs, partRequests, responsibilityEnd, reprocessings,
-                responsibilitySnapshot);
+                responsibilitySnapshot, finishedGoodsRequests, productSales, sdhRequests, sdhSales, disposalRequests);
 
             var fileName = $"report_{user.Surname}_{user.Name}_{shiftStart:yyyy-MM-dd_HH-mm}.xlsx";
 
             // Create summary
-            var summary = GenerateSummary(productOutputs, partRequests, responsibilityEnd);
+            var summary = GenerateSummary(productOutputs, partRequests, responsibilityEnd, reprocessings, 
+                finishedGoodsRequests, productSales, sdhRequests, sdhSales, disposalRequests);
 
             // Save to database (file content in DB, no server folder)
             var report = new ShiftReport
@@ -224,8 +230,11 @@ namespace server.Services
         {
             return await _context.PartRequests
                 .Include(pr => pr.Material)
+                .Include(pr => pr.Product)
                 .Include(pr => pr.FromWarehouse)
                 .Include(pr => pr.ToWarehouse)
+                .Include(pr => pr.FromUser)
+                .Include(pr => pr.ToUser)
                 .Where(pr => pr.FromUserId == userId && pr.CreatedAt >= start && pr.CreatedAt <= end)
                 .OrderBy(pr => pr.CreatedAt)
                 .ToListAsync();
@@ -236,6 +245,7 @@ namespace server.Services
             return await _context.Reprocessings
                 .Include(r => r.Warehouse)
                 .Include(r => r.SourceMaterial)
+                .Include(r => r.Machine)
                 .Include(r => r.Sources)
                     .ThenInclude(s => s.Material)
                 .Include(r => r.Items)
@@ -247,21 +257,86 @@ namespace server.Services
                 .ToListAsync();
         }
 
-        private string GenerateSummary(List<ProductOutput> outputs, List<PartRequest> requests, List<ResponsibilityFilling> responsibilityFillings)
+        private async Task<List<FinishedGoodsRequest>> GetFinishedGoodsRequestsForShift(int userId, DateTime start, DateTime end)
+        {
+            return await _context.FinishedGoodsRequests
+                .Include(fgr => fgr.Product)
+                .Include(fgr => fgr.ToWarehouse)
+                .Where(fgr => fgr.FromUserId == userId && fgr.CreatedAt >= start && fgr.CreatedAt <= end)
+                .OrderBy(fgr => fgr.CreatedAt)
+                .ToListAsync();
+        }
+
+        private async Task<List<ProductSale>> GetProductSalesForShift(int userId, DateTime start, DateTime end)
+        {
+            return await _context.ProductSales
+                .Include(ps => ps.Product)
+                .Include(ps => ps.Warehouse)
+                .Where(ps => ps.UserId == userId && ps.SoldAt >= start && ps.SoldAt <= end)
+                .OrderBy(ps => ps.SoldAt)
+                .ToListAsync();
+        }
+
+        private async Task<List<SDHRequest>> GetSDHRequestsForShift(int userId, DateTime start, DateTime end)
+        {
+            return await _context.SDHRequests
+                .Include(sr => sr.Material)
+                .Include(sr => sr.Product)
+                .Include(sr => sr.FromWarehouse)
+                .Include(sr => sr.ToWarehouse)
+                .Where(sr => sr.FromUserId == userId && sr.CreatedAt >= start && sr.CreatedAt <= end)
+                .OrderBy(sr => sr.CreatedAt)
+                .ToListAsync();
+        }
+
+        private async Task<List<MaterialSDHSale>> GetSDHSalesForShift(int userId, DateTime start, DateTime end)
+        {
+            return await _context.MaterialSDHSales
+                .Include(ms => ms.Material)
+                .Include(ms => ms.Product)
+                .Include(ms => ms.Warehouse)
+                .Where(ms => ms.UserId == userId && ms.SoldAt >= start && ms.SoldAt <= end)
+                .OrderBy(ms => ms.SoldAt)
+                .ToListAsync();
+        }
+
+        private async Task<List<DisposalRequest>> GetDisposalRequestsForShift(int userId, DateTime start, DateTime end)
+        {
+            return await _context.DisposalRequests
+                .Include(dr => dr.Material)
+                .Include(dr => dr.Product)
+                .Include(dr => dr.ToWarehouse)
+                .Where(dr => dr.FromUserId == userId && dr.CreatedAt >= start && dr.CreatedAt <= end)
+                .OrderBy(dr => dr.CreatedAt)
+                .ToListAsync();
+        }
+
+        private string GenerateSummary(List<ProductOutput> outputs, List<PartRequest> requests, 
+            List<ResponsibilityFilling> responsibilityFillings, List<Reprocessing> reprocessings,
+            List<FinishedGoodsRequest> finishedGoodsRequests, List<ProductSale> productSales,
+            List<SDHRequest> sdhRequests, List<MaterialSDHSale> sdhSales, List<DisposalRequest> disposalRequests)
         {
             var totalProduced = outputs.Sum(o => o.ProducedQuantity);
             var totalDefects = outputs.Sum(o => o.DefectQuantity);
             var totalEco = outputs.Sum(o => o.EcoQuantity);
             var approvedRequests = requests.Count(r => r.Status == PartRequestStatus.Approved);
+            var totalSales = productSales.Sum(s => s.Quantity);
+            var totalSDHSales = sdhSales.Sum(s => s.Quantity);
 
             return $"Произведено: {totalProduced}, Брак: {totalDefects}, Эко: {totalEco}, " +
-                   $"Заявок: {requests.Count} (одобрено: {approvedRequests}), " +
+                   $"Переработок: {reprocessings.Count}, " +
+                   $"Заявок на перемещение: {requests.Count} (одобрено: {approvedRequests}), " +
+                   $"ГП заявок: {finishedGoodsRequests.Count}, Продаж ГП: {totalSales}, " +
+                   $"СДХ заявок: {sdhRequests.Count}, Продаж СДХ: {totalSDHSales}, " +
+                   $"Утиль заявок: {disposalRequests.Count}, " +
                    $"Ответственностей: {responsibilityFillings.Count}";
         }
 
         private byte[] GenerateExcel(User user, WorkReport workReport,
             List<ProductOutput> outputs, List<PartRequest> requests, List<ResponsibilityFilling> responsibilityFillings,
-            List<Reprocessing> reprocessings, ResponsibilityShiftSnapshot? responsibilitySnapshot)
+            List<Reprocessing> reprocessings, ResponsibilityShiftSnapshot? responsibilitySnapshot,
+            List<FinishedGoodsRequest> finishedGoodsRequests, List<ProductSale> productSales,
+            List<SDHRequest> sdhRequests, List<MaterialSDHSale> sdhSales, List<DisposalRequest> disposalRequests)
         {
             using var workbook = new XLWorkbook();
 
@@ -288,6 +363,24 @@ namespace server.Services
             if (reprocessings.Count > 0)
             {
                 CreateReprocessingSheet(workbook, user, reprocessings);
+            }
+
+            // Sheet: Готовая продукция
+            if (finishedGoodsRequests.Count > 0 || productSales.Count > 0)
+            {
+                CreateFinishedGoodsSheet(workbook, user, finishedGoodsRequests, productSales);
+            }
+
+            // Sheet: СДХ
+            if (sdhRequests.Count > 0 || sdhSales.Count > 0)
+            {
+                CreateSDHSheet(workbook, user, sdhRequests, sdhSales);
+            }
+
+            // Sheet: Утиль
+            if (disposalRequests.Count > 0)
+            {
+                CreateDisposalSheet(workbook, user, disposalRequests);
             }
 
             // Sheet: Ответственность на начало и конец смены (начальный и конечный остаток за человеком)
@@ -421,7 +514,7 @@ namespace server.Services
             row += 2;
 
             // Header row
-            var headers = new[] { "Материал", "Количество", "Откуда", "Куда", "Статус" };
+            var headers = new[] { "Тип", "Наименование", "Количество", "Откуда", "Куда", "Кому", "Статус" };
             for (int i = 0; i < headers.Length; i++)
             {
                 ws.Cell(row, i + 1).Value = headers[i];
@@ -442,11 +535,21 @@ namespace server.Services
                     _ => "-"
                 };
 
-                ws.Cell(row, 1).Value = request.Material?.Name ?? $"#{request.MaterialId}";
-                ws.Cell(row, 2).Value = $"{request.Quantity} {request.MeasuringType ?? "шт"}";
-                ws.Cell(row, 3).Value = request.FromWarehouse?.Name ?? "-";
-                ws.Cell(row, 4).Value = request.ToWarehouse?.Name ?? "-";
-                ws.Cell(row, 5).Value = statusText;
+                var itemType = request.MaterialId.HasValue ? "Материал" : "Продукт";
+                var itemName = request.MaterialId.HasValue 
+                    ? (request.Material?.Name ?? $"Материал #{request.MaterialId}")
+                    : (request.Product?.Name ?? $"Продукт #{request.ProductId}");
+                var toUserName = request.ToUser != null 
+                    ? $"{request.ToUser.Surname} {request.ToUser.Name}" 
+                    : $"Пользователь #{request.ToUserId}";
+
+                ws.Cell(row, 1).Value = itemType;
+                ws.Cell(row, 2).Value = itemName;
+                ws.Cell(row, 3).Value = $"{request.Quantity} {request.MeasuringType ?? "шт"}";
+                ws.Cell(row, 4).Value = request.FromWarehouse?.Name ?? "-";
+                ws.Cell(row, 5).Value = request.ToWarehouse?.Name ?? "-";
+                ws.Cell(row, 6).Value = toUserName;
+                ws.Cell(row, 7).Value = statusText;
 
                 // Color-code status
                 var statusColor = request.Status switch
@@ -455,9 +558,9 @@ namespace server.Services
                     PartRequestStatus.Rejected => XLColor.LightCoral,
                     _ => XLColor.LightYellow
                 };
-                ws.Cell(row, 5).Style.Fill.BackgroundColor = statusColor;
+                ws.Cell(row, 7).Style.Fill.BackgroundColor = statusColor;
 
-                for (int i = 1; i <= 5; i++)
+                for (int i = 1; i <= 7; i++)
                 {
                     ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                 }
@@ -546,7 +649,7 @@ namespace server.Services
             ws.Cell(row, 1).Style.Font.FontSize = 14;
             row += 2;
 
-            var headers = new[] { "Дата", "Время", "Склад", "Использовано (исходное)", "Получено", "Кол-во", "Ед.изм." };
+            var headers = new[] { "Дата", "Время", "Склад", "Линия", "Использовано (исходное)", "Получено", "Кол-во", "Ед.изм." };
             for (int i = 0; i < headers.Length; i++)
             {
                 ws.Cell(row, i + 1).Value = headers[i];
@@ -562,6 +665,8 @@ namespace server.Services
                 if (string.IsNullOrEmpty(sourceText))
                     sourceText = $"{r.SourceMaterial?.Name ?? $"#{r.SourceMaterialId}"}: {r.SourceQuantity}";
 
+                var machineName = r.Machine?.Name ?? "-";
+
                 foreach (var item in r.Items)
                 {
                     var outputName = item.MaterialId.HasValue
@@ -571,11 +676,12 @@ namespace server.Services
                     ws.Cell(row, 1).Value = createdUtc4.ToString("dd.MM.yyyy");
                     ws.Cell(row, 2).Value = createdUtc4.ToString("HH:mm");
                     ws.Cell(row, 3).Value = r.Warehouse?.Name ?? "-";
-                    ws.Cell(row, 4).Value = sourceText;
-                    ws.Cell(row, 5).Value = outputName;
-                    ws.Cell(row, 6).Value = item.Quantity;
-                    ws.Cell(row, 7).Value = item.MeasuringType ?? "шт";
-                    for (int i = 1; i <= 7; i++)
+                    ws.Cell(row, 4).Value = machineName;
+                    ws.Cell(row, 5).Value = sourceText;
+                    ws.Cell(row, 6).Value = outputName;
+                    ws.Cell(row, 7).Value = item.Quantity;
+                    ws.Cell(row, 8).Value = item.MeasuringType ?? "шт";
+                    for (int i = 1; i <= 8; i++)
                         ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                     row++;
                 }
@@ -584,6 +690,314 @@ namespace server.Services
             row += 2;
             ws.Cell(row, 1).Value = $"Всего операций переработки: {reprocessings.Count}";
             ws.Cell(row, 1).Style.Font.Bold = true;
+
+            ws.Columns().AdjustToContents();
+        }
+
+        private void CreateFinishedGoodsSheet(XLWorkbook workbook, User user, 
+            List<FinishedGoodsRequest> requests, List<ProductSale> sales)
+        {
+            var ws = workbook.Worksheets.Add("Готовая продукция");
+
+            int row = 1;
+
+            ws.Cell(row, 1).Value = $"ГОТОВАЯ ПРОДУКЦИЯ - {user.Surname} {user.Name}";
+            ws.Range(row, 1, row, 6).Merge();
+            ws.Cell(row, 1).Style.Font.Bold = true;
+            ws.Cell(row, 1).Style.Font.FontSize = 14;
+            row += 2;
+
+            // Заявки на утиль
+            if (requests.Count > 0)
+            {
+                ws.Cell(row, 1).Value = "Заявки на утиль";
+                ws.Cell(row, 1).Style.Font.Bold = true;
+                ws.Cell(row, 1).Style.Font.FontSize = 12;
+                row++;
+
+                var requestHeaders = new[] { "Дата", "Время", "Продукт", "Склад", "Количество", "Ед.изм.", "Статус" };
+                for (int i = 0; i < requestHeaders.Length; i++)
+                {
+                    ws.Cell(row, i + 1).Value = requestHeaders[i];
+                    ws.Cell(row, i + 1).Style.Font.Bold = true;
+                    ws.Cell(row, i + 1).Style.Fill.BackgroundColor = XLColor.LightGray;
+                    ws.Cell(row, i + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                }
+                row++;
+
+                foreach (var req in requests)
+                {
+                    var createdUtc4 = ToUtcPlus4(req.CreatedAt);
+                    var statusText = req.Status switch
+                    {
+                        FinishedGoodsRequestStatus.Pending => "Ожидает",
+                        FinishedGoodsRequestStatus.Approved => "Одобрено",
+                        FinishedGoodsRequestStatus.Rejected => "Отклонено",
+                        _ => "-"
+                    };
+
+                    ws.Cell(row, 1).Value = createdUtc4.ToString("dd.MM.yyyy");
+                    ws.Cell(row, 2).Value = createdUtc4.ToString("HH:mm");
+                    ws.Cell(row, 3).Value = req.Product?.Name ?? $"Продукт #{req.ProductId}";
+                    ws.Cell(row, 4).Value = req.ToWarehouse?.Name ?? "-";
+                    ws.Cell(row, 5).Value = req.Quantity;
+                    ws.Cell(row, 6).Value = req.MeasuringUnit ?? "шт";
+                    ws.Cell(row, 7).Value = statusText;
+
+                    var statusColor = req.Status switch
+                    {
+                        FinishedGoodsRequestStatus.Approved => XLColor.LightGreen,
+                        FinishedGoodsRequestStatus.Rejected => XLColor.LightCoral,
+                        _ => XLColor.LightYellow
+                    };
+                    ws.Cell(row, 7).Style.Fill.BackgroundColor = statusColor;
+
+                    for (int i = 1; i <= 7; i++)
+                        ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    row++;
+                }
+                row += 2;
+            }
+
+            // Продажи
+            if (sales.Count > 0)
+            {
+                ws.Cell(row, 1).Value = "Продажи";
+                ws.Cell(row, 1).Style.Font.Bold = true;
+                ws.Cell(row, 1).Style.Font.FontSize = 12;
+                row++;
+
+                var saleHeaders = new[] { "Дата", "Время", "Продукт", "Склад", "Количество", "Ед.изм.", "Примечание" };
+                for (int i = 0; i < saleHeaders.Length; i++)
+                {
+                    ws.Cell(row, i + 1).Value = saleHeaders[i];
+                    ws.Cell(row, i + 1).Style.Font.Bold = true;
+                    ws.Cell(row, i + 1).Style.Fill.BackgroundColor = XLColor.LightBlue;
+                    ws.Cell(row, i + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                }
+                row++;
+
+                foreach (var sale in sales)
+                {
+                    var soldUtc4 = ToUtcPlus4(sale.SoldAt);
+                    ws.Cell(row, 1).Value = soldUtc4.ToString("dd.MM.yyyy");
+                    ws.Cell(row, 2).Value = soldUtc4.ToString("HH:mm");
+                    ws.Cell(row, 3).Value = sale.Product?.Name ?? $"Продукт #{sale.ProductId}";
+                    ws.Cell(row, 4).Value = sale.Warehouse?.Name ?? "-";
+                    ws.Cell(row, 5).Value = sale.Quantity;
+                    ws.Cell(row, 6).Value = sale.MeasuringUnit ?? "шт";
+                    ws.Cell(row, 7).Value = sale.Note ?? "-";
+
+                    for (int i = 1; i <= 7; i++)
+                        ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    row++;
+                }
+
+                row += 2;
+                ws.Cell(row, 1).Value = $"ИТОГО продаж: {sales.Sum(s => s.Quantity)} {sales.FirstOrDefault()?.MeasuringUnit ?? "шт"}";
+                ws.Cell(row, 1).Style.Font.Bold = true;
+            }
+
+            ws.Columns().AdjustToContents();
+        }
+
+        private void CreateSDHSheet(XLWorkbook workbook, User user, 
+            List<SDHRequest> requests, List<MaterialSDHSale> sales)
+        {
+            var ws = workbook.Worksheets.Add("СДХ");
+
+            int row = 1;
+
+            ws.Cell(row, 1).Value = $"СДХ - {user.Surname} {user.Name}";
+            ws.Range(row, 1, row, 6).Merge();
+            ws.Cell(row, 1).Style.Font.Bold = true;
+            ws.Cell(row, 1).Style.Font.FontSize = 14;
+            row += 2;
+
+            // Заявки на СДХ
+            if (requests.Count > 0)
+            {
+                ws.Cell(row, 1).Value = "Заявки на СДХ";
+                ws.Cell(row, 1).Style.Font.Bold = true;
+                ws.Cell(row, 1).Style.Font.FontSize = 12;
+                row++;
+
+                var requestHeaders = new[] { "Дата", "Время", "Тип", "Наименование", "Откуда", "Куда", "Количество", "Ед.изм.", "Статус" };
+                for (int i = 0; i < requestHeaders.Length; i++)
+                {
+                    ws.Cell(row, i + 1).Value = requestHeaders[i];
+                    ws.Cell(row, i + 1).Style.Font.Bold = true;
+                    ws.Cell(row, i + 1).Style.Fill.BackgroundColor = XLColor.LightGray;
+                    ws.Cell(row, i + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                }
+                row++;
+
+                foreach (var req in requests)
+                {
+                    var createdUtc4 = ToUtcPlus4(req.CreatedAt);
+                    var statusText = req.Status switch
+                    {
+                        SDHRequestStatus.Pending => "Ожидает",
+                        SDHRequestStatus.Approved => "Одобрено",
+                        SDHRequestStatus.Rejected => "Отклонено",
+                        _ => "-"
+                    };
+
+                    var itemType = req.MaterialId.HasValue ? "Материал" : "Продукт";
+                    var itemName = req.MaterialId.HasValue
+                        ? (req.Material?.Name ?? $"Материал #{req.MaterialId}")
+                        : (req.Product?.Name ?? $"Продукт #{req.ProductId}");
+
+                    ws.Cell(row, 1).Value = createdUtc4.ToString("dd.MM.yyyy");
+                    ws.Cell(row, 2).Value = createdUtc4.ToString("HH:mm");
+                    ws.Cell(row, 3).Value = itemType;
+                    ws.Cell(row, 4).Value = itemName;
+                    ws.Cell(row, 5).Value = req.FromWarehouse?.Name ?? "-";
+                    ws.Cell(row, 6).Value = req.ToWarehouse?.Name ?? "-";
+                    ws.Cell(row, 7).Value = req.Quantity;
+                    ws.Cell(row, 8).Value = req.MeasuringUnit ?? "шт";
+                    ws.Cell(row, 9).Value = statusText;
+
+                    var statusColor = req.Status switch
+                    {
+                        SDHRequestStatus.Approved => XLColor.LightGreen,
+                        SDHRequestStatus.Rejected => XLColor.LightCoral,
+                        _ => XLColor.LightYellow
+                    };
+                    ws.Cell(row, 9).Style.Fill.BackgroundColor = statusColor;
+
+                    for (int i = 1; i <= 9; i++)
+                        ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    row++;
+                }
+                row += 2;
+            }
+
+            // Продажи из СДХ
+            if (sales.Count > 0)
+            {
+                ws.Cell(row, 1).Value = "Продажи из СДХ";
+                ws.Cell(row, 1).Style.Font.Bold = true;
+                ws.Cell(row, 1).Style.Font.FontSize = 12;
+                row++;
+
+                var saleHeaders = new[] { "Дата", "Время", "Тип", "Наименование", "Склад", "Количество", "Ед.изм.", "Примечание" };
+                for (int i = 0; i < saleHeaders.Length; i++)
+                {
+                    ws.Cell(row, i + 1).Value = saleHeaders[i];
+                    ws.Cell(row, i + 1).Style.Font.Bold = true;
+                    ws.Cell(row, i + 1).Style.Fill.BackgroundColor = XLColor.LightBlue;
+                    ws.Cell(row, i + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                }
+                row++;
+
+                foreach (var sale in sales)
+                {
+                    var soldUtc4 = ToUtcPlus4(sale.SoldAt);
+                    var itemType = sale.MaterialId.HasValue ? "Материал" : "Продукт";
+                    var itemName = sale.MaterialId.HasValue
+                        ? (sale.Material?.Name ?? $"Материал #{sale.MaterialId}")
+                        : (sale.Product?.Name ?? $"Продукт #{sale.ProductId}");
+
+                    ws.Cell(row, 1).Value = soldUtc4.ToString("dd.MM.yyyy");
+                    ws.Cell(row, 2).Value = soldUtc4.ToString("HH:mm");
+                    ws.Cell(row, 3).Value = itemType;
+                    ws.Cell(row, 4).Value = itemName;
+                    ws.Cell(row, 5).Value = sale.Warehouse?.Name ?? "-";
+                    ws.Cell(row, 6).Value = sale.Quantity;
+                    ws.Cell(row, 7).Value = sale.MeasuringUnit ?? "шт";
+                    ws.Cell(row, 8).Value = sale.Note ?? "-";
+
+                    for (int i = 1; i <= 8; i++)
+                        ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    row++;
+                }
+
+                row += 2;
+                ws.Cell(row, 1).Value = $"ИТОГО продаж из СДХ: {sales.Sum(s => s.Quantity)} {sales.FirstOrDefault()?.MeasuringUnit ?? "шт"}";
+                ws.Cell(row, 1).Style.Font.Bold = true;
+            }
+
+            ws.Columns().AdjustToContents();
+        }
+
+        private void CreateDisposalSheet(XLWorkbook workbook, User user, List<DisposalRequest> requests)
+        {
+            var ws = workbook.Worksheets.Add("Утиль");
+
+            int row = 1;
+
+            ws.Cell(row, 1).Value = $"УТИЛЬ - {user.Surname} {user.Name}";
+            ws.Range(row, 1, row, 7).Merge();
+            ws.Cell(row, 1).Style.Font.Bold = true;
+            ws.Cell(row, 1).Style.Font.FontSize = 14;
+            row += 2;
+
+            var headers = new[] { "Дата", "Время", "Тип", "Наименование", "Склад", "Количество", "Ед.изм.", "Тип запроса", "Статус" };
+            for (int i = 0; i < headers.Length; i++)
+            {
+                ws.Cell(row, i + 1).Value = headers[i];
+                ws.Cell(row, i + 1).Style.Font.Bold = true;
+                ws.Cell(row, i + 1).Style.Fill.BackgroundColor = XLColor.LightGray;
+                ws.Cell(row, i + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+            }
+            row++;
+
+            foreach (var req in requests)
+            {
+                var createdUtc4 = ToUtcPlus4(req.CreatedAt);
+                var statusText = req.Status switch
+                {
+                    DisposalRequestStatus.Pending => "Ожидает",
+                    DisposalRequestStatus.Approved => "Одобрено",
+                    DisposalRequestStatus.Rejected => "Отклонено",
+                    _ => "-"
+                };
+
+                var requestTypeText = req.RequestType switch
+                {
+                    DisposalRequestType.Defect => "Невозвратный брак",
+                    DisposalRequestType.Recycling => "Переработка",
+                    _ => "-"
+                };
+
+                var itemType = req.MaterialId.HasValue ? "Материал" : "Продукт";
+                var itemName = req.MaterialId.HasValue
+                    ? (req.Material?.Name ?? $"Материал #{req.MaterialId}")
+                    : (req.Product?.Name ?? $"Продукт #{req.ProductId}");
+
+                ws.Cell(row, 1).Value = createdUtc4.ToString("dd.MM.yyyy");
+                ws.Cell(row, 2).Value = createdUtc4.ToString("HH:mm");
+                ws.Cell(row, 3).Value = itemType;
+                ws.Cell(row, 4).Value = itemName;
+                ws.Cell(row, 5).Value = req.ToWarehouse?.Name ?? "-";
+                ws.Cell(row, 6).Value = req.Quantity;
+                ws.Cell(row, 7).Value = req.MeasuringUnit ?? "шт";
+                ws.Cell(row, 8).Value = requestTypeText;
+                ws.Cell(row, 9).Value = statusText;
+
+                var statusColor = req.Status switch
+                {
+                    DisposalRequestStatus.Approved => XLColor.LightGreen,
+                    DisposalRequestStatus.Rejected => XLColor.LightCoral,
+                    _ => XLColor.LightYellow
+                };
+                ws.Cell(row, 9).Style.Fill.BackgroundColor = statusColor;
+
+                for (int i = 1; i <= 9; i++)
+                    ws.Cell(row, i).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                row++;
+            }
+
+            row += 2;
+            var approved = requests.Count(r => r.Status == DisposalRequestStatus.Approved);
+            var pending = requests.Count(r => r.Status == DisposalRequestStatus.Pending);
+            var rejected = requests.Count(r => r.Status == DisposalRequestStatus.Rejected);
+
+            ws.Cell(row, 1).Value = $"Всего заявок: {requests.Count}";
+            ws.Cell(row, 1).Style.Font.Bold = true;
+            row++;
+            ws.Cell(row, 1).Value = $"Одобрено: {approved}, Ожидает: {pending}, Отклонено: {rejected}";
 
             ws.Columns().AdjustToContents();
         }

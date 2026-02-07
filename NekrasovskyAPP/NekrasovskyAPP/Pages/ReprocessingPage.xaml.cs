@@ -23,6 +23,8 @@ namespace NekrasovskyAPP.Pages
         private List<Warehouse> _disposalWarehouses = new();
         private Warehouse? _selectedDefectWarehouse;
         private Warehouse? _selectedRecyclingWarehouse;
+        private readonly List<Machine> _machines = new();
+        private Machine? _selectedMachine;
 
         public ObservableCollection<SourceItem> Sources { get; } = new();
         public ObservableCollection<OutputItem> NormalOutputs { get; } = new();
@@ -65,6 +67,8 @@ namespace NekrasovskyAPP.Pages
             {
                 if (WarehousePickerBorder != null)
                     WarehousePickerBorder.HeightRequest = 58.0;
+                if (MachinePickerBorder != null)
+                    MachinePickerBorder.HeightRequest = 58.0;
                 if (DefectWarehousePickerBorder != null)
                     DefectWarehousePickerBorder.HeightRequest = 58.0;
                 if (RecyclingWarehousePickerBorder != null)
@@ -74,6 +78,8 @@ namespace NekrasovskyAPP.Pages
             {
                 if (WarehousePickerBorder != null)
                     WarehousePickerBorder.HeightRequest = 48.0;
+                if (MachinePickerBorder != null)
+                    MachinePickerBorder.HeightRequest = 48.0;
                 if (DefectWarehousePickerBorder != null)
                     DefectWarehousePickerBorder.HeightRequest = 48.0;
                 if (RecyclingWarehousePickerBorder != null)
@@ -101,6 +107,11 @@ namespace NekrasovskyAPP.Pages
                 .Where(w => w.IsActive));
             _materials.AddRange(await _apiService.GetAllMaterialsAsync());
             _products.AddRange(await _apiService.GetAllProductsAsync());
+            
+            // Загружаем станки типа "Линия"
+            _machines.Clear();
+            var allMachines = await _apiService.GetAllMachinesAsync();
+            _machines.AddRange(allMachines.Where(m => m.IsActive && m.Type == "Линия"));
             _fillingWarehouses.AddRange(await _apiService.GetAllFillingWarehousesAsync());
             
             // Загружаем склады утиля
@@ -120,6 +131,7 @@ namespace NekrasovskyAPP.Pages
             }
 
             WarehousePicker.ItemsSource = _warehouses;
+            MachinePicker.ItemsSource = _machines;
             
             // Инициализируем Picker'ы для складов утиля
             DefectWarehousePicker.ItemsSource = _disposalWarehouses;
@@ -151,6 +163,11 @@ namespace NekrasovskyAPP.Pages
         {
             _selectedWarehouse = WarehousePicker.SelectedItem as Warehouse;
             UpdateSourceMaterials();
+        }
+
+        private void OnMachineSelected(object? sender, EventArgs e)
+        {
+            _selectedMachine = MachinePicker.SelectedItem as Machine;
         }
 
         private void OnDefectWarehouseSelected(object? sender, EventArgs e)
@@ -368,7 +385,8 @@ namespace NekrasovskyAPP.Pages
                 DefectWarehouseId = defectWarehouseId,
                 RecyclingQuantity = recyclingQuantity,
                 RecyclingWarehouseId = recyclingWarehouseId,
-                Note = NoteEditor?.Text?.Trim()
+                Note = NoteEditor?.Text?.Trim(),
+                MachineId = _selectedMachine?.Id
             };
 
             var response = await _apiService.CreateReprocessingAsync(request);
@@ -432,6 +450,8 @@ namespace NekrasovskyAPP.Pages
             Outputs.Add(new OutputItem(_products));
             WarehousePicker.SelectedItem = null;
             _selectedWarehouse = null;
+            MachinePicker.SelectedItem = null;
+            _selectedMachine = null;
             DefectQuantityEntry.Text = "0";
         }
 

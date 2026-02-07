@@ -328,6 +328,12 @@ public class AppDbContext : DbContext
             .HasForeignKey(r => r.SourceMaterialId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        modelBuilder.Entity<Reprocessing>()
+            .HasOne(r => r.Machine)
+            .WithMany()
+            .HasForeignKey(r => r.MachineId)
+            .OnDelete(DeleteBehavior.SetNull);
+
         modelBuilder.Entity<ReprocessingItem>()
             .HasOne(ri => ri.Reprocessing)
             .WithMany(r => r.Items)

@@ -348,6 +348,7 @@ namespace server.Services
                     SourceMaterialId = sources[0].MaterialId,
                     SourceQuantity = sources[0].Quantity,
                     DefectQuantity = request.DefectQuantity,
+                    MachineId = request.MachineId,
                     CreatedAt = DateTime.UtcNow,
                     Items = request.Outputs.Select(o => new ReprocessingItem
                     {

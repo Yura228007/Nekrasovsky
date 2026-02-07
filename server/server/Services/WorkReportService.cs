@@ -9,13 +9,16 @@ namespace server.Services
         private readonly AppDbContext _context;
         private readonly ILogger<WorkReportService> _logger;
         private readonly IResponsibilityShiftSnapshotService _snapshotService;
+        private readonly IResponsibilityFillingService _responsibilityFillingService;
 
         public WorkReportService(AppDbContext context, ILogger<WorkReportService> logger,
-            IResponsibilityShiftSnapshotService snapshotService)
+            IResponsibilityShiftSnapshotService snapshotService,
+            IResponsibilityFillingService responsibilityFillingService)
         {
             _context = context;
             _logger = logger;
             _snapshotService = snapshotService;
+            _responsibilityFillingService = responsibilityFillingService;
         }
 
         public async Task<IEnumerable<WorkReport>> GetAllWorkReportsAsync()
@@ -164,7 +167,11 @@ namespace server.Services
 
         public async Task<WorkReport> FinishWorkAsync(int reportId, DateTime? finishTime = null, string? note = null)
         {
-            var report = await _context.WorkReports.FindAsync(reportId);
+            var report = await _context.WorkReports
+                .Include(wr => wr.User)
+                .ThenInclude(u => u.Role)
+                .FirstOrDefaultAsync(wr => wr.Id == reportId);
+            
             if (report == null)
             {
                 throw new KeyNotFoundException($"WorkReport with ID {reportId} not found");
@@ -175,12 +182,89 @@ namespace server.Services
                 throw new InvalidOperationException($"Work already finished for this report");
             }
 
+            // Проверка остатков перед завершением смены
+            var user = report.User;
+            if (user != null)
+            {
+                var isPrivileged = await IsPrivilegedUserAsync(user);
+                
+                if (!isPrivileged)
+                {
+                    // Получаем все склады, которые нужно исключить (утиль, готовая продукция, СДХ)
+                    var excludedWarehouseIds = await _context.Warehouses
+                        .Where(w => w.IsActive && (
+                            EF.Functions.ILike(w.Type, "%Утиль%") ||
+                            EF.Functions.ILike(w.Name, "%Утиль%") ||
+                            EF.Functions.ILike(w.Type, "%Готовая продукция%") ||
+                            EF.Functions.ILike(w.Name, "%Готовая продукция%") ||
+                            EF.Functions.ILike(w.Type, "%СДХ%") ||
+                            EF.Functions.ILike(w.Name, "%СДХ%")
+                        ))
+                        .Select(w => w.Id)
+                        .ToListAsync();
+
+                    // Получаем все остатки пользователя, исключая специальные склады
+                    var responsibilityFillings = await _context.ResponsibilityFillings
+                        .Include(rf => rf.Warehouse)
+                        .Include(rf => rf.Material)
+                        .Include(rf => rf.Product)
+                        .Where(rf => rf.UserId == user.Id && 
+                                     rf.IsActive && 
+                                     rf.Quantity > 0 &&
+                                     !excludedWarehouseIds.Contains(rf.WarehouseId))
+                        .ToListAsync();
+
+                    if (responsibilityFillings.Any())
+                    {
+                        var items = new List<string>();
+                        foreach (var rf in responsibilityFillings)
+                        {
+                            var itemName = rf.MaterialId.HasValue 
+                                ? rf.Material?.Name ?? $"Материал #{rf.MaterialId}"
+                                : rf.ProductId.HasValue
+                                    ? rf.Product?.Name ?? $"Продукт #{rf.ProductId}"
+                                    : "Неизвестный элемент";
+                            
+                            var warehouseName = rf.Warehouse?.Name ?? $"Склад #{rf.WarehouseId}";
+                            items.Add($"• {itemName} на складе '{warehouseName}': {rf.Quantity} {rf.MeasuringUnit ?? "ед."}");
+                        }
+
+                        var errorMessage = "Невозможно завершить смену. На вас лежат остатки:\n\n" + 
+                                         string.Join("\n", items) + 
+                                         "\n\nПожалуйста, передайте остатки другому пользователю или переместите их на склад утиля/готовой продукции/СДХ.";
+                        
+                        throw new InvalidOperationException(errorMessage);
+                    }
+                }
+            }
+
             report.FinishWork = finishTime ?? DateTime.UtcNow;
             report.Note = note;
             await _context.SaveChangesAsync();
 
             _logger.LogInformation("Work finished for Report {ReportId}, User {UserId}, Note: {Note}", reportId, report.UserId, note ?? "(empty)");
             return report;
+        }
+
+        private async Task<bool> IsPrivilegedUserAsync(User user)
+        {
+            if (user.RoleId.HasValue && user.Role != null)
+            {
+                var roleCode = user.Role.Code;
+                return roleCode == "Owner" || roleCode == "Admin" || roleCode == "SeniorWarehouseman";
+            }
+            
+            // Если роль не загружена, загружаем её
+            if (user.RoleId.HasValue)
+            {
+                var role = await _context.Roles.FindAsync(user.RoleId.Value);
+                if (role != null)
+                {
+                    return role.Code == "Owner" || role.Code == "Admin" || role.Code == "SeniorWarehouseman";
+                }
+            }
+            
+            return false;
         }
 
         public async Task<bool> DeleteWorkReportAsync(int id)

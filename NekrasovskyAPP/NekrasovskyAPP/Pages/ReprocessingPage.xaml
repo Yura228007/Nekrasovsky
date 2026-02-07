@@ -85,6 +85,26 @@
                         </Border>
                     </VerticalStackLayout>
 
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Линия"
+                               FontSize="13"
+                               TextColor="{StaticResource Gray400}" />
+                        <Border BackgroundColor="{StaticResource BackgroundInput}"
+                                StrokeThickness="0"
+                                Padding="12,0"
+                                x:Name="MachinePickerBorder">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12"/>
+                            </Border.StrokeShape>
+                            <Picker x:Name="MachinePicker"
+                                    Title="Выберите линию"
+                                    ItemDisplayBinding="{Binding Name}"
+                                    TextColor="{StaticResource White}"
+                                    TitleColor="{StaticResource Gray500}"
+                                    SelectedIndexChanged="OnMachineSelected" />
+                        </Border>
+                    </VerticalStackLayout>
+
                     <CollectionView ItemsSource="{Binding Sources}"
                                     SelectionMode="None">
                         <CollectionView.ItemsLayout>

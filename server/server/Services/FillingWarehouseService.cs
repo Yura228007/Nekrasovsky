@@ -45,6 +45,8 @@ namespace server.Services
         public async Task<IEnumerable<FillingWarehouse>> GetFillingsByMaterialAsync(int materialId)
         {
             return await _context.FillingWarehouses
+                .Include(fw => fw.Warehouse)
+                .Include(fw => fw.Material)
                 .Where(fw => fw.MaterialId == materialId)
                 .ToListAsync();
         }
@@ -52,6 +54,8 @@ namespace server.Services
         public async Task<IEnumerable<FillingWarehouse>> GetFillingsByProductAsync(int productId)
         {
             return await _context.FillingWarehouses
+                .Include(fw => fw.Warehouse)
+                .Include(fw => fw.Product)
                 .Where(fw => fw.ProductId == productId)
                 .ToListAsync();
         }

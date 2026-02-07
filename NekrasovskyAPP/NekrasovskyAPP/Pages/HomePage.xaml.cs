@@ -185,14 +185,7 @@ namespace NekrasovskyAPP.Pages
 
                 if (product != null)
                 {
-                    await DisplayAlert(
-                        "Продукт найден",
-                        $"Название: {product.Name}\n" +
-                        $"Артикул: {product.Code}\n" +
-                        $"Описание: {product.Description ?? "Не указано"}\n" +
-                        $"Единица измерения: {product.MeasuringUnit}\n" +
-                        $"Статус: {(product.IsActive ? "Активен" : "Неактивен")}",
-                        "OK");
+                    await ShowProductInfoAsync(product);
                     return;
                 }
 
@@ -202,14 +195,7 @@ namespace NekrasovskyAPP.Pages
 
                 if (material != null)
                 {
-                    await DisplayAlert(
-                        "Материал найден",
-                        $"Название: {material.Name}\n" +
-                        $"Артикул: {material.Code}\n" +
-                        $"Описание: {material.Description ?? "Не указано"}\n" +
-                        $"Единица измерения: {material.MeasuringUnit}\n" +
-                        $"Статус: {(material.IsActive ? "Активен" : "Неактивен")}",
-                        "OK");
+                    await ShowMaterialInfoAsync(material);
                     return;
                 }
 
@@ -222,6 +208,157 @@ namespace NekrasovskyAPP.Pages
             catch (Exception ex)
             {
                 await DisplayAlert("Ошибка", $"Ошибка при поиске: {ex.Message}", "OK");
+            }
+        }
+
+        private async Task ShowProductInfoAsync(Product product)
+        {
+            try
+            {
+                var message = $"Название: {product.Name}\n" +
+                             $"Артикул: {product.Code}\n" +
+                             $"Описание: {product.Description ?? "Не указано"}\n" +
+                             $"Единица измерения: {product.MeasuringUnit}\n" +
+                             $"Статус: {(product.IsActive ? "Активен" : "Неактивен")}\n\n";
+
+                // Получаем количество по складам
+                var fillings = await _apiService.GetFillingsByProductAsync(product.Id);
+                if (fillings != null && fillings.Any(f => f.Quantity > 0))
+                {
+                    message += "📦 Количество по складам:\n";
+                    var warehouses = await _apiService.GetAllWarehousesAsync();
+                    foreach (var filling in fillings.Where(f => f.Quantity > 0).OrderByDescending(f => f.Quantity))
+                    {
+                        var warehouse = warehouses.FirstOrDefault(w => w.Id == filling.WarehouseId);
+                        var warehouseName = warehouse?.Name ?? $"Склад #{filling.WarehouseId}";
+                        message += $"  • {warehouseName}: {filling.Quantity} {filling.MeasuringType ?? product.MeasuringUnit ?? "ед."}\n";
+                    }
+                    message += "\n";
+                }
+                else
+                {
+                    message += "📦 Количество по складам: нет\n\n";
+                }
+
+                // Получаем информацию о партиях
+                var batches = await _apiService.GetProductBatchesByProductAsync(product.Id);
+                if (batches != null && batches.Any(b => b.IsActive && b.Quantity > 0))
+                {
+                    message += "📋 Партии:\n";
+                    var activeBatches = batches.Where(b => b.IsActive && b.Quantity > 0)
+                        .OrderByDescending(b => b.CreatedAt)
+                        .Take(5)
+                        .ToList();
+                    
+                    foreach (var batch in activeBatches)
+                    {
+                        var batchInfo = $"  • Партия #{batch.Id}";
+                        if (!string.IsNullOrWhiteSpace(batch.BatchNumber))
+                            batchInfo += $" ({batch.BatchNumber})";
+                        batchInfo += $": {batch.Quantity} {batch.MeasuringUnit ?? product.MeasuringUnit ?? "ед."}";
+                        if (batch.Warehouse != null)
+                            batchInfo += $" на складе {batch.Warehouse.Name}";
+                        message += batchInfo + "\n";
+                    }
+                    if (activeBatches.Count < batches.Count(b => b.IsActive && b.Quantity > 0))
+                        message += $"  ... и еще {batches.Count(b => b.IsActive && b.Quantity > 0) - activeBatches.Count} партий\n";
+                    message += "\n";
+                }
+
+                // Получаем последние действия из истории
+                var history = await _apiService.GetHistoryAsync(
+                    userId: null,
+                    relatedUserId: null,
+                    action: null,
+                    entityType: null,
+                    warehouseId: null,
+                    materialId: null,
+                    productId: product.Id,
+                    startDate: null,
+                    endDate: null);
+
+                if (history != null && history.Any())
+                {
+                    message += "📜 Последние действия:\n";
+                    var recentHistory = history.OrderByDescending(h => h.CreatedAt).Take(3).ToList();
+                    foreach (var eventItem in recentHistory)
+                    {
+                        var time = eventItem.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm");
+                        var action = eventItem.Description.Length > 50 
+                            ? eventItem.Description.Substring(0, 50) + "..." 
+                            : eventItem.Description;
+                        message += $"  • {time}: {action}\n";
+                    }
+                }
+
+                await DisplayAlert("Продукт найден", message, "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Ошибка", $"Ошибка при получении информации о продукте: {ex.Message}", "OK");
+            }
+        }
+
+        private async Task ShowMaterialInfoAsync(Material material)
+        {
+            try
+            {
+                var message = $"Название: {material.Name}\n" +
+                             $"Артикул: {material.Code}\n" +
+                             $"Описание: {material.Description ?? "Не указано"}\n" +
+                             $"Единица измерения: {material.MeasuringUnit}\n" +
+                             $"Статус: {(material.IsActive ? "Активен" : "Неактивен")}\n\n";
+
+                // Получаем количество по складам
+                var fillings = await _apiService.GetFillingsByMaterialAsync(material.Id);
+                if (fillings != null && fillings.Any(f => f.Quantity > 0))
+                {
+                    message += "📦 Количество по складам:\n";
+                    var warehouses = await _apiService.GetAllWarehousesAsync();
+                    foreach (var filling in fillings.Where(f => f.Quantity > 0).OrderByDescending(f => f.Quantity))
+                    {
+                        var warehouse = warehouses.FirstOrDefault(w => w.Id == filling.WarehouseId);
+                        var warehouseName = warehouse?.Name ?? $"Склад #{filling.WarehouseId}";
+                        message += $"  • {warehouseName}: {filling.Quantity} {filling.MeasuringType ?? material.MeasuringUnit ?? "ед."}\n";
+                    }
+                    message += "\n";
+                }
+                else
+                {
+                    message += "📦 Количество по складам: нет\n\n";
+                }
+
+                // Получаем последние действия из истории
+                var history = await _apiService.GetHistoryAsync(
+                    userId: null,
+                    relatedUserId: null,
+                    action: null,
+                    entityType: null,
+                    warehouseId: null,
+                    materialId: material.Id,
+                    productId: null,
+                    startDate: null,
+                    endDate: null);
+
+                if (history != null && history.Any())
+                {
+                    message += "📜 Последние действия:\n";
+                    var recentHistory = history.OrderByDescending(h => h.CreatedAt).Take(3).ToList();
+                    foreach (var eventItem in recentHistory)
+                    {
+                        var time = eventItem.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm");
+                        var action = eventItem.Description.Length > 50 
+                            ? eventItem.Description.Substring(0, 50) + "..." 
+                            : eventItem.Description;
+                        message += $"  • {time}: {action}\n";
+                    }
+                }
+
+                await DisplayAlert("Материал найден", message, "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Ошибка", $"Ошибка при получении информации о материале: {ex.Message}", "OK");
             }
         }
 

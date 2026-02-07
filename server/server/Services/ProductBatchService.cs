@@ -38,6 +38,7 @@ public class ProductBatchService : IProductBatchService
     public async Task<IEnumerable<ProductBatch>> GetBatchesByProductAsync(int productId)
     {
         return await _context.ProductBatches
+            .Include(pb => pb.Product)
             .Include(pb => pb.Warehouse)
             .Include(pb => pb.CreatedByUser)
             .Where(pb => pb.ProductId == productId && pb.IsActive && pb.Quantity > 0)

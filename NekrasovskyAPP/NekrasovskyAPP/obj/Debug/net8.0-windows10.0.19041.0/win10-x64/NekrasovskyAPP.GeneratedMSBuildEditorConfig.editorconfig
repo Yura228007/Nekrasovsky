@@ -142,6 +142,12 @@ build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.RoleP
 build_metadata.AdditionalFiles.TargetPath = Pages\RolePermissionsPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\RolePermissionsPage.xaml
 
+[D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/SDHPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.SDHPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Pages\SDHPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Pages\SDHPage.xaml
+
 [D:/Projects/Nekrasovsky/NekrasovskyAPP/NekrasovskyAPP/Pages/SettingsPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = NekrasovskyAPP.Pages.SettingsPage.xaml

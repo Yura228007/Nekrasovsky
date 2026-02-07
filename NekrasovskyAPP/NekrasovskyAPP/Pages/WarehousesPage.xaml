@@ -104,7 +104,7 @@
                             <x:String>Утиль</x:String>
                             <x:String>ЭКО</x:String>
                             <x:String>Готовая продукция</x:String>
-                            <x:String>Сырьё</x:String>
+                            <x:String>СДХ</x:String>
                         </Picker.Items>
                     </Picker>
                 </Border>

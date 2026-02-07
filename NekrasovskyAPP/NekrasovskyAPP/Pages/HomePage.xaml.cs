@@ -325,6 +325,15 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("FinishedGoodsPage");
         }
 
+        private async void OnSDHClicked(object sender, EventArgs e)
+        {
+            if (!await EnsureShiftAccessAsync("SDHPage"))
+            {
+                return;
+            }
+            await Shell.Current.GoToAsync("SDHPage");
+        }
+
         private async void OnAlarmClicked(object sender, EventArgs e)
         {
             if (_authService.CurrentUser == null)

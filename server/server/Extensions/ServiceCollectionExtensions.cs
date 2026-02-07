@@ -99,6 +99,9 @@ namespace server.Extensions
             // Register finished goods service
             services.AddScoped<IFinishedGoodsService, FinishedGoodsService>();
 
+            // Register SDH service
+            services.AddScoped<ISDHService, SDHService>();
+
             return services;
         }
     }

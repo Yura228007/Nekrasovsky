@@ -42,8 +42,9 @@ public class FinishedGoodsController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error processing sale for product {ProductId} at warehouse {WarehouseId}", request.ProductId, request.WarehouseId);
-            return StatusCode(500, new { message = "An error occurred while processing sale" });
+            _logger.LogError(ex, "Error processing sale for product {ProductId} at warehouse {WarehouseId}. Error: {Error}, StackTrace: {StackTrace}", 
+                request.ProductId, request.WarehouseId, ex.Message, ex.StackTrace);
+            return StatusCode(500, new { message = $"An error occurred while processing sale: {ex.Message}" });
         }
     }
 

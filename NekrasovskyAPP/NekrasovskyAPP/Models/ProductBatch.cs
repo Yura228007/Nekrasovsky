@@ -42,12 +42,34 @@ public class ProductBatch
     [NotMapped]
     public User? CreatedByUser { get; set; }
 
+    // Responsibility information from ResponsibilityFilling
+    [NotMapped]
+    public int? ResponsibleUserId { get; set; }
+    
+    [NotMapped]
+    public string? ResponsibleUserName { get; set; }
+    
+    [NotMapped]
+    public double? ResponsibleQuantity { get; set; }
+    
+    [NotMapped]
+    public double? UnassignedQuantity { get; set; }
+
     // Display properties
     [NotMapped]
     public string DisplayName => $"{Product?.Name ?? "Продукт"} - {BatchNumber ?? $"Партия #{Id}"}";
 
     [NotMapped]
     public string CreatedByDisplay => CreatedByUser != null ? $"{CreatedByUser.Surname} {CreatedByUser.Name}" : (CreatedByUserId.HasValue ? $"Пользователь #{CreatedByUserId}" : "—");
+    
+    [NotMapped]
+    public string ResponsibleDisplay => !string.IsNullOrWhiteSpace(ResponsibleUserName) 
+        ? (ResponsibleQuantity.HasValue 
+            ? $"{ResponsibleUserName} ({ResponsibleQuantity} {MeasuringUnit ?? "ед."})" 
+            : ResponsibleUserName)
+        : (UnassignedQuantity.HasValue && UnassignedQuantity > 0 
+            ? $"— (неответственное: {UnassignedQuantity} {MeasuringUnit ?? "ед."})" 
+            : "—");
 
     [NotMapped]
     public string WarehouseDisplay => Warehouse?.Name ?? $"Склад #{WarehouseId}";
@@ -57,4 +79,9 @@ public class ProductBatch
 
     [NotMapped]
     public string ProductCode => Product?.Code ?? "";
+    
+    [NotMapped]
+    public string UnassignedQuantityDisplay => UnassignedQuantity.HasValue && UnassignedQuantity > 0
+        ? $"Неответственное: {UnassignedQuantity} {MeasuringUnit ?? "ед."}"
+        : QuantityDisplay;
 }

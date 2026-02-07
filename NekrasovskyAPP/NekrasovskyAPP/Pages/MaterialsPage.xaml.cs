@@ -193,6 +193,8 @@ namespace NekrasovskyAPP.Pages
                     var canEdit = await _viewModel.CanAddOrEditItemsAsync();
                     var canTransfer = await _viewModel.HasTransferPermissionAsync();
                     var canManageResponsibility = await _viewModel.HasManageResponsibilityAsync();
+                    var currentUser = _viewModel.AuthService?.CurrentUser;
+                    var canSendToSDH = currentUser != null && await _viewModel.ApiService.CheckPermissionAsync(currentUser.Id, "SendToSDH");
 
                     var actions = new List<string> { "Просмотр" };
 
@@ -212,6 +214,10 @@ namespace NekrasovskyAPP.Pages
                     {
                         actions.Add("Изменить ответственное лицо");
                         actions.Add("Снять ответственность");
+                    }
+                    if (canSendToSDH && displayItem.Responsibility != null && displayItem.Responsibility.WarehouseId.HasValue)
+                    {
+                        actions.Add("Отправить на СДХ");
                     }
 
                     var action = await DisplayActionSheet(
@@ -272,6 +278,9 @@ namespace NekrasovskyAPP.Pages
                             break;
                         case "Снять ответственность":
                             await ReleaseMaterialResponsibilityAsync(displayItem);
+                            break;
+                        case "Отправить на СДХ":
+                            await SendMaterialToSDHAsync(displayItem);
                             break;
                     }
 
@@ -437,54 +446,107 @@ namespace NekrasovskyAPP.Pages
                 return;
             }
 
-            // Назначение без склада (неответственная часть или старая модель Responsibility)
-            double? quantity = displayItem.Responsibility == null
-                ? displayItem.UnassignedQuantity
-                : displayItem.Responsibility.Quantity;
-            string? measuringUnit = displayItem.Responsibility == null
-                ? (displayItem.UnassignedMeasuringUnit ?? material.MeasuringUnit)
-                : (displayItem.Responsibility.MeasuringUnit ?? material.MeasuringUnit);
-
-            if (!quantity.HasValue || quantity <= 0)
+            // Назначение без склада (неответственная часть) - нужно выбрать склад
+            if (displayItem.Responsibility == null)
             {
+                // Получаем склады, где есть неответственное количество
+                var fillings = await _viewModel.ApiService.GetFillingsByMaterialAsync(material.Id);
+                if (fillings.Count == 0)
+                {
+                    await DisplayAlert("Ошибка", "Для этого материала нет записей по складам.", "OK");
+                    return;
+                }
+
+                var activeWarehouses = await GetActiveWarehousesAsync();
+                var warehouseMap = activeWarehouses.ToDictionary(
+                    w => w.Id,
+                    w => $"{w.Name} ({w.Type})");
+
+                // Получаем ответственность по складам для этого материала
+                var responsibilityFillings = await _viewModel.ApiService.GetResponsibilityFillingsByUserAsync(selectedUser.Id);
+                var responsibleByWarehouse = responsibilityFillings
+                    .Where(rf => rf.MaterialId == material.Id && rf.IsActive)
+                    .GroupBy(rf => rf.WarehouseId)
+                    .ToDictionary(g => g.Key, g => g.Sum(rf => rf.Quantity));
+
+                // Вычисляем неответственное количество по каждому складу
+                var availableWarehouses = fillings
+                    .Where(f => warehouseMap.ContainsKey(f.WarehouseId))
+                    .Select(f => new
+                    {
+                        Filling = f,
+                        WarehouseId = f.WarehouseId,
+                        WarehouseName = warehouseMap[f.WarehouseId],
+                        AvailableQty = f.Quantity - responsibleByWarehouse.GetValueOrDefault(f.WarehouseId, 0)
+                    })
+                    .Where(x => x.AvailableQty > 0)
+                    .ToList();
+
+                if (availableWarehouses.Count == 0)
+                {
+                    await DisplayAlert("Ошибка", "Нет доступного количества для назначения ответственности.", "OK");
+                    return;
+                }
+
+                // Если один склад, используем его, иначе запрашиваем выбор
+                int selectedWarehouseId;
+                if (availableWarehouses.Count == 1)
+                {
+                    selectedWarehouseId = availableWarehouses[0].WarehouseId;
+                }
+                else
+                {
+                    var warehouseOptions = availableWarehouses
+                        .Select(w => $"{w.WarehouseName}: {w.AvailableQty} {w.Filling.MeasuringType ?? material.MeasuringUnit ?? "ед."}")
+                        .ToArray();
+                    var warehouseChoice = await DisplayActionSheet("Выберите склад:", "Отмена", null, warehouseOptions);
+                    if (string.IsNullOrWhiteSpace(warehouseChoice) || warehouseChoice == "Отмена")
+                        return;
+                    var warehouseIndex = Array.IndexOf(warehouseOptions, warehouseChoice);
+                    if (warehouseIndex < 0 || warehouseIndex >= availableWarehouses.Count)
+                        return;
+                    selectedWarehouseId = availableWarehouses[warehouseIndex].WarehouseId;
+                }
+
+                var selectedWarehouse = availableWarehouses.First(w => w.WarehouseId == selectedWarehouseId);
+                var maxQuantity = selectedWarehouse.AvailableQty;
+                var unit = selectedWarehouse.Filling.MeasuringType ?? material.MeasuringUnit ?? "ед.";
+
                 var quantityText = await DisplayPromptAsync(
                     "Количество",
-                    "Укажите количество, за которое будет отвечать выбранное лицо.\nОставьте пустым для ответственности за весь материал.",
+                    $"Укажите количество для назначения ответственности (макс. {maxQuantity} {unit}):",
                     "Назначить",
                     "Отмена",
-                    "Количество",
+                    maxQuantity.ToString(),
                     -1,
                     Keyboard.Numeric);
+                
                 if (quantityText == null)
                     return;
-                quantity = null;
-                measuringUnit = null;
-                if (!string.IsNullOrWhiteSpace(quantityText))
-                {
-                    if (int.TryParse(quantityText, out var qty) && qty > 0)
-                    {
-                        quantity = qty;
-                        measuringUnit = material.MeasuringUnit;
-                    }
-                    else
-                    {
-                        await DisplayAlert("Ошибка", "Количество должно быть положительным числом", "OK");
-                        return;
-                    }
-                }
-            }
 
-            var assignResponse = await _viewModel.ApiService.AssignMaterialResponsibilityAsync(material.Id, selectedUser.Id, quantity, measuringUnit);
-            if (!assignResponse.IsSuccess)
-            {
-                await DisplayAlert("Ошибка", assignResponse.Message ?? "Произошла ошибка", "OK");
+                if (!double.TryParse(quantityText, out var qty) || qty <= 0 || qty > maxQuantity)
+                {
+                    await DisplayAlert("Ошибка", $"Введите число от 1 до {maxQuantity}.", "OK");
+                    return;
+                }
+
+                // Используем endpoint для назначения через ResponsibilityFilling с указанием склада
+                var assignResponse = await _viewModel.ApiService.AssignMaterialResponsibilityFillingAsync(
+                    selectedWarehouseId, material.Id, selectedUser.Id, qty, unit);
+                
+                if (!assignResponse.IsSuccess)
+                {
+                    await DisplayAlert("Ошибка", assignResponse.Message ?? "Произошла ошибка", "OK");
+                    return;
+                }
+                
+                await DisplayAlert("Успех", $"Ответственность назначена. Количество: {qty} {unit}", "OK");
+                await _viewModel.LoadMaterialsAsync();
                 return;
             }
-            var message = quantity.HasValue
-                ? $"Ответственность передана. Количество: {quantity} {measuringUnit}"
-                : "Ответственное лицо обновлено (за весь материал)";
-            await DisplayAlert("Успех", message, "OK");
-            await _viewModel.LoadMaterialsAsync();
+
+            // Старая логика для случаев с ответственным лицом (не должна использоваться, но оставляем для совместимости)
+            await DisplayAlert("Ошибка", "Эта операция не поддерживается для карточек с ответственным лицом. Используйте 'Изменить ответственное лицо'.", "OK");
         }
 
         private async Task ReleaseMaterialResponsibilityAsync(MaterialDisplayItem displayItem)
@@ -768,6 +830,94 @@ namespace NekrasovskyAPP.Pages
         {
             var warehouses = await _viewModel.ApiService.GetAllWarehousesAsync();
             return warehouses.Where(w => w.IsActive).ToList();
+        }
+
+        private async Task SendMaterialToSDHAsync(MaterialDisplayItem displayItem)
+        {
+            var material = displayItem.Material;
+
+            // Работаем только с карточками, где есть ответственное лицо и склад
+            if (displayItem.Responsibility == null || !displayItem.Responsibility.WarehouseId.HasValue)
+            {
+                await DisplayAlert("Ошибка", "Эта операция доступна только для карточек с ответственным лицом и складом.", "OK");
+                return;
+            }
+
+            var warehouseId = displayItem.Responsibility.WarehouseId.Value;
+            var currentQuantity = displayItem.Responsibility.Quantity ?? 0;
+            var unit = displayItem.Responsibility.MeasuringUnit ?? material.MeasuringUnit ?? "ед.";
+
+            if (currentQuantity <= 0)
+            {
+                await DisplayAlert("Ошибка", "Нет доступного количества для отправки на СДХ.", "OK");
+                return;
+            }
+
+            // Запрашиваем количество
+            var quantityText = await DisplayPromptAsync(
+                "Отправить на СДХ",
+                $"Материал: {material.Name}\nТекущее количество: {currentQuantity} {unit}\nВведите количество для отправки:",
+                "Отправить",
+                "Отмена",
+                currentQuantity.ToString(),
+                -1,
+                Keyboard.Numeric);
+
+            if (quantityText == null)
+            {
+                return;
+            }
+
+            if (!double.TryParse(quantityText, out var quantity) || quantity <= 0)
+            {
+                await DisplayAlert("Ошибка", "Количество должно быть положительным числом.", "OK");
+                return;
+            }
+
+            if (quantity > currentQuantity)
+            {
+                await DisplayAlert("Ошибка", $"Количество не может превышать доступное ({currentQuantity} {unit}).", "OK");
+                return;
+            }
+
+            // Находим склад СДХ
+            var warehouses = await _viewModel.ApiService.GetAllWarehousesAsync();
+            var sdhWarehouse = warehouses.FirstOrDefault(w =>
+                w.IsActive && (w.Type?.Equals("СДХ", StringComparison.OrdinalIgnoreCase) == true ||
+                               w.Name.Contains("СДХ", StringComparison.OrdinalIgnoreCase)));
+
+            if (sdhWarehouse == null)
+            {
+                await DisplayAlert("Ошибка", "Склад СДХ не найден. Создайте склад с типом 'СДХ'.", "OK");
+                return;
+            }
+
+            // Подтверждение
+            var confirm = await DisplayAlert("Подтверждение",
+                $"Отправить материал на СДХ?\n\nМатериал: {material.Name}\nКоличество: {quantity} {unit}\nНа склад: {sdhWarehouse.Name}",
+                "Отправить",
+                "Отмена");
+
+            if (!confirm)
+                return;
+
+            // Создаем запрос
+            var response = await _viewModel.ApiService.CreateSDHRequestAsync(
+                warehouseId,
+                sdhWarehouse.Id,
+                material.Id,
+                null,
+                quantity,
+                unit);
+
+            if (!response.IsSuccess)
+            {
+                await DisplayAlert("Ошибка", response.Message ?? "Не удалось создать запрос на отправку на СДХ", "OK");
+                return;
+            }
+
+            await DisplayAlert("Успех", "Запрос на отправку на СДХ создан. Материал перемещен на склад СДХ, ответственность осталась у вас до подтверждения менеджером СДХ.", "OK");
+            await _viewModel.LoadMaterialsAsync();
         }
     }
 }

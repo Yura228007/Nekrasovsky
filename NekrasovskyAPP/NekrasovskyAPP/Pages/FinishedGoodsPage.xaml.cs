@@ -76,38 +76,45 @@ namespace NekrasovskyAPP.Pages
             }
         }
 
-        private async void OnItemTapped(object sender, EventArgs e)
+        private async void OnProcessClicked(object sender, EventArgs e)
         {
-            if (sender is not Border border || border.BindingContext is not FillingWarehouse item)
+            if (sender is not Button button || button.CommandParameter is not FinishedGoodsItem item)
                 return;
 
             if (!_viewModel.CanManage)
             {
-                await DisplayAlert("Ошибка", "У вас нет прав на управление складом готовой продукции", "OK");
+                await DisplayAlert("Нет прав", "У вас нет прав на управление складом готовой продукции", "OK");
                 return;
             }
 
-            if (item.ProductId == null || item.Quantity <= 0)
-                return;
+            var saleQty = double.TryParse(item.SaleQty, out var s) ? s : 0;
+            var disposalQty = double.TryParse(item.DisposalQty, out var d) ? d : 0;
 
-            // Выбор действия: продажа или в утиль
-            var action = await DisplayActionSheet(
-                $"Продукт: {item.Product?.Name ?? "Неизвестно"}\nОстаток: {item.Quantity} {item.MeasuringType ?? "шт"}",
-                "Отмена",
-                null,
-                "Продажа",
-                "Отправить в утиль");
-
-            if (action == "Отмена" || string.IsNullOrEmpty(action))
-                return;
-
-            if (action == "Продажа")
+            if (saleQty <= 0 && disposalQty <= 0)
             {
-                await _viewModel.ProcessSaleAsync(item);
+                await DisplayAlert("Ошибка", "Укажите количество для продажи и/или отправки в утиль", "OK");
+                return;
             }
-            else if (action == "Отправить в утиль")
+
+            var msg = $"Продукт: {item.Product?.Name ?? "Неизвестно"}\n";
+            if (saleQty > 0)
+                msg += $"Продажа: {saleQty} {item.MeasuringUnit}\n";
+            if (disposalQty > 0)
+                msg += $"Утиль: {disposalQty} {item.MeasuringUnit}";
+
+            var confirm = await DisplayAlert("Подтверждение", $"{msg}\n\nПродолжить?", "Да", "Отмена");
+            if (!confirm)
+                return;
+
+            var success = await _viewModel.ProcessFinishedGoodsAsync(item);
+
+            if (success)
             {
-                await _viewModel.ProcessDisposalAsync(item);
+                await DisplayAlert("Успех", "Обработка завершена успешно", "OK");
+            }
+            else if (!string.IsNullOrEmpty(_viewModel.ErrorMessage))
+            {
+                await DisplayAlert("Ошибка", _viewModel.ErrorMessage, "OK");
             }
         }
     }

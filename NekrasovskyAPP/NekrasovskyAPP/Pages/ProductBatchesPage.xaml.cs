@@ -197,7 +197,7 @@ public partial class ProductBatchesPage : ContentPage
                     $"Номер партии: {selectedBatch.BatchNumber}\n" +
                     $"Количество: {selectedBatch.QuantityDisplay}\n" +
                     $"Склад: {selectedBatch.WarehouseDisplay}\n" +
-                    $"Ответственный: {selectedBatch.CreatedByDisplay}\n" +
+                    $"Ответственный: {selectedBatch.ResponsibleDisplay}\n" +
                     $"Создано: {selectedBatch.CreatedAt:dd.MM.yyyy HH:mm}\n" +
                     $"Примечание: {selectedBatch.Note ?? "—"}",
                     "OK");
@@ -233,18 +233,16 @@ public partial class ProductBatchesPage : ContentPage
 
     private async Task ChangeBatchResponsibleAsync(ProductBatch batch)
     {
+        // Получаем текущее ответственное лицо из ResponsibilityFilling
+        var currentFillings = await _viewModel.ApiService.GetResponsibilityFillingsByBatchAsync(batch.Id);
+        var currentResponsibleUserId = currentFillings.FirstOrDefault()?.UserId;
+        var totalResponsibleQty = currentFillings.Sum(f => f.Quantity);
+        
         if (_viewModel.Users.Count == 0)
             await _viewModel.LoadUsersAsync();
         if (_viewModel.Users.Count == 0)
         {
             await DisplayAlert("Ошибка", "Нет доступных пользователей для назначения ответственности.", "OK");
-            return;
-        }
-
-        var fromUserId = batch.CreatedByUserId;
-        if (!fromUserId.HasValue)
-        {
-            await DisplayAlert("Ошибка", "У партии нет назначенного ответственного. Сначала назначьте ответственного при создании партии или через API.", "OK");
             return;
         }
 
@@ -258,67 +256,121 @@ public partial class ProductBatchesPage : ContentPage
             return;
 
         var selectedUser = _viewModel.Users[index];
-        if (selectedUser.Id == fromUserId.Value)
+        
+        // Если нет ответственного, назначаем нового
+        if (!currentResponsibleUserId.HasValue)
+        {
+            // Используем UnassignedQuantity если есть, иначе Quantity партии
+            var availableQty = batch.UnassignedQuantity ?? batch.Quantity;
+            var batchUnit = batch.MeasuringUnit ?? "ед.";
+            
+            var quantityText = await DisplayPromptAsync(
+                "Количество",
+                $"Укажите количество для назначения ответственности (макс. {availableQty} {batchUnit}):",
+                "Назначить",
+                "Отмена",
+                availableQty.ToString(),
+                -1,
+                Keyboard.Numeric);
+            
+            if (quantityText == null)
+                return;
+
+            if (!double.TryParse(quantityText, out var qty) || qty <= 0 || qty > availableQty)
+            {
+                await DisplayAlert("Ошибка", $"Введите число от 1 до {availableQty}.", "OK");
+                return;
+            }
+
+            // Используем endpoint для назначения через ResponsibilityFilling
+            var assignResponse = await _viewModel.ApiService.AssignBatchResponsibilityFillingAsync(
+                batch.Id, selectedUser.Id, qty, batchUnit);
+            
+            if (!assignResponse.IsSuccess)
+            {
+                await DisplayAlert("Ошибка", assignResponse.Message ?? "Произошла ошибка", "OK");
+                return;
+            }
+            
+            await DisplayAlert("Успех", $"Ответственность назначена. Количество: {qty} {batchUnit}", "OK");
+            await LoadBatchesAsync();
+            return;
+        }
+
+        if (selectedUser.Id == currentResponsibleUserId.Value)
         {
             await DisplayAlert("Ошибка", "Выберите другого пользователя (не текущего ответственного).", "OK");
             return;
         }
 
-        var currentQty = batch.Quantity;
-        var unit = batch.MeasuringUnit ?? "ед.";
-        double? quantityToTransfer = null;
+        // При изменении ответственного лица передается вся партия
+        var confirm = await DisplayAlert(
+            "Подтверждение",
+            $"Передать всю ответственность за партию {batch.DisplayName} пользователю {selectedUser.Surname} {selectedUser.Name}?",
+            "Передать",
+            "Отмена");
+        if (!confirm)
+            return;
 
-        if (currentQty > 0)
-        {
-            var transferChoice = await DisplayActionSheet(
-                "Сколько передать новому ответственному?",
-                "Отмена",
-                null,
-                "Всё количество",
-                "Часть (указать)");
-            if (string.IsNullOrWhiteSpace(transferChoice) || transferChoice == "Отмена")
-                return;
-            if (transferChoice == "Часть (указать)")
-            {
-                var qtyText = await DisplayPromptAsync(
-                    "Количество",
-                    $"Укажите, сколько передать (макс. {currentQty} {unit}). У текущего ответственного останется остаток.",
-                    "Передать",
-                    "Отмена",
-                    currentQty.ToString(),
-                    -1,
-                    Keyboard.Numeric);
-                if (qtyText == null)
-                    return;
-                if (!double.TryParse(qtyText, out var qty) || qty <= 0 || qty > currentQty)
-                {
-                    await DisplayAlert("Ошибка", $"Введите число от 1 до {currentQty}.", "OK");
-                    return;
-                }
-                quantityToTransfer = qty;
-            }
-        }
-
+        // Передаем всю ответственность (quantityToTransfer = null означает передать всё)
         var response = await _viewModel.ApiService.TransferBatchResponsibilityFillingAsync(
-            batch.Id, fromUserId.Value, selectedUser.Id, quantityToTransfer);
+            batch.Id, currentResponsibleUserId.Value, selectedUser.Id, null);
         if (!response.IsSuccess)
         {
             await DisplayAlert("Ошибка", response.Message ?? "Произошла ошибка", "OK");
             return;
         }
-        var msg = quantityToTransfer.HasValue
-            ? $"Передано {quantityToTransfer} {unit}. У предыдущего ответственного осталось {currentQty - quantityToTransfer.Value} {unit}."
-            : "Вся ответственность передана новому лицу.";
-        await DisplayAlert("Успех", msg, "OK");
+        
+        await DisplayAlert("Успех", "Вся ответственность передана новому лицу.", "OK");
         await LoadBatchesAsync();
     }
 
     private async Task ReleaseBatchResponsibilityAsync(ProductBatch batch)
     {
-        if (!batch.CreatedByUserId.HasValue)
+        // Получаем текущее ответственное лицо из ResponsibilityFilling
+        var currentFillings = await _viewModel.ApiService.GetResponsibilityFillingsByBatchAsync(batch.Id);
+        if (currentFillings.Count == 0)
         {
             await DisplayAlert("Ошибка", "У партии нет назначенного ответственного.", "OK");
             return;
+        }
+
+        var firstFilling = currentFillings.First();
+        var responsibleUserId = firstFilling.UserId;
+        var totalQty = currentFillings.Sum(f => f.Quantity);
+        var unit = batch.MeasuringUnit ?? "ед.";
+
+        // Если несколько ответственных, спрашиваем сколько снять
+        double? quantityToRelease = null;
+        if (currentFillings.Count > 1 || totalQty < (batch.UnassignedQuantity ?? batch.Quantity))
+        {
+            var releaseChoice = await DisplayActionSheet(
+                "Сколько снять с ответственности?",
+                "Отмена",
+                null,
+                "Всё количество",
+                "Часть (указать)");
+            if (string.IsNullOrWhiteSpace(releaseChoice) || releaseChoice == "Отмена")
+                return;
+            if (releaseChoice == "Часть (указать)")
+            {
+                var qtyText = await DisplayPromptAsync(
+                    "Количество",
+                    $"Укажите, сколько снять (макс. {totalQty} {unit}):",
+                    "Снять",
+                    "Отмена",
+                    totalQty.ToString(),
+                    -1,
+                    Keyboard.Numeric);
+                if (qtyText == null)
+                    return;
+                if (!double.TryParse(qtyText, out var qty) || qty <= 0 || qty > totalQty)
+                {
+                    await DisplayAlert("Ошибка", $"Введите число от 1 до {totalQty}.", "OK");
+                    return;
+                }
+                quantityToRelease = qty;
+            }
         }
 
         var confirm = await DisplayAlert(
@@ -329,7 +381,7 @@ public partial class ProductBatchesPage : ContentPage
         if (!confirm)
             return;
 
-        var response = await _viewModel.ApiService.ReleaseBatchResponsibilityAsync(batch.Id, batch.CreatedByUserId.Value);
+        var response = await _viewModel.ApiService.ReleaseBatchResponsibilityAsync(batch.Id, responsibleUserId, quantityToRelease);
         if (!response.IsSuccess)
         {
             await DisplayAlert("Ошибка", response.Message ?? "Произошла ошибка", "OK");

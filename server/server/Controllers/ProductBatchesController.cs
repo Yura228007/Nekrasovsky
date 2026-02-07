@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using server.Data;
 using server.Models;
 using server.Services;
 
@@ -11,15 +13,18 @@ public class ProductBatchesController : ControllerBase
     private readonly IProductBatchService _batchService;
     private readonly IHistoryService _historyService;
     private readonly ILogger<ProductBatchesController> _logger;
+    private readonly AppDbContext _context;
 
     public ProductBatchesController(
         IProductBatchService batchService,
         IHistoryService historyService,
-        ILogger<ProductBatchesController> logger)
+        ILogger<ProductBatchesController> logger,
+        AppDbContext context)
     {
         _batchService = batchService;
         _historyService = historyService;
         _logger = logger;
+        _context = context;
     }
 
     // GET: api/product-batches
@@ -29,7 +34,80 @@ public class ProductBatchesController : ControllerBase
         try
         {
             var batches = await _batchService.GetAllBatchesAsync();
-            return Ok(batches);
+            
+            // Получаем информацию об ответственности из ResponsibilityFilling
+            var batchIds = batches.Select(b => b.Id).ToList();
+            var responsibilityFillings = await _context.ResponsibilityFillings
+                .Include(rf => rf.User)
+                .Where(rf => rf.ProductBatchId.HasValue && batchIds.Contains(rf.ProductBatchId.Value) && rf.IsActive)
+                .ToListAsync();
+
+            // Получаем FillingWarehouse для продуктов партий
+            var productIds = batches.Select(b => b.ProductId).Distinct().ToList();
+            var warehouseIds = batches.Select(b => b.WarehouseId).Distinct().ToList();
+            var fillingWarehouses = await _context.FillingWarehouses
+                .Where(fw => fw.ProductId.HasValue && productIds.Contains(fw.ProductId.Value) && warehouseIds.Contains(fw.WarehouseId))
+                .ToListAsync();
+
+            // Группируем по партиям
+            var responsibilityByBatch = responsibilityFillings
+                .GroupBy(rf => rf.ProductBatchId!.Value)
+                .ToDictionary(g => g.Key, g => g.ToList());
+
+            // Группируем FillingWarehouse по продукту и складу
+            var fillingByProductWarehouse = fillingWarehouses
+                .GroupBy(fw => new { ProductId = fw.ProductId!.Value, WarehouseId = fw.WarehouseId })
+                .ToDictionary(g => g.Key, g => g.Sum(fw => fw.Quantity));
+
+            // Создаем DTO с информацией об ответственности
+            var dtos = batches.Select(batch =>
+            {
+                var dto = new ProductBatchDto
+                {
+                    Id = batch.Id,
+                    ProductId = batch.ProductId,
+                    WarehouseId = batch.WarehouseId,
+                    Quantity = batch.Quantity,
+                    MeasuringUnit = batch.MeasuringUnit,
+                    CreatedByUserId = batch.CreatedByUserId,
+                    CreatedAt = batch.CreatedAt,
+                    BatchNumber = batch.BatchNumber,
+                    Note = batch.Note,
+                    IsActive = batch.IsActive,
+                    Product = batch.Product,
+                    Warehouse = batch.Warehouse,
+                    CreatedByUser = batch.CreatedByUser
+                };
+
+                // Получаем информацию об ответственности из ResponsibilityFilling
+                if (responsibilityByBatch.TryGetValue(batch.Id, out var fillings) && fillings.Count > 0)
+                {
+                    // Берем первого ответственного (или можно взять того, у кого больше количество)
+                    var firstFilling = fillings.OrderByDescending(f => f.Quantity).First();
+                    dto.ResponsibleUserId = firstFilling.UserId;
+                    dto.ResponsibleUserName = firstFilling.User != null 
+                        ? $"{firstFilling.User.Surname} {firstFilling.User.Name}" 
+                        : $"Пользователь #{firstFilling.UserId}";
+                    dto.ResponsibleQuantity = fillings.Sum(f => f.Quantity);
+                    
+                    // Получаем количество из FillingWarehouse для этого продукта и склада
+                    var fillingKey = new { ProductId = batch.ProductId, WarehouseId = batch.WarehouseId };
+                    var totalFillingQuantity = fillingByProductWarehouse.TryGetValue(fillingKey, out var fillingQty) ? fillingQty : 0;
+                    
+                    // Неответственное количество = количество в FillingWarehouse минус ответственное
+                    dto.UnassignedQuantity = Math.Max(0, totalFillingQuantity - dto.ResponsibleQuantity.Value);
+                }
+                else
+                {
+                    // Нет ответственного - берем количество из FillingWarehouse
+                    var fillingKey = new { ProductId = batch.ProductId, WarehouseId = batch.WarehouseId };
+                    dto.UnassignedQuantity = fillingByProductWarehouse.TryGetValue(fillingKey, out var fillingQty) ? fillingQty : 0;
+                }
+
+                return dto;
+            }).ToList();
+
+            return Ok(dtos);
         }
         catch (Exception ex)
         {

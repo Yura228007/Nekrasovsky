@@ -191,7 +191,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
             }
         }
 
-        await _context.SaveChangesAsync();
+        // Не сохраняем здесь - сохранение будет в вызывающем методе в рамках транзакции
         _logger.LogInformation("Decreased ResponsibilityFilling for Product {ProductId} at Warehouse {WarehouseId}, User {UserId}, by {Quantity}",
             productId, warehouseId, userId, quantity);
         return true;
@@ -416,7 +416,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
             warehouseId, productId, fromUserId, toUserId, transferAmount);
     }
 
-    public async Task AssignBatchResponsibilityAsync(int userId, int batchId, double quantity, string? measuringUnit)
+    public async Task<ResponsibilityFilling> AssignBatchResponsibilityAsync(int userId, int batchId, double quantity, string? measuringUnit)
     {
         var batch = await _context.ProductBatches
             .Include(pb => pb.Product)
@@ -442,6 +442,8 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
 
         _logger.LogInformation("Batch responsibility assigned: User {UserId}, Batch {BatchId}, Quantity {Quantity}",
             userId, batchId, quantity);
+
+        return responsibility;
     }
 
     public async Task DecreaseBatchResponsibilityAsync(int batchId, double quantity, int userId)
@@ -485,6 +487,16 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
             .SumAsync(rf => rf.Quantity);
     }
 
+    public async Task<List<ResponsibilityFilling>> GetResponsibilityFillingsByBatchAsync(int batchId)
+    {
+        return await _context.ResponsibilityFillings
+            .Include(rf => rf.User)
+            .Where(rf => rf.ProductBatchId == batchId && rf.IsActive && rf.Quantity > 0)
+            .OrderByDescending(rf => rf.Quantity)
+            .ThenByDescending(rf => rf.AssignedAt)
+            .ToListAsync();
+    }
+
     public async Task TransferBatchResponsibilityAsync(int batchId, int fromUserId, int toUserId, double? quantityToTransfer = null)
     {
         if (fromUserId == toUserId)
@@ -501,16 +513,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         await DecreaseBatchResponsibilityAsync(batchId, transferAmount, fromUserId);
         await AssignBatchResponsibilityAsync(toUserId, batchId, transferAmount, null);
 
-        if (transferAmount >= totalFrom)
-        {
-            var batch = await _context.ProductBatches.FindAsync(batchId);
-            if (batch != null && batch.CreatedByUserId == fromUserId)
-            {
-                batch.CreatedByUserId = toUserId;
-                await _context.SaveChangesAsync();
-            }
-        }
-
+        // НЕ изменяем CreatedByUserId партии - ответственность хранится только в ResponsibilityFilling
         _logger.LogInformation("Transferred batch responsibility: Batch {BatchId}, from User {FromUserId} to User {ToUserId}, Quantity {Quantity}",
             batchId, fromUserId, toUserId, transferAmount);
     }
@@ -523,13 +526,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
 
         await DecreaseBatchResponsibilityAsync(batchId, total, userId);
 
-        var batch = await _context.ProductBatches.FindAsync(batchId);
-        if (batch != null && batch.CreatedByUserId == userId)
-        {
-            batch.CreatedByUserId = null;
-            await _context.SaveChangesAsync();
-        }
-
+        // НЕ изменяем CreatedByUserId партии - ответственность хранится только в ResponsibilityFilling
         _logger.LogInformation("Released batch responsibility: Batch {BatchId}, User {UserId}, Quantity {Quantity}", batchId, userId, total);
     }
 

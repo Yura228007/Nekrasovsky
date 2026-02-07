@@ -38,6 +38,26 @@
         <member name="P:NekrasovskyAPP.Models.PartRequest.ItemName">
             <summary>Название материала или продукта для отображения.</summary>
         </member>
+        <member name="P:NekrasovskyAPP.Models.ProductBatchDisplayItem.Responsibility">
+            <summary>
+            Ответственное лицо из ResponsibilityFilling (null если неответственная часть)
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ProductBatchDisplayItem.UnassignedQuantity">
+            <summary>
+            Неответственное количество (если нет ответственного лица)
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ProductBatchDisplayItem.UnassignedMeasuringUnit">
+            <summary>
+            Единица измерения неответственной части
+            </summary>
+        </member>
+        <member name="P:NekrasovskyAPP.Models.ProductBatchDisplayItem.ResponsibilityDisplay">
+            <summary>
+            Свойство для отображения ответственности
+            </summary>
+        </member>
         <member name="T:NekrasovskyAPP.Models.ProductDisplayItem">
             <summary>
             Обертка для отображения продукта с информацией об ответственном лице

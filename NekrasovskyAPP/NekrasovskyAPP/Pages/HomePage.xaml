@@ -39,7 +39,7 @@
             </Grid>
 
             <!-- Navigation Cards -->
-            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
 
                 <!-- Scanner Card -->
                 <Border x:Name="ScannerCard"
@@ -476,6 +476,42 @@
                                Margin="0,4,0,0"/>
                         <Label Grid.Row="2"
                                Text="Управление готовой продукцией"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"/>
+                    </Grid>
+                </Border>
+
+                <!-- SDH Card -->
+                <Border Grid.Row="7" Grid.Column="0"
+                        BackgroundColor="{StaticResource BackgroundCard}"
+                        StrokeThickness="0"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSDHClicked"/>
+                    </Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Border Grid.Row="0"
+                                BackgroundColor="{StaticResource Primary}"
+                                WidthRequest="56"
+                                HeightRequest="56"
+                                HorizontalOptions="Start"
+                                StrokeThickness="0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Label Text="📦" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1"
+                               Text="СДХ"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"
+                               Margin="0,4,0,0"/>
+                        <Label Grid.Row="2"
+                               Text="Управление складом СДХ"
                                FontSize="12"
                                TextColor="{StaticResource Gray500}"/>
                     </Grid>

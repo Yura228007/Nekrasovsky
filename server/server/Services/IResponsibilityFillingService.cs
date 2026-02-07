@@ -84,9 +84,10 @@ public interface IResponsibilityFillingService
     Task TransferProductResponsibilityAsync(int warehouseId, int productId, int fromUserId, int toUserId, double? quantityToTransfer = null);
 
     // Batch-specific methods
-    Task AssignBatchResponsibilityAsync(int userId, int batchId, double quantity, string? measuringUnit);
+    Task<ResponsibilityFilling> AssignBatchResponsibilityAsync(int userId, int batchId, double quantity, string? measuringUnit);
     Task DecreaseBatchResponsibilityAsync(int batchId, double quantity, int userId);
     Task<double> GetUserResponsibleQuantityForBatchAsync(int userId, int batchId);
+    Task<List<ResponsibilityFilling>> GetResponsibilityFillingsByBatchAsync(int batchId);
 
     /// <summary>
     /// Передать ответственность за партию от одного пользователя другому (часть или всё).

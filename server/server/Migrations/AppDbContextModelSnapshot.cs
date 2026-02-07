@@ -102,8 +102,8 @@ namespace server.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
+                    b.Property<double>("Quantity")
+                        .HasColumnType("double precision");
 
                     b.Property<string>("RequestType")
                         .IsRequired()
@@ -210,8 +210,8 @@ namespace server.Migrations
                     b.Property<int?>("ProductOutputId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
+                    b.Property<double>("Quantity")
+                        .HasColumnType("double precision");
 
                     b.Property<string>("RequestType")
                         .IsRequired()
@@ -347,6 +347,54 @@ namespace server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Material");
+                });
+
+            modelBuilder.Entity("server.Models.MaterialSDHSale", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("MaterialId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MeasuringUnit")
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("SoldAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WarehouseId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("MaterialSDHSale", t =>
+                        {
+                            t.HasCheckConstraint("CK_MaterialSDHSale_MaterialOrProduct", "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
+                        });
                 });
 
             modelBuilder.Entity("server.Models.PartRequest", b =>
@@ -572,14 +620,14 @@ namespace server.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("DefectQuantity")
-                        .HasColumnType("integer");
+                    b.Property<double>("DefectQuantity")
+                        .HasColumnType("double precision");
 
                     b.Property<int?>("DefectWarehouseId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("EcoQuantity")
-                        .HasColumnType("integer");
+                    b.Property<double>("EcoQuantity")
+                        .HasColumnType("double precision");
 
                     b.Property<int?>("EcoWarehouseId")
                         .HasColumnType("integer");
@@ -590,8 +638,8 @@ namespace server.Migrations
                     b.Property<int?>("NormalWarehouseId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ProducedQuantity")
-                        .HasColumnType("integer");
+                    b.Property<double>("ProducedQuantity")
+                        .HasColumnType("double precision");
 
                     b.Property<int?>("ProductBatchId")
                         .HasColumnType("integer");
@@ -599,8 +647,8 @@ namespace server.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RewindQuantity")
-                        .HasColumnType("integer");
+                    b.Property<double>("RewindQuantity")
+                        .HasColumnType("double precision");
 
                     b.Property<int?>("RewindToUserId")
                         .HasColumnType("integer");
@@ -642,6 +690,46 @@ namespace server.Migrations
                     b.ToTable("ProductOutput");
                 });
 
+            modelBuilder.Entity("server.Models.ProductSale", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("MeasuringUnit")
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("SoldAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WarehouseId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("ProductSale");
+                });
+
             modelBuilder.Entity("server.Models.Recipe", b =>
                 {
                     b.Property<int>("ProductId")
@@ -674,14 +762,14 @@ namespace server.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("DefectQuantity")
-                        .HasColumnType("integer");
+                    b.Property<double>("DefectQuantity")
+                        .HasColumnType("double precision");
 
                     b.Property<int>("SourceMaterialId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("SourceQuantity")
-                        .HasColumnType("integer");
+                    b.Property<double>("SourceQuantity")
+                        .HasColumnType("double precision");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -931,6 +1019,67 @@ namespace server.Migrations
                     b.HasIndex("PermissionId");
 
                     b.ToTable("RolePermission");
+                });
+
+            modelBuilder.Entity("server.Models.SDHRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ApprovedByUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("FromUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("FromWarehouseId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("MaterialId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("MeasuringUnit")
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime?>("ProcessedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ToWarehouseId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApprovedByUserId");
+
+                    b.HasIndex("FromUserId");
+
+                    b.HasIndex("FromWarehouseId");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ToWarehouseId");
+
+                    b.ToTable("SDHRequest", t =>
+                        {
+                            t.HasCheckConstraint("CK_SDHRequest_MaterialOrProduct", "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
+                        });
                 });
 
             modelBuilder.Entity("server.Models.ShiftReport", b =>
@@ -1330,6 +1479,39 @@ namespace server.Migrations
                     b.Navigation("Warehouse");
                 });
 
+            modelBuilder.Entity("server.Models.MaterialSDHSale", b =>
+                {
+                    b.HasOne("server.Models.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("server.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("server.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("server.Models.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Material");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Warehouse");
+                });
+
             modelBuilder.Entity("server.Models.PartRequest", b =>
                 {
                     b.HasOne("server.Models.User", "FromUser")
@@ -1520,6 +1702,33 @@ namespace server.Migrations
                     b.Navigation("Warehouse");
 
                     b.Navigation("WorkReport");
+                });
+
+            modelBuilder.Entity("server.Models.ProductSale", b =>
+                {
+                    b.HasOne("server.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("server.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("server.Models.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("server.Models.Recipe", b =>
@@ -1720,6 +1929,54 @@ namespace server.Migrations
                     b.Navigation("Permission");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("server.Models.SDHRequest", b =>
+                {
+                    b.HasOne("server.Models.User", "ApprovedByUser")
+                        .WithMany()
+                        .HasForeignKey("ApprovedByUserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("server.Models.User", "FromUser")
+                        .WithMany()
+                        .HasForeignKey("FromUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("server.Models.Warehouse", "FromWarehouse")
+                        .WithMany()
+                        .HasForeignKey("FromWarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("server.Models.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("server.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("server.Models.Warehouse", "ToWarehouse")
+                        .WithMany()
+                        .HasForeignKey("ToWarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ApprovedByUser");
+
+                    b.Navigation("FromUser");
+
+                    b.Navigation("FromWarehouse");
+
+                    b.Navigation("Material");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("ToWarehouse");
                 });
 
             modelBuilder.Entity("server.Models.ShiftReport", b =>

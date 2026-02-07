@@ -131,6 +131,9 @@ namespace NekrasovskyAPP.Services
         
         // ResponsibilityFilling methods
         Task<List<ResponsibilityFilling>> GetResponsibilityFillingsByUserAsync(int userId);
+        Task<List<ResponsibilityFilling>> GetResponsibilityFillingsByBatchAsync(int batchId);
+        Task<ApiResponse<object>> AssignMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int userId, double quantity, string? measuringUnit = null);
+        Task<ApiResponse<object>> AssignBatchResponsibilityFillingAsync(int batchId, int userId, double quantity, string? measuringUnit = null);
         Task<ApiResponse<object>> ReleaseMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int userId, double? quantityToRelease = null);
         Task<ApiResponse<object>> UpdateMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int userId, double newQuantity, string? measuringUnit = null);
         Task<ApiResponse<object>> DeleteResponsibilityFillingAsync(int fillingId);
@@ -154,6 +157,16 @@ namespace NekrasovskyAPP.Services
         // Finished Goods Management (Управление готовой продукцией)
         Task<ApiResponse<object>> ProcessProductSaleAsync(int warehouseId, int productId, double quantity, string? measuringUnit);
         Task<ApiResponse<object>> ProcessFinishedGoodsDisposalAsync(int warehouseId, int productId, double quantity, string? measuringUnit);
+
+        // SDH Requests (Запросы на СДХ)
+        Task<List<SDHRequest>> GetPendingSDHRequestsAsync(int warehouseId);
+        Task<ApiResponse<SDHRequest>> ApproveSDHRequestAsync(int requestId);
+        Task<ApiResponse<SDHRequest>> RejectSDHRequestAsync(int requestId);
+        Task<ApiResponse<SDHRequest>> CreateSDHRequestAsync(int fromWarehouseId, int toWarehouseId, int? materialId, int? productId, double quantity, string? measuringUnit);
+
+        // SDH Management (Управление СДХ)
+        Task<ApiResponse<object>> ProcessSDHNonReturnableDefectAsync(int warehouseId, int? materialId, int? productId, double quantity, string? measuringUnit);
+        Task<ApiResponse<object>> ProcessSDHSaleAsync(int warehouseId, int? materialId, int? productId, double quantity, string? measuringUnit);
 
         // Product Outputs
         Task<ProductOutputOptionsResponse?> GetProductOutputOptionsAsync();

@@ -264,7 +264,7 @@ namespace NekrasovskyAPP.Pages
             if (string.IsNullOrWhiteSpace(name))
                 return;
 
-            var typeOptions = new[] { "Цех", "Склад", "Производство", "Утиль", "ЭКО", "Готовая продукция", "Сырьё" };
+            var typeOptions = new[] { "Цех", "Склад", "Производство", "Утиль", "ЭКО", "Готовая продукция", "СДХ" };
             var currentTypeIndex = Array.IndexOf(typeOptions, existingWarehouse?.Type ?? "Цех");
             if (currentTypeIndex < 0) currentTypeIndex = 0;
 

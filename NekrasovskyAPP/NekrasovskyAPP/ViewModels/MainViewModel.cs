@@ -32,6 +32,7 @@ namespace NekrasovskyAPP.ViewModels
         }
 
         public IApiService ApiService => _apiService;
+        public IAuthService? AuthService => _authService;
 
         public ObservableCollection<User> Users { get; }
         public ObservableCollection<ProductDisplayItem> Products { get; }
@@ -1263,41 +1264,99 @@ namespace NekrasovskyAPP.ViewModels
                         });
                     }
 
-                    // Проверяем, есть ли неответственная часть
-                    var totalResponsibleQuantity = materialAssignments
-                        .Where(a => a.Quantity.HasValue)
-                        .Sum(a => a.Quantity!.Value);
+                    // Проверяем, есть ли неответственная часть - вычисляем по каждому складу отдельно
+                    // Группируем ответственность по складам
+                    var responsibleByWarehouse = materialAssignments
+                        .Where(a => a.Quantity.HasValue && a.WarehouseId.HasValue)
+                        .GroupBy(a => a.WarehouseId!.Value)
+                        .ToDictionary(g => g.Key, g => g.Sum(a => a.Quantity!.Value));
 
-                    // Если есть ответственные с количеством, проверяем общее количество на складах
-                    if (materialAssignments.Any(a => a.Quantity.HasValue) && 
-                        materialTotalQuantities.TryGetValue(material.Id, out var totalOnWarehouses))
+                    // Получаем fillings для этого материала (если еще не получены)
+                    var materialFillingListForUnassigned = materialFillings.TryGetValue(material.Id, out var fillingsListForUnassigned) 
+                        ? fillingsListForUnassigned 
+                        : new List<FillingWarehouse>();
+
+                    // Для каждого склада вычисляем неответственное количество
+                    var unassignedByWarehouse = new Dictionary<int, double>();
+                    foreach (var filling in materialFillingListForUnassigned.Where(f => f.Quantity > 0))
                     {
-                        // Если сумма количеств ответственных меньше общего количества на складах
-                        if (totalResponsibleQuantity < totalOnWarehouses)
+                        var responsibleQty = responsibleByWarehouse.GetValueOrDefault(filling.WarehouseId, 0);
+                        var unassignedQty = filling.Quantity - responsibleQty;
+                        if (unassignedQty > 0)
                         {
-                            var unassignedQty = totalOnWarehouses - totalResponsibleQuantity;
-                            result.Add(new MaterialDisplayItem
-                            {
-                                Material = material,
-                                Responsibility = null, // Неответственная часть
-                                UnassignedQuantity = unassignedQty,
-                                UnassignedMeasuringUnit = material.MeasuringUnit
-                            });
+                            unassignedByWarehouse[filling.WarehouseId] = unassignedQty;
                         }
+                    }
+
+                    // Если есть неответственное количество на складах, создаем карточку
+                    if (unassignedByWarehouse.Count > 0)
+                    {
+                        var totalUnassigned = unassignedByWarehouse.Values.Sum();
+                        result.Add(new MaterialDisplayItem
+                        {
+                            Material = material,
+                            Responsibility = null, // Неответственная часть
+                            UnassignedQuantity = totalUnassigned,
+                            UnassignedMeasuringUnit = material.MeasuringUnit,
+                            WarehouseStocks = unassignedByWarehouse.Select(kvp => new WarehouseStockInfo
+                            {
+                                WarehouseName = warehouseMap.TryGetValue(kvp.Key, out var name) ? name : $"Склад #{kvp.Key}",
+                                Quantity = kvp.Value,
+                                MeasuringUnit = materialFillingListForUnassigned.FirstOrDefault(f => f.WarehouseId == kvp.Key)?.MeasuringType ?? material.MeasuringUnit ?? "ед."
+                            }).ToList()
+                        });
                     }
                     // Если есть ответственные без количества (за весь материал), не добавляем неответственную часть
                 }
                 else
                 {
-                    // Если нет ответственных, создаем одну карточку без ответственности
-                    var totalOnWarehouses = materialTotalQuantities.GetValueOrDefault(material.Id, 0);
-                    result.Add(new MaterialDisplayItem
+                    // Если нет ответственных, создаем карточки без ответственности для каждого склада
+                    var materialFillingListForUnassigned = materialFillings.TryGetValue(material.Id, out var fillingsListForUnassigned) 
+                        ? fillingsListForUnassigned 
+                        : new List<FillingWarehouse>();
+                    var unassignedItems = new List<MaterialDisplayItem>();
+                    foreach (var filling in materialFillingListForUnassigned.Where(f => f.Quantity > 0))
                     {
-                        Material = material,
-                        Responsibility = null,
-                        UnassignedQuantity = totalOnWarehouses > 0 ? totalOnWarehouses : null,
-                        UnassignedMeasuringUnit = material.MeasuringUnit
-                    });
+                        if (warehouseMap.TryGetValue(filling.WarehouseId, out var warehouseName))
+                        {
+                            unassignedItems.Add(new MaterialDisplayItem
+                            {
+                                Material = material,
+                                Responsibility = null,
+                                UnassignedQuantity = filling.Quantity,
+                                UnassignedMeasuringUnit = filling.MeasuringType ?? material.MeasuringUnit,
+                                WarehouseStocks = new List<WarehouseStockInfo>
+                                {
+                                    new WarehouseStockInfo
+                                    {
+                                        WarehouseName = warehouseName,
+                                        Quantity = filling.Quantity,
+                                        MeasuringUnit = filling.MeasuringType ?? material.MeasuringUnit ?? "ед."
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    
+                    // Если нет fillings, создаем одну карточку с общим количеством
+                    if (unassignedItems.Count == 0)
+                    {
+                        var totalOnWarehouses = materialTotalQuantities.GetValueOrDefault(material.Id, 0);
+                        if (totalOnWarehouses > 0)
+                        {
+                            result.Add(new MaterialDisplayItem
+                            {
+                                Material = material,
+                                Responsibility = null,
+                                UnassignedQuantity = totalOnWarehouses,
+                                UnassignedMeasuringUnit = material.MeasuringUnit
+                            });
+                        }
+                    }
+                    else
+                    {
+                        result.AddRange(unassignedItems);
+                    }
                 }
             }
 

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Models;
+using System.Linq;
 
 namespace server.Services;
 
@@ -54,9 +55,47 @@ public class FinishedGoodsService : IFinishedGoodsService
             // Списываем продукцию со склада
             filling.Quantity -= quantity;
 
-            // Списываем ответственность
-            await _responsibilityFillingService.DecreaseProductResponsibilityAtWarehouseAsync(
-                warehouseId, productId, quantity, userId);
+            // Списываем ответственность напрямую через контекст (в рамках транзакции)
+            var responsibilityFillings = await _context.ResponsibilityFillings
+                .Where(rf => rf.IsActive && rf.WarehouseId == warehouseId && rf.ProductId == productId && rf.UserId == userId && rf.Quantity > 0)
+                .OrderByDescending(rf => rf.AssignedAt)
+                .ToListAsync();
+
+            if (responsibilityFillings.Count == 0)
+            {
+                throw new InvalidOperationException(
+                    $"Не удалось найти записи ответственности за продукт: требуется {quantity}, под ответственностью {userResponsibleQty}");
+            }
+
+            // Проверяем, что сумма ответственности достаточна
+            var totalAvailable = responsibilityFillings.Sum(rf => rf.Quantity);
+            if (totalAvailable < quantity)
+            {
+                throw new InvalidOperationException(
+                    $"Недостаточно ответственности для списания: требуется {quantity}, доступно {totalAvailable}");
+            }
+
+            double remaining = quantity;
+            foreach (var rf in responsibilityFillings)
+            {
+                if (remaining <= 0)
+                    break;
+                double decrease = Math.Min(remaining, rf.Quantity);
+                rf.Quantity -= decrease;
+                remaining -= decrease;
+                if (rf.Quantity <= 0)
+                {
+                    rf.IsActive = false;
+                    rf.ReleasedAt = DateTime.UtcNow;
+                    rf.Quantity = 0;
+                }
+            }
+
+            if (remaining > 0)
+            {
+                throw new InvalidOperationException(
+                    $"Не удалось полностью списать ответственность: осталось {remaining} из {quantity}");
+            }
 
             // Создаем запись о продаже
             var sale = new ProductSale
@@ -77,9 +116,11 @@ public class FinishedGoodsService : IFinishedGoodsService
                 "Product sale processed: User {UserId}, Warehouse {WarehouseId}, Product {ProductId}, Quantity {Quantity}",
                 userId, warehouseId, productId, quantity);
         }
-        catch
+        catch (Exception ex)
         {
             await transaction.RollbackAsync();
+            _logger.LogError(ex, "Error in ProcessSaleAsync: User {UserId}, Warehouse {WarehouseId}, Product {ProductId}, Quantity {Quantity}", 
+                userId, warehouseId, productId, quantity);
             throw;
         }
     }
@@ -91,8 +132,8 @@ public class FinishedGoodsService : IFinishedGoodsService
 
         // Находим склад утиля
         var disposalWarehouse = await _context.Warehouses
-            .FirstOrDefaultAsync(w => w.Type != null && w.Type.Contains("Утиль", StringComparison.OrdinalIgnoreCase) ||
-                                      w.Name.Contains("Утиль", StringComparison.OrdinalIgnoreCase));
+            .FirstOrDefaultAsync(w => (w.Type != null && EF.Functions.ILike(w.Type, "%Утиль%")) ||
+                                      EF.Functions.ILike(w.Name, "%Утиль%"));
 
         if (disposalWarehouse == null)
         {

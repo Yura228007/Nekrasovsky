@@ -37,6 +37,8 @@ public class AppDbContext : DbContext
     public DbSet<DisposalRequest> DisposalRequests { get; set; } = null!;
     public DbSet<FinishedGoodsRequest> FinishedGoodsRequests { get; set; } = null!;
     public DbSet<ProductSale> ProductSales { get; set; } = null!;
+    public DbSet<SDHRequest> SDHRequests { get; set; } = null!;
+    public DbSet<MaterialSDHSale> MaterialSDHSales { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -628,5 +630,83 @@ public class AppDbContext : DbContext
             .WithMany()
             .HasForeignKey(ps => ps.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // =============================
+        // SDHRequest
+        // =============================
+
+        modelBuilder.Entity<SDHRequest>()
+            .HasOne(sr => sr.FromUser)
+            .WithMany()
+            .HasForeignKey(sr => sr.FromUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<SDHRequest>()
+            .HasOne(sr => sr.ApprovedByUser)
+            .WithMany()
+            .HasForeignKey(sr => sr.ApprovedByUserId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<SDHRequest>()
+            .HasOne(sr => sr.FromWarehouse)
+            .WithMany()
+            .HasForeignKey(sr => sr.FromWarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<SDHRequest>()
+            .HasOne(sr => sr.ToWarehouse)
+            .WithMany()
+            .HasForeignKey(sr => sr.ToWarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<SDHRequest>()
+            .HasOne(sr => sr.Material)
+            .WithMany()
+            .HasForeignKey(sr => sr.MaterialId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<SDHRequest>()
+            .HasOne(sr => sr.Product)
+            .WithMany()
+            .HasForeignKey(sr => sr.ProductId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<SDHRequest>()
+            .ToTable(t => t.HasCheckConstraint(
+                "CK_SDHRequest_MaterialOrProduct",
+                "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)"));
+
+        // =============================
+        // MaterialSDHSale
+        // =============================
+
+        modelBuilder.Entity<MaterialSDHSale>()
+            .HasOne(ms => ms.User)
+            .WithMany()
+            .HasForeignKey(ms => ms.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<MaterialSDHSale>()
+            .HasOne(ms => ms.Warehouse)
+            .WithMany()
+            .HasForeignKey(ms => ms.WarehouseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<MaterialSDHSale>()
+            .HasOne(ms => ms.Material)
+            .WithMany()
+            .HasForeignKey(ms => ms.MaterialId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<MaterialSDHSale>()
+            .HasOne(ms => ms.Product)
+            .WithMany()
+            .HasForeignKey(ms => ms.ProductId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<MaterialSDHSale>()
+            .ToTable(t => t.HasCheckConstraint(
+                "CK_MaterialSDHSale_MaterialOrProduct",
+                "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)"));
     }
 }

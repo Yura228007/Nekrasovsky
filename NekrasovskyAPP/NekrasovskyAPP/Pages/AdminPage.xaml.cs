@@ -347,6 +347,11 @@ namespace NekrasovskyAPP.Pages
             await Shell.Current.GoToAsync("FinishedGoodsPage");
         }
 
+        private async void OnSDHClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("SDHPage");
+        }
+
         private async void OnMixingClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("MixingPage");

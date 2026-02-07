@@ -215,7 +215,7 @@
                                            FontSize="13"
                                            TextColor="{StaticResource Primary}" />
                                 </HorizontalStackLayout>
-                                <Label Text="{Binding CreatedByDisplay, StringFormat='Ответственный: {0}'}"
+                                <Label Text="{Binding ResponsibleDisplay, StringFormat='Ответственный: {0}'}"
                                        FontSize="12"
                                        TextColor="{StaticResource Gray500}" />
                                 <Label Text="{Binding CreatedAt, StringFormat='{0:dd.MM.yyyy HH:mm}'}"

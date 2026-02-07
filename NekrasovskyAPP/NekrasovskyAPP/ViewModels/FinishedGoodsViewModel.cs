@@ -17,7 +17,7 @@ namespace NekrasovskyAPP.ViewModels
         private bool _canManage;
 
         public ObservableCollection<FinishedGoodsRequest> Requests { get; } = new();
-        public ObservableCollection<FillingWarehouse> Items { get; } = new();
+        public ObservableCollection<FinishedGoodsItem> Items { get; } = new();
 
         public bool IsLoading
         {
@@ -97,7 +97,22 @@ namespace NekrasovskyAPP.ViewModels
                 // Заполняем наполнение склада
                 foreach (var filling in fillings.Where(f => f.Quantity > 0 && f.ProductId.HasValue))
                 {
-                    Items.Add(filling);
+                    var item = new FinishedGoodsItem
+                    {
+                        FillingId = filling.Id,
+                        WarehouseId = filling.WarehouseId,
+                        ProductId = filling.ProductId!.Value,
+                        Quantity = filling.Quantity,
+                        MeasuringUnit = filling.MeasuringType ?? "шт"
+                    };
+
+                    if (productMap.TryGetValue(filling.ProductId.Value, out var product))
+                    {
+                        item.Product = product;
+                        item.MeasuringUnit = product.MeasuringUnit;
+                    }
+
+                    Items.Add(item);
                 }
 
                 // Заполняем запросы
@@ -213,82 +228,74 @@ namespace NekrasovskyAPP.ViewModels
             }
         }
 
-        public async Task<bool> ProcessSaleAsync(FillingWarehouse item)
+        public async Task<bool> ProcessFinishedGoodsAsync(FinishedGoodsItem item)
         {
+            if (_finishedGoodsWarehouse == null)
+                return false;
+
+            var saleQty = double.TryParse(item.SaleQty, out var s) ? s : 0;
+            var disposalQty = double.TryParse(item.DisposalQty, out var d) ? d : 0;
+
+            if (saleQty <= 0 && disposalQty <= 0)
+            {
+                ErrorMessage = "Укажите количество для продажи и/или отправки в утиль.";
+                return false;
+            }
+
+            if (saleQty + disposalQty > item.Quantity)
+            {
+                ErrorMessage = $"Сумма количеств не может превышать остаток ({item.Quantity} {item.MeasuringUnit}).";
+                return false;
+            }
+
+            item.IsProcessing = true;
+            ErrorMessage = string.Empty;
+
             try
             {
-                if (item.ProductId == null || _finishedGoodsWarehouse == null)
+                // Обрабатываем продажу
+                if (saleQty > 0)
                 {
-                    ErrorMessage = "Неверные данные для продажи";
-                    return false;
+                    var saleResult = await _apiService.ProcessProductSaleAsync(
+                        _finishedGoodsWarehouse.Id,
+                        item.ProductId,
+                        saleQty,
+                        item.MeasuringUnit);
+
+                    if (!saleResult.IsSuccess)
+                    {
+                        ErrorMessage = saleResult.Message ?? "Не удалось оформить продажу";
+                        return false;
+                    }
                 }
 
-                var result = await _apiService.ProcessProductSaleAsync(
-                    _finishedGoodsWarehouse.Id,
-                    item.ProductId.Value,
-                    item.Quantity,
-                    item.MeasuringType);
-
-                if (result.IsSuccess)
+                // Обрабатываем утиль
+                if (disposalQty > 0)
                 {
-                    await LoadDataAsync();
-                    return true;
+                    var disposalResult = await _apiService.ProcessFinishedGoodsDisposalAsync(
+                        _finishedGoodsWarehouse.Id,
+                        item.ProductId,
+                        disposalQty,
+                        item.MeasuringUnit);
+
+                    if (!disposalResult.IsSuccess)
+                    {
+                        ErrorMessage = disposalResult.Message ?? "Не удалось отправить в утиль";
+                        return false;
+                    }
                 }
-                ErrorMessage = result.Message ?? "Не удалось оформить продажу";
-                return false;
+
+                await LoadDataAsync();
+                return true;
             }
             catch (Exception ex)
             {
                 ErrorMessage = $"Ошибка: {ex.Message}";
                 return false;
             }
-        }
-
-        public async Task<bool> ProcessDisposalAsync(FillingWarehouse item)
-        {
-            try
+            finally
             {
-                if (item.ProductId == null || _finishedGoodsWarehouse == null)
-                {
-                    ErrorMessage = "Неверные данные для отправки в утиль";
-                    return false;
-                }
-
-                // Запрашиваем количество для отправки в утиль
-                var quantityStr = await Application.Current?.MainPage?.DisplayPromptAsync(
-                    "Отправка в утиль",
-                    $"Введите количество для отправки в утиль (максимум: {item.Quantity} {item.MeasuringType ?? "шт"}):",
-                    "OK",
-                    "Отмена",
-                    keyboard: Keyboard.Numeric);
-
-                if (string.IsNullOrEmpty(quantityStr) || !double.TryParse(quantityStr, out var quantity) || quantity <= 0)
-                    return false;
-
-                if (quantity > item.Quantity)
-                {
-                    ErrorMessage = $"Недостаточно продукции. Доступно: {item.Quantity} {item.MeasuringType ?? "шт"}";
-                    return false;
-                }
-
-                var result = await _apiService.ProcessFinishedGoodsDisposalAsync(
-                    _finishedGoodsWarehouse.Id,
-                    item.ProductId.Value,
-                    quantity,
-                    item.MeasuringType);
-
-                if (result.IsSuccess)
-                {
-                    await LoadDataAsync();
-                    return true;
-                }
-                ErrorMessage = result.Message ?? "Не удалось отправить в утиль";
-                return false;
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = $"Ошибка: {ex.Message}";
-                return false;
+                item.IsProcessing = false;
             }
         }
 

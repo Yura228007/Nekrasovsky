@@ -1396,7 +1396,7 @@ namespace NekrasovskyAPP.Services
                     var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка снятия ответственности";
                     return new ApiResponse<object> { Message = message };
                 }
-                return new ApiResponse<object> { Message = "Ответственность снята" };
+                return new ApiResponse<object> { Message = "Responsibility released successfully" };
             }
             catch (HttpRequestException ex)
             {
@@ -1431,9 +1431,65 @@ namespace NekrasovskyAPP.Services
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<ResponsibilityFilling>>(_jsonOptions) ?? new List<ResponsibilityFilling>();
             }
+            catch (Exception ex)
+            {
+                return new List<ResponsibilityFilling>();
+            }
+        }
+
+        public async Task<List<ResponsibilityFilling>> GetResponsibilityFillingsByBatchAsync(int batchId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/responsibilities/filling/batch/{batchId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<ResponsibilityFilling>>(_jsonOptions) ?? new List<ResponsibilityFilling>();
+            }
             catch
             {
                 return new List<ResponsibilityFilling>();
+            }
+        }
+
+        public async Task<ApiResponse<object>> AssignMaterialResponsibilityFillingAsync(int warehouseId, int materialId, int userId, double quantity, string? measuringUnit = null)
+        {
+            try
+            {
+                var payload = new { userId, warehouseId, materialId, quantity, measuringUnit };
+                var response = await _httpClient.PostAsJsonAsync("api/responsibilities/filling/material", payload, _jsonOptions);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка назначения ответственности";
+                    return new ApiResponse<object> { Message = message };
+                }
+                return new ApiResponse<object> { Message = "Responsibility assigned successfully" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
+        public async Task<ApiResponse<object>> AssignBatchResponsibilityFillingAsync(int batchId, int userId, double quantity, string? measuringUnit = null)
+        {
+            try
+            {
+                var payload = new { batchId, userId, quantity, measuringUnit };
+                var response = await _httpClient.PostAsJsonAsync("api/responsibilities/filling/batch/assign", payload, _jsonOptions);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка назначения ответственности";
+                    return new ApiResponse<object> { Message = message };
+                }
+                return new ApiResponse<object> { Message = "Responsibility assigned successfully" };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object> { Message = $"Ошибка: {ex.Message}" };
             }
         }
 
@@ -1450,7 +1506,7 @@ namespace NekrasovskyAPP.Services
                     var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка снятия ответственности";
                     return new ApiResponse<object> { Message = message };
                 }
-                return new ApiResponse<object> { Message = "Ответственность снята" };
+                return new ApiResponse<object> { Message = "Responsibility released successfully" };
             }
             catch (Exception ex)
             {
@@ -1471,7 +1527,7 @@ namespace NekrasovskyAPP.Services
                     var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка обновления ответственности";
                     return new ApiResponse<object> { Message = message };
                 }
-                return new ApiResponse<object> { Message = "Ответственность обновлена" };
+                return new ApiResponse<object> { Message = "Responsibility updated successfully" };
             }
             catch (Exception ex)
             {
@@ -1491,7 +1547,7 @@ namespace NekrasovskyAPP.Services
                     var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка удаления карточки";
                     return new ApiResponse<object> { Message = message };
                 }
-                return new ApiResponse<object> { Message = "Карточка удалена" };
+                return new ApiResponse<object> { Message = "ResponsibilityFilling deleted successfully" };
             }
             catch (Exception ex)
             {
@@ -2407,6 +2463,146 @@ namespace NekrasovskyAPP.Services
                     var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
                     var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка отправки в утиль";
                     return new ApiResponse<object> { Message = message ?? "Ошибка отправки в утиль" };
+                }
+                return new ApiResponse<object> { Request = new object() };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
+        // SDH Management (Управление СДХ)
+        public async Task<List<SDHRequest>> GetPendingSDHRequestsAsync(int warehouseId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/sdh/requests/{warehouseId}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<List<SDHRequest>>(_jsonOptions) ?? new List<SDHRequest>();
+            }
+            catch
+            {
+                return new List<SDHRequest>();
+            }
+        }
+
+        public async Task<ApiResponse<SDHRequest>> ApproveSDHRequestAsync(int requestId)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/sdh/requests/{requestId}/approve", null);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка подтверждения запроса";
+                    return new ApiResponse<SDHRequest> { Message = message ?? "Ошибка подтверждения запроса" };
+                }
+                return new ApiResponse<SDHRequest> { Request = new SDHRequest() };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<SDHRequest> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
+        public async Task<ApiResponse<SDHRequest>> RejectSDHRequestAsync(int requestId)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/sdh/requests/{requestId}/reject", null);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка отклонения запроса";
+                    return new ApiResponse<SDHRequest> { Message = message ?? "Ошибка отклонения запроса" };
+                }
+                return new ApiResponse<SDHRequest> { Request = new SDHRequest() };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<SDHRequest> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
+        public async Task<ApiResponse<SDHRequest>> CreateSDHRequestAsync(int fromWarehouseId, int toWarehouseId, int? materialId, int? productId, double quantity, string? measuringUnit)
+        {
+            try
+            {
+                var request = new
+                {
+                    fromWarehouseId,
+                    toWarehouseId,
+                    materialId,
+                    productId,
+                    quantity,
+                    measuringUnit
+                };
+                var response = await _httpClient.PostAsJsonAsync("api/sdh/request", request, _jsonOptions);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка создания запроса";
+                    return new ApiResponse<SDHRequest> { Message = message ?? "Ошибка создания запроса" };
+                }
+                return new ApiResponse<SDHRequest> { Request = new SDHRequest() };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<SDHRequest> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
+        public async Task<ApiResponse<object>> ProcessSDHNonReturnableDefectAsync(int warehouseId, int? materialId, int? productId, double quantity, string? measuringUnit)
+        {
+            try
+            {
+                var request = new
+                {
+                    warehouseId,
+                    materialId,
+                    productId,
+                    quantity,
+                    measuringUnit
+                };
+                var response = await _httpClient.PostAsJsonAsync("api/sdh/non-returnable-defect", request, _jsonOptions);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка списания невозвратного брака";
+                    return new ApiResponse<object> { Message = message ?? "Ошибка списания невозвратного брака" };
+                }
+                return new ApiResponse<object> { Request = new object() };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<object> { Message = $"Ошибка: {ex.Message}" };
+            }
+        }
+
+        public async Task<ApiResponse<object>> ProcessSDHSaleAsync(int warehouseId, int? materialId, int? productId, double quantity, string? measuringUnit)
+        {
+            try
+            {
+                var request = new
+                {
+                    warehouseId,
+                    materialId,
+                    productId,
+                    quantity,
+                    measuringUnit
+                };
+                var response = await _httpClient.PostAsJsonAsync("api/sdh/sale", request, _jsonOptions);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(errorContent, _jsonOptions);
+                    var message = errorObj?.ContainsKey("message") == true ? errorObj["message"]?.ToString() : response.ReasonPhrase ?? "Ошибка оформления продажи";
+                    return new ApiResponse<object> { Message = message ?? "Ошибка оформления продажи" };
                 }
                 return new ApiResponse<object> { Request = new object() };
             }

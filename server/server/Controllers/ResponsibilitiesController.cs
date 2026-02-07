@@ -150,6 +150,50 @@ namespace server.Controllers
             }
         }
 
+        // GET: api/responsibilities/filling/batch/{batchId}
+        [HttpGet("filling/batch/{batchId}")]
+        public async Task<ActionResult<List<ResponsibilityFilling>>> GetBatchResponsibilityFillings(int batchId)
+        {
+            try
+            {
+                if (batchId <= 0)
+                    return BadRequest(new { message = "BatchId must be greater than 0" });
+                
+                var fillings = await _responsibilityFillingService.GetResponsibilityFillingsByBatchAsync(batchId);
+                return Ok(fillings);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting batch responsibility fillings");
+                return StatusCode(500, new { message = "An error occurred while retrieving responsibility fillings" });
+            }
+        }
+
+        // POST: api/responsibilities/filling/batch/assign
+        [HttpPost("filling/batch/assign")]
+        public async Task<ActionResult<ResponsibilityFilling>> AssignBatchFilling([FromBody] AssignBatchResponsibilityRequest request)
+        {
+            try
+            {
+                if (!await IsPrivilegedUserAsync())
+                    return Forbid();
+                if (request.BatchId <= 0 || request.UserId <= 0 || request.Quantity <= 0)
+                    return BadRequest(new { message = "BatchId, UserId and positive Quantity required" });
+                var rf = await _responsibilityFillingService.AssignBatchResponsibilityAsync(
+                    request.UserId, request.BatchId, request.Quantity, request.MeasuringUnit);
+                return Ok(new { message = "Responsibility filling assigned successfully", responsibilityFilling = rf });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error assigning batch responsibility filling");
+                return StatusCode(500, new { message = "An error occurred while assigning responsibility filling" });
+            }
+        }
+
         // POST: api/responsibilities/filling/product
         [HttpPost("filling/product")]
         public async Task<ActionResult<ResponsibilityFilling>> AssignProductFilling([FromBody] AssignResponsibilityFillingProductRequest request)
@@ -369,18 +413,20 @@ namespace server.Controllers
                 if (filling == null)
                     return NotFound(new { message = "ResponsibilityFilling not found" });
                 
-                // Помечаем как неактивную и уменьшаем количество на складе
+                // Помечаем как неактивную и списываем материал с наполнения склада
+                var quantityToDeduct = filling.Quantity;
                 filling.IsActive = false;
                 filling.ReleasedAt = DateTime.UtcNow;
+                filling.Quantity = 0; // Обнуляем количество ответственности
                 
-                // Уменьшаем количество на складе
+                // Списываем материал с наполнения склада
                 if (filling.MaterialId.HasValue)
                 {
                     var materialFilling = await _context.FillingWarehouses
                         .FirstOrDefaultAsync(fw => fw.WarehouseId == filling.WarehouseId && fw.MaterialId == filling.MaterialId);
                     if (materialFilling != null)
                     {
-                        materialFilling.Quantity = Math.Max(0, materialFilling.Quantity - filling.Quantity);
+                        materialFilling.Quantity = Math.Max(0, materialFilling.Quantity - quantityToDeduct);
                     }
                 }
                 else if (filling.ProductId.HasValue)
@@ -389,12 +435,12 @@ namespace server.Controllers
                         .FirstOrDefaultAsync(fw => fw.WarehouseId == filling.WarehouseId && fw.ProductId == filling.ProductId);
                     if (productFilling != null)
                     {
-                        productFilling.Quantity = Math.Max(0, productFilling.Quantity - filling.Quantity);
+                        productFilling.Quantity = Math.Max(0, productFilling.Quantity - quantityToDeduct);
                     }
                 }
                 
                 await _context.SaveChangesAsync();
-                return Ok(new { message = "ResponsibilityFilling deleted" });
+                return Ok(new { message = "ResponsibilityFilling deleted successfully" });
             }
             catch (Exception ex)
             {
@@ -479,6 +525,14 @@ namespace server.Controllers
         public int FromUserId { get; set; }
         public int ToUserId { get; set; }
         public double? QuantityToTransfer { get; set; }
+    }
+
+    public class AssignBatchResponsibilityRequest
+    {
+        public int BatchId { get; set; }
+        public int UserId { get; set; }
+        public double Quantity { get; set; }
+        public string? MeasuringUnit { get; set; }
     }
 
     public class TransferBatchResponsibilityRequest

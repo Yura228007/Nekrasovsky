@@ -88,6 +88,9 @@
         <member name="P:NekrasovskyAPP.Models.ResponsibilityAssignment.WarehouseId">
             <summary>Склад, за который назначена ответственность (из ResponsibilityFilling).</summary>
         </member>
+        <member name="P:NekrasovskyAPP.Models.ResponsibilityAssignment.ResponsibilityFillingId">
+            <summary>ID ResponsibilityFilling для работы с конкретной карточкой.</summary>
+        </member>
         <member name="P:NekrasovskyAPP.Models.WorkReport.DisplayTitle">
             <summary>Формат отображения: "Фамилия Имя - дата".</summary>
         </member>

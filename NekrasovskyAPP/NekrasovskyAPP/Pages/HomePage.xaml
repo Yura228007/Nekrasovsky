@@ -247,13 +247,13 @@
                             <Label Text="📋" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
                         <Label Grid.Row="1"
-                               Text="Запросы"
+                               Text="Передача остатков"
                                FontSize="18"
                                FontAttributes="Bold"
                                TextColor="{StaticResource White}"
                                Margin="0,4,0,0"/>
                         <Label Grid.Row="2"
-                               Text="Запросы деталей"
+                               Text="Передача остатков"
                                FontSize="12"
                                TextColor="{StaticResource Gray500}"/>
                     </Grid>

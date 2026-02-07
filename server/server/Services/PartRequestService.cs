@@ -26,6 +26,7 @@ namespace server.Services
         {
             return await _context.PartRequests
                 .Include(pr => pr.Material)
+                .Include(pr => pr.Product)
                 .ToListAsync();
         }
 
@@ -47,6 +48,7 @@ namespace server.Services
             {
                 return await _context.PartRequests
                     .Include(pr => pr.Material)
+                    .Include(pr => pr.Product)
                     .Where(pr => pr.FromUserId == userId)
                     .ToListAsync();
             }
@@ -54,6 +56,7 @@ namespace server.Services
             {
                 return await _context.PartRequests
                     .Include(pr => pr.Material)
+                    .Include(pr => pr.Product)
                     .Where(pr => pr.ToUserId == userId)
                     .ToListAsync();
             }

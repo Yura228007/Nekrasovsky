@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
 using server.Hubs;
+using server.Data;
 
 namespace server.Controllers
 {
@@ -16,29 +17,33 @@ namespace server.Controllers
         private readonly IHubContext<NotificationHub> _hubContext;
         private readonly IUserPermissionsService _userPermissionsService;
         private readonly IHistoryService _historyService;
+        private readonly AppDbContext _context;
 
         public PartRequestsController(
             IPartRequestService partRequestService, 
             ILogger<PartRequestsController> logger,
             IHubContext<NotificationHub> hubContext,
             IUserPermissionsService userPermissionsService,
-            IHistoryService historyService)
+            IHistoryService historyService,
+            AppDbContext context)
         {
             _partRequestService = partRequestService;
             _logger = logger;
             _hubContext = hubContext;
             _userPermissionsService = userPermissionsService;
             _historyService = historyService;
+            _context = context;
         }
 
         // GET: api/part-requests
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PartRequest>>> GetAll()
+        public async Task<ActionResult<IEnumerable<PartRequestDto>>> GetAll()
         {
             try
             {
                 var requests = await _partRequestService.GetAllPartRequestsAsync();
-                return Ok(requests);
+                var dtos = await MapToDtoAsync(requests);
+                return Ok(dtos);
             }
             catch (Exception ex)
             {
@@ -76,12 +81,13 @@ namespace server.Controllers
 
         // GET: api/part-requests/status/{status}
         [HttpGet("status/{status}")]
-        public async Task<ActionResult<IEnumerable<PartRequest>>> GetByStatus(PartRequestStatus status)
+        public async Task<ActionResult<IEnumerable<PartRequestDto>>> GetByStatus(PartRequestStatus status)
         {
             try
             {
                 var requests = await _partRequestService.GetPartRequestsByStatusAsync(status);
-                return Ok(requests);
+                var dtos = await MapToDtoAsync(requests);
+                return Ok(dtos);
             }
             catch (Exception ex)
             {
@@ -92,7 +98,7 @@ namespace server.Controllers
 
         // GET: api/part-requests/user/{userId}?sent=true
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<PartRequest>>> GetByUser(int userId, [FromQuery] bool sent = true)
+        public async Task<ActionResult<IEnumerable<PartRequestDto>>> GetByUser(int userId, [FromQuery] bool sent = true)
         {
             try
             {
@@ -102,7 +108,8 @@ namespace server.Controllers
                 }
 
                 var requests = await _partRequestService.GetPartRequestsByUserAsync(userId, sent);
-                return Ok(requests);
+                var dtos = await MapToDtoAsync(requests);
+                return Ok(dtos);
             }
             catch (Exception ex)
             {
@@ -113,7 +120,7 @@ namespace server.Controllers
 
         // GET: api/part-requests/warehouse/{warehouseId}?from=true
         [HttpGet("warehouse/{warehouseId}")]
-        public async Task<ActionResult<IEnumerable<PartRequest>>> GetByWarehouse(int warehouseId, [FromQuery] bool from = true)
+        public async Task<ActionResult<IEnumerable<PartRequestDto>>> GetByWarehouse(int warehouseId, [FromQuery] bool from = true)
         {
             try
             {
@@ -123,7 +130,8 @@ namespace server.Controllers
                 }
 
                 var requests = await _partRequestService.GetPartRequestsByWarehouseAsync(warehouseId, from);
-                return Ok(requests);
+                var dtos = await MapToDtoAsync(requests);
+                return Ok(dtos);
             }
             catch (Exception ex)
             {
@@ -134,7 +142,7 @@ namespace server.Controllers
 
         // GET: api/part-requests/material/{materialId}
         [HttpGet("material/{materialId}")]
-        public async Task<ActionResult<IEnumerable<PartRequest>>> GetByMaterial(int materialId)
+        public async Task<ActionResult<IEnumerable<PartRequestDto>>> GetByMaterial(int materialId)
         {
             try
             {
@@ -144,7 +152,8 @@ namespace server.Controllers
                 }
 
                 var requests = await _partRequestService.GetPartRequestsByMaterialAsync(materialId);
-                return Ok(requests);
+                var dtos = await MapToDtoAsync(requests);
+                return Ok(dtos);
             }
             catch (Exception ex)
             {
@@ -495,6 +504,52 @@ namespace server.Controllers
             {
                 _logger.LogWarning(ex, "Failed to write history event");
             }
+        }
+
+        private async Task<List<PartRequestDto>> MapToDtoAsync(IEnumerable<PartRequest> requests)
+        {
+            var requestList = requests.ToList();
+            var materialIds = requestList.Where(r => r.MaterialId.HasValue).Select(r => r.MaterialId!.Value).Distinct().ToList();
+            var productIds = requestList.Where(r => r.ProductId.HasValue).Select(r => r.ProductId!.Value).Distinct().ToList();
+            var userIds = requestList.SelectMany(r => new[] { r.FromUserId, r.ToUserId }).Distinct().ToList();
+            var warehouseIds = requestList.SelectMany(r => new[] { r.FromWarehouseId, r.ToWarehouseId }).Distinct().ToList();
+
+            var materials = await _context.Materials
+                .Where(m => materialIds.Contains(m.Id))
+                .ToDictionaryAsync(m => m.Id, m => m.Name);
+            
+            var products = await _context.Products
+                .Where(p => productIds.Contains(p.Id))
+                .ToDictionaryAsync(p => p.Id, p => p.Name);
+            
+            var users = await _context.Users
+                .Where(u => userIds.Contains(u.Id))
+                .ToDictionaryAsync(u => u.Id, u => $"{u.Name} {u.Surname}".Trim());
+            
+            var warehouses = await _context.Warehouses
+                .Where(w => warehouseIds.Contains(w.Id))
+                .ToDictionaryAsync(w => w.Id, w => w.Name);
+
+            return requestList.Select(r => new PartRequestDto
+            {
+                Id = r.Id,
+                FromUserId = r.FromUserId,
+                ToUserId = r.ToUserId,
+                FromWarehouseId = r.FromWarehouseId,
+                ToWarehouseId = r.ToWarehouseId,
+                MaterialId = r.MaterialId,
+                ProductId = r.ProductId,
+                Quantity = r.Quantity,
+                MeasuringType = r.MeasuringType,
+                CreatedAt = r.CreatedAt,
+                Status = r.Status,
+                MaterialName = r.MaterialId.HasValue && materials.TryGetValue(r.MaterialId.Value, out var matName) ? matName : null,
+                ProductName = r.ProductId.HasValue && products.TryGetValue(r.ProductId.Value, out var prodName) ? prodName : null,
+                FromUserName = users.TryGetValue(r.FromUserId, out var fromUserName) ? fromUserName : null,
+                ToUserName = users.TryGetValue(r.ToUserId, out var toUserName) ? toUserName : null,
+                FromWarehouseName = warehouses.TryGetValue(r.FromWarehouseId, out var fromWhName) ? fromWhName : null,
+                ToWarehouseName = warehouses.TryGetValue(r.ToWarehouseId, out var toWhName) ? toWhName : null
+            }).ToList();
         }
     }
 }

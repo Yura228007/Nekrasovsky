@@ -66,9 +66,28 @@ namespace NekrasovskyAPP.Models
             _ => "—"
         };
 
+        // Поля для отображения названий (заполняются с сервера через DTO)
+        [NotMapped]
+        public string? MaterialName { get; set; }
+        
+        [NotMapped]
+        public string? ProductName { get; set; }
+        
+        [NotMapped]
+        public string? FromUserName { get; set; }
+        
+        [NotMapped]
+        public string? ToUserName { get; set; }
+        
+        [NotMapped]
+        public string? FromWarehouseName { get; set; }
+        
+        [NotMapped]
+        public string? ToWarehouseName { get; set; }
+
         /// <summary>Название материала или продукта для отображения.</summary>
         [NotMapped]
-        public string ItemName => Material?.Name ?? Product?.Name ?? (MaterialId.HasValue ? $"Материал #{MaterialId}" : ProductId.HasValue ? $"Продукт #{ProductId}" : "—");
+        public string ItemName => MaterialName ?? ProductName ?? (MaterialId.HasValue ? $"Материал #{MaterialId}" : ProductId.HasValue ? $"Продукт #{ProductId}" : "—");
     }
 
     public enum PartRequestStatus

@@ -14,7 +14,7 @@
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Обновить" Clicked="OnRefreshClicked" />
-        <ToolbarItem Text="Создать запрос" Clicked="OnAddClicked" />
+        <ToolbarItem Text="Создать передачу" Clicked="OnAddClicked" />
     </ContentPage.ToolbarItems>
     
     <Grid RowDefinitions="Auto,*,Auto" Padding="16">
@@ -22,7 +22,7 @@
         <!-- Header -->
         <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,4,0,12">
             <VerticalStackLayout>
-                <Label Text="Запросы деталей"
+                <Label Text="Передача остатков"
                        FontSize="24"
                        FontAttributes="Bold"
                        TextColor="{StaticResource White}" />
@@ -67,7 +67,7 @@
                                     </Border.StrokeShape>
                                     <Label Text="📥" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                                <Label Text="Входящие запросы"
+                                <Label Text="Входящие передачи"
                                        FontSize="16"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource White}"
@@ -161,7 +161,7 @@
                                     </Border.StrokeShape>
                                     <Label Text="📤" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                                <Label Text="Отправленные запросы"
+                                <Label Text="Отправленные передачи"
                                        FontSize="16"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource White}"

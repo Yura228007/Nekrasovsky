@@ -39,7 +39,7 @@ namespace server.Migrations
 
                     b.HasIndex("ToWarehouseId");
 
-                    b.ToTable("AccessibleMovement");
+                    b.ToTable("AccessibleMovement", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.AlarmEvent", b =>
@@ -67,7 +67,7 @@ namespace server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AlarmEvent");
+                    b.ToTable("AlarmEvent", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.DisposalRequest", b =>
@@ -129,7 +129,7 @@ namespace server.Migrations
 
                     b.HasIndex("ToWarehouseId");
 
-                    b.ToTable("DisposalRequest", t =>
+                    b.ToTable("DisposalRequest", null, t =>
                         {
                             t.HasCheckConstraint("CK_DisposalRequest_MaterialOrProduct", "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
                         });
@@ -172,7 +172,7 @@ namespace server.Migrations
                         .IsUnique()
                         .HasFilter("\"ProductId\" IS NOT NULL");
 
-                    b.ToTable("FillingWarehouse", t =>
+                    b.ToTable("FillingWarehouse", null, t =>
                         {
                             t.HasCheckConstraint("CK_FillingWarehouse_MaterialOrProduct", "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
                         });
@@ -237,7 +237,7 @@ namespace server.Migrations
 
                     b.HasIndex("ToWarehouseId");
 
-                    b.ToTable("FinishedGoodsRequest");
+                    b.ToTable("FinishedGoodsRequest", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.HistoryEvent", b =>
@@ -292,7 +292,7 @@ namespace server.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("HistoryEvent");
+                    b.ToTable("HistoryEvent", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.Machine", b =>
@@ -316,7 +316,7 @@ namespace server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Machine");
+                    b.ToTable("Machine", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.Material", b =>
@@ -346,7 +346,7 @@ namespace server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Material");
+                    b.ToTable("Material", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.MaterialSDHSale", b =>
@@ -391,7 +391,7 @@ namespace server.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("MaterialSDHSale", t =>
+                    b.ToTable("MaterialSDHSale", null, t =>
                         {
                             t.HasCheckConstraint("CK_MaterialSDHSale_MaterialOrProduct", "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
                         });
@@ -449,7 +449,7 @@ namespace server.Migrations
 
                     b.HasIndex("ToWarehouseId");
 
-                    b.ToTable("PartRequest", t =>
+                    b.ToTable("PartRequest", null, t =>
                         {
                             t.HasCheckConstraint("CK_PartRequest_MaterialOrProduct", "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
                         });
@@ -477,7 +477,7 @@ namespace server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permission");
+                    b.ToTable("Permission", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.Product", b =>
@@ -507,7 +507,7 @@ namespace server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Product");
+                    b.ToTable("Product", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.ProductBatch", b =>
@@ -553,7 +553,7 @@ namespace server.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("ProductBatch");
+                    b.ToTable("ProductBatch", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.ProductMovementRequest", b =>
@@ -606,7 +606,7 @@ namespace server.Migrations
 
                     b.HasIndex("ToWarehouseId");
 
-                    b.ToTable("ProductMovementRequest");
+                    b.ToTable("ProductMovementRequest", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.ProductOutput", b =>
@@ -687,7 +687,7 @@ namespace server.Migrations
 
                     b.HasIndex("WorkReportId");
 
-                    b.ToTable("ProductOutput");
+                    b.ToTable("ProductOutput", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.ProductSale", b =>
@@ -727,7 +727,7 @@ namespace server.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("ProductSale");
+                    b.ToTable("ProductSale", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.Recipe", b =>
@@ -748,7 +748,7 @@ namespace server.Migrations
 
                     b.HasIndex("MaterialId");
 
-                    b.ToTable("Recipe");
+                    b.ToTable("Recipe", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.Reprocessing", b =>
@@ -785,7 +785,7 @@ namespace server.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("Reprocessing");
+                    b.ToTable("Reprocessing", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.ReprocessingItem", b =>
@@ -819,7 +819,7 @@ namespace server.Migrations
 
                     b.HasIndex("ReprocessingId");
 
-                    b.ToTable("ReprocessingItem", t =>
+                    b.ToTable("ReprocessingItem", null, t =>
                         {
                             t.HasCheckConstraint("CK_ReprocessingItem_MaterialOrProduct", "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
                         });
@@ -851,7 +851,7 @@ namespace server.Migrations
 
                     b.HasIndex("ReprocessingId");
 
-                    b.ToTable("ReprocessingSourceItem");
+                    b.ToTable("ReprocessingSourceItem", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.ResponsibilityFilling", b =>
@@ -908,7 +908,7 @@ namespace server.Migrations
                     b.HasIndex("UserId", "WarehouseId", "ProductId")
                         .HasFilter("\"IsActive\" = true AND \"ProductId\" IS NOT NULL");
 
-                    b.ToTable("ResponsibilityFilling", t =>
+                    b.ToTable("ResponsibilityFilling", null, t =>
                         {
                             t.HasCheckConstraint("CK_ResponsibilityFilling_MaterialOrProduct", "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
                         });
@@ -937,7 +937,7 @@ namespace server.Migrations
 
                     b.HasIndex("WorkReportId");
 
-                    b.ToTable("ResponsibilityShiftSnapshot");
+                    b.ToTable("ResponsibilityShiftSnapshot", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.ResponsibilityShiftSnapshotItem", b =>
@@ -976,7 +976,7 @@ namespace server.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("ResponsibilityShiftSnapshotItem");
+                    b.ToTable("ResponsibilityShiftSnapshotItem", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.Role", b =>
@@ -1003,7 +1003,7 @@ namespace server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Role", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.RolePermission", b =>
@@ -1018,7 +1018,7 @@ namespace server.Migrations
 
                     b.HasIndex("PermissionId");
 
-                    b.ToTable("RolePermission");
+                    b.ToTable("RolePermission", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.SDHRequest", b =>
@@ -1076,7 +1076,7 @@ namespace server.Migrations
 
                     b.HasIndex("ToWarehouseId");
 
-                    b.ToTable("SDHRequest", t =>
+                    b.ToTable("SDHRequest", null, t =>
                         {
                             t.HasCheckConstraint("CK_SDHRequest_MaterialOrProduct", "(\"MaterialId\" IS NOT NULL AND \"ProductId\" IS NULL) OR (\"MaterialId\" IS NULL AND \"ProductId\" IS NOT NULL)");
                         });
@@ -1128,7 +1128,7 @@ namespace server.Migrations
                     b.HasIndex("WorkReportId")
                         .IsUnique();
 
-                    b.ToTable("ShiftReport");
+                    b.ToTable("ShiftReport", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.ShiftTransfer", b =>
@@ -1157,7 +1157,7 @@ namespace server.Migrations
 
                     b.HasIndex("ToUserId");
 
-                    b.ToTable("ShiftTransfer");
+                    b.ToTable("ShiftTransfer", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.User", b =>
@@ -1208,7 +1208,7 @@ namespace server.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.UserPermissions", b =>
@@ -1223,7 +1223,7 @@ namespace server.Migrations
 
                     b.HasIndex("PermissionId");
 
-                    b.ToTable("UserPermissions");
+                    b.ToTable("UserPermissions", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.Warehouse", b =>
@@ -1247,7 +1247,7 @@ namespace server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Warehouse");
+                    b.ToTable("Warehouse", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.WorkReport", b =>
@@ -1277,7 +1277,7 @@ namespace server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("WorkReport");
+                    b.ToTable("WorkReport", (string)null);
                 });
 
             modelBuilder.Entity("server.Models.AccessibleMovement", b =>

@@ -60,7 +60,7 @@ namespace NekrasovskyAPP.Pages
 
             if (!_viewModel.Warehouses.Any())
             {
-                await DisplayAlert("Ошибка", "Нет активных складов. Запросы можно создавать только по работающим складам.", "OK");
+                await DisplayAlert("Ошибка", "Нет активных складов. Передачи можно создавать только по работающим складам.", "OK");
                 return;
             }
 

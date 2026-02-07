@@ -17,6 +17,7 @@ namespace server.Controllers
         private readonly IRoleService _roleService;
         private readonly IUserPermissionsService _userPermissionsService;
         private readonly AppDbContext _context;
+        private readonly IHistoryService _historyService;
 
         public ResponsibilitiesController(
             IResponsibilityFillingService responsibilityFillingService,
@@ -24,7 +25,8 @@ namespace server.Controllers
             IUserService userService,
             IRoleService roleService,
             IUserPermissionsService userPermissionsService,
-            AppDbContext context)
+            AppDbContext context,
+            IHistoryService historyService)
         {
             _responsibilityFillingService = responsibilityFillingService;
             _logger = logger;
@@ -32,6 +34,7 @@ namespace server.Controllers
             _roleService = roleService;
             _userPermissionsService = userPermissionsService;
             _context = context;
+            _historyService = historyService;
         }
 
         // GET: api/responsibilities/user/5/stock
@@ -137,6 +140,22 @@ namespace server.Controllers
                     return BadRequest(new { message = "UserId, WarehouseId, MaterialId and positive Quantity required" });
                 var rf = await _responsibilityFillingService.AssignMaterialAtWarehouseAsync(
                     request.UserId, request.WarehouseId, request.MaterialId, request.Quantity, request.MeasuringUnit);
+                
+                var currentUserId = GetUserIdFromHeader();
+                if (currentUserId.HasValue)
+                {
+                    await TryLogAsync(currentUserId.Value, new HistoryEvent
+                    {
+                        Action = "Responsibility.MaterialAssigned",
+                        EntityType = "ResponsibilityFilling",
+                        EntityId = rf.Id,
+                        RelatedUserId = request.UserId,
+                        WarehouseId = request.WarehouseId,
+                        MaterialId = request.MaterialId,
+                        Description = $"Назначена ответственность за материал ID {request.MaterialId} на складе ID {request.WarehouseId}, количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+                    });
+                }
+                
                 return Ok(new { message = "Responsibility filling assigned", responsibilityFilling = rf });
             }
             catch (InvalidOperationException ex)
@@ -181,6 +200,22 @@ namespace server.Controllers
                     return BadRequest(new { message = "BatchId, UserId and positive Quantity required" });
                 var rf = await _responsibilityFillingService.AssignBatchResponsibilityAsync(
                     request.UserId, request.BatchId, request.Quantity, request.MeasuringUnit);
+                
+                var currentUserId = GetUserIdFromHeader();
+                if (currentUserId.HasValue)
+                {
+                    var batch = await _context.ProductBatches.FindAsync(request.BatchId);
+                    await TryLogAsync(currentUserId.Value, new HistoryEvent
+                    {
+                        Action = "Responsibility.BatchAssigned",
+                        EntityType = "ResponsibilityFilling",
+                        EntityId = rf.Id,
+                        RelatedUserId = request.UserId,
+                        ProductId = batch?.ProductId,
+                        Description = $"Назначена ответственность за партию ID {request.BatchId} (продукт ID {batch?.ProductId}), количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+                    });
+                }
+                
                 return Ok(new { message = "Responsibility filling assigned successfully", responsibilityFilling = rf });
             }
             catch (InvalidOperationException ex)
@@ -206,6 +241,22 @@ namespace server.Controllers
                     return BadRequest(new { message = "UserId, WarehouseId, ProductId and positive Quantity required" });
                 var rf = await _responsibilityFillingService.AssignProductAtWarehouseAsync(
                     request.UserId, request.WarehouseId, request.ProductId, request.Quantity, request.MeasuringUnit);
+                
+                var currentUserId = GetUserIdFromHeader();
+                if (currentUserId.HasValue)
+                {
+                    await TryLogAsync(currentUserId.Value, new HistoryEvent
+                    {
+                        Action = "Responsibility.ProductAssigned",
+                        EntityType = "ResponsibilityFilling",
+                        EntityId = rf.Id,
+                        RelatedUserId = request.UserId,
+                        WarehouseId = request.WarehouseId,
+                        ProductId = request.ProductId,
+                        Description = $"Назначена ответственность за продукт ID {request.ProductId} на складе ID {request.WarehouseId}, количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+                    });
+                }
+                
                 return Ok(new { message = "Responsibility filling assigned", responsibilityFilling = rf });
             }
             catch (InvalidOperationException ex)
@@ -231,6 +282,21 @@ namespace server.Controllers
                     return BadRequest(new { message = "WarehouseId, MaterialId, FromUserId and ToUserId required" });
                 await _responsibilityFillingService.TransferMaterialResponsibilityAsync(
                     request.WarehouseId, request.MaterialId, request.FromUserId, request.ToUserId, request.QuantityToTransfer);
+                
+                var currentUserId = GetUserIdFromHeader();
+                if (currentUserId.HasValue)
+                {
+                    await TryLogAsync(currentUserId.Value, new HistoryEvent
+                    {
+                        Action = "Responsibility.MaterialTransferred",
+                        EntityType = "ResponsibilityFilling",
+                        RelatedUserId = request.ToUserId,
+                        WarehouseId = request.WarehouseId,
+                        MaterialId = request.MaterialId,
+                        Description = $"Передана ответственность за материал ID {request.MaterialId} на складе ID {request.WarehouseId} от пользователя ID {request.FromUserId} пользователю ID {request.ToUserId}, количество: {request.QuantityToTransfer?.ToString() ?? "все"}"
+                    });
+                }
+                
                 return Ok(new { message = "Responsibility transferred" });
             }
             catch (InvalidOperationException ex)
@@ -256,6 +322,21 @@ namespace server.Controllers
                     return BadRequest(new { message = "WarehouseId, ProductId, FromUserId and ToUserId required" });
                 await _responsibilityFillingService.TransferProductResponsibilityAsync(
                     request.WarehouseId, request.ProductId, request.FromUserId, request.ToUserId, request.QuantityToTransfer);
+                
+                var currentUserId = GetUserIdFromHeader();
+                if (currentUserId.HasValue)
+                {
+                    await TryLogAsync(currentUserId.Value, new HistoryEvent
+                    {
+                        Action = "Responsibility.ProductTransferred",
+                        EntityType = "ResponsibilityFilling",
+                        RelatedUserId = request.ToUserId,
+                        WarehouseId = request.WarehouseId,
+                        ProductId = request.ProductId,
+                        Description = $"Передана ответственность за продукт ID {request.ProductId} на складе ID {request.WarehouseId} от пользователя ID {request.FromUserId} пользователю ID {request.ToUserId}, количество: {request.QuantityToTransfer?.ToString() ?? "все"}"
+                    });
+                }
+                
                 return Ok(new { message = "Responsibility transferred" });
             }
             catch (InvalidOperationException ex)
@@ -281,6 +362,21 @@ namespace server.Controllers
                     return BadRequest(new { message = "BatchId, FromUserId and ToUserId required" });
                 await _responsibilityFillingService.TransferBatchResponsibilityAsync(
                     request.BatchId, request.FromUserId, request.ToUserId, request.QuantityToTransfer);
+                
+                var currentUserId = GetUserIdFromHeader();
+                if (currentUserId.HasValue)
+                {
+                    var batch = await _context.ProductBatches.FindAsync(request.BatchId);
+                    await TryLogAsync(currentUserId.Value, new HistoryEvent
+                    {
+                        Action = "Responsibility.BatchTransferred",
+                        EntityType = "ResponsibilityFilling",
+                        RelatedUserId = request.ToUserId,
+                        ProductId = batch?.ProductId,
+                        Description = $"Передана ответственность за партию ID {request.BatchId} (продукт ID {batch?.ProductId}) от пользователя ID {request.FromUserId} пользователю ID {request.ToUserId}, количество: {request.QuantityToTransfer?.ToString() ?? "все"}"
+                    });
+                }
+                
                 return Ok(new { message = "Responsibility transferred" });
             }
             catch (InvalidOperationException ex)
@@ -313,6 +409,21 @@ namespace server.Controllers
                 {
                     await _responsibilityFillingService.ReleaseBatchResponsibilityAsync(request.BatchId, request.UserId);
                 }
+                
+                var currentUserId = GetUserIdFromHeader();
+                if (currentUserId.HasValue)
+                {
+                    var batch = await _context.ProductBatches.FindAsync(request.BatchId);
+                    await TryLogAsync(currentUserId.Value, new HistoryEvent
+                    {
+                        Action = "Responsibility.BatchReleased",
+                        EntityType = "ResponsibilityFilling",
+                        RelatedUserId = request.UserId,
+                        ProductId = batch?.ProductId,
+                        Description = $"Снята ответственность за партию ID {request.BatchId} (продукт ID {batch?.ProductId}) с пользователя ID {request.UserId}, количество: {request.QuantityToRelease?.ToString() ?? "все"}"
+                    });
+                }
+                
                 return Ok(new { message = "Responsibility released" });
             }
             catch (Exception ex)
@@ -349,6 +460,21 @@ namespace server.Controllers
                             request.WarehouseId, request.MaterialId, totalQty, request.UserId);
                     }
                 }
+                
+                var currentUserId = GetUserIdFromHeader();
+                if (currentUserId.HasValue)
+                {
+                    await TryLogAsync(currentUserId.Value, new HistoryEvent
+                    {
+                        Action = "Responsibility.MaterialReleased",
+                        EntityType = "ResponsibilityFilling",
+                        RelatedUserId = request.UserId,
+                        WarehouseId = request.WarehouseId,
+                        MaterialId = request.MaterialId,
+                        Description = $"Снята ответственность за материал ID {request.MaterialId} на складе ID {request.WarehouseId} с пользователя ID {request.UserId}, количество: {request.QuantityToRelease?.ToString() ?? "все"}"
+                    });
+                }
+                
                 return Ok(new { message = "Responsibility released" });
             }
             catch (Exception ex)
@@ -440,6 +566,22 @@ namespace server.Controllers
                 }
                 
                 await _context.SaveChangesAsync();
+                
+                var currentUserId = GetUserIdFromHeader();
+                if (currentUserId.HasValue)
+                {
+                    await TryLogAsync(currentUserId.Value, new HistoryEvent
+                    {
+                        Action = "Responsibility.Deleted",
+                        EntityType = "ResponsibilityFilling",
+                        EntityId = id,
+                        WarehouseId = filling.WarehouseId,
+                        MaterialId = filling.MaterialId,
+                        ProductId = filling.ProductId,
+                        Description = $"Удалена ответственность ID {id}, количество: {quantityToDeduct}"
+                    });
+                }
+                
                 return Ok(new { message = "ResponsibilityFilling deleted successfully" });
             }
             catch (Exception ex)
@@ -487,6 +629,30 @@ namespace server.Controllers
             }
 
             return false;
+        }
+
+        private int? GetUserIdFromHeader()
+        {
+            if (Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) &&
+                int.TryParse(userIdHeader.ToString(), out var userId))
+            {
+                return userId;
+            }
+            return null;
+        }
+
+        private async Task TryLogAsync(int userId, HistoryEvent historyEvent)
+        {
+            if (userId <= 0) return;
+            historyEvent.UserId = userId;
+            try
+            {
+                await _historyService.AddEventAsync(historyEvent);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to write history event");
+            }
         }
     }
 

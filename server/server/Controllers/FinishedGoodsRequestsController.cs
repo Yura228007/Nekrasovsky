@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using server.Models;
 using server.Services;
+using System;
 
 namespace server.Controllers;
 
@@ -10,13 +11,16 @@ public class FinishedGoodsRequestsController : ControllerBase
 {
     private readonly IFinishedGoodsRequestService _finishedGoodsRequestService;
     private readonly ILogger<FinishedGoodsRequestsController> _logger;
+    private readonly IHistoryService _historyService;
 
     public FinishedGoodsRequestsController(
         IFinishedGoodsRequestService finishedGoodsRequestService,
-        ILogger<FinishedGoodsRequestsController> logger)
+        ILogger<FinishedGoodsRequestsController> logger,
+        IHistoryService historyService)
     {
         _finishedGoodsRequestService = finishedGoodsRequestService;
         _logger = logger;
+        _historyService = historyService;
     }
 
     /// <summary>
@@ -95,6 +99,17 @@ public class FinishedGoodsRequestsController : ControllerBase
                 return Unauthorized(new { message = "User ID is required (X-User-Id)." });
 
             var request = await _finishedGoodsRequestService.ApproveFinishedGoodsRequestAsync(id, userId.Value);
+            
+            await TryLogAsync(userId.Value, new HistoryEvent
+            {
+                Action = "FinishedGoodsRequest.Approved",
+                EntityType = "FinishedGoodsRequest",
+                EntityId = id,
+                WarehouseId = request.ToWarehouseId,
+                ProductId = request.ProductId,
+                Description = $"Одобрен запрос на ГП ID {id}: продукт ID {request.ProductId}, количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+            });
+            
             return Ok(request);
         }
         catch (KeyNotFoundException ex)
@@ -125,6 +140,17 @@ public class FinishedGoodsRequestsController : ControllerBase
                 return Unauthorized(new { message = "User ID is required (X-User-Id)." });
 
             var request = await _finishedGoodsRequestService.RejectFinishedGoodsRequestAsync(id, userId.Value);
+            
+            await TryLogAsync(userId.Value, new HistoryEvent
+            {
+                Action = "FinishedGoodsRequest.Rejected",
+                EntityType = "FinishedGoodsRequest",
+                EntityId = id,
+                WarehouseId = request.ToWarehouseId,
+                ProductId = request.ProductId,
+                Description = $"Отклонен запрос на ГП ID {id}: продукт ID {request.ProductId}, количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+            });
+            
             return Ok(request);
         }
         catch (KeyNotFoundException ex)
@@ -150,6 +176,20 @@ public class FinishedGoodsRequestsController : ControllerBase
             return userId;
         }
         return null;
+    }
+
+    private async Task TryLogAsync(int userId, HistoryEvent historyEvent)
+    {
+        if (userId <= 0) return;
+        historyEvent.UserId = userId;
+        try
+        {
+            await _historyService.AddEventAsync(historyEvent);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to write history event");
+        }
     }
 }
 

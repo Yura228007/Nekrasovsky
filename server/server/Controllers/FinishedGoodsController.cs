@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using server.Models;
 using server.Services;
+using System;
 
 namespace server.Controllers;
 
@@ -10,13 +11,16 @@ public class FinishedGoodsController : ControllerBase
 {
     private readonly IFinishedGoodsService _finishedGoodsService;
     private readonly ILogger<FinishedGoodsController> _logger;
+    private readonly IHistoryService _historyService;
 
     public FinishedGoodsController(
         IFinishedGoodsService finishedGoodsService,
-        ILogger<FinishedGoodsController> logger)
+        ILogger<FinishedGoodsController> logger,
+        IHistoryService historyService)
     {
         _finishedGoodsService = finishedGoodsService;
         _logger = logger;
+        _historyService = historyService;
     }
 
     /// <summary>
@@ -34,6 +38,16 @@ public class FinishedGoodsController : ControllerBase
         try
         {
             await _finishedGoodsService.ProcessSaleAsync(userId, request.WarehouseId, request.ProductId, request.Quantity, request.MeasuringUnit);
+            
+            await TryLogAsync(userId, new HistoryEvent
+            {
+                Action = "FinishedGoods.Sale",
+                EntityType = "ProductSale",
+                WarehouseId = request.WarehouseId,
+                ProductId = request.ProductId,
+                Description = $"Продажа готовой продукции: продукт ID {request.ProductId} на складе ID {request.WarehouseId}, количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+            });
+            
             return Ok(new { message = "Продажа оформлена успешно" });
         }
         catch (InvalidOperationException ex)
@@ -63,6 +77,16 @@ public class FinishedGoodsController : ControllerBase
         try
         {
             await _finishedGoodsService.ProcessDisposalAsync(userId, request.WarehouseId, request.ProductId, request.Quantity, request.MeasuringUnit);
+            
+            await TryLogAsync(userId, new HistoryEvent
+            {
+                Action = "FinishedGoods.Disposal",
+                EntityType = "FinishedGoodsRequest",
+                WarehouseId = request.WarehouseId,
+                ProductId = request.ProductId,
+                Description = $"Отправка готовой продукции в утиль: продукт ID {request.ProductId} на складе ID {request.WarehouseId}, количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+            });
+            
             return Ok(new { message = "Продукция отправлена в утиль" });
         }
         catch (InvalidOperationException ex)
@@ -73,6 +97,20 @@ public class FinishedGoodsController : ControllerBase
         {
             _logger.LogError(ex, "Error processing disposal for product {ProductId} at warehouse {WarehouseId}", request.ProductId, request.WarehouseId);
             return StatusCode(500, new { message = "An error occurred while processing disposal" });
+        }
+    }
+
+    private async Task TryLogAsync(int userId, HistoryEvent historyEvent)
+    {
+        if (userId <= 0) return;
+        historyEvent.UserId = userId;
+        try
+        {
+            await _historyService.AddEventAsync(historyEvent);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to write history event");
         }
     }
 }

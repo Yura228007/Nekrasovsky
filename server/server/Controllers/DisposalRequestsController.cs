@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using server.Models;
 using server.Services;
+using server.Data;
+using System;
 
 namespace server.Controllers;
 
@@ -10,13 +12,19 @@ public class DisposalRequestsController : ControllerBase
 {
     private readonly IDisposalRequestService _disposalRequestService;
     private readonly ILogger<DisposalRequestsController> _logger;
+    private readonly IHistoryService _historyService;
+    private readonly AppDbContext _context;
 
     public DisposalRequestsController(
         IDisposalRequestService disposalRequestService,
-        ILogger<DisposalRequestsController> logger)
+        ILogger<DisposalRequestsController> logger,
+        IHistoryService historyService,
+        AppDbContext context)
     {
         _disposalRequestService = disposalRequestService;
         _logger = logger;
+        _historyService = historyService;
+        _context = context;
     }
 
     /// <summary>
@@ -76,6 +84,20 @@ public class DisposalRequestsController : ControllerBase
         try
         {
             var request = await _disposalRequestService.ApproveDisposalRequestAsync(requestId, userId);
+            
+            var itemType = request.MaterialId.HasValue ? "Материал" : "Продукт";
+            var itemId = request.MaterialId ?? request.ProductId ?? 0;
+            await TryLogAsync(userId, new HistoryEvent
+            {
+                Action = "DisposalRequest.Approved",
+                EntityType = "DisposalRequest",
+                EntityId = requestId,
+                WarehouseId = request.ToWarehouseId,
+                MaterialId = request.MaterialId,
+                ProductId = request.ProductId,
+                Description = $"Одобрен запрос на утиль ID {requestId}: {itemType} ID {itemId}, количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+            });
+            
             return Ok(new { message = "Disposal request approved", request });
         }
         catch (KeyNotFoundException ex)
@@ -102,6 +124,20 @@ public class DisposalRequestsController : ControllerBase
         try
         {
             var request = await _disposalRequestService.RejectDisposalRequestAsync(requestId);
+            
+            var itemType = request.MaterialId.HasValue ? "Материал" : "Продукт";
+            var itemId = request.MaterialId ?? request.ProductId ?? 0;
+            await TryLogAsync(request.FromUserId, new HistoryEvent
+            {
+                Action = "DisposalRequest.Rejected",
+                EntityType = "DisposalRequest",
+                EntityId = requestId,
+                WarehouseId = request.ToWarehouseId,
+                MaterialId = request.MaterialId,
+                ProductId = request.ProductId,
+                Description = $"Отклонен запрос на утиль ID {requestId}: {itemType} ID {itemId}, количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+            });
+            
             return Ok(new { message = "Disposal request rejected", request });
         }
         catch (KeyNotFoundException ex)
@@ -116,6 +152,20 @@ public class DisposalRequestsController : ControllerBase
         {
             _logger.LogError(ex, "Error rejecting disposal request {RequestId}", requestId);
             return StatusCode(500, new { message = "An error occurred while rejecting disposal request" });
+        }
+    }
+
+    private async Task TryLogAsync(int userId, HistoryEvent historyEvent)
+    {
+        if (userId <= 0) return;
+        historyEvent.UserId = userId;
+        try
+        {
+            await _historyService.AddEventAsync(historyEvent);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to write history event");
         }
     }
 }

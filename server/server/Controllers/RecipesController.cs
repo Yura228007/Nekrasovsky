@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
+using System;
 
 namespace server.Controllers
 {
@@ -11,11 +12,13 @@ namespace server.Controllers
     {
         private readonly IRecipeService _recipeService;
         private readonly ILogger<RecipesController> _logger;
+        private readonly IHistoryService _historyService;
 
-        public RecipesController(IRecipeService recipeService, ILogger<RecipesController> logger)
+        public RecipesController(IRecipeService recipeService, ILogger<RecipesController> logger, IHistoryService historyService)
         {
             _recipeService = recipeService;
             _logger = logger;
+            _historyService = historyService;
         }
 
         // GET: api/recipes
@@ -178,6 +181,20 @@ namespace server.Controllers
             {
                 var recipe = await _recipeService.UpdateRecipeAsync(productId, materialId, updated);
                 _logger.LogInformation("Recipe updated successfully for ProductId {ProductId} and MaterialId {MaterialId}", productId, materialId);
+                
+                var userId = GetUserIdFromHeader();
+                if (userId.HasValue)
+                {
+                    await TryLogAsync(userId.Value, new HistoryEvent
+                    {
+                        Action = "Recipe.Updated",
+                        EntityType = "Recipe",
+                        ProductId = productId,
+                        MaterialId = materialId,
+                        Description = $"Обновлен рецепт: продукт ID {productId}, материал ID {materialId}, количество: {recipe.Quantity}"
+                    });
+                }
+                
                 return Ok(new { message = "Recipe updated successfully", recipe });
             }
             catch (KeyNotFoundException ex)
@@ -221,6 +238,20 @@ namespace server.Controllers
                 }
 
                 _logger.LogInformation("Recipe deleted successfully for ProductId {ProductId} and MaterialId {MaterialId}", productId, materialId);
+                
+                var userId = GetUserIdFromHeader();
+                if (userId.HasValue)
+                {
+                    await TryLogAsync(userId.Value, new HistoryEvent
+                    {
+                        Action = "Recipe.Deleted",
+                        EntityType = "Recipe",
+                        ProductId = productId,
+                        MaterialId = materialId,
+                        Description = $"Удален рецепт: продукт ID {productId}, материал ID {materialId}"
+                    });
+                }
+                
                 return Ok(new { message = "Recipe deleted successfully" });
             }
             catch (DbUpdateException ex)
@@ -306,6 +337,30 @@ namespace server.Controllers
             {
                 _logger.LogError(ex, "Unexpected error while removing material from recipe");
                 return StatusCode(500, new { message = "An unexpected error occurred" });
+            }
+        }
+
+        private int? GetUserIdFromHeader()
+        {
+            if (Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) &&
+                int.TryParse(userIdHeader.ToString(), out var userId))
+            {
+                return userId;
+            }
+            return null;
+        }
+
+        private async Task TryLogAsync(int userId, HistoryEvent historyEvent)
+        {
+            if (userId <= 0) return;
+            historyEvent.UserId = userId;
+            try
+            {
+                await _historyService.AddEventAsync(historyEvent);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to write history event");
             }
         }
     }

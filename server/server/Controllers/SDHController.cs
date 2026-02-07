@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Models;
 using server.Services;
+using System;
 
 namespace server.Controllers;
 
@@ -12,11 +13,13 @@ public class SDHController : ControllerBase
 {
     private readonly ISDHService _sdhService;
     private readonly ILogger<SDHController> _logger;
+    private readonly IHistoryService _historyService;
 
-    public SDHController(ISDHService sdhService, ILogger<SDHController> logger)
+    public SDHController(ISDHService sdhService, ILogger<SDHController> logger, IHistoryService historyService)
     {
         _sdhService = sdhService;
         _logger = logger;
+        _historyService = historyService;
     }
 
     [HttpPost("non-returnable-defect")]
@@ -35,6 +38,18 @@ public class SDHController : ControllerBase
                 request.ProductId,
                 request.Quantity,
                 request.MeasuringUnit);
+
+            var itemType = request.MaterialId.HasValue ? "Материал" : "Продукт";
+            var itemId = request.MaterialId ?? request.ProductId ?? 0;
+            await TryLogAsync(userId.Value, new HistoryEvent
+            {
+                Action = "SDH.NonReturnableDefect",
+                EntityType = "MaterialSDHSale",
+                WarehouseId = request.WarehouseId,
+                MaterialId = request.MaterialId,
+                ProductId = request.ProductId,
+                Description = $"Невозвратный брак из СДХ: {itemType} ID {itemId} на складе ID {request.WarehouseId}, количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+            });
 
             return Ok(new { message = "Невозвратный брак успешно списан" });
         }
@@ -62,6 +77,18 @@ public class SDHController : ControllerBase
                 request.Quantity,
                 request.MeasuringUnit);
 
+            var itemType = request.MaterialId.HasValue ? "Материал" : "Продукт";
+            var itemId = request.MaterialId ?? request.ProductId ?? 0;
+            await TryLogAsync(userId.Value, new HistoryEvent
+            {
+                Action = "SDH.Sale",
+                EntityType = "MaterialSDHSale",
+                WarehouseId = request.WarehouseId,
+                MaterialId = request.MaterialId,
+                ProductId = request.ProductId,
+                Description = $"Продажа из СДХ: {itemType} ID {itemId} на складе ID {request.WarehouseId}, количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+            });
+
             return Ok(new { message = "Продажа успешно оформлена" });
         }
         catch (Exception ex)
@@ -88,6 +115,18 @@ public class SDHController : ControllerBase
                 request.ProductId,
                 request.Quantity,
                 request.MeasuringUnit);
+
+            var itemType = request.MaterialId.HasValue ? "Материал" : "Продукт";
+            var itemId = request.MaterialId ?? request.ProductId ?? 0;
+            await TryLogAsync(userId.Value, new HistoryEvent
+            {
+                Action = "SDH.RequestCreated",
+                EntityType = "SDHRequest",
+                WarehouseId = request.ToWarehouseId,
+                MaterialId = request.MaterialId,
+                ProductId = request.ProductId,
+                Description = $"Создан запрос на отправку на СДХ: {itemType} ID {itemId} со склада ID {request.FromWarehouseId} на склад ID {request.ToWarehouseId}, количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+            });
 
             return Ok(new { message = "Запрос на отправку на СДХ создан" });
         }
@@ -177,6 +216,25 @@ public class SDHController : ControllerBase
                 return Unauthorized(new { message = "User ID is required" });
 
             await _sdhService.ApproveSDHRequestAsync(requestId, userId.Value);
+            
+            using var context = HttpContext.RequestServices.GetRequiredService<server.Data.AppDbContext>();
+            var request = await context.SDHRequests.FindAsync(requestId);
+            if (request != null)
+            {
+                var itemType = request.MaterialId.HasValue ? "Материал" : "Продукт";
+                var itemId = request.MaterialId ?? request.ProductId ?? 0;
+                await TryLogAsync(userId.Value, new HistoryEvent
+                {
+                    Action = "SDH.RequestApproved",
+                    EntityType = "SDHRequest",
+                    EntityId = requestId,
+                    WarehouseId = request.ToWarehouseId,
+                    MaterialId = request.MaterialId,
+                    ProductId = request.ProductId,
+                    Description = $"Одобрен запрос на СДХ ID {requestId}: {itemType} ID {itemId}, количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+                });
+            }
+            
             return Ok(new { message = "Запрос подтвержден. Ответственность передана вам." });
         }
         catch (Exception ex)
@@ -192,6 +250,25 @@ public class SDHController : ControllerBase
         try
         {
             await _sdhService.RejectSDHRequestAsync(requestId);
+            
+            using var context = HttpContext.RequestServices.GetRequiredService<server.Data.AppDbContext>();
+            var request = await context.SDHRequests.FindAsync(requestId);
+            if (request != null)
+            {
+                var itemType = request.MaterialId.HasValue ? "Материал" : "Продукт";
+                var itemId = request.MaterialId ?? request.ProductId ?? 0;
+                await TryLogAsync(request.FromUserId, new HistoryEvent
+                {
+                    Action = "SDH.RequestRejected",
+                    EntityType = "SDHRequest",
+                    EntityId = requestId,
+                    WarehouseId = request.ToWarehouseId,
+                    MaterialId = request.MaterialId,
+                    ProductId = request.ProductId,
+                    Description = $"Отклонен запрос на СДХ ID {requestId}: {itemType} ID {itemId}, количество: {request.Quantity} {request.MeasuringUnit ?? "шт"}"
+                });
+            }
+            
             return Ok(new { message = "Запрос отклонен. Ответственность осталась у создателя." });
         }
         catch (Exception ex)
@@ -216,6 +293,20 @@ public class SDHController : ControllerBase
         }
 
         return null;
+    }
+
+    private async Task TryLogAsync(int userId, HistoryEvent historyEvent)
+    {
+        if (userId <= 0) return;
+        historyEvent.UserId = userId;
+        try
+        {
+            await _historyService.AddEventAsync(historyEvent);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to write history event");
+        }
     }
 }
 

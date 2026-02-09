@@ -209,7 +209,8 @@ namespace server.Seed
                 new() { Code = "Inventory", Name = "Инвентаризация", Description = "Инвентаризация" },
                 new() { Code = "ManageUsers", Name = "Управление пользователями", Description = "Добавление/редактирование/удаление пользователей" },
                 new() { Code = "ManageResponsibility", Name = "Управление ответственностью", Description = "Назначение и изменение ответственных" },
-                new() { Code = "ManageFinishedGoodsWarehouses", Name = "Управление складами готовой продукции", Description = "Управление перемещениями продукции на склады готовой продукции" }
+                new() { Code = "ManageFinishedGoodsWarehouses", Name = "Управление складами готовой продукции", Description = "Управление перемещениями продукции на склады готовой продукции" },
+                new() { Code = "ManageSDH", Name = "Управление СДХ", Description = "Управление складом СДХ" }
             };
 
             // Словарь прав по ролям
@@ -220,14 +221,14 @@ namespace server.Seed
                     "AddUsersAll", "AddUsersLower", "ReceiveGoods", "AssignBarcode",
                     "SendToScrap", "SendToSDH", "SendToSale", "WriteOff",
                     "TransferMainToWorkshops", "TransferWorkshopsToMain", "ShiftTransfer",
-                    "ManageRecipes", "Inventory", "ManageUsers", "ManageResponsibility", "ManageFinishedGoodsWarehouses"
+                    "ManageRecipes", "Inventory", "ManageUsers", "ManageResponsibility", "ManageFinishedGoodsWarehouses", "ManageSDH"
                 },
                 ["Администратор"] = new[]
                 {
                     "AddUsersLower", "ReceiveGoods", "AssignBarcode",
                     "SendToScrap", "SendToSDH", "SendToSale",
                     "TransferMainToWorkshops", "TransferWorkshopsToMain", "ShiftTransfer",
-                    "ManageRecipes", "Inventory", "ManageUsers", "ManageResponsibility", "ManageFinishedGoodsWarehouses"
+                    "ManageRecipes", "Inventory", "ManageUsers", "ManageResponsibility", "ManageFinishedGoodsWarehouses", "ManageSDH"
                 },
                 ["Старший экструзионщик"] = new[]
                 {

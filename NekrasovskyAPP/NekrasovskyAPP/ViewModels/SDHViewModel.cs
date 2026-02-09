@@ -186,7 +186,7 @@ namespace NekrasovskyAPP.ViewModels
             if (currentUser.RoleId.HasValue)
             {
                 var rolePermissions = await _apiService.GetRolePermissionsAsync(currentUser.RoleId.Value);
-                if (rolePermissions.Any(p => p.Code == "ManageSDHWarehouses"))
+                if (rolePermissions.Any(p => p.Code == "ManageSDH"))
                 {
                     CanManage = true;
                     return;
@@ -195,7 +195,7 @@ namespace NekrasovskyAPP.ViewModels
 
             // Проверяем персональные права
             var userPermissions = await _apiService.GetUserPermissionsAsync(currentUser.Id);
-            CanManage = userPermissions.Any(p => p.Code == "ManageSDHWarehouses");
+            CanManage = userPermissions.Any(p => p.Code == "ManageSDH");
         }
 
         public async Task<bool> ApproveSDHRequestAsync(SDHRequest request)

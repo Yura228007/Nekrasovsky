@@ -22,6 +22,7 @@ namespace NekrasovskyAPP.Pages
         private bool _hasWriteOffPermission;
         private bool _hasSendToSalePermission;
         private bool _hasManageFinishedGoodsPermission;
+        private bool _hasManageSDHPermission;
         private static bool _lockDialogShownThisSession;
         private static bool _unlockDeviceHandlerSet;
 
@@ -525,6 +526,8 @@ namespace NekrasovskyAPP.Pages
                 _hasDisposalPermission = false;
                 _hasWriteOffPermission = false;
                 _hasSendToSalePermission = false;
+                _hasManageFinishedGoodsPermission = false;
+                _hasManageSDHPermission = false;
                 UpdateCardVisibility();
                 return;
             }
@@ -543,8 +546,9 @@ namespace NekrasovskyAPP.Pages
                 var writeOffTask = CheckPermissionAsync(currentUser, "WriteOff");
                 var sendToSaleTask = CheckPermissionAsync(currentUser, "SendToSale");
                 var finishedGoodsTask = CheckPermissionAsync(currentUser, "ManageFinishedGoodsWarehouses");
+                var manageSDHTask = CheckPermissionAsync(currentUser, "ManageSDH");
 
-                await Task.WhenAll(shiftTask, barcodeTask, recipesTask, scrapTask, writeOffTask, sendToSaleTask, finishedGoodsTask);
+                await Task.WhenAll(shiftTask, barcodeTask, recipesTask, scrapTask, writeOffTask, sendToSaleTask, finishedGoodsTask, manageSDHTask);
 
                 _hasShiftTransferPermission = shiftTask.Result;
                 _hasAssignBarcodePermission = barcodeTask.Result;
@@ -553,6 +557,7 @@ namespace NekrasovskyAPP.Pages
                 _hasSendToSalePermission = sendToSaleTask.Result;
                 _hasDisposalPermission = scrapTask.Result || writeOffTask.Result;
                 _hasManageFinishedGoodsPermission = finishedGoodsTask.Result;
+                _hasManageSDHPermission = manageSDHTask.Result;
 
                 UpdateCardVisibility();
             }
@@ -603,6 +608,9 @@ namespace NekrasovskyAPP.Pages
 
             // Готовая продукция - только с правом ManageFinishedGoodsWarehouses
             FinishedGoodsCard.IsVisible = _hasManageFinishedGoodsPermission || _isPrivilegedUser;
+
+            // СДХ - только с правом ManageSDH
+            SDHCard.IsVisible = _hasManageSDHPermission || _isPrivilegedUser;
         }
 
         private async Task<bool> EnsureShiftAccessAsync(string destination)

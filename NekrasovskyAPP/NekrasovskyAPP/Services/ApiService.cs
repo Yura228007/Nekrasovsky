@@ -18,9 +18,9 @@ namespace NekrasovskyAPP.Services
             //using var stream = await FileSystem.OpenAppPackageFileAsync("server_ip.txt");
             //using var reader = new StreamReader(stream);
             //return (await reader.ReadToEndAsync()).Trim().ToString();
-            return "http://192.168.1.121:9000/";
+            return "http://213.108.172.138:9000/";
 #else 
-            return "http://localhost:9000/";
+            return "http://213.108.172.138:9000/";
 #endif
 
         }

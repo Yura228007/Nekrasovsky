@@ -34,9 +34,9 @@ namespace NekrasovskyAPP.Services
         private static string GetBaseUrl()
         {
 #if ANDROID || IOS
-            return "http://192.168.1.121:9000/";
+            return "http://213.108.172.138:9000/";
 #else
-            return "http://localhost:9000/";
+            return "http://213.108.172.138:9000/";
 #endif
         }
 

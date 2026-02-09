@@ -445,7 +445,8 @@
                 </Border>
 
                 <!-- SDH Card -->
-                <Border Grid.Row="7" Grid.Column="0"
+                <Border x:Name="SDHCard"
+                        Grid.Row="7" Grid.Column="0"
                         BackgroundColor="{StaticResource BackgroundCard}"
                         StrokeThickness="0"
                         Padding="16">

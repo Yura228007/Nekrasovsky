@@ -27,7 +27,10 @@ namespace NekrasovskyAPP.Services
                 _cts?.Dispose();
                 _cts = null;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error stopping alarm sound: {ex.Message}");
+            }
 
             StopPlatformAlarm();
         }

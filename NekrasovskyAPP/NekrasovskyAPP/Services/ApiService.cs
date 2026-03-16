@@ -64,8 +64,9 @@ namespace NekrasovskyAPP.Services
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<List<User>>(_jsonOptions) ?? new List<User>();
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error getting all users: {ex.Message}");
                 return new List<User>();
             }
         }
@@ -78,8 +79,9 @@ namespace NekrasovskyAPP.Services
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<User>(_jsonOptions);
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error getting user by ID {id}: {ex.Message}");
                 return null;
             }
         }

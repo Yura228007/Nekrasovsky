@@ -81,9 +81,10 @@ namespace NekrasovskyAPP.Pages
                 Vibration.Default.Vibrate(
                     TimeSpan.FromMilliseconds(150));
             }
-            catch
+            catch (Exception ex)
             {
-                // устройство может не поддерживать вибрацию
+                // Устройство может не поддерживать вибрацию
+                Console.WriteLine($"Vibration not supported: {ex.Message}");
             }
 
             MainThread.BeginInvokeOnMainThread(async () =>
@@ -105,8 +106,9 @@ namespace NekrasovskyAPP.Pages
                 _isTorchOn = !_isTorchOn;
                 BarcodeCamera.TorchOn = _isTorchOn;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error toggling flashlight: {ex.Message}");
                 DisplayAlert(
                     "Фонарик",
                     "Не удалось включить фонарик",
@@ -152,7 +154,10 @@ namespace NekrasovskyAPP.Pages
                 BarcodeCamera.TorchOn = false;
                 _isTorchOn = false;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error turning off flashlight on close: {ex.Message}");
+            }
         }
 
         private async Task<bool> RequestCameraPermissionAsync()

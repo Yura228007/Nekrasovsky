@@ -42,6 +42,11 @@ namespace server.Controllers
                 return BadRequest(new { message = "Invalid model state", errors = ModelState });
             }
 
+            if (request == null)
+            {
+                return BadRequest(new { message = "Request body is required" });
+            }
+
             if (!Request.Headers.TryGetValue("X-User-Id", out var userIdHeader) ||
                 !int.TryParse(userIdHeader.ToString(), out var userId) || userId <= 0)
             {

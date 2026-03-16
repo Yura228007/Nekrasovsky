@@ -45,8 +45,6 @@ namespace server.Services
         public async Task<IEnumerable<FillingWarehouse>> GetFillingsByMaterialAsync(int materialId)
         {
             return await _context.FillingWarehouses
-                .Include(fw => fw.Warehouse)
-                .Include(fw => fw.Material)
                 .Where(fw => fw.MaterialId == materialId)
                 .ToListAsync();
         }
@@ -54,8 +52,6 @@ namespace server.Services
         public async Task<IEnumerable<FillingWarehouse>> GetFillingsByProductAsync(int productId)
         {
             return await _context.FillingWarehouses
-                .Include(fw => fw.Warehouse)
-                .Include(fw => fw.Product)
                 .Where(fw => fw.ProductId == productId)
                 .ToListAsync();
         }
@@ -206,7 +202,7 @@ namespace server.Services
             return true;
         }
 
-        public async Task<FillingWarehouse> UpdateQuantityByMaterialAsync(int warehouseId, int materialId, double quantity)
+        public async Task<FillingWarehouse> UpdateQuantityByMaterialAsync(int warehouseId, int materialId, int quantity)
         {
             var filling = await GetFillingByMaterialAsync(warehouseId, materialId);
             if (filling == null)
@@ -232,7 +228,7 @@ namespace server.Services
             return filling;
         }
 
-        public async Task<FillingWarehouse> UpdateQuantityByProductAsync(int warehouseId, int productId, double quantity)
+        public async Task<FillingWarehouse> UpdateQuantityByProductAsync(int warehouseId, int productId, int quantity)
         {
             var filling = await GetFillingByProductAsync(warehouseId, productId);
             if (filling == null)

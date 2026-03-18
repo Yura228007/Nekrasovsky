@@ -678,7 +678,7 @@ public class ResponsibilityFillingService : IResponsibilityFillingService
         // Партии: группируем по ProductBatchId
         var batchGroups = fillings
             .Where(rf => rf.ProductBatchId.HasValue)
-            .GroupBy(rf => rf.ProductBatchId!.Value);
+            .GroupBy(rf => rf.ProductBatchId!.Value); 
         foreach (var g in batchGroups)
         {
             var first = g.First();
